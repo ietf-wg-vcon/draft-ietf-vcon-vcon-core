@@ -3,7 +3,7 @@ title: "The JSON format for vCon - Conversation Data Container"
 abbrev: "JSON vCon"
 category: std
 
-docname: draft-ietf-vcon-vcon-container-latest
+docname: draft-ietf-vcon-vcon-core-latest
 
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
@@ -29,19 +29,14 @@ venue:
   type: "Working Group"
   mail: "vcon@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/vcon/"
-  github: "ietf-wg-vcon/draft-ietf-vcon-vcon-container"
-  latest: "https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-container/draft-ietf-vcon-vcon-container.html"
+  github: "ietf-wg-vcon/draft-ietf-vcon-vcon-core"
+  latest: "https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html"
 
 author:
  -
     fullname: Daniel G Petrie
     organization: SIPez LLC
     email: dan.ietf@sipez.com
-
- -
-    fullname: Thomas McCarthy-Howe
-    organization: Strolid
-    email: thomas.howe@strolid.com
 
 normative:
 
@@ -140,119 +135,15 @@ informative:
 
 --- abstract
 
-A vCon is the container for data and information relating to a real-time, human conversation.
-It is analogous to a {{vCard}} which enables the definition, interchange and storage of an individual's various points of contact.
-The data contained in a vCon may be derived from any multimedia session, traditional phone call, video conference, SMS or MMS message exchange, webchat or email thread.
-The data in the container relating to the conversation may include Call Detail Records (CDR), call meta data, participant identity information (e.g. STIR PASSporT), the actual conversational data exchanged (e.g. audio, video, text), realtime or post conversational analysis and attachments of files exchanged during the conversation.
-A standardized conversation container enables many applications, establishes a common method of storage and interchange, and supports identity, privacy and security efforts (see {{vCon-white-paper}})
+vCon is a standard for conversational data exchange.
+Conversations involving one or more humans take place accross many different modes and application platforms.
+This document defines a JSON format for exchanging conversational data including the metadata, the conversation media, related documents and analysis for that conversation.
+The point of this is provide an abastracted data format, independent of the conversational mode or application platform to ease the integration and exchange of conversational data between application platforms, enterprises and trust boundaries.
 
 --- middle
 
 # Introduction
 
-The generation of conversational data, contained in transcripts and multi-media files, is common in business, especially in customer facing organizations.
-However, the storage, analysis and sharing of the data they contain is not currently a standard.
-Standardizing a container for conversation data (vCon) has numerous advantages, and enables the management of the conversation's content.
-Very often the system providing the communications service, the consumer and/or owner of the communications data and the communications analysis services are distinct systems and in many case separate business entities.
-The point of a vCon is to provide a standard means of exchanging communications data between these systems and services.
-The use of vCons can ease service integration by using a common container and format for enterprise communications.
-A vCon becomes the standardized input to communication analysis tools and machine learning and categorization.
-For a sales lead organization, a vCon can be the container of assets sold to sales teams.
-For conversations of record, the vCon can be a legal instrument.
-For machine learning efforts, vCons can track what information was used in the training of models, so that as the result of a customer requested deletion of their data, the affected models can be identified.
-
-## What's in a vCon?
-
-A vCon contains four major categories of data: metadata , dialog , analysis and attachments.
-The metadata portion allows for an expanded set of data from a typical call detail record ([CDR]), with identifications of the participants or parties to the conversation, references to related or earlier versions of the vCon.
-The dialog portion contains a set of multimedia and media type elements, each representing the actual, physical conversation in it's original media form: text, audio or video.
-The analysis portion contains data derived from the metadata and dialog portions, intended to carry items like transcripts, translations, summaries, text to speech, sentiment analysis and other semantic tagging.
-Finally, the attachment portion contains any other documents, such as slide deck or sales lead information, which provides context and support for the conversation itself.
-The vCon may also container integrity checking information such as the issuer of the vCon and tamper-proof features such as signatures.
-
-A vCon acts as the definition of the conversation, and are created by systems during and after the conversation itself.
-Some communication modes, like SMS texting, lack natural session boundaries and require explicit definition.
-vCons may have two or more parties involved, but at least one should be a human.
-For instance, an interaction between a bot and a human is an appropriate scope for vCons, but a conversation between two bots would not.
-
-Due to the size and complexity of some portions of a vCon, both inline and externally referenced dialog, analysis, attachments and other vCon reference assets are supported.
-For instance, vCons may reference a video conference media recording as an external URL with an accompanying content hash of the contents to detect tampering.
-Alternatively, vCons may directly contain the media of the entire dialog internally, keeping the conversation in one place, and optionally encrypted.
-
-vCons are designed to be a digital asset, versioned and signed.
-For instance, different versions of vCon may arise due to redaction (e.g. for PII or other reasons), added analysis or the addition of other content.
-In the metadata, vCons contain the unique ID of the parent vCon, such that they may be traversed while maintaining their data integrity and provenance.
-
-## Use Cases and Requirements
-
-The use cases for vCon in a contact center environment are explored in the appendix: [cc-usecases](#contact-center-use-cases).
-These use cases and others have led to the metadata contents of this definition of the vCon container.
-
-TODO: would love to see use case Internet-Drafts for ECRIT and Messaging.
-
-May of the initial set of use cases for vCons are expected to be in the interchange between front end and back end application and lower layers of the network stack, critical for enablement of analysis of conversations.
-It is expected that JavaScript handling of vCons in the front end and RESTful interfaces and back end platforms will be used for operations and manipulation of vCons.
-Many media analysis services which will be used with vCons, such as transcription, already use JSON based interfaces.
-For this reason, JSON has been chosen for the initial format binding of vCons and the scope of this document.
-Other bindings (e.g. [CBOR] or [CDDL]) may be consider for vCon in the future in other documents.
-
-An outline of the vCon requirements derived from the explored use case follows:
-
-* Standardize container for conversational data exchange
-
-* Consolidation of data and information for a conversation
-
-* Multiple modes of communication, changing over time
-
-* Snapshots of conversation during or once completed along with analysis
-
-* Ease of integration of services and analysis
-
-* Better organize conversational data so that it can be handled in a consistent, privacy safer means
-
-* Immutable
-
-* Hiding of PII or entire conversation
-
-* Amendable with additional information and data elements
-
-Define a standard for exchange of conversational data in a sea of modes, platforms and service offerings for conversations.
-
-Example conversational modes and protocols:
-
-* SMS
-
-* MMS
-
-* JABBER
-
-* SIMPLE
-
-* Proprietary web chat
-
-* SMTP
-
-* PSTN
-
-* SIP
-
-* WEBRTC
-
-* Proprietary video conferencing
-
-The following  are considered not in scope or non-requirements:
-
-* Real-time streaming or updating of conversational data
-
-* Transport mechanisms
-
-* Storage or databases specifications
-
-* Methods of redaction of text, audio or video media
-
-* Validation of redactions or appended data beyond the signature of the domain making the changes to the conversational data (e.g. Merkle tree like redactions)
-
-* Standardization of analysis data formats or file media types
 
 # Conventions and Definitions
 
@@ -1566,10 +1457,6 @@ when sending.
 
 --- back
 
-# Contact Center Use Cases
-
-TODO: insert draft-rosenberg-vcon-cc-usecases here
-
 # Example vCons
 
 This appendix contains example vCons in the unsigned, signed and encrypted form.
@@ -1585,7 +1472,7 @@ This example vCon is for a simple 2 party PSTN call.
 It has a single Dialog Object which contains a single channel wav format recording with the two parties audio mixed into the single channel.
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_int_rec.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_int_rec.vcon
 
 ~~~
 {::include examples/ab_call_int_rec.pp}
@@ -1601,7 +1488,7 @@ The following is an unsigned form of an vCon for a 2 message email thread betwee
 The email messages are multipart MIME message bodies.
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
 
 ~~~
 {::include examples/ab_email_acct_prob_thread.pp}
@@ -1613,7 +1500,7 @@ The following is an unsigned form of an vCon for a 3 message email thread betwee
 The email messages are plain text message bodies.
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_email_prob_followup_text_thread.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_email_prob_followup_text_thread.vcon
 
 ~~~
 {::include examples/ab_email_prob_followup_text_thread.pp}
@@ -1625,7 +1512,7 @@ This example vCon is for a simple 2 party PSTN call.
 It has a single Dialog Object which reference a single channel wav format recording with the two parties audio mixed into the single channel.
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec.vcon
 
 ~~~
 {::include examples/ab_call_ext_rec.pp}
@@ -1636,7 +1523,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/re
 TODO: fix diarization in transcript
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
 
 ~~~
 {::include examples/ab_call_ext_rec_analysis.pp}
@@ -1652,7 +1539,7 @@ The private key used to sign this can be found at:
 The certificate chain is included in the x5c parameter of the header Object.
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
 
 ~~~
 {::include examples/ab_call_ext_rec_signed.pp}
@@ -1666,7 +1553,7 @@ The private key to decrypt it can be found at:
     https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_encrypted.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_encrypted.vcon
 
 ~~~
 {::include examples/ab_call_ext_rec_encrypted.pp}
@@ -1679,7 +1566,7 @@ Most notable is the [Redacted object](#redacted) which references the lesser red
 In addition the **url** parameter has been redacted from the [Dialog Object](#dialog-object), but the rest of the [Dialog Object](#dialog-object) was left in the redaction.
 
 The unformatted version of the following example can be downloaded from:
-https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
 
 ~~~
 {::include examples/ab_call_ext_rec_redacted.pp}
