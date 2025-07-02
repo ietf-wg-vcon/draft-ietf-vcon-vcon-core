@@ -7,10 +7,11 @@
 <title>The JSON format for vCon - Conversation Data Container</title>
 <meta content="Daniel G Petrie" name="author">
 <meta content="
-       vCon is a standard for conversational data exchange.
-Conversations involving one or more humans take place accross many different modes and application platforms.
-This document defines a JSON format for exchanging conversational data including the metadata, the conversation media, related documents and analysis for that conversation.
-The point of this is provide an abastracted data format, independent of the conversational mode or application platform to ease the integration and exchange of conversational data between application platforms, enterprises and trust boundaries. 
+       vCon is a standardized framework for the exchange of conversational data.
+Conversations, which may involve one or more participants, occur across a wide variety of modes and application platforms.
+This document defines a JSON format for representing conversational data, encompassing metadata, conversation media, related documents, and analysis.
+The goal of this standard is to provide an abstracted, platform-independent data format for conversations, regardless of the mode or application platform.
+By doing so, it facilitates the integration and seamless exchange of conversational data across application platforms, enterprises, and trust boundaries. 
     " name="description">
 <meta content="xml2rfc 3.29.0" name="generator">
 <meta content="conversation" name="keyword">
@@ -1092,10 +1093,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">The JSON format for vCon - Conversation Data Container</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">vCon is a standard for conversational data exchange.
-Conversations involving one or more humans take place accross many different modes and application platforms.
-This document defines a JSON format for exchanging conversational data including the metadata, the conversation media, related documents and analysis for that conversation.
-The point of this is provide an abastracted data format, independent of the conversational mode or application platform to ease the integration and exchange of conversational data between application platforms, enterprises and trust boundaries.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">vCon is a standardized framework for the exchange of conversational data.
+Conversations, which may involve one or more participants, occur across a wide variety of modes and application platforms.
+This document defines a JSON format for representing conversational data, encompassing metadata, conversation media, related documents, and analysis.
+The goal of this standard is to provide an abstracted, platform-independent data format for conversations, regardless of the mode or application platform.
+By doing so, it facilitates the integration and seamless exchange of conversational data across application platforms, enterprises, and trust boundaries.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1162,16 +1164,32 @@ The point of this is provide an abastracted data format, independent of the conv
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-purpose-of-vcon" class="internal xref">Purpose of vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-extending-the-vcon-schema" class="internal xref">Extending the vCon Schema</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-benefits-of-vcon" class="internal xref">Benefits of vCon</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3.2.1">
+                    <p id="section-toc.1-1.1.2.3.2.1.1" class="keepWithNext"><a href="#section-1.3.1" class="auto internal xref">1.3.1</a>.  <a href="#name-14-scope-of-the-document" class="internal xref">1.4. <strong>Scope of the Document</strong></a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
-                <p id="section-toc.1-1.2.2.2.1" class="keepWithNext"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-json-notation" class="internal xref">JSON Notation</a></p>
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-json-notation" class="internal xref">JSON Notation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
                 <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-inline-files" class="internal xref">Inline Files</a></p>
@@ -1277,12 +1295,6 @@ The point of this is provide an abastracted data format, independent of the conv
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.10">
                     <p id="section-toc.1-1.4.2.2.2.10.1"><a href="#section-4.2.10" class="auto internal xref">4.2.10</a>. <a href="#name-uuid-2" class="internal xref">uuid</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.11">
-                    <p id="section-toc.1-1.4.2.2.2.11.1"><a href="#section-4.2.11" class="auto internal xref">4.2.11</a>. <a href="#name-role" class="internal xref">role</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.12">
-                    <p id="section-toc.1-1.4.2.2.2.12.1"><a href="#section-4.2.12" class="auto internal xref">4.2.12</a>. <a href="#name-contact_list" class="internal xref">contact_list</a></p>
-</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
@@ -1322,22 +1334,10 @@ The point of this is provide an abastracted data format, independent of the conv
                     <p id="section-toc.1-1.4.2.3.2.11.1"><a href="#section-4.3.11" class="auto internal xref">4.3.11</a>. <a href="#name-dialog-transfer" class="internal xref">Dialog Transfer</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.12">
-                    <p id="section-toc.1-1.4.2.3.2.12.1"><a href="#section-4.3.12" class="auto internal xref">4.3.12</a>. <a href="#name-campaign" class="internal xref">campaign</a></p>
+                    <p id="section-toc.1-1.4.2.3.2.12.1"><a href="#section-4.3.12" class="auto internal xref">4.3.12</a>. <a href="#name-application" class="internal xref">application</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.13">
-                    <p id="section-toc.1-1.4.2.3.2.13.1"><a href="#section-4.3.13" class="auto internal xref">4.3.13</a>. <a href="#name-interaction_type" class="internal xref">interaction_type</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.14">
-                    <p id="section-toc.1-1.4.2.3.2.14.1"><a href="#section-4.3.14" class="auto internal xref">4.3.14</a>. <a href="#name-interaction_id" class="internal xref">interaction_id</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.15">
-                    <p id="section-toc.1-1.4.2.3.2.15.1"><a href="#section-4.3.15" class="auto internal xref">4.3.15</a>. <a href="#name-skill" class="internal xref">skill</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.16">
-                    <p id="section-toc.1-1.4.2.3.2.16.1"><a href="#section-4.3.16" class="auto internal xref">4.3.16</a>. <a href="#name-application" class="internal xref">application</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.17">
-                    <p id="section-toc.1-1.4.2.3.2.17.1"><a href="#section-4.3.17" class="auto internal xref">4.3.17</a>. <a href="#name-message_id" class="internal xref">message_id</a></p>
+                    <p id="section-toc.1-1.4.2.3.2.13.1"><a href="#section-4.3.13" class="auto internal xref">4.3.13</a>. <a href="#name-message_id" class="internal xref">message_id</a></p>
 </li>
                 </ul>
 </li>
@@ -1519,7 +1519,73 @@ The point of this is provide an abastracted data format, independent of the conv
 <section id="section-1">
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
-    </h2>
+      </h2>
+<p id="section-1-1">This document specifies the <strong>vCon</strong> (Conversational Data Exchange) standard, which defines a unified format for representing and exchanging conversational data across different communication platforms and modalities.
+The goal of <strong>vCon</strong> is to provide a standardized, platform-agnostic structure for capturing and sharing conversational information, allowing for seamless integration between systems, enterprises, and trust boundaries.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<div id="purpose-of-vcon">
+<section id="section-1.1">
+        <h3 id="name-purpose-of-vcon">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-purpose-of-vcon" class="section-name selfRef">Purpose of vCon</a>
+        </h3>
+<p id="section-1.1-1">The <strong>vCon</strong> standard enables the abstraction of conversation data, making it easier to integrate communication platforms with external services, including post-conversation analysis tools, customer support systems, and business intelligence platforms.
+By defining a consistent data format, <strong>vCon</strong> ensures interoperability across various platforms, regardless of the communication mode—whether text, audio, video, or other formats.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">The <strong>vCon</strong> format captures the essential components of a conversation, including metadata, media content, related documents, and post-conversation analysis.
+This abstraction simplifies data exchange, apply AI-driven analysis, as well as model training and testing.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="extending-the-vcon-schema">
+<section id="section-1.2">
+        <h3 id="name-extending-the-vcon-schema">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-extending-the-vcon-schema" class="section-name selfRef">Extending the vCon Schema</a>
+        </h3>
+<p id="section-1.2-1">In addition to the core <strong>vCon</strong> schema, this document provides a framework for extending the <strong>vCon</strong> format to support specialized use cases.
+The <strong>vCon</strong> schema can be customized to address the needs of specific industries or applications, such as:<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.2-2.1">
+            <p id="section-1.2-2.1.1"><strong>Contact Centers</strong>: Adding specific metadata related to customer service interactions, case management, and priority tracking.<a href="#section-1.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.2-2.2">
+            <p id="section-1.2-2.2.1"><strong>Messaging Platforms</strong>: Supporting the integration of different message formats, including SMS, email, and chat, group concepts, along with platform-specific information.<a href="#section-1.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.2-2.3">
+            <p id="section-1.2-2.3.1"><strong>ECRIT (Emergency Communication) Centers</strong>: Extending the schema to capture critical data such as location, urgency, and incident details for emergency communications.<a href="#section-1.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-1.2-3">The ability to add extensions ensure that <strong>vCon</strong> remains flexible and adaptable, enabling its use in a wide range of domains while maintaining a consistent format for data exchange.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="benefits-of-vcon">
+<section id="section-1.3">
+        <h3 id="name-benefits-of-vcon">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-benefits-of-vcon" class="section-name selfRef">Benefits of vCon</a>
+        </h3>
+<p id="section-1.3-1">The <strong>vCon</strong> standard offers several key benefits:<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.3-2.1">
+            <p id="section-1.3-2.1.1"><strong>Interoperability</strong>: A consistent data format for conversational data facilitates integration across diverse platforms and systems.<a href="#section-1.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.3-2.2">
+            <p id="section-1.3-2.2.1"><strong>AI-Driven Analysis</strong>: By capturing data in a structured format, <strong>vCon</strong> enables the application of AI analysis such as sentiment analysis, categorization, transcription, and decision-making.<a href="#section-1.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.3-2.3">
+            <p id="section-1.3-2.3.1"><strong>Data Automation</strong>: The <strong>vCon</strong> format simplifies the automation of processes involving conversational data, improving efficiency and reducing the risk of errors.<a href="#section-1.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.3-2.4">
+            <p id="section-1.3-2.4.1"><strong>Enterprise Integration</strong>: The ability to integrate conversation data with third-party tools and services enhances the value of conversations by providing deeper insights and driving business decisions.<a href="#section-1.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="scope-of-the-document">
+<section id="section-1.3.1">
+          <h4 id="name-14-scope-of-the-document">
+<a href="#section-1.3.1" class="section-number selfRef">1.3.1. </a><a href="#name-14-scope-of-the-document" class="section-name selfRef">1.4. <strong>Scope of the Document</strong></a>
+          </h4>
+<p id="section-1.3.1-1">This document defines the core structure and schema for <strong>vCon</strong> as a JSON format.
+Detailed specifications for the various parameters and the extension framework will be provided in subsequent sections.
+The primary focus is on creating a flexible, extensible standard for the exchange of conversational data that can be easily adopted across industries, use cases, and communication technologies.<a href="#section-1.3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -2377,56 +2443,6 @@ In a contact center, this is particularly important for the call agent participa
           </ul>
 </section>
 </div>
-<div id="role">
-<section id="section-4.2.11">
-          <h4 id="name-role">
-<a href="#section-4.2.11" class="section-number selfRef">4.2.11. </a><a href="#name-role" class="section-name selfRef">role</a>
-          </h4>
-<p id="section-4.2.11-1">The role that the participant played in the conversation.
-In a call center there are roles: such as: agents, customer, supervisor and specialist.
-In conferences there are roles: host, cohost, speaker, panelist, participant and other roles.
-The role parameter provides the ability to label the role that the part played in the conversation.<a href="#section-4.2.11-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2.11-2.1">
-              <p id="section-4.2.11-2.1.1">role: "String" (optional)<a href="#section-4.2.11-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-4.2.11-3">The following values for the role parameter <span class="bcp14">MAY</span> be used:<a href="#section-4.2.11-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2.11-4.1">
-              <p id="section-4.2.11-4.1.1">"agent"<a href="#section-4.2.11-4.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.11-4.2">
-              <p id="section-4.2.11-4.2.1">"customer"<a href="#section-4.2.11-4.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.11-4.3">
-              <p id="section-4.2.11-4.3.1">"supervisor"<a href="#section-4.2.11-4.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.11-4.4">
-              <p id="section-4.2.11-4.4.1">"sme" (for subject mater expert)<a href="#section-4.2.11-4.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.11-4.5">
-              <p id="section-4.2.11-4.5.1">"thirdparty"<a href="#section-4.2.11-4.5.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-4.2.11-5">Other values for the role parameter <span class="bcp14">MAY</span> also be used.<a href="#section-4.2.11-5" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="contactlist">
-<section id="section-4.2.12">
-          <h4 id="name-contact_list">
-<a href="#section-4.2.12" class="section-number selfRef">4.2.12. </a><a href="#name-contact_list" class="section-name selfRef">contact_list</a>
-          </h4>
-<p id="section-4.2.12-1">In a contact center scenario, the conversation with this party may be part of a larger effort of contacting a group of parties, individually or perhaps in groups.
-It is sometimes useful to reference the list from which this party was included.
-The contact_list may be used as a label for foreign key reference to the contact list that this party was on.<a href="#section-4.2.12-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2.12-2.1">
-              <p id="section-4.2.12-2.1.1">contact_list "String" (optional)<a href="#section-4.2.12-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
 </section>
 </div>
 <div id="dialog-object">
@@ -2786,99 +2802,37 @@ In a transfer operation, the roles of the three parties to a transfer are define
 It does not capture the purpose or reason for the transfer as that is analysis to be captures in the analysis section of the Vcon after the conversation has occurred.<a href="#section-4.3.11-19" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="campaign">
-<section id="section-4.3.12">
-          <h4 id="name-campaign">
-<a href="#section-4.3.12" class="section-number selfRef">4.3.12. </a><a href="#name-campaign" class="section-name selfRef">campaign</a>
-          </h4>
-<p id="section-4.3.12-1">In a contact center scenario, a dialog may be initiated as part of a campaign or set of dialogs initiated with a common goal or focus or to be handled or treated in a specific way.
-The campaign parameter is string that may be used as a label or foreign key in reference to an external specification for how the communication is to be initiated, handled or treated.
-In some case it may be appropriate to attached the campaign data as an Attachment Object.<a href="#section-4.3.12-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.3.12-2.1">
-              <p id="section-4.3.12-2.1.1">campaign: "String" (optional)<a href="#section-4.3.12-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="interactiontype">
-<section id="section-4.3.13">
-          <h4 id="name-interaction_type">
-<a href="#section-4.3.13" class="section-number selfRef">4.3.13. </a><a href="#name-interaction_type" class="section-name selfRef">interaction_type</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.3.13-1.1">
-              <p id="section-4.3.13-1.1.1">interaction_type "String" (optional)<a href="#section-4.3.13-1.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-4.3.13-2">TODO: add enumerated values from JDR<a href="#section-4.3.13-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="interactionid">
-<section id="section-4.3.14">
-          <h4 id="name-interaction_id">
-<a href="#section-4.3.14" class="section-number selfRef">4.3.14. </a><a href="#name-interaction_id" class="section-name selfRef">interaction_id</a>
-          </h4>
-<p id="section-4.3.14-1">In a contact center scenario, interactions with a party are often labeled with an identifier.
-In some case the interaction is contained in a single dialog.
-In others there may be multiple dialogs (e.g. messages or calls) that are all part of a single interaction.
-There may also be many interactions for a single conversation or vCon.
-The interaction parameter is used as a label or foreign key in reference to the interaction ID.<a href="#section-4.3.14-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.3.14-2.1">
-              <p id="section-4.3.14-2.1.1">interaction_id "String" (optional)<a href="#section-4.3.14-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="skill">
-<section id="section-4.3.15">
-          <h4 id="name-skill">
-<a href="#section-4.3.15" class="section-number selfRef">4.3.15. </a><a href="#name-skill" class="section-name selfRef">skill</a>
-          </h4>
-<p id="section-4.3.15-1">A contact center may service multiple purposes or customers.
-In this scenario it is important to label the conversation segment or dialog.
-The agent or automata which services the dialog are required to have a specific skill.
-To facilitate this in a vCon dialog, the skill parameter is provided.
-The string values of the skill parameter are contact center specific.<a href="#section-4.3.15-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.3.15-2.1">
-              <p id="section-4.3.15-2.1.1">skill "String" (optional)<a href="#section-4.3.15-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
 <div id="application">
-<section id="section-4.3.16">
+<section id="section-4.3.12">
           <h4 id="name-application">
-<a href="#section-4.3.16" class="section-number selfRef">4.3.16. </a><a href="#name-application" class="section-name selfRef">application</a>
+<a href="#section-4.3.12" class="section-number selfRef">4.3.12. </a><a href="#name-application" class="section-name selfRef">application</a>
           </h4>
-<p id="section-4.3.16-1">The application parameter is used to capture the application, communication channel or context over which the conversation was held.
+<p id="section-4.3.12-1">The application parameter is used to capture the application, communication channel or context over which the conversation was held.
 The conversation mode can be identified by looking at the dialog type.
 However that does not different between different communication platform service providers or hosting service.
-For example, the application parameter can be used to identify the web conference hosting service.<a href="#section-4.3.16-1" class="pilcrow">¶</a></p>
+For example, the application parameter can be used to identify the web conference hosting service.<a href="#section-4.3.12-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.3.16-2.1">
-              <p id="section-4.3.16-2.1.1">application "String" (optional)<a href="#section-4.3.16-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.3.12-2.1">
+              <p id="section-4.3.12-2.1.1">application "String" (optional)<a href="#section-4.3.12-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="messageid">
-<section id="section-4.3.17">
+<section id="section-4.3.13">
           <h4 id="name-message_id">
-<a href="#section-4.3.17" class="section-number selfRef">4.3.17. </a><a href="#name-message_id" class="section-name selfRef">message_id</a>
+<a href="#section-4.3.13" class="section-number selfRef">4.3.13. </a><a href="#name-message_id" class="section-name selfRef">message_id</a>
           </h4>
-<p id="section-4.3.17-1">Some messaging systems assign a unique message identifier to each message.
+<p id="section-4.3.13-1">Some messaging systems assign a unique message identifier to each message.
 The message_id parameter may be used to label the message for either cross referencing back to the messaging
 system or to prevent the addition of duplicate messages to the vCon.
 For example SMTP <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> messages have a message-id in the SMTP header.
 In the SMTP case a message may exist in multiple mailboxes or tags.
 When exporting these SMTP messages, the message_id parameter may be used to avoid adding the same message,
-to the vCon containing the email thread, more than once.<a href="#section-4.3.17-1" class="pilcrow">¶</a></p>
+to the vCon containing the email thread, more than once.<a href="#section-4.3.13-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.3.17-2.1">
-              <p id="section-4.3.17-2.1.1">message_id: "string" (optional)<a href="#section-4.3.17-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.3.13-2.1">
+              <p id="section-4.3.13-2.1.1">message_id: "string" (optional)<a href="#section-4.3.13-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
