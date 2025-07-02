@@ -135,15 +135,52 @@ informative:
 
 --- abstract
 
-vCon is a standard for conversational data exchange.
-Conversations involving one or more humans take place accross many different modes and application platforms.
-This document defines a JSON format for exchanging conversational data including the metadata, the conversation media, related documents and analysis for that conversation.
-The point of this is provide an abastracted data format, independent of the conversational mode or application platform to ease the integration and exchange of conversational data between application platforms, enterprises and trust boundaries.
+vCon is a standardized framework for the exchange of conversational data.
+Conversations, which may involve one or more participants, occur across a wide variety of modes and application platforms.
+This document defines a JSON format for representing conversational data, encompassing metadata, conversation media, related documents, and analysis.
+The goal of this standard is to provide an abstracted, platform-independent data format for conversations, regardless of the mode or application platform.
+By doing so, it facilitates the integration and seamless exchange of conversational data across application platforms, enterprises, and trust boundaries.
 
 --- middle
 
 # Introduction
 
+This document specifies the **vCon** (Conversational Data Exchange) standard, which defines a unified format for representing and exchanging conversational data across different communication platforms and modalities.
+The goal of **vCon** is to provide a standardized, platform-agnostic structure for capturing and sharing conversational information, allowing for seamless integration between systems, enterprises, and trust boundaries.
+
+##  Purpose of vCon
+
+The **vCon** standard enables the abstraction of conversation data, making it easier to integrate communication platforms with external services, including post-conversation analysis tools, customer support systems, and business intelligence platforms.
+By defining a consistent data format, **vCon** ensures interoperability across various platforms, regardless of the communication mode—whether text, audio, video, or other formats.
+
+The **vCon** format captures the essential components of a conversation, including metadata, media content, related documents, and post-conversation analysis.
+This abstraction simplifies data exchange, apply AI-driven analysis, as well as model training and testing.
+
+## Extending the vCon Schema
+
+In addition to the core **vCon** schema, this document provides a framework for extending the **vCon** format to support specialized use cases.
+The **vCon** schema can be customized to address the needs of specific industries or applications, such as:
+
+- **Contact Centers**: Adding specific metadata related to customer service interactions, case management, and priority tracking.
+- **Messaging Platforms**: Supporting the integration of different message formats, including SMS, email, and chat, group concepts, along with platform-specific information.
+- **ECRIT (Emergency Communication) Centers**: Extending the schema to capture critical data such as location, urgency, and incident details for emergency communications.
+
+The ability to add extensions ensure that **vCon** remains flexible and adaptable, enabling its use in a wide range of domains while maintaining a consistent format for data exchange.
+
+## Benefits of vCon
+
+The **vCon** standard offers several key benefits:
+
+- **Interoperability**: A consistent data format for conversational data facilitates integration across diverse platforms and systems.
+- **AI-Driven Analysis**: By capturing data in a structured format, **vCon** enables the application of AI analysis such as sentiment analysis, categorization, transcription, and decision-making.
+- **Data Automation**: The **vCon** format simplifies the automation of processes involving conversational data, improving efficiency and reducing the risk of errors.
+- **Enterprise Integration**: The ability to integrate conversation data with third-party tools and services enhances the value of conversations by providing deeper insights and driving business decisions.
+
+### 1.4. **Scope of the Document**
+
+This document defines the core structure and schema for **vCon** as a JSON format.
+Detailed specifications for the various parameters and the extension framework will be provided in subsequent sections.
+The primary focus is on creating a flexible, extensible standard for the exchange of conversational data that can be easily adopted across industries, use cases, and communication technologies.
 
 # Conventions and Definitions
 
@@ -645,33 +682,6 @@ In a contact center, this is particularly important for the call agent participa
 * uuid: "String" (optional)
 
 
-### role
-
-The role that the participant played in the conversation.
-In a call center there are roles: such as: agents, customer, supervisor and specialist.
-In conferences there are roles: host, cohost, speaker, panelist, participant and other roles.
-The role parameter provides the ability to label the role that the part played in the conversation.
-
-* role: "String" (optional)
-
-The following values for the role parameter MAY be used:
-
-  + "agent"
-  + "customer"
-  + "supervisor"
-  + "sme" (for subject mater expert)
-  + "thirdparty"
-
-Other values for the role parameter MAY also be used.
-
-### contact_list
-
-In a contact center scenario, the conversation with this party may be part of a larger effort of contacting a group of parties, individually or perhaps in groups.
-It is sometimes useful to reference the list from which this party was included.
-The contact_list may be used as a label for foreign key reference to the contact list that this party was on.
-
-* contact_list "String" (optional)
-
 ## Dialog Object
 
 The Dialog object references or contains text, audio or video captured from the conversation.
@@ -888,42 +898,6 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
 
 The "transfer" type dialog only captures the roles, operations and events of the parties and the dialog setup.
 It does not capture the purpose or reason for the transfer as that is analysis to be captures in the analysis section of the Vcon after the conversation has occurred.
-
-### campaign
-
-In a contact center scenario, a dialog may be initiated as part of a campaign or set of dialogs initiated with a common goal or focus or to be handled or treated in a specific way.
-The campaign parameter is string that may be used as a label or foreign key in reference to an external specification for how the communication is to be initiated, handled or treated.
-In some case it may be appropriate to attached the campaign data as an Attachment Object.
-
-* campaign: "String" (optional)
-
-### interaction_type
-
-
-
-* interaction_type "String" (optional)
-
-TODO: add enumerated values from JDR
-
-### interaction_id
-
-In a contact center scenario, interactions with a party are often labeled with an identifier.
-In some case the interaction is contained in a single dialog.
-In others there may be multiple dialogs (e.g. messages or calls) that are all part of a single interaction.
-There may also be many interactions for a single conversation or vCon.
-The interaction parameter is used as a label or foreign key in reference to the interaction ID.
-
-* interaction_id "String" (optional)
-
-### skill
-
-A contact center may service multiple purposes or customers.
-In this scenario it is important to label the conversation segment or dialog.
-The agent or automata which services the dialog are required to have a specific skill.
-To facilitate this in a vCon dialog, the skill parameter is provided.
-The string values of the skill parameter are contact center specific.
-
-* skill "String" (optional)
 
 ### application
 
