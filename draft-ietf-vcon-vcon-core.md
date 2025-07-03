@@ -1471,10 +1471,10 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
 | vcon | Schema version number | IESG | [vcon](#vcon) RFC XXXX |
-| extensions | list of extensions used | IESG | [extensions](#extnesions) RFC XXXX |
+| extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
 | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
-| created_at | creation date | IESG | [created_at](#created_at) RFC XXXX |
-| updated_at | modification date | IESG | [updated_at](#updated_at) RFC XXXXX |
+| created_at | creation date | IESG | [created_at](#created-at) RFC XXXX |
+| updated_at | modification date | IESG | [updated_at](#updated-at) RFC XXXXX |
 | subject | conversation subject | IESG | [subject](#subject) RFC XXXX |
 | redacted | Redacted Object | IESG | [redacted](#redacted) RFC XXXX |
 | appended | Appended Object | IESG | [redacted](#redacted) RFC XXXX |
@@ -1482,7 +1482,7 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | parties | Parties Objects array | [Parties Objects array ](#parties-objects-array) RFC XXXX |
 | dialog | Dialog Objects array | IESG | [Dialog Objects array](#dialog-objects-array) RFC XXXX |
 | analysis | Analysis Objects array | IESG | [Analysis Objects array](#analysis-objects-array) RFC XXXX |
-| attachments | Attachment Objects array | [Attachment Objects array](#attachment-objects-array) RFC XXXX |
+| attachments | Attachment Objects array | [Attachments Objects array](#attachments-objects-array) RFC XXXX |
 
 ### Parties Object Parameter Names Registry
 
@@ -1533,7 +1533,7 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 * Header Parameter Description: UUID of the signed object
 * Header Parameter Usage Location(s): JWS
 * Change Controller: IESG
-* Specification Document(s): [](#Header Object) of RFC XXXX
+* Specification Document(s): [Header Object](#header-object) of RFC XXXX
 
 
 
