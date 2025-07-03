@@ -299,7 +299,7 @@ The SHA-512 [SHA-512] algorithm MUST be supported.
 Other algorithms MAY be included.
 The algorithm used for signing the externally referenced file is defined in section 6.3 and 6.4 of [SHA-512].
 
-  content_hash: "String" \| String\[\]
+  content_hash: "String" \| "String\[\]"
 
 The string token value(s) for the content_hash parameter use the same approach used in section 6 of [STIR-PASS].
 The relevant text is copied here for convenience and to remove the normative dependency.
@@ -317,6 +317,17 @@ The character following the algorithm string MUST be a hyphen character, "-", or
 The subsequent characters are the Base64Url encoded (see Section 2 [JWS]) digest of a canonicalized and concatenated string
 or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
 contained in the claim.
+
+## Extensioning vCon
+
+vCon provides a means to extend the schema defined in this document.
+A vCon extension can define new parameters at any level of the schema.
+It can also redefine the semantics of or depricate existing parameters.
+To do so, a new extension definition MUST do the following:
+* Define a new [extensions](#extensions) token value and register it with IANA [(see examples)](#vcon-json-registry))
+* Define the new parameter(s), their meaning, value types and register them with IANA
+* Define the new semantics and values for change parameters
+* List depricated parameters, what should be used in its stead and migration approaches
 
 # vCon JSON Object
 
@@ -374,6 +385,13 @@ identically to a version 7 UUID with the exception that:
 The DNS name string used in generating the uuid value SHOULD be the same FQHN, or a subdomain to allow
 for more distributed generation of UUIDs, as would used in the signing certificate as they are the same
 domains of uniqueness.
+
+### extensions
+
+The vCon schema can be extended through the definition of new extensions.
+The extensions parameter SHOULD contain the list names of all vCon extensions for any parameters used that are not defined in this core vCon schem document.
+
+* extensions: "String\[\]"
 
 ### created_at
 
@@ -1418,6 +1436,105 @@ when sending.
 * Author: See the Author's Addresses section of this document.
 
 * Change controller: IETF
+
+## vCon JSON registry
+
+This document defines a number of new IANA registries for the JSON vCon schema.
+Each Object (i.e. dict, map, dictionary) has its own registry of parameter names.
+All of those registries have the same registry template.
+
+### Object Registry Template
+
+Parameter Name:
+  The string name of a parametr to be used within the Object.
+  The name is case sensitive.
+  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
+
+Parameter Description:
+  Brief description of the parameter
+
+Change Controller:
+   For Standards Track RFCs, list the "IESG".  For others, give the
+   name of the responsible party.  Other details (e.g., postal
+   address, email address, home page URI) may also be included.
+
+Specification Document(s):
+   Reference to the document or documents that specify the parameter,
+   preferably including URIs that can be used to retrieve copies of
+   the documents.  An indication of the relevant sections may also be
+   included but is not required.
+
+### vCon Object Parameter Names Registry
+
+The following defines the intial values for the vCon Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| vcon | Schema version number | IESG | [vcon](#vcon) RFC XXXX |
+| extensions | list of extensions used | IESG | [extensions](#extnesions) RFC XXXX |
+| uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
+| created_at | creation date | IESG | [created_at](#created_at) RFC XXXX |
+| updated_at | modification date | IESG | [updated_at](#updated_at) RFC XXXXX |
+| subject | conversation subject | IESG | [subject](#subject) RFC XXXX |
+| redacted | Redacted Object | IESG | [redacted](#redacted) RFC XXXX |
+| appended | Appended Object | IESG | [redacted](#redacted) RFC XXXX |
+| group | Group Objects array | IESG | [Group Objects array](#group-objects-array) RFC XXXX |
+| parties | Parties Objects array | [Parties Objects array ](#parties-objects-array) RFC XXXX |
+| dialog | Dialog Objects array | IESG | [Dialog Objects array](#dialog-objects-array) RFC XXXX |
+| analysis | Analysis Objects array | IESG | [Analysis Objects array](#analysis-objects-array) RFC XXXX |
+| attachments | Attachment Objects array | [Attachment Objects array](#attachment-objects-array) RFC XXXX |
+
+### Parties Object Parameter Names Registry
+
+### Dialog Object Parameter Names Registry
+
+### Attacment Object Parameter Names Registry
+
+### Analysis Object Parameter Names Registry
+
+### Redacted Object Parameter Names Registry
+
+### Appended Object Parameter Names Registry
+
+### Group Object Parameter Names Registry
+
+## Extensions Names Registry
+
+This document defines and new registry for the token name values that are permited as values to the [extension]s(#extensions) parameter.
+However it does not define any values for this registry.
+Values for this registry are to be defined in subsequent documents which define extnensions to the vCon schema.
+
+### Registration Template
+
+Extension Name:
+  The string token name of an extension to the vCon JSON schema.
+  The name is case sensitive.
+  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
+
+Extension Description:
+  Brief description of the the vCon extension
+
+Change Controller:
+   For Standards Track RFCs, list the "IESG".  For others, give the
+   name of the responsible party.  Other details (e.g., postal
+   address, email address, home page URI) may also be included.
+
+Specification Document(s):
+   Reference to the document or documents that specify the parameter,
+   preferably including URIs that can be used to retrieve copies of
+   the documents.  An indication of the relevant sections may also be
+   included but is not required.
+
+## JSON Web Signature and Encryption Header Parameters
+
+This document registers the following new parameter in the [JWS] JSON Web Signature and Encryption Header Parameters registry.
+
+* Header Parameter Name: "uuid"
+* Header Parameter Description: UUID of the signed object
+* Header Parameter Usage Location(s): JWS
+* Change Controller: IESG
+* Specification Document(s): [](#Header Object) of RFC XXXX
+
 
 
 # Non-Upward Compatible Changes to the vCon Container
