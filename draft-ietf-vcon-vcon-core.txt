@@ -167,7 +167,7 @@ Table of Contents
        6.3.2.  vCon Object Parameter Names Registry
        6.3.3.  Parties Object Parameter Names Registry
        6.3.4.  Dialog Object Parameter Names Registry
-       6.3.5.  Attacment Object Parameter Names Registry
+       6.3.5.  Attachment Object Parameter Names Registry
        6.3.6.  Analysis Object Parameter Names Registry
        6.3.7.  Redacted Object Parameter Names Registry
        6.3.8.  Appended Object Parameter Names Registry
@@ -2079,9 +2079,49 @@ Table of Contents
 
 6.3.3.  Parties Object Parameter Names Registry
 
+   The following defines the intial values for the Parties Object
+   Parameter Names Registry.
+
+      +================+=============+============+================+
+      | Parameter Name | Parameter   | Change     | Specification  |
+      |                | Description | Controller | Document(s)    |
+      +================+=============+============+================+
+      | tel            | tell URL    | IESG       | Section 4.2.1  |
+      |                |             |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | stir           | STIR token  | IESG       | Section 4.2.2  |
+      |                |             |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | mailto         | mailto URL  | IESG       | Section 4.2.3  |
+      |                |             |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | name           | participant | IESG       | Section 4.2.4  |
+      |                | name        |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | validation     | validation  | IESG       | Section 4.2.5  |
+      |                | method      |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | jCard          | participant | IESG       | Section 4.2.6  |
+      |                | jCard       |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | gmlpos         | participant | IESG       | Section 4.2.7  |
+      |                | geolocation |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | civicaddress   | civic       | IESG       | Section 4.2.8  |
+      |                | address     |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | timezone       | participant | IESG       | Section 4.2.9  |
+      |                | timezone    |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | uuid           | particiant  | IESG       | Section 4.2.10 |
+      |                | UUID        |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+
+                                 Table 2
+
 6.3.4.  Dialog Object Parameter Names Registry
 
-6.3.5.  Attacment Object Parameter Names Registry
+6.3.5.  Attachment Object Parameter Names Registry
 
 6.3.6.  Analysis Object Parameter Names Registry
 
