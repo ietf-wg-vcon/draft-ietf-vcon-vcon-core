@@ -393,14 +393,14 @@ The extensions parameter SHOULD contain the list names of all vCon extensions fo
 
 * extensions: "String\[\]"
 
-### created_at
+### created_at {#created_at}
 
 The created_at parameter provides the creation time of this vcon, which MUST be present, and should not
 changed once the vcon object is created.
 
 * created_at: "Date"
 
-### updated_at
+### updated_at {#updated_at}
 
 The updated_at parameter provides the last modified time of this vcon, which MAY be present.
 For unsigned forms, the updated_at of the vcon object SHOULD be updated as it is modified.
@@ -1473,8 +1473,8 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | vcon | Schema version number | IESG | [vcon](#vcon) RFC XXXX |
 | extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
 | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
-| created_at | creation date | IESG | [created_at](#created-at) RFC XXXX |
-| updated_at | modification date | IESG | [updated_at](#updated-at) RFC XXXXX |
+| created_at | creation date | IESG | [created_at](#created_at) RFC XXXX |
+| updated_at | modification date | IESG | [updated_at](#updated_at) RFC XXXXX |
 | subject | conversation subject | IESG | [subject](#subject) RFC XXXX |
 | redacted | Redacted Object | IESG | [redacted](#redacted) RFC XXXX |
 | appended | Appended Object | IESG | [redacted](#redacted) RFC XXXX |
