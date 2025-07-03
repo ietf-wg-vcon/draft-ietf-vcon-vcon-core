@@ -1479,10 +1479,10 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | redacted | Redacted Object | IESG | [redacted](#redacted) RFC XXXX |
 | appended | Appended Object | IESG | [redacted](#redacted) RFC XXXX |
 | group | Group Objects array | IESG | [Group Objects array](#group-objects-array) RFC XXXX |
-| parties | Parties Objects array | [Parties Objects array ](#parties-objects-array) RFC XXXX |
+| parties | Parties Objects array | IESG | [Parties Objects array ](#parties-objects-array) RFC XXXX |
 | dialog | Dialog Objects array | IESG | [Dialog Objects array](#dialog-objects-array) RFC XXXX |
 | analysis | Analysis Objects array | IESG | [Analysis Objects array](#analysis-objects-array) RFC XXXX |
-| attachments | Attachment Objects array | [Attachments Objects array](#attachments-objects-array) RFC XXXX |
+| attachments | Attachment Objects array | IESG | [Attachments Objects array](#attachments-objects-array) RFC XXXX |
 
 ### Parties Object Parameter Names Registry
 
@@ -1498,7 +1498,7 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 
 ### Group Object Parameter Names Registry
 
-## Extensions Names Registry
+## vCon Extensions Names Registry
 
 This document defines and new registry for the token name values that are permited as values to the [extension]s(#extensions) parameter.
 However it does not define any values for this registry.
@@ -1535,7 +1535,17 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 * Change Controller: IESG
 * Specification Document(s): [Header Object](#header-object) of RFC XXXX
 
+## JSON Web Signature and Encryption Unprotected Parameters
 
+TODO: cannot find this registry
+
+This document registers the following new parameter in the [JWS] JSON Web Signature and Encryption Unprotected Parameters registry.
+
+* Header Parameter Name: "uuid"
+* Header Parameter Description: UUID of the encrypted object
+* Header Parameter Usage Location(s): JWE
+* Change Controller: IESG
+* Specification Document(s): [Header Object](#unprotected-object) of RFC XXXX
 
 # Non-Upward Compatible Changes to the vCon Container
 
