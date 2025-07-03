@@ -52,6 +52,8 @@ normative:
     target: <https://www.iana.org/assignments/cose/cose.xhtml>
     title: "COSE Algorithms"
 
+  JMAP: RFC8620
+
   JSON: RFC8259
 
   JWS: RFC7515
@@ -88,8 +90,6 @@ informative:
     refcontent: ISO/IEC 14496-12:2022
     date: January 2022
     org: International Organization for Standardization
-
-  JMAP: RFC8620
 
   JWT: RFC7519
 
