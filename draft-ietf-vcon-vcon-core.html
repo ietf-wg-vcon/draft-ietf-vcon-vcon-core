@@ -1485,7 +1485,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
-                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-extensions-names-registry" class="internal xref">Extensions Names Registry</a></p>
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-vcon-extensions-names-regis" class="internal xref">vCon Extensions Names Registry</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4.2.1">
                     <p id="section-toc.1-1.6.2.4.2.1.1"><a href="#section-6.4.1" class="auto internal xref">6.4.1</a>.  <a href="#name-registration-template" class="internal xref">Registration Template</a></p>
@@ -1494,6 +1494,9 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
                 <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-json-web-signature-and-encr" class="internal xref">JSON Web Signature and Encryption Header Parameters</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6">
+                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="auto internal xref">6.6</a>.  <a href="#name-json-web-signature-and-encry" class="internal xref">JSON Web Signature and Encryption Unprotected Parameters</a></p>
 </li>
             </ul>
 </li>
@@ -3820,9 +3823,9 @@ All of those registries have the same registry template.<a href="#section-6.3-1"
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">parties</td>
                 <td class="text-left" rowspan="1" colspan="1">Parties Objects array</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
                   <span><a href="#parties-objects-array" class="internal xref">Parties Objects array</a> (<a href="#parties-objects-array" class="auto internal xref">Section 4.1.10</a>)</span> RFC XXXX</td>
-                <td class="text-left" rowspan="1" colspan="1"> </td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">dialog</td>
@@ -3841,9 +3844,9 @@ All of those registries have the same registry template.<a href="#section-6.3-1"
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">attachments</td>
                 <td class="text-left" rowspan="1" colspan="1">Attachment Objects array</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
                   <span><a href="#attachments-objects-array" class="internal xref">Attachments Objects array</a> (<a href="#attachments-objects-array" class="auto internal xref">Section 4.1.13</a>)</span> RFC XXXX</td>
-                <td class="text-left" rowspan="1" colspan="1"> </td>
               </tr>
             </tbody>
           </table>
@@ -3900,10 +3903,10 @@ All of those registries have the same registry template.<a href="#section-6.3-1"
 </div>
 </section>
 </div>
-<div id="extensions-names-registry">
+<div id="vcon-extensions-names-registry">
 <section id="section-6.4">
-        <h3 id="name-extensions-names-registry">
-<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-extensions-names-registry" class="section-name selfRef">Extensions Names Registry</a>
+        <h3 id="name-vcon-extensions-names-regis">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-vcon-extensions-names-regis" class="section-name selfRef">vCon Extensions Names Registry</a>
         </h3>
 <p id="section-6.4-1">This document defines and new registry for the token name values that are permited as values to the [extension]s(#extensions) parameter.
 However it does not define any values for this registry.
@@ -3953,6 +3956,32 @@ Values for this registry are to be defined in subsequent documents which define 
 </li>
           <li class="normal" id="section-6.5-2.5">
             <p id="section-6.5-2.5.1">Specification Document(s): <span><a href="#header-object" class="internal xref">Header Object</a> (<a href="#header-object" class="auto internal xref">Section 5.2.2</a>)</span> of RFC XXXX<a href="#section-6.5-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="json-web-signature-and-encryption-unprotected-parameters">
+<section id="section-6.6">
+        <h3 id="name-json-web-signature-and-encry">
+<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-json-web-signature-and-encry" class="section-name selfRef">JSON Web Signature and Encryption Unprotected Parameters</a>
+        </h3>
+<p id="section-6.6-1">TODO: cannot find this registry<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+<p id="section-6.6-2">This document registers the following new parameter in the <span>[<a href="#JWS" class="cite xref">JWS</a>]</span> JSON Web Signature and Encryption Unprotected Parameters registry.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.6-3.1">
+            <p id="section-6.6-3.1.1">Header Parameter Name: "uuid"<a href="#section-6.6-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.6-3.2">
+            <p id="section-6.6-3.2.1">Header Parameter Description: UUID of the encrypted object<a href="#section-6.6-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.6-3.3">
+            <p id="section-6.6-3.3.1">Header Parameter Usage Location(s): JWE<a href="#section-6.6-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.6-3.4">
+            <p id="section-6.6-3.4.1">Change Controller: IESG<a href="#section-6.6-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.6-3.5">
+            <p id="section-6.6-3.5.1">Specification Document(s): <span><a href="#unprotected-object" class="internal xref">Header Object</a> (<a href="#unprotected-object" class="auto internal xref">Section 5.3.1</a>)</span> of RFC XXXX<a href="#section-6.6-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

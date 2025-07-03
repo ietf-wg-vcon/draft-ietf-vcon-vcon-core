@@ -172,9 +172,10 @@ Table of Contents
        6.3.7.  Redacted Object Parameter Names Registry
        6.3.8.  Appended Object Parameter Names Registry
        6.3.9.  Group Object Parameter Names Registry
-     6.4.  Extensions Names Registry
+     6.4.  vCon Extensions Names Registry
        6.4.1.  Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
+     6.6.  JSON Web Signature and Encryption Unprotected Parameters
    7.  Non-Upward Compatible Changes to the vCon Container
      7.1.  Version 0.0.1 to 0.0.2
    8.  References
@@ -2022,62 +2023,57 @@ Table of Contents
    The following defines the intial values for the vCon Object Parameter
    Names Registry.
 
-   +=============+==============+==================+==================+
-   | Parameter   | Parameter    | Change           | Specification    |
-   | Name        | Description  | Controller       | Document(s)      |
-   +=============+==============+==================+==================+
-   | vcon        | Schema       | IESG             | Section 4.1.1    |
-   |             | version      |                  | RFC XXXX         |
-   |             | number       |                  |                  |
-   +-------------+--------------+------------------+------------------+
-   | extensions  | list of      | IESG             | Section 4.1.3    |
-   |             | extensions   |                  | RFC XXXX         |
-   |             | used         |                  |                  |
-   +-------------+--------------+------------------+------------------+
-   | uuid        | vCon         | IESG             | Section 4.1.2    |
-   |             | instance     |                  | RFC XXXX         |
-   |             | UUID         |                  |                  |
-   +-------------+--------------+------------------+------------------+
-   | created_at  | creation     | IESG             | Section 4.1.4    |
-   |             | date         |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | updated_at  | modification | IESG             | Section 4.1.5    |
-   |             | date         |                  | RFC XXXXX        |
-   +-------------+--------------+------------------+------------------+
-   | subject     | conversation | IESG             | Section 4.1.6    |
-   |             | subject      |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | redacted    | Redacted     | IESG             | Section 4.1.7    |
-   |             | Object       |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | appended    | Appended     | IESG             | Section 4.1.7    |
-   |             | Object       |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | group       | Group        | IESG             | Group Objects    |
-   |             | Objects      |                  | array            |
-   |             | array        |                  | (Section 4.1.9)  |
-   |             |              |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | parties     | Parties      | Parties Objects  |                  |
-   |             | Objects      | array            |                  |
-   |             | array        | (Section 4.1.10) |                  |
-   |             |              | RFC XXXX         |                  |
-   +-------------+--------------+------------------+------------------+
-   | dialog      | Dialog       | IESG             | Dialog Objects   |
-   |             | Objects      |                  | array            |
-   |             | array        |                  | (Section 4.1.11) |
-   |             |              |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | analysis    | Analysis     | IESG             | Analysis Objects |
-   |             | Objects      |                  | array            |
-   |             | array        |                  | (Section 4.1.12) |
-   |             |              |                  | RFC XXXX         |
-   +-------------+--------------+------------------+------------------+
-   | attachments | Attachment   | Attachments      |                  |
-   |             | Objects      | Objects array    |                  |
-   |             | array        | (Section 4.1.13) |                  |
-   |             |              | RFC XXXX         |                  |
-   +-------------+--------------+------------------+------------------+
+   +=============+==============+============+========================+
+   | Parameter   | Parameter    | Change     | Specification          |
+   | Name        | Description  | Controller | Document(s)            |
+   +=============+==============+============+========================+
+   | vcon        | Schema       | IESG       | Section 4.1.1 RFC XXXX |
+   |             | version      |            |                        |
+   |             | number       |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | extensions  | list of      | IESG       | Section 4.1.3 RFC XXXX |
+   |             | extensions   |            |                        |
+   |             | used         |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | uuid        | vCon         | IESG       | Section 4.1.2 RFC XXXX |
+   |             | instance     |            |                        |
+   |             | UUID         |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | created_at  | creation     | IESG       | Section 4.1.4 RFC XXXX |
+   |             | date         |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | updated_at  | modification | IESG       | Section 4.1.5 RFC      |
+   |             | date         |            | XXXXX                  |
+   +-------------+--------------+------------+------------------------+
+   | subject     | conversation | IESG       | Section 4.1.6 RFC XXXX |
+   |             | subject      |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | redacted    | Redacted     | IESG       | Section 4.1.7 RFC XXXX |
+   |             | Object       |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | appended    | Appended     | IESG       | Section 4.1.7 RFC XXXX |
+   |             | Object       |            |                        |
+   +-------------+--------------+------------+------------------------+
+   | group       | Group        | IESG       | Group Objects array    |
+   |             | Objects      |            | (Section 4.1.9) RFC    |
+   |             | array        |            | XXXX                   |
+   +-------------+--------------+------------+------------------------+
+   | parties     | Parties      | IESG       | Parties Objects array  |
+   |             | Objects      |            | (Section 4.1.10) RFC   |
+   |             | array        |            | XXXX                   |
+   +-------------+--------------+------------+------------------------+
+   | dialog      | Dialog       | IESG       | Dialog Objects array   |
+   |             | Objects      |            | (Section 4.1.11) RFC   |
+   |             | array        |            | XXXX                   |
+   +-------------+--------------+------------+------------------------+
+   | analysis    | Analysis     | IESG       | Analysis Objects array |
+   |             | Objects      |            | (Section 4.1.12) RFC   |
+   |             | array        |            | XXXX                   |
+   +-------------+--------------+------------+------------------------+
+   | attachments | Attachment   | IESG       | Attachments Objects    |
+   |             | Objects      |            | array (Section 4.1.13) |
+   |             | array        |            | RFC XXXX               |
+   +-------------+--------------+------------+------------------------+
 
                                  Table 1
 
@@ -2095,7 +2091,7 @@ Table of Contents
 
 6.3.9.  Group Object Parameter Names Registry
 
-6.4.  Extensions Names Registry
+6.4.  vCon Extensions Names Registry
 
    This document defines and new registry for the token name values that
    are permited as values to the [extension]s(#extensions) parameter.
@@ -2136,6 +2132,24 @@ Table of Contents
    *  Change Controller: IESG
 
    *  Specification Document(s): Header Object (Section 5.2.2) of RFC
+      XXXX
+
+6.6.  JSON Web Signature and Encryption Unprotected Parameters
+
+   TODO: cannot find this registry
+
+   This document registers the following new parameter in the [JWS] JSON
+   Web Signature and Encryption Unprotected Parameters registry.
+
+   *  Header Parameter Name: "uuid"
+
+   *  Header Parameter Description: UUID of the encrypted object
+
+   *  Header Parameter Usage Location(s): JWE
+
+   *  Change Controller: IESG
+
+   *  Specification Document(s): Header Object (Section 5.3.1) of RFC
       XXXX
 
 7.  Non-Upward Compatible Changes to the vCon Container
