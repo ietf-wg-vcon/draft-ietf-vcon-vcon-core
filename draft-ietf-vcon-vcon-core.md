@@ -692,7 +692,7 @@ TODO: Do we just specify for the start of the conversation?
 
 TODO: timezone for the location of the party?
 
-### uuid
+### uuid {#party-uuid}
 
 The uuid is a unique identifier for the participant.
 In a contact center, this is particularly important for the call agent participant, and must be static across interactions to allow correlation with the actual agent configuration provisioned into the systems.
@@ -1486,9 +1486,24 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 
 ### Parties Object Parameter Names Registry
 
+The following defines the intial values for the Parties Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| tel | tell URL | IESG | [](#tel) RFC XXXX |
+| stir | STIR token | IESG | [](#stir) RFC XXXX |
+| mailto | mailto URL | IESG | [](#mailto) RFC XXXX |
+| name | participant name | IESG | [](#name) RFC XXXX |
+| validation | validation method | IESG | [](#validation) RFC XXXX |
+| jCard | participant jCard | IESG | [](#jcard) RFC XXXX |
+| gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
+| civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
+| timezone | participant timezone | IESG | [](#timezone) RFC XXXX |
+| uuid | particiant UUID | IESG | [](#party-uuid) RFC XXXX |
+
 ### Dialog Object Parameter Names Registry
 
-### Attacment Object Parameter Names Registry
+### Attachment Object Parameter Names Registry
 
 ### Analysis Object Parameter Names Registry
 
