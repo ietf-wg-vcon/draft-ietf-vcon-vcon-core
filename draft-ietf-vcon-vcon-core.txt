@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                             2 July 2025
-Expires: 3 January 2026
+Intended status: Standards Track                             3 July 2025
+Expires: 4 January 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 January 2026.
+   This Internet-Draft will expire on 4 January 2026.
 
 Copyright Notice
 
@@ -88,21 +88,23 @@ Table of Contents
      2.4.  Externally Referenced Files
        2.4.1.  url
        2.4.2.  content_hash
+     2.5.  Extensioning vCon
    3.  vCon JSON Object
    4.  Unsigned Form of vCon Object
      4.1.  vCon JSON Object Keys and Values
        4.1.1.  vcon
        4.1.2.  uuid
-       4.1.3.  created_at
-       4.1.4.  updated_at
-       4.1.5.  subject
-       4.1.6.  redacted
-       4.1.7.  appended
-       4.1.8.  group Objects Array
-       4.1.9.  parties Objects Array
-       4.1.10. dialog Objects Array
-       4.1.11. analysis Objects Array
-       4.1.12. attachments Objects Array
+       4.1.3.  extensions
+       4.1.4.  created_at
+       4.1.5.  updated_at
+       4.1.6.  subject
+       4.1.7.  redacted
+       4.1.8.  appended
+       4.1.9.  group Objects Array
+       4.1.10. parties Objects Array
+       4.1.11. dialog Objects Array
+       4.1.12. analysis Objects Array
+       4.1.13. attachments Objects Array
      4.2.  Party Object
        4.2.1.  tel
        4.2.2.  stir
@@ -160,6 +162,19 @@ Table of Contents
    6.  IANA Considerations
      6.1.  JSON Format vCon Mediatype
      6.2.  gzip Format vCon Mediatype
+     6.3.  vCon JSON registry
+       6.3.1.  Object Registry Template
+       6.3.2.  vCon Object Parameter Names Registry
+       6.3.3.  Parties Object Parameter Names Registry
+       6.3.4.  Dialog Object Parameter Names Registry
+       6.3.5.  Attacment Object Parameter Names Registry
+       6.3.6.  Analysis Object Parameter Names Registry
+       6.3.7.  Redacted Object Parameter Names Registry
+       6.3.8.  Appended Object Parameter Names Registry
+       6.3.9.  Group Object Parameter Names Registry
+     6.4.  Extensions Names Registry
+       6.4.1.  Registration Template
+     6.5.  JSON Web Signature and Encryption Header Parameters
    7.  Non-Upward Compatible Changes to the vCon Container
      7.1.  Version 0.0.1 to 0.0.2
    8.  References
@@ -408,7 +423,7 @@ Table of Contents
    algorithm used for signing the externally referenced file is defined
    in section 6.3 and 6.4 of [SHA-512].
 
-   content_hash: "String" | String[]
+   content_hash: "String" | "String[]"
 
    The string token value(s) for the content_hash parameter use the same
    approach used in section 6 of [STIR-PASS].  The relevant text is
@@ -432,6 +447,19 @@ Table of Contents
    a canonicalized and concatenated string or binary data based on the
    JSON pointer referenced elements of "rcd" claim or the URI referenced
    content contained in the claim.
+
+2.5.  Extensioning vCon
+
+   vCon provides a means to extend the schema defined in this document.
+   A vCon extension can define new parameters at any level of the
+   schema.  It can also redefine the semantics of or depricate existing
+   parameters.  To do so, a new extension definition MUST do the
+   following: * Define a new Section 4.1.3 token value and register it
+   with IANA (see examples) (Section 6.3)) * Define the new
+   parameter(s), their meaning, value types and register them with IANA
+   * Define the new semantics and values for change parameters * List
+   depricated parameters, what should be used in its stead and migration
+   approaches
 
 3.  vCon JSON Object
 
@@ -471,7 +499,7 @@ Table of Contents
    or exporting to another security domain, it SHOULD sign or encrypt
    the new vCon instance version.  The new vCon instance version SHOULD
    refer to the prior vCon instance version via the redacted
-   (Section 4.1.6) or appended (Section 4.1.7) parameters.
+   (Section 4.1.7) or appended (Section 4.1.8) parameters.
 
 4.1.  vCon JSON Object Keys and Values
 
@@ -511,7 +539,16 @@ Table of Contents
    UUIDs, as would used in the signing certificate as they are the same
    domains of uniqueness.
 
-4.1.3.  created_at
+4.1.3.  extensions
+
+   The vCon schema can be extended through the definition of new
+   extensions.  The extensions parameter SHOULD contain the list names
+   of all vCon extensions for any parameters used that are not defined
+   in this core vCon schem document.
+
+   *  extensions: "String[]"
+
+4.1.4.  created_at
 
    The created_at parameter provides the creation time of this vcon,
    which MUST be present, and should not changed once the vcon object is
@@ -519,7 +556,7 @@ Table of Contents
 
    *  created_at: "Date"
 
-4.1.4.  updated_at
+4.1.5.  updated_at
 
    The updated_at parameter provides the last modified time of this
    vcon, which MAY be present.  For unsigned forms, the updated_at of
@@ -530,7 +567,7 @@ Table of Contents
 
    *  updated_at: "Date"
 
-4.1.5.  subject
+4.1.6.  subject
 
    The subject or the topic of the conversation is provided in the
    subject parameter.  This parameter is optional as not all
@@ -544,7 +581,7 @@ Table of Contents
    The string value of the subject parameter is a free formed JSON
    string with no constrained syntax.
 
-4.1.6.  redacted
+4.1.7.  redacted
 
    A redacted vCon SHOULD provide a reference to the unredacted or
    prior, less redacted, vCon instance version of itself.  The purpose
@@ -662,7 +699,7 @@ Table of Contents
 
                     Figure 1: redacted vCon object tree
 
-4.1.7.  appended
+4.1.8.  appended
 
    A signed or encrypted vCon cannot be modified without invalidating
    it.  In these cases, to allow for adding of additional information a
@@ -745,7 +782,7 @@ Table of Contents
 
                     Figure 2: appended vCon object tree
 
-4.1.8.  group Objects Array
+4.1.9.  group Objects Array
 
    The scope of a conversation is defined by the observer.  It may be
    any of the following in this non-exhaustive list:
@@ -774,7 +811,7 @@ Table of Contents
 
    The group array contains a Group Object (Section 4.6) for each vCon.
 
-4.1.9.  parties Objects Array
+4.1.10.  parties Objects Array
 
    The name, identity or contact information of all of the parties
    involved with the conversation are included in the parties object
@@ -790,7 +827,7 @@ Table of Contents
    The value of the parties parameter is an array of Party Objects
    (Section 4.2).
 
-4.1.10.  dialog Objects Array
+4.1.11.  dialog Objects Array
 
    The actual conversation which occurred over text, audio or video that
    was captured, is contained in the dialog Objects Array.
@@ -800,7 +837,7 @@ Table of Contents
    The value of the dialog parameter is an array of Dialog Objects
    (Section 4.3).
 
-4.1.11.  analysis Objects Array
+4.1.12.  analysis Objects Array
 
    Analysis, which is performed on the conversational data, is stored in
    the analysis Objects array.
@@ -810,7 +847,7 @@ Table of Contents
    The value of the analysis parameter is an array of Analysis Objects
    (Section 4.4).
 
-4.1.12.  attachments Objects Array
+4.1.13.  attachments Objects Array
 
    Ancillary documents, discussed, presented, referenced or related to
    the conversation may be stored in the attachments array.
@@ -1578,9 +1615,9 @@ Table of Contents
    conflict in some ways.  To enable this, multiple versions of a vCon
    may be created.  Versions of a vCon may add information (e.g.
    analysis added to a prior vCon referenced by the appended
-   (Section 4.1.7)) and versions that remove information (e.g.
+   (Section 4.1.8)) and versions that remove information (e.g.
    redactions of privacy information removed from the vCon referenced in
-   the redacted (Section 4.1.6)).  Redactions may be at different levels
+   the redacted (Section 4.1.7)).  Redactions may be at different levels
    for example:
 
    *  PII masked to remove PII data in the text, audio, video or
@@ -1612,10 +1649,10 @@ Table of Contents
    leaves a security domain, it SHOULD be signed to prevent it from
    being altered.  If the new security domain needs to alter it, a new
    vCon is created with the removed or added data and the prior version
-   is referenced (i.e. via the redacted (Section 4.1.6) or appended
-   (Section 4.1.7)).  See the redacted vCon object tree figure-1 and
+   is referenced (i.e. via the redacted (Section 4.1.7) or appended
+   (Section 4.1.8)).  See the redacted vCon object tree figure-1 and
    appended vCon object tree figure-2.  If information is redacted for
-   privacy reasons, the vCon referenced in the redacted (Section 4.1.6),
+   privacy reasons, the vCon referenced in the redacted (Section 4.1.7),
    if inline, SHOULD be encrypted to protect the privacy information in
    the unredacted version of the vCon.
 
@@ -1954,6 +1991,153 @@ Table of Contents
 
    *  Change controller: IETF
 
+6.3.  vCon JSON registry
+
+   This document defines a number of new IANA registries for the JSON
+   vCon schema.  Each Object (i.e. dict, map, dictionary) has its own
+   registry of parameter names.  All of those registries have the same
+   registry template.
+
+6.3.1.  Object Registry Template
+
+   Parameter Name: The string name of a parametr to be used within the
+   Object.  The name is case sensitive.  Names may not match other
+   registered names in a case-insensitive manner unless the Designated
+   Experts state that there is a compelling reason to allow an
+   exception.
+
+   Parameter Description: Brief description of the parameter
+
+   Change Controller: For Standards Track RFCs, list the "IESG".  For
+   others, give the name of the responsible party.  Other details (e.g.,
+   postal address, email address, home page URI) may also be included.
+
+   Specification Document(s): Reference to the document or documents
+   that specify the parameter, preferably including URIs that can be
+   used to retrieve copies of the documents.  An indication of the
+   relevant sections may also be included but is not required.
+
+6.3.2.  vCon Object Parameter Names Registry
+
+   The following defines the intial values for the vCon Object Parameter
+   Names Registry.
+
+   +=============+==============+==================+==================+
+   | Parameter   | Parameter    | Change           | Specification    |
+   | Name        | Description  | Controller       | Document(s)      |
+   +=============+==============+==================+==================+
+   | vcon        | Schema       | IESG             | Section 4.1.1    |
+   |             | version      |                  | RFC XXXX         |
+   |             | number       |                  |                  |
+   +-------------+--------------+------------------+------------------+
+   | extensions  | list of      | IESG             | Section 4.1.3    |
+   |             | extensions   |                  | RFC XXXX         |
+   |             | used         |                  |                  |
+   +-------------+--------------+------------------+------------------+
+   | uuid        | vCon         | IESG             | Section 4.1.2    |
+   |             | instance     |                  | RFC XXXX         |
+   |             | UUID         |                  |                  |
+   +-------------+--------------+------------------+------------------+
+   | created_at  | creation     | IESG             | Section 4.1.4    |
+   |             | date         |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | updated_at  | modification | IESG             | Section 4.1.5    |
+   |             | date         |                  | RFC XXXXX        |
+   +-------------+--------------+------------------+------------------+
+   | subject     | conversation | IESG             | Section 4.1.6    |
+   |             | subject      |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | redacted    | Redacted     | IESG             | Section 4.1.7    |
+   |             | Object       |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | appended    | Appended     | IESG             | Section 4.1.7    |
+   |             | Object       |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | group       | Group        | IESG             | Group Objects    |
+   |             | Objects      |                  | array            |
+   |             | array        |                  | (Section 4.1.9)  |
+   |             |              |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | parties     | Parties      | Parties Objects  |                  |
+   |             | Objects      | array            |                  |
+   |             | array        | (Section 4.1.10) |                  |
+   |             |              | RFC XXXX         |                  |
+   +-------------+--------------+------------------+------------------+
+   | dialog      | Dialog       | IESG             | Dialog Objects   |
+   |             | Objects      |                  | array            |
+   |             | array        |                  | (Section 4.1.11) |
+   |             |              |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | analysis    | Analysis     | IESG             | Analysis Objects |
+   |             | Objects      |                  | array            |
+   |             | array        |                  | (Section 4.1.12) |
+   |             |              |                  | RFC XXXX         |
+   +-------------+--------------+------------------+------------------+
+   | attachments | Attachment   | Attachments      |                  |
+   |             | Objects      | Objects array    |                  |
+   |             | array        | (Section 4.1.13) |                  |
+   |             |              | RFC XXXX         |                  |
+   +-------------+--------------+------------------+------------------+
+
+                                 Table 1
+
+6.3.3.  Parties Object Parameter Names Registry
+
+6.3.4.  Dialog Object Parameter Names Registry
+
+6.3.5.  Attacment Object Parameter Names Registry
+
+6.3.6.  Analysis Object Parameter Names Registry
+
+6.3.7.  Redacted Object Parameter Names Registry
+
+6.3.8.  Appended Object Parameter Names Registry
+
+6.3.9.  Group Object Parameter Names Registry
+
+6.4.  Extensions Names Registry
+
+   This document defines and new registry for the token name values that
+   are permited as values to the [extension]s(#extensions) parameter.
+   However it does not define any values for this registry.  Values for
+   this registry are to be defined in subsequent documents which define
+   extnensions to the vCon schema.
+
+6.4.1.  Registration Template
+
+   Extension Name: The string token name of an extension to the vCon
+   JSON schema.  The name is case sensitive.  Names may not match other
+   registered names in a case-insensitive manner unless the Designated
+   Experts state that there is a compelling reason to allow an
+   exception.
+
+   Extension Description: Brief description of the the vCon extension
+
+   Change Controller: For Standards Track RFCs, list the "IESG".  For
+   others, give the name of the responsible party.  Other details (e.g.,
+   postal address, email address, home page URI) may also be included.
+
+   Specification Document(s): Reference to the document or documents
+   that specify the parameter, preferably including URIs that can be
+   used to retrieve copies of the documents.  An indication of the
+   relevant sections may also be included but is not required.
+
+6.5.  JSON Web Signature and Encryption Header Parameters
+
+   This document registers the following new parameter in the [JWS] JSON
+   Web Signature and Encryption Header Parameters registry.
+
+   *  Header Parameter Name: "uuid"
+
+   *  Header Parameter Description: UUID of the signed object
+
+   *  Header Parameter Usage Location(s): JWS
+
+   *  Change Controller: IESG
+
+   *  Specification Document(s): Header Object (Section 5.2.2) of RFC
+      XXXX
+
 7.  Non-Upward Compatible Changes to the vCon Container
 
 7.1.  Version 0.0.1 to 0.0.2
@@ -1982,6 +2166,10 @@ Table of Contents
    [IANA-COSE-ALG]
               "COSE Algorithms", n.d.,
               <<https://www.iana.org/assignments/cose/cose.xhtml>>.
+
+   [JMAP]     Jenkins, N. and C. Newman, "The JSON Meta Application
+              Protocol (JMAP)", RFC 8620, DOI 10.17487/RFC8620, July
+              2019, <https://www.rfc-editor.org/rfc/rfc8620>.
 
    [JSON]     Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
               Interchange Format", STD 90, RFC 8259,
@@ -2073,10 +2261,6 @@ Table of Contents
               -- Part 12: ISO base media file format", ISO/IEC
               14496-12:2022, January 2022,
               <https://www.iso.org/standard/83102.html>.
-
-   [JMAP]     Jenkins, N. and C. Newman, "The JSON Meta Application
-              Protocol (JMAP)", RFC 8620, DOI 10.17487/RFC8620, July
-              2019, <https://www.rfc-editor.org/rfc/rfc8620>.
 
    [JWT]      Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
@@ -4134,7 +4318,7 @@ A.9.  Redacted vCon
 
    This is an example redaction of the vCon in the example Two Party
    Call vCon With Externally Referenced Recording (Appendix A.5).  Most
-   notable is the Redacted object (Section 4.1.6) which references the
+   notable is the Redacted object (Section 4.1.7) which references the
    lesser redacted version of this vCon.  In addition the *url*
    parameter has been redacted from the Dialog Object (Section 4.3), but
    the rest of the Dialog Object (Section 4.3) was left in the
