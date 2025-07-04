@@ -423,10 +423,10 @@ The string value of the subject parameter is a free formed JSON string with no c
 ### redacted
 
 A redacted vCon SHOULD provide a reference to the unredacted or prior, less redacted, vCon instance version of itself.
-The purpose of the Redacted Object is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
+The purpose of the [Redacted Object](#redacted-object) is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
 For privacy reasons, it may be necessary to redact a vCon to construct another vCon without the PII.
 This allows the non-PII portion of the vCon to still be analyzed or used in a broader scope.
-The Redacted Object SHOULD contain the uuid parameter and MAY include the vCon inline via the body and encoding parameters or alternatively the url, content_hash parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
+The [Redacted Object](#redacted-object) SHOULD contain the uuid parameter and MAY include the vCon inline via the body and encoding parameters or alternatively the url, content_hash parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
 If the unredacted vCon is included in the body, the unredacted vCon MUST be in the encrypted form.
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL MUST
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.
@@ -447,6 +447,8 @@ the unredacted vCon, SHOULD create an empty placeholder such that object array i
 the rest of the elements of the array.
 
 * redacted: "Redacted" (optional, mutually exclusive with appended and group parameters)
+
+#### Redacted Object
 
 A Redacted Object contains the following parameters:
 
@@ -493,12 +495,14 @@ The signed unredacted vCon contains the unredacted vCon in the unsigned form in 
 
 A signed or encrypted vCon cannot be modified without invalidating it.
 In these cases, to allow for adding of additional information a new vCon instance version MUST be created.
-The prior vCon instance version is referenced by the Appended Object.
+The prior vCon instance version is referenced by the [Appended Object](#appended-object).
 Then the appended information is added to the new vCon instance version (i.e. top level vCon object).
 
 The prior vCon instance version SHOULD be referenced via the uuid of the prior vCon instance version, and MAY include the body and encoding parameters or alternatively the url and content_hash parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
 
 * appended: "Appended" (optional, mutually exclusive with redacted and group parameters)
+
+#### Appended Object
 
 The Appended Object contains the following parameters:
 
@@ -1653,9 +1657,42 @@ The following defines the intial values for the Analysis Object Parameter Names 
 
 ### Redacted Object Parameter Names Registry
 
+The following defines the intial values for the Redacted Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| uuid | less redacted vCon UUID | IESG | [](#redacted-object) RFC XXXX |
+| type | redaction type or reason | IESG | [](#redacted-object) RFC XXXX |
+| body | inline less redacted vCon | IESG | [](#redacted-object) RFC XXXX |
+| encoding | content encoding | IESG | [](#redacted-object) RFC XXXX |
+| url | referenced less redacted vCon URL | IESG | [](#redacted-object) RFC XXXX |
+| content_hash | less redacted vCon hash | IESG | [](#redacted-object) RFC XXXX |
+
 ### Appended Object Parameter Names Registry
 
+The following defines the intial values for the Appended Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| uuid | prior vCon version UUID | IESG | [](#appended-object) RFC XXXX |
+| body | inline prior version vCon | IESG | [](#appended-object) RFC XXXX |
+| encoding | content encoding | IESG | [](#appended-object) RFC XXXX |
+| url | referenced prior version vCon URL | IESG | [](#appended-object) RFC XXXX |
+| content_hash | prior version vCon hash | IESG | [](#appended-object) RFC XXXX |
+
+
 ### Group Object Parameter Names Registry
+
+The following defines the intial values for the Group Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| uuid | child vCon version UUID | IESG | [](#group-object) RFC XXXX |
+| body | inline child vCon | IESG | [](#group-object) RFC XXXX |
+| encoding | content encoding | IESG | [](#group-object) RFC XXXX |
+| url | referenced child vCon URL | IESG | [](#group-object) RFC XXXX |
+| content_hash | prior version vCon hash | IESG | [](#group-object) RFC XXXX |
+
 
 ## vCon Extensions Names Registry
 
