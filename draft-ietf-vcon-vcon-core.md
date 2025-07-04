@@ -860,17 +860,12 @@ The Party_History Object contains the following parameters:
 * event: "String"
 
   The string token for the event which MUST be one of the following:
-  
+
     * "join" - when the party joins the dialog
-  
     * "drop" - when the party drops out of the dialog
-  
     * "hold" - when the party is put on hold
-  
     * "unhold" - when the part is taken off hold
-  
     * "mute" - when the party is muted
-  
     * "unmute" - when the part is taken off mute
 
 ### Dialog Transfer
@@ -1474,19 +1469,19 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| vcon | Schema version number | IESG | [vcon](#vcon) RFC XXXX |
+| vcon | Schema version number | IESG | [](#vcon) RFC XXXX |
 | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
 | extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
-| created_at | creation date | IESG | [created_at](#created_at) RFC XXXX |
-| updated_at | modification date | IESG | [updated_at](#updated_at) RFC XXXXX |
-| subject | conversation subject | IESG | [subject](#subject) RFC XXXX |
-| redacted | Redacted Object | IESG | [redacted](#redacted) RFC XXXX |
-| appended | Appended Object | IESG | [redacted](#redacted) RFC XXXX |
-| group | Group Objects array | IESG | [Group Objects array](#group-objects-array) RFC XXXX |
-| parties | Parties Objects array | IESG | [Parties Objects array ](#parties-objects-array) RFC XXXX |
-| dialog | Dialog Objects array | IESG | [Dialog Objects array](#dialog-objects-array) RFC XXXX |
-| analysis | Analysis Objects array | IESG | [Analysis Objects array](#analysis-objects-array) RFC XXXX |
-| attachments | Attachment Objects array | IESG | [Attachments Objects array](#attachments-objects-array) RFC XXXX |
+| created_at | creation date | IESG | [](#created_at) RFC XXXX |
+| updated_at | modification date | IESG | [](#updated_at) RFC XXXXX |
+| subject | conversation subject | IESG | [](#subject) RFC XXXX |
+| redacted | Redacted Object | IESG | [](#redacted) RFC XXXX |
+| appended | Appended Object | IESG | [](#redacted) RFC XXXX |
+| group | Group Objects array | IESG | [](#group-objects-array) RFC XXXX |
+| parties | Parties Objects array | IESG | [](#parties-objects-array) RFC XXXX |
+| dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
+| analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |
+| attachments | Attachment Objects array | IESG | [](#attachments-objects-array) RFC XXXX |
 
 ### Parties Object Parameter Names Registry
 
@@ -1653,7 +1648,7 @@ The following defines the intial values for the Analysis Object Parameter Names 
 
 ## vCon Extensions Names Registry
 
-This document defines and new registry for the token name values that are permited as values to the [extension]s(#extensions) parameter.
+This document defines and new registry for the token name values that are permited as values to the [extensions]s(#extensions) parameter.
 However it does not define any values for this registry.
 Values for this registry are to be defined in subsequent documents which define extnensions to the vCon schema.
 
