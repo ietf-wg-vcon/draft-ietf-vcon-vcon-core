@@ -130,23 +130,23 @@ Table of Contents
        4.3.11. Dialog Transfer
        4.3.12. application
        4.3.13. message_id
-     4.4.  Analysis Object
-       4.4.1.  type
-       4.4.2.  dialog
-       4.4.3.  mediatype
-       4.4.4.  filename
-       4.4.5.  vendor
-       4.4.6.  product
-       4.4.7.  schema
-       4.4.8.  Analysis Content
-     4.5.  Attachment Object
-       4.5.1.  type or purpose
-       4.5.2.  start
-       4.5.3.  party
-       4.5.4.  mediatype
-       4.5.5.  filename
-       4.5.6.  Attachment Content
-       4.5.7.  dialog
+     4.4.  Attachment Object
+       4.4.1.  type or purpose
+       4.4.2.  start
+       4.4.3.  party
+       4.4.4.  dialog
+       4.4.5.  mediatype
+       4.4.6.  filename
+       4.4.7.  Attachment Content
+     4.5.  Analysis Object
+       4.5.1.  type
+       4.5.2.  dialog
+       4.5.3.  mediatype
+       4.5.4.  filename
+       4.5.5.  vendor
+       4.5.6.  product
+       4.5.7.  schema
+       4.5.8.  Analysis Content
      4.6.  Group Object
    5.  Security Considerations
      5.1.  Signing Externally Referenced Files
@@ -848,7 +848,7 @@ Table of Contents
    *  analysis: "Analysis[]" (optional)
 
    The value of the analysis parameter is an array of Analysis Objects
-   (Section 4.4).
+   (Section 4.5).
 
 4.1.13.  attachments Objects Array
 
@@ -858,7 +858,7 @@ Table of Contents
    *  attachments: "Attachment[]" (optional)
 
    The value of the attachments parameter is an array of Attachment
-   Objects (Section 4.5).
+   Objects (Section 4.4).
 
 4.2.  Party Object
 
@@ -1354,7 +1354,90 @@ Table of Contents
 
    *  message_id: "string" (optional)
 
-4.4.  Analysis Object
+4.4.  Attachment Object
+
+   Ancillary documents to the conversation are included or referenced in
+   the Attachment Object.  There is no constraint on the types files
+   which can be included or referenced.  As most modes of communication,
+   that allow the exchange of files, do not constrain the file type, any
+   file type may be included here.
+
+4.4.1.  type or purpose
+
+   TODO: Do we want a semantic type like: contract or presentation?  Or
+   a subject or title.
+
+4.4.2.  start
+
+   The start parameter contains the date and time that the Attachment
+   Object was sent/exchanged.
+
+   *  start: "Date"
+
+4.4.3.  party
+
+   In most conversations, ancillary documents originate from one of the
+   parties to the conversation.  This is not necessarily the author, but
+   the person who distributed the document.  This party is identified by
+   the party parameter in the Attachment Object.
+
+   *  party: "UnsignedInt"
+
+   The value of the party parameter is the index into the Parties Object
+   array to the party that contributed the attachment.
+
+4.4.4.  dialog
+
+   Attachments are added as data related to the dialog.  The dialog
+   parameter is used to identify the dialog that the attachment is part
+   of.  The dialog is identified by the index to the dialog Object in
+   the dialog objects array.
+
+   *  dialog: "UnsignedInt"
+
+4.4.5.  mediatype
+
+   The media type for the included or referenced attachment file is
+   provided in the mediatype parameter.
+
+   *  mediatype: "Mediatype" (optional for externally referenced files,
+      if absent, this is provided in the [HTTPS] Content-Type header)
+
+   The mediatype string contains the media type or [MIME] type of the
+   attached file.
+
+4.4.6.  filename
+
+   It is sometimes useful to preserve the name of the file which
+   originally contained this attachment file.  This can be done in the
+   filename parameter.
+
+   *  filename: "String" (optional)
+
+   The file name string contains an optional name for the attachment
+   file referenced in this Attachment Object.
+
+4.4.7.  Attachment Content
+
+   The Attachment Object SHOULD contain the body and encoding parameters
+   or the url and content_hash parameters (see Inline Files
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).  The
+   exception to this is that the body or url MAY be absent if it is
+   redacted.
+
+   For inline included attachments:
+
+   *  body: "String"
+
+   *  encoding: "String"
+
+   Alternatively, for externally referenced attachments:
+
+   *  url: "String"
+
+   *  content_hash: "String" | "String[]"
+
+4.5.  Analysis Object
 
    Analysis is a broad and in some cases developing field.  This
    document does not attempt to suggest a SHOULD support list of types.
@@ -1366,7 +1449,7 @@ Table of Contents
    which a media type is not defined, the vendor and schema parameters
    SHOULD be used.
 
-4.4.1.  type
+4.5.1.  type
 
    The type parameter is used to label the semantic type of analysis
    data.
@@ -1388,7 +1471,7 @@ Table of Contents
 
    *  "tts"
 
-4.4.2.  dialog
+4.5.2.  dialog
 
    Analysis typically pertains to one or more of the Dialog Objects in
    the dialog array.  The dialog parameter is used to indicate which
@@ -1401,7 +1484,7 @@ Table of Contents
    of indices to dialogs in the dialog array to which this analysis
    object corresponds.
 
-4.4.3.  mediatype
+4.5.3.  mediatype
 
    The media type for the included or referenced analysis file is
    provided in the mediatype parameter.
@@ -1412,7 +1495,7 @@ Table of Contents
    The mediatype string contains the media type or [MIME] type of the
    analysis file.
 
-4.4.4.  filename
+4.5.4.  filename
 
    It is sometimes useful to preserve the name of the file which
    originally contained this analysis data.  This can be done in the
@@ -1423,7 +1506,7 @@ Table of Contents
    The file name string contains an optional name for the analysis data
    file referenced in this Analysis Object.
 
-4.4.5.  vendor
+4.5.5.  vendor
 
    There may not be a IANA registered media type for the file format
    containing the analysis data.  Even if a media type is defined, it is
@@ -1438,7 +1521,7 @@ Table of Contents
    The vendor string value contains the vendor or product name of the
    software which generated this analysis.
 
-4.4.6.  product
+4.5.6.  product
 
    As the vendor may have more than one product, the product parameter
    may be used to differentiate it from other products which may have
@@ -1446,7 +1529,7 @@ Table of Contents
 
    *  product: "string" (optional)
 
-4.4.7.  schema
+4.5.7.  schema
 
    The same vendor or software product may produce different formats or
    data for the same analysis.  The schema parameter allows the data
@@ -1461,7 +1544,7 @@ Table of Contents
    provide to differentiate from potentially multiple data formats for
    analysis provided by the same vendor or software.
 
-4.4.8.  Analysis Content
+4.5.8.  Analysis Content
 
    The Analysis Object SHOULD contain the body and encoding parameters
    or the url and content_hash parameters (see Inline Files
@@ -1480,89 +1563,6 @@ Table of Contents
    *  url: "String"
 
    *  content_hash: "String" | "String[]"
-
-4.5.  Attachment Object
-
-   Ancillary documents to the conversation are included or referenced in
-   the Attachment Object.  There is no constraint on the types files
-   which can be included or referenced.  As most modes of communication,
-   that allow the exchange of files, do not constrain the file type, any
-   file type may be included here.
-
-4.5.1.  type or purpose
-
-   TODO: Do we want a semantic type like: contract or presentation?  Or
-   a subject or title.
-
-4.5.2.  start
-
-   The start parameter contains the date and time that the Attachment
-   Object was sent/exchanged.
-
-   *  start: "Date"
-
-4.5.3.  party
-
-   In most conversations, ancillary documents originate from one of the
-   parties to the conversation.  This is not necessarily the author, but
-   the person who distributed the document.  This party is identified by
-   the party parameter in the Attachment Object.
-
-   *  party: "UnsignedInt"
-
-   The value of the party parameter is the index into the Parties Object
-   array to the party that contributed the attachment.
-
-4.5.4.  mediatype
-
-   The media type for the included or referenced attachment file is
-   provided in the mediatype parameter.
-
-   *  mediatype: "Mediatype" (optional for externally referenced files,
-      if absent, this is provided in the [HTTPS] Content-Type header)
-
-   The mediatype string contains the media type or [MIME] type of the
-   attached file.
-
-4.5.5.  filename
-
-   It is sometimes useful to preserve the name of the file which
-   originally contained this attachment file.  This can be done in the
-   filename parameter.
-
-   *  filename: "String" (optional)
-
-   The file name string contains an optional name for the attachment
-   file referenced in this Attachment Object.
-
-4.5.6.  Attachment Content
-
-   The Attachment Object SHOULD contain the body and encoding parameters
-   or the url and content_hash parameters (see Inline Files
-   (Section 2.3) and Externally Referenced Files (Section 2.4)).  The
-   exception to this is that the body or url MAY be absent if it is
-   redacted.
-
-   For inline included attachments:
-
-   *  body: "String"
-
-   *  encoding: "String"
-
-   Alternatively, for externally referenced attachments:
-
-   *  url: "String"
-
-   *  content_hash: "String" | "String[]"
-
-4.5.7.  dialog
-
-   Attachments are added as data related to the dialog.  The dialog
-   parameter is used to identify the dialog that the attachment is part
-   of.  The dialog is identified by the index to the dialog Object in
-   the dialog objects array.
-
-   *  dialog: "UnsignedInt"
 
 4.6.  Group Object
 
@@ -2272,22 +2272,22 @@ Table of Contents
 
                                  Table 5
 
-6.3.5.1.  party_event Type Name Registry
+6.3.5.1.  party_event Event Name Registry
 
    This document defines a new registry for the token name values that
-   are permitted as values to the party_event type (Section 4.3.10.1)
-   parameter.
+   are permitted as values to the party_event Object event
+   (Section 4.3.10.1) parameter.
 
-6.3.5.1.1.  party_event Type Name Registration Template
+6.3.5.1.1.  party_event Event Name Registration Template
 
-   party_event Type Name: The string token name of a party_event Object
+   party_event Event Name: The string token name of a party_event Object
    event type.  The name is case sensitive.  Names may not match other
    registered names in a case-insensitive manner unless the Designated
    Experts state that there is a compelling reason to allow an
    exception.
 
-   party_event Type Description: Brief description of the party_event
-   Object type
+   party_event Event Description: Brief description of the party_event
+   Object Event
 
    Change Controller: For Standards Track RFCs, list the "IESG".  For
    others, give the name of the responsible party.  Other details (e.g.,
@@ -2303,32 +2303,34 @@ Table of Contents
    The following table defines the initial values for the Dialog Object
    Types Registry.
 
-    +=============+==================+============+==================+
-    | party_event | party_event Type | Change     | Specification    |
-    | Type Name   | Description      | Controller | Document(s)      |
-    +=============+==================+============+==================+
-    | join        | party join event | IESG       | Section 4.3.10.1 |
-    |             |                  |            | RFC XXXX         |
-    +-------------+------------------+------------+------------------+
-    | drop        | party drop event | IESG       | Section 4.3.10.1 |
-    |             |                  |            | RFC XXXX         |
-    +-------------+------------------+------------+------------------+
-    | hold        | party on hold    | IESG       | Section 4.3.10.1 |
-    |             | event            |            | RFC XXXX         |
-    +-------------+------------------+------------+------------------+
-    | unhold      | party off hold   | IESG       | Section 4.3.10.1 |
-    |             | event            |            | RFC XXXX         |
-    +-------------+------------------+------------+------------------+
-    | mute        | party on mute    | IESG       | Section 4.3.10.1 |
-    |             | event            |            | RFC XXXX         |
-    +-------------+------------------+------------+------------------+
-    | unmute      | party off mute   | IESG       | Section 4.3.10.1 |
-    |             | event            |            | RFC XXXX         |
-    +-------------+------------------+------------+------------------+
+    +=============+===================+============+==================+
+    | party_event | party_event Event | Change     | Specification    |
+    | Event Name  | Description       | Controller | Document(s)      |
+    +=============+===================+============+==================+
+    | join        | party join event  | IESG       | Section 4.3.10.1 |
+    |             |                   |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
+    | drop        | party drop event  | IESG       | Section 4.3.10.1 |
+    |             |                   |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
+    | hold        | party on hold     | IESG       | Section 4.3.10.1 |
+    |             | event             |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
+    | unhold      | party off hold    | IESG       | Section 4.3.10.1 |
+    |             | event             |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
+    | mute        | party on mute     | IESG       | Section 4.3.10.1 |
+    |             | event             |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
+    | unmute      | party off mute    | IESG       | Section 4.3.10.1 |
+    |             | event             |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
 
-                                 Table 6
+                                  Table 6
 
 6.3.6.  Attachment Object Parameter Names Registry
+
+   TODO: type or purpose
 
    The following defines the intial values for the Attachment Object
    Parameter Names Registry.
@@ -2337,23 +2339,32 @@ Table of Contents
    | Parameter    | Parameter             | Change     | Specification |
    | Name         | Description           | Controller | Document(s)   |
    +==============+=======================+============+===============+
-   | mediatype    | attachment body       | IESG       | Section 4.5.4 |
+   | start        | attachment start      | IESG       | Section 4.4.2 |
+   |              | time                  |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | party        | sending party         | IESG       | Section 4.4.3 |
+   |              | index                 |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | dialog       | associated dialog     | IESG       | Section 4.4.4 |
+   |              | index                 |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | mediatype    | attachment body       | IESG       | Section 4.4.5 |
    |              | media type            |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | filename     | attachment            | IESG       | Section 4.5.5 |
+   | filename     | attachment            | IESG       | Section 4.4.6 |
    |              | content filename      |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | body         | attachment inline     | IESG       | Section 4.5.6 |
+   | body         | attachment inline     | IESG       | Section 4.4.7 |
    |              | content               |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | encoding     | attachment inline     | IESG       | Section 4.5.6 |
+   | encoding     | attachment inline     | IESG       | Section 4.4.7 |
    |              | content encoding      |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | url          | attachment            | IESG       | Section 4.5.6 |
+   | url          | attachment            | IESG       | Section 4.4.7 |
    |              | referenced            |            | RFC XXXX      |
    |              | content URL           |            |               |
    +--------------+-----------------------+------------+---------------+
-   | content_hash | attachment            | IESG       | Section 4.5.6 |
+   | content_hash | attachment            | IESG       | Section 4.4.7 |
    |              | content hash          |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
 
@@ -2368,22 +2379,37 @@ Table of Contents
    | Parameter      | Parameter           | Change     | Specification |
    | Name           | Description         | Controller | Document(s)   |
    +================+=====================+============+===============+
-   | mediatype      | analysis body media | IESG       | Section 4.4.3 |
+   | type           | analysis type       | IESG       | Section 4.5.1 |
+   |                |                     |            | RFC XXX       |
+   +----------------+---------------------+------------+---------------+
+   | dialog         | associated dialog   | IESG       | Section 4.5.2 |
+   |                | index               |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | mediatype      | analysis body media | IESG       | Section 4.5.3 |
    |                | type                |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | filename       | analysis content    | IESG       | Section 4.4.4 |
+   | filename       | analysis content    | IESG       | Section 4.5.4 |
    |                | filename            |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | body           | analysis inline     | IESG       | Section 4.4.8 |
+   | vendor         | vendor producing    | IESG       | Section 4.5.5 |
    |                | content             |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | encoding       | analysis inline     | IESG       | Section 4.4.8 |
+   | product        | vendor product      | IESG       | Section 4.5.6 |
+   |                | producing content   |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | schema         | product schema of   | IESG       | Section 4.5.7 |
+   |                | content             |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | body           | analysis inline     | IESG       | Section 4.5.8 |
+   |                | content             |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | encoding       | analysis inline     | IESG       | Section 4.5.8 |
    |                | content encoding    |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | url            | analysis referenced | IESG       | Section 4.4.8 |
+   | url            | analysis referenced | IESG       | Section 4.5.8 |
    |                | content URL         |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | content_hash   | analysis content    | IESG       | Section 4.4.8 |
+   | content_hash   | analysis content    | IESG       | Section 4.5.8 |
    |                | hash                |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
 
