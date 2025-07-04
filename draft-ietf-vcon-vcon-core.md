@@ -1576,19 +1576,19 @@ This initial values for the party_history Object Parameter Names Registry are li
 | time | time event occurred | IESG | [](#party_history-object) RFC XXXX |
 | event | event type | IESG | [](#party_history-object) RFC XXXX |
 
-#### party_event Type Name Registry
+#### party_event Event Name Registry
 
-This document defines a new registry for the token name values that are permitted as values to the [party_event type](#party_history-object) parameter.
+This document defines a new registry for the token name values that are permitted as values to the [party_event Object event](#party_history-object) parameter.
 
-##### party_event Type Name Registration Template
+##### party_event Event Name Registration Template
 
-party_event Type Name:
+party_event Event Name:
   The string token name of a party_event Object event type.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
-party_event Type Description:
-  Brief description of the party_event Object type
+party_event Event Description:
+  Brief description of the party_event Object Event
 
 Change Controller:
    For Standards Track RFCs, list the "IESG".  For others, give the
@@ -1605,7 +1605,7 @@ Specification Document(s):
 
 The following table defines the initial values for the Dialog Object Types Registry.
 
-| party_event Type Name | party_event Type Description | Change Controller | Specification Document(s) |
+| party_event Event Name | party_event Event Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
 | join | party join event | IESG | [](#party_history-object) RFC XXXX |
 | drop | party drop event | IESG | [](#party_history-object) RFC XXXX |
