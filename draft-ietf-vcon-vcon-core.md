@@ -365,7 +365,7 @@ The the value of vcon parameter contains the syntactic version of the JSON forma
 
 * vcon: "String"
 
-For syntax defined in this document, the string MUST have the value: "0.0.2"
+For syntax defined in this document, the string MUST have the value: "0.3.0"
 
 ### uuid
 
@@ -708,7 +708,7 @@ One for text media and the other for audio or video recording files.
 
 TODO: Is there other signalling data that we want to capture other than start and duration and the media (e.g. from jabber, sms, mms, email, SIP, etc.)?
 
-### type
+### type {#dialog-type}
 
 * type: "String"
 
@@ -723,7 +723,7 @@ In the "transfer" case, the conversation is recorded in other dialogs.
 The Dialog Transfer parameters, are used to show the roles and relationships between the parties and other dialogs as the transfer process occurred.
 
 
-### start
+### start {#dialog-start}
 
 The start parameter contains the date and time for the beginning of the captured piece of dialog.
 For text it is the time that the party started typing or if not available, then it is the time the text was sent.
@@ -773,7 +773,7 @@ The originator parameter is only provided if the first party of the dialog Objec
 
 The originator value is the index into the parties Objects Array, to the party that originated the dialog.
 
-### mediatype
+### mediatype {#dialog-mediatype}
 
 The media type for the piece of dialog included or referenced is provided in the mediatype parameter.
 The mediatype parameter MUST be provided for inline dialog files and MUST be provided if the Content-Type header in the [HTTPS] response for the externally referenced URL is not provided.
@@ -793,7 +793,7 @@ The media types SHOULD be one of the following strings:
 
     Note: multi-part will also likely include the boundary parameter
 
-### filename
+### filename {#dialog-filename}
 
 It is sometimes useful to preserve the name of the file which originally contained this piece of dialog.
 This can be done in the filename parameter.
@@ -838,38 +838,40 @@ The value of the disposition parameter MUST be one of the following string:
 
     Note: if a message was left with the voicemail system this is no longer an "incomplete" type dialog, it is a "recording" type and the conversation SHOULD be included in the Dialog Content.
 
-### party_history Objects Array
+### party_history Objects Array {#party_history-objects-array}
 
 Participants in a dialog may not all join and leave at the same time.
 To support the capturing of the information when parties join, drop, go on hold or mute and unmute, the party_history array may be added to the Dialog Object.
 
 * party_history: "Party_History\[\]" (optional)
 
-#### Party_History Object
+#### Party_History Object {#party_history-object}
 
 The Party_History Object contains the following parameters:
 
 * party: "UnsignedInt"
 
-The index of the party for this event.
+  The index of the party for this event.
+
+* time: "Date"
+
+  The time at which this event occurred.
 
 * event: "String"
 
-The string token for the event which MUST be one of the following:
-
-  * "join" - when the party joins the dialog
-
-  * "drop" - when the party drops out of the dialog
-
-  * "hold" - when the party is put on hold
-
-  * "unhold" - when the part is taken off hold
-
-  * "mute" - when the party is muted
-
-  * "unmute" - when the part is taken off mute
-
-* time: "Date"
+  The string token for the event which MUST be one of the following:
+  
+    * "join" - when the party joins the dialog
+  
+    * "drop" - when the party drops out of the dialog
+  
+    * "hold" - when the party is put on hold
+  
+    * "unhold" - when the part is taken off hold
+  
+    * "mute" - when the party is muted
+  
+    * "unmute" - when the part is taken off mute
 
 ### Dialog Transfer
 
@@ -896,9 +898,9 @@ The value of the transferee parameter is the index into the parties Object array
 
 The value of the transferor parameter is the index into the parties Object array to the party that played the role of the Transferor.
 
-* transfer-target: "UnsignedInt"
+* transfer_target: "UnsignedInt"
 
-The value of the transfer-target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
+The value of the transfer_target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
 
 * original: "UnsignedInt"
 
@@ -908,9 +910,9 @@ The value of the original parameter is the index into the dialogs Object array t
 
 The value of the consultation parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the consultative dialog between the Transferor and the Transfer Target.
 
-* target-dialog: "UnsignedInt"
+* target_dialog: "UnsignedInt"
 
-The value of the target-dialog parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
+The value of the target_dialog parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
 
 A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, filename or Dialog Content parameters.
 
@@ -926,7 +928,7 @@ For example, the application parameter can be used to identify the web conferenc
 
 * application "String" (optional)
 
-### message_id
+### message_id {#message_id}
 
 Some messaging systems assign a unique message identifier to each message.
 The message_id parameter may be used to label the message for either cross referencing back to the messaging
@@ -948,7 +950,7 @@ For this reason the Analysis Object provides multiple ways to define the media t
 If a well known media type is defined, it SHOULD be used.
 For analysis data or files types for which a media type is not defined, the vendor and schema parameters SHOULD be used.
 
-### type
+### type {#analysis-type}
 
 The type parameter is used to label the semantic type of analysis data.
 
@@ -971,7 +973,7 @@ The dialog parameter is used to indicate which Dialog Objects this analysis was 
 
 The value of the dialog parameter is the index to the dialog or array of indices to dialogs in the dialog array to which this analysis object corresponds.
 
-### mediatype
+### mediatype {#analysis-mediatype}
 
 The media type for the included or referenced analysis file is provided in the mediatype parameter.
 
@@ -979,7 +981,7 @@ The media type for the included or referenced analysis file is provided in the m
 
 The mediatype string contains the media type or [MIME] type of the analysis file.
 
-### filename
+### filename {#analysis-filename}
 
 It is sometimes useful to preserve the name of the file which originally contained this analysis data.
 This can be done in the filename parameter.
@@ -1041,7 +1043,7 @@ As most modes of communication, that allow the exchange of files, do not constra
 
 TODO: Do we want a semantic type like: contract or presentation?  Or a subject or title.
 
-### start
+### start {#attachment-start}
 
 The start parameter contains the date and time that the Attachment Object was sent/exchanged.
 
@@ -1057,7 +1059,7 @@ This party is identified by the party parameter in the Attachment Object.
 
 The value of the party parameter is the index into the Parties Object array to the party that contributed the attachment.
 
-### mediatype
+### mediatype {#attachment-mediatype}
 
 The media type for the included or referenced attachment file is provided in the mediatype parameter.
 
@@ -1065,7 +1067,7 @@ The media type for the included or referenced attachment file is provided in the
 
 The mediatype string contains the media type or [MIME] type of the attached file.
 
-### filename
+### filename {#attachment-filename}
 
 It is sometimes useful to preserve the name of the file which originally contained this attachment file.
 This can be done in the filename parameter.
@@ -1471,8 +1473,8 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
 | vcon | Schema version number | IESG | [vcon](#vcon) RFC XXXX |
-| extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
 | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
+| extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
 | created_at | creation date | IESG | [created_at](#created_at) RFC XXXX |
 | updated_at | modification date | IESG | [updated_at](#updated_at) RFC XXXXX |
 | subject | conversation subject | IESG | [subject](#subject) RFC XXXX |
@@ -1503,9 +1505,143 @@ The following defines the intial values for the Parties Object Parameter Names R
 
 ### Dialog Object Parameter Names Registry
 
+The following defines the intial values for the Dialog Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| type | dialog type name | IESG | [](#dialog-type) RFC XXXX | 
+| start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
+| duration | dialog duration period | IESG | [](#duration) RFC XXXX |
+| parties | dialog parties list | IESG | [](#parties) RFC XXXX |
+| originator | dialog originator party | IESG | [](#origiinator) RFC XXXX |
+| mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
+| filename | dialog content filename | IESG | [](#dialog-filename) RFC XXXX |
+| body | dialog inline content | IESG | [](#dialog-content) RFC XXXX |
+| encoding | dialog inline content encoding | IESG | [](#dialog-content) RFC XXXX |
+| url | dialog referenced content URL | IESG | [](#dialog-content) RFC XXXX |
+| content_hash | dialog content hash | IESG | [](#dialog-content) RFC XXXX |
+| disposition | dialog disposition | IESG | [](#disposition) RFC XXXX |
+| party_history | dialog party events history | IESG | [](#party_history-objects-array) RFC XXXX |
+| transferee | transferee party index | IESG | [](#dialog-transfer) RFC XXXX |
+| transferor | transferor party index | IESG | [](#dialog-transfer) RFC XXXX |
+| transfer_target | transfer target party index | IESG | [](#dialog-transfer) RFC XXXX |
+| original | original transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
+| consultation | consultation`transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
+| target_dialog | target_dialog transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
+| application | dialog source application | IESG | [](#application) RFC XXXX | 
+| message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
+
+#### Dialog Type Name Registry
+
+This document defines a new registry for the token name values that are permited as values to the [dialog type](#dialog-type) parameter.
+
+##### Dialog Type Name Registration Template
+
+Dialog Type Name:
+  The string token name of a Dialog Object Type
+  The name is case sensitive.
+  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
+
+Dialog Type Description:
+  Brief description of the Dialog Object type
+
+Change Controller:
+   For Standards Track RFCs, list the "IESG".  For others, give the
+   name of the responsible party.  Other details (e.g., postal
+   address, email address, home page URI) may also be included.
+
+Specification Document(s):
+   Reference to the document or documents that specify the parameter,
+   preferably including URIs that can be used to retrieve copies of
+   the documents.  An indication of the relevant sections may also be
+   included but is not required.
+
+##### Dialog Type Name Registration Initial Values
+
+The following table defines the initial values for the Dialog Object Types Registry.
+
+| Dialog Type Name | Dialog Type Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| text | text dialog | IESG | [](#dialog-type) RFC XXXX | 
+| recording | recording dialog | IESG | [](#dialog-type) RFC XXXX | 
+| transfer | transfer dialog | IESG | [](#dialog-type) RFC XXXX | 
+| incomplete | incompleted dialog | IESG | [](#dialog-type) RFC XXXX | 
+
+
+### party_history Object Parameter Names Registry
+
+The party_history Object Parameter Names Regisry uses the [Object Registry Template](#object-registry-template) registry template.
+This initial values for the party_history Object Parameter Names Registry are listed in the following table.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| party | event party index | IESG | [](#party_history-object) RFC XXXX |
+| time | time event occurred | IESG | [](#party_history-object) RFC XXXX |
+| event | event type | IESG | [](#party_history-object) RFC XXXX |
+
+#### party_event Type Name Registry
+
+This document defines a new registry for the token name values that are permitted as values to the [party_event type](#party_history-object) parameter.
+
+##### party_event Type Name Registration Template
+
+party_event Type Name:
+  The string token name of a party_event Object event type.
+  The name is case sensitive.
+  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
+
+party_event Type Description:
+  Brief description of the party_event Object type
+
+Change Controller:
+   For Standards Track RFCs, list the "IESG".  For others, give the
+   name of the responsible party.  Other details (e.g., postal
+   address, email address, home page URI) may also be included.
+
+Specification Document(s):
+   Reference to the document or documents that specify the parameter,
+   preferably including URIs that can be used to retrieve copies of
+   the documents.  An indication of the relevant sections may also be
+   included but is not required.
+
+##### party_event Type Name Registration Initial Values
+
+The following table defines the initial values for the Dialog Object Types Registry.
+
+| party_event Type Name | party_event Type Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| join | party join event | IESG | [](#party_history-object) RFC XXXX | 
+| drop | party drop event | IESG | [](#party_history-object) RFC XXXX | 
+| hold | party on hold event | IESG | [](#party_history-object) RFC XXXX | 
+| unhold | party off hold event | IESG | [](#party_history-object) RFC XXXX | 
+| mute | party on mute event | IESG | [](#party_history-object) RFC XXXX | 
+| unmute | party off mute event | IESG | [](#party_history-object) RFC XXXX | 
+
 ### Attachment Object Parameter Names Registry
 
+The following defines the intial values for the Attachment Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| mediatype | attachment body media type | IESG | [](#attachment-mediatype) RFC XXXX |
+| filename | attachment content filename | IESG | [](#attachment-filename) RFC XXXX |
+| body | attachment inline content | IESG | [](#attachment-content) RFC XXXX |
+| encoding | attachment inline content encoding | IESG | [](#attachment-content) RFC XXXX |
+| url | attachment referenced content URL | IESG | [](#attachment-content) RFC XXXX |
+| content_hash | attachment content hash | IESG | [](#attachment-content) RFC XXXX |
+
 ### Analysis Object Parameter Names Registry
+
+The following defines the intial values for the Analysis Object Parameter Names Registry.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
+| filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
+| body | analysis inline content | IESG | [](#analysis-content) RFC XXXX |
+| encoding | analysis inline content encoding | IESG | [](#analysis-content) RFC XXXX |
+| url | analysis referenced content URL | IESG | [](#analysis-content) RFC XXXX |
+| content_hash | analysis content hash | IESG | [](#analysis-content) RFC XXXX |
 
 ### Redacted Object Parameter Names Registry
 
@@ -1519,7 +1655,7 @@ This document defines and new registry for the token name values that are permit
 However it does not define any values for this registry.
 Values for this registry are to be defined in subsequent documents which define extnensions to the vCon schema.
 
-### Registration Template
+### Extensions Registration Template
 
 Extension Name:
   The string token name of an extension to the vCon JSON schema.
@@ -1563,6 +1699,11 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 * Specification Document(s): [Header Object](#unprotected-object) of RFC XXXX
 
 # Non-Upward Compatible Changes to the vCon Container
+
+## Version 0.0.2 to 0.3.0
+
+  * "transfer-target" parameter was renamed to "transfer_target" to be consistent with other compound names that use the underscore ("_").
+  * "target-dialog" parameter was renamed to "target_dialog" to be consistent with other compound names that use the underscore ("_").
 
 ## Version 0.0.1 to 0.0.2
 
