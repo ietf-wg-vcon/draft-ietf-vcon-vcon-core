@@ -956,6 +956,8 @@ The type parameter is used to label the semantic type of analysis data.
 
 * type: "String"
 
+TODO:  this list is not sufficient.  Do we enforce a specific set of tokens.  Seems like analysis has a pretty huge set of possiblities.
+
 The string value SHOULD be one of the following:
 
   * "summary"
@@ -1509,11 +1511,11 @@ The following defines the intial values for the Dialog Object Parameter Names Re
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| type | dialog type name | IESG | [](#dialog-type) RFC XXXX | 
+| type | dialog type name | IESG | [](#dialog-type) RFC XXXX |
 | start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
 | duration | dialog duration period | IESG | [](#duration) RFC XXXX |
 | parties | dialog parties list | IESG | [](#parties) RFC XXXX |
-| originator | dialog originator party | IESG | [](#origiinator) RFC XXXX |
+| originator | dialog originator party | IESG | [](#originator) RFC XXXX |
 | mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
 | filename | dialog content filename | IESG | [](#dialog-filename) RFC XXXX |
 | body | dialog inline content | IESG | [](#dialog-content) RFC XXXX |
@@ -1528,7 +1530,7 @@ The following defines the intial values for the Dialog Object Parameter Names Re
 | original | original transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
 | consultation | consultation`transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
 | target_dialog | target_dialog transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
-| application | dialog source application | IESG | [](#application) RFC XXXX | 
+| application | dialog source application | IESG | [](#application) RFC XXXX |
 | message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
 
 #### Dialog Type Name Registry
@@ -1562,10 +1564,10 @@ The following table defines the initial values for the Dialog Object Types Regis
 
 | Dialog Type Name | Dialog Type Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| text | text dialog | IESG | [](#dialog-type) RFC XXXX | 
-| recording | recording dialog | IESG | [](#dialog-type) RFC XXXX | 
-| transfer | transfer dialog | IESG | [](#dialog-type) RFC XXXX | 
-| incomplete | incompleted dialog | IESG | [](#dialog-type) RFC XXXX | 
+| text | text dialog | IESG | [](#dialog-type) RFC XXXX |
+| recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
+| transfer | transfer dialog | IESG | [](#dialog-type) RFC XXXX |
+| incomplete | incompleted dialog | IESG | [](#dialog-type) RFC XXXX |
 
 
 ### party_history Object Parameter Names Registry
@@ -1610,12 +1612,12 @@ The following table defines the initial values for the Dialog Object Types Regis
 
 | party_event Type Name | party_event Type Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| join | party join event | IESG | [](#party_history-object) RFC XXXX | 
-| drop | party drop event | IESG | [](#party_history-object) RFC XXXX | 
-| hold | party on hold event | IESG | [](#party_history-object) RFC XXXX | 
-| unhold | party off hold event | IESG | [](#party_history-object) RFC XXXX | 
-| mute | party on mute event | IESG | [](#party_history-object) RFC XXXX | 
-| unmute | party off mute event | IESG | [](#party_history-object) RFC XXXX | 
+| join | party join event | IESG | [](#party_history-object) RFC XXXX |
+| drop | party drop event | IESG | [](#party_history-object) RFC XXXX |
+| hold | party on hold event | IESG | [](#party_history-object) RFC XXXX |
+| unhold | party off hold event | IESG | [](#party_history-object) RFC XXXX |
+| mute | party on mute event | IESG | [](#party_history-object) RFC XXXX |
+| unmute | party off mute event | IESG | [](#party_history-object) RFC XXXX |
 
 ### Attachment Object Parameter Names Registry
 
