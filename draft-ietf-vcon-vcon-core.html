@@ -2023,10 +2023,10 @@ The subject may also be derived from analysis of the dialog.<a href="#section-4.
 <a href="#section-4.1.7" class="section-number selfRef">4.1.7. </a><a href="#name-redacted" class="section-name selfRef">redacted</a>
           </h4>
 <p id="section-4.1.7-1">A redacted vCon <span class="bcp14">SHOULD</span> provide a reference to the unredacted or prior, less redacted, vCon instance version of itself.
-The purpose of the Redacted Object is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
+The purpose of the <span><a href="#redacted-object" class="internal xref">Redacted Object</a> (<a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a>)</span> is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
 For privacy reasons, it may be necessary to redact a vCon to construct another vCon without the PII.
 This allows the non-PII portion of the vCon to still be analyzed or used in a broader scope.
-The Redacted Object <span class="bcp14">SHOULD</span> contain the uuid parameter and <span class="bcp14">MAY</span> include the vCon inline via the body and encoding parameters or alternatively the url, content_hash parameters (see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
+The <span><a href="#redacted-object" class="internal xref">Redacted Object</a> (<a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a>)</span> <span class="bcp14">SHOULD</span> contain the uuid parameter and <span class="bcp14">MAY</span> include the vCon inline via the body and encoding parameters or alternatively the url, content_hash parameters (see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
 If the unredacted vCon is included in the body, the unredacted vCon <span class="bcp14">MUST</span> be in the encrypted form.
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL <span class="bcp14">MUST</span>
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.<a href="#section-4.1.7-1" class="pilcrow">¶</a></p>
@@ -2054,43 +2054,48 @@ the rest of the elements of the array.<a href="#section-4.1.7-5" class="pilcrow"
               <p id="section-4.1.7-6.1.1">redacted: "Redacted" (optional, mutually exclusive with appended and group parameters)<a href="#section-4.1.7-6.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.1.7-7">A Redacted Object contains the following parameters:<a href="#section-4.1.7-7" class="pilcrow">¶</a></p>
+<div id="redacted-object">
+<section id="section-4.1.7.1">
+            <h5 id="name-redacted-object">
+<a href="#section-4.1.7.1" class="section-number selfRef">4.1.7.1. </a><a href="#name-redacted-object" class="section-name selfRef">Redacted Object</a>
+            </h5>
+<p id="section-4.1.7.1-1">A Redacted Object contains the following parameters:<a href="#section-4.1.7.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.7-8.1">
-              <p id="section-4.1.7-8.1.1">uuid: "String"<a href="#section-4.1.7-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.7.1-2.1">
+                <p id="section-4.1.7.1-2.1.1">uuid: "String"<a href="#section-4.1.7.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.7-9">The value contains the <span><a href="#uuid" class="internal xref">uuid string value</a> (<a href="#uuid" class="auto internal xref">Section 4.1.2</a>)</span> of the unredacted/prior vCon instance version.
+            </ul>
+<p id="section-4.1.7.1-3">The value contains the <span><a href="#uuid" class="internal xref">uuid string value</a> (<a href="#uuid" class="auto internal xref">Section 4.1.2</a>)</span> of the unredacted/prior vCon instance version.
 The absence of a value for uuid indicates that the less redacted version of this vCon is not available or
-does not exist.<a href="#section-4.1.7-9" class="pilcrow">¶</a></p>
+does not exist.<a href="#section-4.1.7.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.7-10.1">
-              <p id="section-4.1.7-10.1.1">type: "String"<a href="#section-4.1.7-10.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.7.1-4.1">
+                <p id="section-4.1.7.1-4.1.1">type: "String"<a href="#section-4.1.7.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.7-11">The value of the redacted type parameter is used to indicate the type of redaction that was performed on
+            </ul>
+<p id="section-4.1.7.1-5">The value of the redacted type parameter is used to indicate the type of redaction that was performed on
 this vCon relative to the less redacted version referenced by the redacted uuid parameter.
-This should indicate the type of information that was redacted.<a href="#section-4.1.7-11" class="pilcrow">¶</a></p>
-<p id="section-4.1.7-12">As defined in <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> body and encoding <span class="bcp14">MAY</span> be included:<a href="#section-4.1.7-12" class="pilcrow">¶</a></p>
+This should indicate the type of information that was redacted.<a href="#section-4.1.7.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.1.7.1-6">As defined in <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> body and encoding <span class="bcp14">MAY</span> be included:<a href="#section-4.1.7.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.7-13.1">
-              <p id="section-4.1.7-13.1.1">body: "String"<a href="#section-4.1.7-13.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.7.1-7.1">
+                <p id="section-4.1.7.1-7.1.1">body: "String"<a href="#section-4.1.7.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.1.7-13.2">
-              <p id="section-4.1.7-13.2.1">encoding: "String"<a href="#section-4.1.7-13.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-4.1.7.1-7.2">
+                <p id="section-4.1.7.1-7.2.1">encoding: "String"<a href="#section-4.1.7.1-7.2.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.7-14">Alternatively, as defined in <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span> url <span class="bcp14">SHOULD</span> be
-included unless redacted and content_hash <span class="bcp14">MUST</span> be included:<a href="#section-4.1.7-14" class="pilcrow">¶</a></p>
+            </ul>
+<p id="section-4.1.7.1-8">Alternatively, as defined in <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span> url <span class="bcp14">SHOULD</span> be
+included unless redacted and content_hash <span class="bcp14">MUST</span> be included:<a href="#section-4.1.7.1-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.7-15.1">
-              <p id="section-4.1.7-15.1.1">url: "String"<a href="#section-4.1.7-15.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.7.1-9.1">
+                <p id="section-4.1.7.1-9.1.1">url: "String"<a href="#section-4.1.7.1-9.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.1.7-15.2">
-              <p id="section-4.1.7-15.2.1">content_hash: "String" | "String[]"<a href="#section-4.1.7-15.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-4.1.7.1-9.2">
+                <p id="section-4.1.7.1-9.2.1">content_hash: "String" | "String[]"<a href="#section-4.1.7.1-9.2.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.7-16">The following diagram illustrates an example partial JSON object tree for a redacted vCon.
+            </ul>
+<p id="section-4.1.7.1-10">The following diagram illustrates an example partial JSON object tree for a redacted vCon.
 The top level object is a JWS signed vCon which contains a vCon in the unsigned form in the payload
 parameter.
 The second level object is the redacted vcon which refers to the encrypted unredacted vCon in it's
@@ -2099,10 +2104,10 @@ Note that the redacted vCon references the JWE encrypted vCon by UUID and may re
 direct inclusion.
 The JWE encrypted unredacted vCon contains the signed version of the unredacted vCon in the ciphertext
 parameter.
-The signed unredacted vCon contains the unredacted vCon in the unsigned form in it's payload parameter.<a href="#section-4.1.7-16" class="pilcrow">¶</a></p>
+The signed unredacted vCon contains the unredacted vCon in the unsigned form in it's payload parameter.<a href="#section-4.1.7.1-10" class="pilcrow">¶</a></p>
 <span id="name-redacted-vcon-object-tree"></span><div id="diagram1">
 <figure id="figure-1">
-            <div class="alignLeft art-text artwork" id="section-4.1.7-17.1">
+              <div class="alignLeft art-text artwork" id="section-4.1.7.1-11.1">
 <pre>
                 --------------
 Signed          | JWS        |
@@ -2139,7 +2144,9 @@ Unsigned unredacted vCon:             |        |
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
 <a href="#name-redacted-vcon-object-tree" class="selfRef">redacted vCon object tree</a>
-            </figcaption></figure>
+              </figcaption></figure>
+</div>
+</section>
 </div>
 </section>
 </div>
@@ -2150,7 +2157,7 @@ Unsigned unredacted vCon:             |        |
           </h4>
 <p id="section-4.1.8-1">A signed or encrypted vCon cannot be modified without invalidating it.
 In these cases, to allow for adding of additional information a new vCon instance version <span class="bcp14">MUST</span> be created.
-The prior vCon instance version is referenced by the Appended Object.
+The prior vCon instance version is referenced by the <span><a href="#appended-object" class="internal xref">Appended Object</a> (<a href="#appended-object" class="auto internal xref">Section 4.1.8.1</a>)</span>.
 Then the appended information is added to the new vCon instance version (i.e. top level vCon object).<a href="#section-4.1.8-1" class="pilcrow">¶</a></p>
 <p id="section-4.1.8-2">The prior vCon instance version <span class="bcp14">SHOULD</span> be referenced via the uuid of the prior vCon instance version, and <span class="bcp14">MAY</span> include the body and encoding parameters or alternatively the url and content_hash parameters (see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).<a href="#section-4.1.8-2" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2158,41 +2165,46 @@ Then the appended information is added to the new vCon instance version (i.e. to
               <p id="section-4.1.8-3.1.1">appended: "Appended" (optional, mutually exclusive with redacted and group parameters)<a href="#section-4.1.8-3.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.1.8-4">The Appended Object contains the following parameters:<a href="#section-4.1.8-4" class="pilcrow">¶</a></p>
+<div id="appended-object">
+<section id="section-4.1.8.1">
+            <h5 id="name-appended-object">
+<a href="#section-4.1.8.1" class="section-number selfRef">4.1.8.1. </a><a href="#name-appended-object" class="section-name selfRef">Appended Object</a>
+            </h5>
+<p id="section-4.1.8.1-1">The Appended Object contains the following parameters:<a href="#section-4.1.8.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.8-5.1">
-              <p id="section-4.1.8-5.1.1">uuid: "String" (optional if inline or external reference provided)<a href="#section-4.1.8-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.8.1-2.1">
+                <p id="section-4.1.8.1-2.1.1">uuid: "String" (optional if inline or external reference provided)<a href="#section-4.1.8.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.8-6">The value contains the <span><a href="#uuid" class="internal xref">uuid string value</a> (<a href="#uuid" class="auto internal xref">Section 4.1.2</a>)</span> of the unredacted/original vCon instance version.<a href="#section-4.1.8-6" class="pilcrow">¶</a></p>
-<p id="section-4.1.8-7">Alternatively, as defined in <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> body and encoding <span class="bcp14">MAY</span> be included:<a href="#section-4.1.8-7" class="pilcrow">¶</a></p>
+            </ul>
+<p id="section-4.1.8.1-3">The value contains the <span><a href="#uuid" class="internal xref">uuid string value</a> (<a href="#uuid" class="auto internal xref">Section 4.1.2</a>)</span> of the unredacted/original vCon instance version.<a href="#section-4.1.8.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.8.1-4">Alternatively, as defined in <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> body and encoding <span class="bcp14">MAY</span> be included:<a href="#section-4.1.8.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.8-8.1">
-              <p id="section-4.1.8-8.1.1">body: "String"<a href="#section-4.1.8-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.8.1-5.1">
+                <p id="section-4.1.8.1-5.1.1">body: "String"<a href="#section-4.1.8.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.1.8-8.2">
-              <p id="section-4.1.8-8.2.1">encoding: "String"<a href="#section-4.1.8-8.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-4.1.8.1-5.2">
+                <p id="section-4.1.8.1-5.2.1">encoding: "String"<a href="#section-4.1.8.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.8-9">Alternatively, as defined in <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span> url and content_hash
-<span class="bcp14">MAY</span> be included:<a href="#section-4.1.8-9" class="pilcrow">¶</a></p>
+            </ul>
+<p id="section-4.1.8.1-6">Alternatively, as defined in <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span> url and content_hash
+<span class="bcp14">MAY</span> be included:<a href="#section-4.1.8.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.8-10.1">
-              <p id="section-4.1.8-10.1.1">url: "String"<a href="#section-4.1.8-10.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.8.1-7.1">
+                <p id="section-4.1.8.1-7.1.1">url: "String"<a href="#section-4.1.8.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.1.8-10.2">
-              <p id="section-4.1.8-10.2.1">content_hash: "String" | "String[]"<a href="#section-4.1.8-10.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-4.1.8.1-7.2">
+                <p id="section-4.1.8.1-7.2.1">content_hash: "String" | "String[]"<a href="#section-4.1.8.1-7.2.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-<p id="section-4.1.8-11">The following figure illustrates an example partial JSON object tree for an appended vCon.
+            </ul>
+<p id="section-4.1.8.1-8">The following figure illustrates an example partial JSON object tree for an appended vCon.
 The top level object is the JWS signed appended vCon which contains the unsigned form of the vCon in it's payload parameter.
 The second level object is the appended vCon with additional conversational data (e.g. analysis data).
 It refers to its original parent (or prior vCon instance version) of the vCon in its appended parameter.
 Note: the appended parameter may include the original in the body parameter or refer to it via URL.
-The appended vCon in this figure refers to the JWS signed version of the vCon, which in turn contains the original vCon in unsigned form in its payload parameter.<a href="#section-4.1.8-11" class="pilcrow">¶</a></p>
+The appended vCon in this figure refers to the JWS signed version of the vCon, which in turn contains the original vCon in unsigned form in its payload parameter.<a href="#section-4.1.8.1-8" class="pilcrow">¶</a></p>
 <span id="name-appended-vcon-object-tree"></span><div id="diagram2">
 <figure id="figure-2">
-            <div class="alignLeft art-text artwork" id="section-4.1.8-12.1">
+              <div class="alignLeft art-text artwork" id="section-4.1.8.1-9.1">
 <pre>
                 --------------
 Signed          | JWS        |
@@ -2227,7 +2239,9 @@ Original vCon:    |vCon       |&lt;--
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-appended-vcon-object-tree" class="selfRef">appended vCon object tree</a>
-            </figcaption></figure>
+              </figcaption></figure>
+</div>
+</section>
 </div>
 </section>
 </div>
@@ -4522,21 +4536,175 @@ This initial values for the party_history Object Parameter Names Registry are li
 <section id="section-6.3.8">
           <h4 id="name-redacted-object-parameter-n">
 <a href="#section-6.3.8" class="section-number selfRef">6.3.8. </a><a href="#name-redacted-object-parameter-n" class="section-name selfRef">Redacted Object Parameter Names Registry</a>
-        </h4>
+          </h4>
+<p id="section-6.3.8-1">The following defines the intial values for the Redacted Object Parameter Names Registry.<a href="#section-6.3.8-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-9">
+            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Parameter Description</th>
+                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+                <th class="text-left" rowspan="1" colspan="1">Specification Document(s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">uuid</td>
+                <td class="text-left" rowspan="1" colspan="1">less redacted vCon UUID</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">type</td>
+                <td class="text-left" rowspan="1" colspan="1">redaction type or reason</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">body</td>
+                <td class="text-left" rowspan="1" colspan="1">inline less redacted vCon</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">encoding</td>
+                <td class="text-left" rowspan="1" colspan="1">content encoding</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">referenced less redacted vCon URL</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">content_hash</td>
+                <td class="text-left" rowspan="1" colspan="1">less redacted vCon hash</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#redacted-object" class="auto internal xref">Section 4.1.7.1</a> RFC XXXX</td>
+              </tr>
+            </tbody>
+          </table>
 </section>
 </div>
 <div id="appended-object-parameter-names-registry">
 <section id="section-6.3.9">
           <h4 id="name-appended-object-parameter-n">
 <a href="#section-6.3.9" class="section-number selfRef">6.3.9. </a><a href="#name-appended-object-parameter-n" class="section-name selfRef">Appended Object Parameter Names Registry</a>
-        </h4>
+          </h4>
+<p id="section-6.3.9-1">The following defines the intial values for the Appended Object Parameter Names Registry.<a href="#section-6.3.9-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-10">
+            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Parameter Description</th>
+                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+                <th class="text-left" rowspan="1" colspan="1">Specification Document(s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">uuid</td>
+                <td class="text-left" rowspan="1" colspan="1">prior vCon version UUID</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#appended-object" class="auto internal xref">Section 4.1.8.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">body</td>
+                <td class="text-left" rowspan="1" colspan="1">inline prior version vCon</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#appended-object" class="auto internal xref">Section 4.1.8.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">encoding</td>
+                <td class="text-left" rowspan="1" colspan="1">content encoding</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#appended-object" class="auto internal xref">Section 4.1.8.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">referenced prior version vCon URL</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#appended-object" class="auto internal xref">Section 4.1.8.1</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">content_hash</td>
+                <td class="text-left" rowspan="1" colspan="1">prior version vCon hash</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#appended-object" class="auto internal xref">Section 4.1.8.1</a> RFC XXXX</td>
+              </tr>
+            </tbody>
+          </table>
 </section>
 </div>
 <div id="group-object-parameter-names-registry">
 <section id="section-6.3.10">
           <h4 id="name-group-object-parameter-name">
 <a href="#section-6.3.10" class="section-number selfRef">6.3.10. </a><a href="#name-group-object-parameter-name" class="section-name selfRef">Group Object Parameter Names Registry</a>
-        </h4>
+          </h4>
+<p id="section-6.3.10-1">The following defines the intial values for the Group Object Parameter Names Registry.<a href="#section-6.3.10-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-11">
+            <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Parameter Description</th>
+                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+                <th class="text-left" rowspan="1" colspan="1">Specification Document(s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">uuid</td>
+                <td class="text-left" rowspan="1" colspan="1">child vCon version UUID</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#group-object" class="auto internal xref">Section 4.6</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">body</td>
+                <td class="text-left" rowspan="1" colspan="1">inline child vCon</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#group-object" class="auto internal xref">Section 4.6</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">encoding</td>
+                <td class="text-left" rowspan="1" colspan="1">content encoding</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#group-object" class="auto internal xref">Section 4.6</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">url</td>
+                <td class="text-left" rowspan="1" colspan="1">referenced child vCon URL</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#group-object" class="auto internal xref">Section 4.6</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">content_hash</td>
+                <td class="text-left" rowspan="1" colspan="1">prior version vCon hash</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#group-object" class="auto internal xref">Section 4.6</a> RFC XXXX</td>
+              </tr>
+            </tbody>
+          </table>
 </section>
 </div>
 </section>
