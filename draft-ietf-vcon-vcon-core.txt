@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                             3 July 2025
-Expires: 4 January 2026
+Intended status: Standards Track                             4 July 2025
+Expires: 5 January 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2026.
+   This Internet-Draft will expire on 5 January 2026.
 
 Copyright Notice
 
@@ -167,17 +167,19 @@ Table of Contents
        6.3.2.  vCon Object Parameter Names Registry
        6.3.3.  Parties Object Parameter Names Registry
        6.3.4.  Dialog Object Parameter Names Registry
-       6.3.5.  Attachment Object Parameter Names Registry
-       6.3.6.  Analysis Object Parameter Names Registry
-       6.3.7.  Redacted Object Parameter Names Registry
-       6.3.8.  Appended Object Parameter Names Registry
-       6.3.9.  Group Object Parameter Names Registry
+       6.3.5.  party_history Object Parameter Names Registry
+       6.3.6.  Attachment Object Parameter Names Registry
+       6.3.7.  Analysis Object Parameter Names Registry
+       6.3.8.  Redacted Object Parameter Names Registry
+       6.3.9.  Appended Object Parameter Names Registry
+       6.3.10. Group Object Parameter Names Registry
      6.4.  vCon Extensions Names Registry
-       6.4.1.  Registration Template
+       6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
      6.6.  JSON Web Signature and Encryption Unprotected Parameters
    7.  Non-Upward Compatible Changes to the vCon Container
-     7.1.  Version 0.0.1 to 0.0.2
+     7.1.  Version 0.0.2 to 0.3.0
+     7.2.  Version 0.0.1 to 0.0.2
    8.  References
      8.1.  Normative References
      8.2.  Informative References
@@ -515,7 +517,7 @@ Table of Contents
    *  vcon: "String"
 
    For syntax defined in this document, the string MUST have the value:
-   "0.0.2"
+   "0.3.0"
 
 4.1.2.  uuid
 
@@ -1234,25 +1236,27 @@ Table of Contents
 
    *  party: "UnsignedInt"
 
-   The index of the party for this event.
+      The index of the party for this event.
+
+   *  time: "Date"
+
+      The time at which this event occurred.
 
    *  event: "String"
 
-   The string token for the event which MUST be one of the following:
+      The string token for the event which MUST be one of the following:
 
-   *  "join" - when the party joins the dialog
+      -  "join" - when the party joins the dialog
 
-   *  "drop" - when the party drops out of the dialog
+      -  "drop" - when the party drops out of the dialog
 
-   *  "hold" - when the party is put on hold
+      -  "hold" - when the party is put on hold
 
-   *  "unhold" - when the part is taken off hold
+      -  "unhold" - when the part is taken off hold
 
-   *  "mute" - when the party is muted
+      -  "mute" - when the party is muted
 
-   *  "unmute" - when the part is taken off mute
-
-   *  time: "Date"
+      -  "unmute" - when the part is taken off mute
 
 4.3.11.  Dialog Transfer
 
@@ -1289,9 +1293,9 @@ Table of Contents
    The value of the transferor parameter is the index into the parties
    Object array to the party that played the role of the Transferor.
 
-   *  transfer-target: "UnsignedInt"
+   *  transfer_target: "UnsignedInt"
 
-   The value of the transfer-target parameter is the index into the
+   The value of the transfer_target parameter is the index into the
    parties Object array to the party that played the role of the
    Transfer Target.
 
@@ -1308,9 +1312,9 @@ Table of Contents
    for the consultative dialog between the Transferor and the Transfer
    Target.
 
-   *  target-dialog: "UnsignedInt"
+   *  target_dialog: "UnsignedInt"
 
-   The value of the target-dialog parameter is the index into the
+   The value of the target_dialog parameter is the index into the
    dialogs Object array to the "recording", "text" or "incomplete" type
    dialog for the target dialog between the Transferee and the Transfer
    Target.
@@ -1368,6 +1372,9 @@ Table of Contents
    data.
 
    *  type: "String"
+
+   TODO: this list is not sufficient.  Do we enforce a specific set of
+   tokens.  Seems like analysis has a pretty huge set of possiblities.
 
    The string value SHOULD be one of the following:
 
@@ -2023,57 +2030,49 @@ Table of Contents
    The following defines the intial values for the vCon Object Parameter
    Names Registry.
 
-   +=============+==============+============+========================+
-   | Parameter   | Parameter    | Change     | Specification          |
-   | Name        | Description  | Controller | Document(s)            |
-   +=============+==============+============+========================+
-   | vcon        | Schema       | IESG       | Section 4.1.1 RFC XXXX |
-   |             | version      |            |                        |
-   |             | number       |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | extensions  | list of      | IESG       | Section 4.1.3 RFC XXXX |
-   |             | extensions   |            |                        |
-   |             | used         |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | uuid        | vCon         | IESG       | Section 4.1.2 RFC XXXX |
-   |             | instance     |            |                        |
-   |             | UUID         |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | created_at  | creation     | IESG       | Section 4.1.4 RFC XXXX |
-   |             | date         |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | updated_at  | modification | IESG       | Section 4.1.5 RFC      |
-   |             | date         |            | XXXXX                  |
-   +-------------+--------------+------------+------------------------+
-   | subject     | conversation | IESG       | Section 4.1.6 RFC XXXX |
-   |             | subject      |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | redacted    | Redacted     | IESG       | Section 4.1.7 RFC XXXX |
-   |             | Object       |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | appended    | Appended     | IESG       | Section 4.1.7 RFC XXXX |
-   |             | Object       |            |                        |
-   +-------------+--------------+------------+------------------------+
-   | group       | Group        | IESG       | Group Objects array    |
-   |             | Objects      |            | (Section 4.1.9) RFC    |
-   |             | array        |            | XXXX                   |
-   +-------------+--------------+------------+------------------------+
-   | parties     | Parties      | IESG       | Parties Objects array  |
-   |             | Objects      |            | (Section 4.1.10) RFC   |
-   |             | array        |            | XXXX                   |
-   +-------------+--------------+------------+------------------------+
-   | dialog      | Dialog       | IESG       | Dialog Objects array   |
-   |             | Objects      |            | (Section 4.1.11) RFC   |
-   |             | array        |            | XXXX                   |
-   +-------------+--------------+------------+------------------------+
-   | analysis    | Analysis     | IESG       | Analysis Objects array |
-   |             | Objects      |            | (Section 4.1.12) RFC   |
-   |             | array        |            | XXXX                   |
-   +-------------+--------------+------------+------------------------+
-   | attachments | Attachment   | IESG       | Attachments Objects    |
-   |             | Objects      |            | array (Section 4.1.13) |
-   |             | array        |            | RFC XXXX               |
-   +-------------+--------------+------------+------------------------+
+    +================+=================+============+================+
+    | Parameter Name | Parameter       | Change     | Specification  |
+    |                | Description     | Controller | Document(s)    |
+    +================+=================+============+================+
+    | vcon           | Schema version  | IESG       | Section 4.1.1  |
+    |                | number          |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | uuid           | vCon instance   | IESG       | Section 4.1.2  |
+    |                | UUID            |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | extensions     | list of         | IESG       | Section 4.1.3  |
+    |                | extensions used |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | created_at     | creation date   | IESG       | Section 4.1.4  |
+    |                |                 |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | updated_at     | modification    | IESG       | Section 4.1.5  |
+    |                | date            |            | RFC XXXXX      |
+    +----------------+-----------------+------------+----------------+
+    | subject        | conversation    | IESG       | Section 4.1.6  |
+    |                | subject         |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | redacted       | Redacted Object | IESG       | Section 4.1.7  |
+    |                |                 |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | appended       | Appended Object | IESG       | Section 4.1.7  |
+    |                |                 |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | group          | Group Objects   | IESG       | Section 4.1.9  |
+    |                | array           |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | parties        | Parties Objects | IESG       | Section 4.1.10 |
+    |                | array           |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | dialog         | Dialog Objects  | IESG       | Section 4.1.11 |
+    |                | array           |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | analysis       | Analysis        | IESG       | Section 4.1.12 |
+    |                | Objects array   |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
+    | attachments    | Attachment      | IESG       | Section 4.1.13 |
+    |                | Objects array   |            | RFC XXXX       |
+    +----------------+-----------------+------------+----------------+
 
                                  Table 1
 
@@ -2121,25 +2120,290 @@ Table of Contents
 
 6.3.4.  Dialog Object Parameter Names Registry
 
-6.3.5.  Attachment Object Parameter Names Registry
+   The following defines the intial values for the Dialog Object
+   Parameter Names Registry.
 
-6.3.6.  Analysis Object Parameter Names Registry
+   +=================+=======================+==========+==============+
+   | Parameter Name  | Parameter Description |Change    |Specification |
+   |                 |                       |Controller|Document(s)   |
+   +=================+=======================+==========+==============+
+   | type            | dialog type name      |IESG      |Section 4.3.1 |
+   |                 |                       |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | start           | dialog start time     |IESG      |Section 4.3.2 |
+   |                 |                       |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | duration        | dialog duration       |IESG      |Section 4.3.3 |
+   |                 | period                |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | parties         | dialog parties list   |IESG      |Section 4.3.4 |
+   |                 |                       |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | originator      | dialog originator     |IESG      |Section 4.3.5 |
+   |                 | party                 |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | mediatype       | dialog content media  |IESG      |Section 4.3.6 |
+   |                 | type                  |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | filename        | dialog content        |IESG      |Section 4.3.7 |
+   |                 | filename              |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | body            | dialog inline content |IESG      |Section 4.3.8 |
+   |                 |                       |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | encoding        | dialog inline content |IESG      |Section 4.3.8 |
+   |                 | encoding              |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | url             | dialog referenced     |IESG      |Section 4.3.8 |
+   |                 | content URL           |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | content_hash    | dialog content hash   |IESG      |Section 4.3.8 |
+   |                 |                       |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | disposition     | dialog disposition    |IESG      |Section 4.3.9 |
+   |                 |                       |          |RFC XXXX      |
+   +-----------------+-----------------------+----------+--------------+
+   | party_history   | dialog party events   |IESG      |Section       |
+   |                 | history               |          |4.3.10 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | transferee      | transferee party      |IESG      |Section       |
+   |                 | index                 |          |4.3.11 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | transferor      | transferor party      |IESG      |Section       |
+   |                 | index                 |          |4.3.11 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | transfer_target | transfer target party |IESG      |Section       |
+   |                 | index                 |          |4.3.11 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | original        | original transfer     |IESG      |Section       |
+   |                 | dialog index          |          |4.3.11 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | consultation    | consultation`transfer |IESG      |Section       |
+   |                 | dialog index          |          |4.3.11 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | target_dialog   | target_dialog         |IESG      |Section       |
+   |                 | transfer dialog index |          |4.3.11 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | application     | dialog source         |IESG      |Section       |
+   |                 | application           |          |4.3.12 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
+   | message_id      | dialog message id     |IESG      |Section       |
+   |                 |                       |          |4.3.13 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
 
-6.3.7.  Redacted Object Parameter Names Registry
+                                  Table 3
 
-6.3.8.  Appended Object Parameter Names Registry
+6.3.4.1.  Dialog Type Name Registry
 
-6.3.9.  Group Object Parameter Names Registry
+   This document defines a new registry for the token name values that
+   are permited as values to the dialog type (Section 4.3.1) parameter.
+
+6.3.4.1.1.  Dialog Type Name Registration Template
+
+   Dialog Type Name: The string token name of a Dialog Object Type The
+   name is case sensitive.  Names may not match other registered names
+   in a case-insensitive manner unless the Designated Experts state that
+   there is a compelling reason to allow an exception.
+
+   Dialog Type Description: Brief description of the Dialog Object type
+
+   Change Controller: For Standards Track RFCs, list the "IESG".  For
+   others, give the name of the responsible party.  Other details (e.g.,
+   postal address, email address, home page URI) may also be included.
+
+   Specification Document(s): Reference to the document or documents
+   that specify the parameter, preferably including URIs that can be
+   used to retrieve copies of the documents.  An indication of the
+   relevant sections may also be included but is not required.
+
+6.3.4.1.2.  Dialog Type Name Registration Initial Values
+
+   The following table defines the initial values for the Dialog Object
+   Types Registry.
+
+      +==================+=============+============+===============+
+      | Dialog Type Name | Dialog Type | Change     | Specification |
+      |                  | Description | Controller | Document(s)   |
+      +==================+=============+============+===============+
+      | text             | text dialog | IESG       | Section 4.3.1 |
+      |                  |             |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
+      | recording        | recording   | IESG       | Section 4.3.1 |
+      |                  | dialog      |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
+      | transfer         | transfer    | IESG       | Section 4.3.1 |
+      |                  | dialog      |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
+      | incomplete       | incompleted | IESG       | Section 4.3.1 |
+      |                  | dialog      |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
+
+                                  Table 4
+
+6.3.5.  party_history Object Parameter Names Registry
+
+   The party_history Object Parameter Names Regisry uses the Object
+   Registry Template (Section 6.3.1) registry template.  This initial
+   values for the party_history Object Parameter Names Registry are
+   listed in the following table.
+
+     +================+=============+============+==================+
+     | Parameter Name | Parameter   | Change     | Specification    |
+     |                | Description | Controller | Document(s)      |
+     +================+=============+============+==================+
+     | party          | event party | IESG       | Section 4.3.10.1 |
+     |                | index       |            | RFC XXXX         |
+     +----------------+-------------+------------+------------------+
+     | time           | time event  | IESG       | Section 4.3.10.1 |
+     |                | occurred    |            | RFC XXXX         |
+     +----------------+-------------+------------+------------------+
+     | event          | event type  | IESG       | Section 4.3.10.1 |
+     |                |             |            | RFC XXXX         |
+     +----------------+-------------+------------+------------------+
+
+                                 Table 5
+
+6.3.5.1.  party_event Type Name Registry
+
+   This document defines a new registry for the token name values that
+   are permitted as values to the party_event type (Section 4.3.10.1)
+   parameter.
+
+6.3.5.1.1.  party_event Type Name Registration Template
+
+   party_event Type Name: The string token name of a party_event Object
+   event type.  The name is case sensitive.  Names may not match other
+   registered names in a case-insensitive manner unless the Designated
+   Experts state that there is a compelling reason to allow an
+   exception.
+
+   party_event Type Description: Brief description of the party_event
+   Object type
+
+   Change Controller: For Standards Track RFCs, list the "IESG".  For
+   others, give the name of the responsible party.  Other details (e.g.,
+   postal address, email address, home page URI) may also be included.
+
+   Specification Document(s): Reference to the document or documents
+   that specify the parameter, preferably including URIs that can be
+   used to retrieve copies of the documents.  An indication of the
+   relevant sections may also be included but is not required.
+
+6.3.5.1.2.  party_event Type Name Registration Initial Values
+
+   The following table defines the initial values for the Dialog Object
+   Types Registry.
+
+    +=============+==================+============+==================+
+    | party_event | party_event Type | Change     | Specification    |
+    | Type Name   | Description      | Controller | Document(s)      |
+    +=============+==================+============+==================+
+    | join        | party join event | IESG       | Section 4.3.10.1 |
+    |             |                  |            | RFC XXXX         |
+    +-------------+------------------+------------+------------------+
+    | drop        | party drop event | IESG       | Section 4.3.10.1 |
+    |             |                  |            | RFC XXXX         |
+    +-------------+------------------+------------+------------------+
+    | hold        | party on hold    | IESG       | Section 4.3.10.1 |
+    |             | event            |            | RFC XXXX         |
+    +-------------+------------------+------------+------------------+
+    | unhold      | party off hold   | IESG       | Section 4.3.10.1 |
+    |             | event            |            | RFC XXXX         |
+    +-------------+------------------+------------+------------------+
+    | mute        | party on mute    | IESG       | Section 4.3.10.1 |
+    |             | event            |            | RFC XXXX         |
+    +-------------+------------------+------------+------------------+
+    | unmute      | party off mute   | IESG       | Section 4.3.10.1 |
+    |             | event            |            | RFC XXXX         |
+    +-------------+------------------+------------+------------------+
+
+                                 Table 6
+
+6.3.6.  Attachment Object Parameter Names Registry
+
+   The following defines the intial values for the Attachment Object
+   Parameter Names Registry.
+
+   +==============+=======================+============+===============+
+   | Parameter    | Parameter             | Change     | Specification |
+   | Name         | Description           | Controller | Document(s)   |
+   +==============+=======================+============+===============+
+   | mediatype    | attachment body       | IESG       | Section 4.5.4 |
+   |              | media type            |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | filename     | attachment            | IESG       | Section 4.5.5 |
+   |              | content filename      |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | body         | attachment inline     | IESG       | Section 4.5.6 |
+   |              | content               |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | encoding     | attachment inline     | IESG       | Section 4.5.6 |
+   |              | content encoding      |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | url          | attachment            | IESG       | Section 4.5.6 |
+   |              | referenced            |            | RFC XXXX      |
+   |              | content URL           |            |               |
+   +--------------+-----------------------+------------+---------------+
+   | content_hash | attachment            | IESG       | Section 4.5.6 |
+   |              | content hash          |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+
+                                  Table 7
+
+6.3.7.  Analysis Object Parameter Names Registry
+
+   The following defines the intial values for the Analysis Object
+   Parameter Names Registry.
+
+   +================+=====================+============+===============+
+   | Parameter      | Parameter           | Change     | Specification |
+   | Name           | Description         | Controller | Document(s)   |
+   +================+=====================+============+===============+
+   | mediatype      | analysis body media | IESG       | Section 4.4.3 |
+   |                | type                |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | filename       | analysis content    | IESG       | Section 4.4.4 |
+   |                | filename            |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | body           | analysis inline     | IESG       | Section 4.4.8 |
+   |                | content             |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | encoding       | analysis inline     | IESG       | Section 4.4.8 |
+   |                | content encoding    |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | url            | analysis referenced | IESG       | Section 4.4.8 |
+   |                | content URL         |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | content_hash   | analysis content    | IESG       | Section 4.4.8 |
+   |                | hash                |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+
+                                  Table 8
+
+6.3.8.  Redacted Object Parameter Names Registry
+
+6.3.9.  Appended Object Parameter Names Registry
+
+6.3.10.  Group Object Parameter Names Registry
 
 6.4.  vCon Extensions Names Registry
 
    This document defines and new registry for the token name values that
-   are permited as values to the [extension]s(#extensions) parameter.
+   are permited as values to the [extensions]s(#extensions) parameter.
    However it does not define any values for this registry.  Values for
    this registry are to be defined in subsequent documents which define
    extnensions to the vCon schema.
 
-6.4.1.  Registration Template
+6.4.1.  Extensions Registration Template
 
    Extension Name: The string token name of an extension to the vCon
    JSON schema.  The name is case sensitive.  Names may not match other
@@ -2194,7 +2458,17 @@ Table of Contents
 
 7.  Non-Upward Compatible Changes to the vCon Container
 
-7.1.  Version 0.0.1 to 0.0.2
+7.1.  Version 0.0.2 to 0.3.0
+
+   *  "transfer-target" parameter was renamed to "transfer_target" to be
+      consistent with other compound names that use the underscore
+      ("_").
+
+   *  "target-dialog" parameter was renamed to "target_dialog" to be
+      consistent with other compound names that use the underscore
+      ("_").
+
+7.2.  Version 0.0.1 to 0.0.2
 
    *  "mimetype" parameters were renamed to "mediatype"
 
