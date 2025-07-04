@@ -935,6 +935,74 @@ to the vCon containing the email thread, more than once.
 
 * message_id: "string" (optional)
 
+## Attachment Object
+
+Ancillary documents to the conversation are included or referenced in the Attachment Object.
+There is no constraint on the types files which can be included or referenced.
+As most modes of communication, that allow the exchange of files, do not constrain the file type, any file type may be included here.
+
+### type or purpose
+
+TODO: Do we want a semantic type like: contract or presentation?  Or a subject or title.
+
+### start {#attachment-start}
+
+The start parameter contains the date and time that the Attachment Object was sent/exchanged.
+
+* start: "Date"
+
+### party
+
+In most conversations, ancillary documents originate from one of the parties to the conversation.
+This is not necessarily the author, but the person who distributed the document.
+This party is identified by the party parameter in the Attachment Object.
+
+* party: "UnsignedInt"
+
+The value of the party parameter is the index into the Parties Object array to the party that contributed the attachment.
+
+### dialog {#attachment-dialog}
+
+Attachments are added as data related to the dialog.
+The dialog parameter is used to identify the dialog that the attachment is part of.
+The dialog is identified by the index to the dialog Object in the dialog objects array.
+
+* dialog: "UnsignedInt"
+
+### mediatype {#attachment-mediatype}
+
+The media type for the included or referenced attachment file is provided in the mediatype parameter.
+
+* mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
+
+The mediatype string contains the media type or [MIME] type of the attached file.
+
+### filename {#attachment-filename}
+
+It is sometimes useful to preserve the name of the file which originally contained this attachment file.
+This can be done in the filename parameter.
+
+* filename: "String" (optional)
+
+The file name string contains an optional name for the attachment file referenced in this Attachment Object.
+
+### Attachment Content
+
+The Attachment Object SHOULD contain the body and encoding parameters or the url and content_hash parameters
+(see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
+The exception to this is that the body or url MAY be absent if it is redacted.
+
+For inline included attachments:
+
+* body: "String"
+* encoding: "String"
+
+Alternatively, for externally referenced attachments:
+
+* url: "String"
+* content_hash: "String" \| "String\[\]"
+
+
 ## Analysis Object
 
 Analysis is a broad and in some cases developing field.
@@ -961,7 +1029,7 @@ The string value SHOULD be one of the following:
   * "sentiment"
   * "tts"
 
-### dialog
+### dialog {#analysis-dialog}
 
 Analysis typically pertains to one or more of the Dialog Objects in the dialog array.
 The dialog parameter is used to indicate which Dialog Objects this analysis was based upon.
@@ -1029,73 +1097,6 @@ Alternatively, for externally referenced analysis:
 
 * url: "String"
 * content_hash: "String" \| "String\[\]"
-
-## Attachment Object
-
-Ancillary documents to the conversation are included or referenced in the Attachment Object.
-There is no constraint on the types files which can be included or referenced.
-As most modes of communication, that allow the exchange of files, do not constrain the file type, any file type may be included here.
-
-### type or purpose
-
-TODO: Do we want a semantic type like: contract or presentation?  Or a subject or title.
-
-### start {#attachment-start}
-
-The start parameter contains the date and time that the Attachment Object was sent/exchanged.
-
-* start: "Date"
-
-### party
-
-In most conversations, ancillary documents originate from one of the parties to the conversation.
-This is not necessarily the author, but the person who distributed the document.
-This party is identified by the party parameter in the Attachment Object.
-
-* party: "UnsignedInt"
-
-The value of the party parameter is the index into the Parties Object array to the party that contributed the attachment.
-
-### mediatype {#attachment-mediatype}
-
-The media type for the included or referenced attachment file is provided in the mediatype parameter.
-
-* mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
-
-The mediatype string contains the media type or [MIME] type of the attached file.
-
-### filename {#attachment-filename}
-
-It is sometimes useful to preserve the name of the file which originally contained this attachment file.
-This can be done in the filename parameter.
-
-* filename: "String" (optional)
-
-The file name string contains an optional name for the attachment file referenced in this Attachment Object.
-
-### Attachment Content
-
-The Attachment Object SHOULD contain the body and encoding parameters or the url and content_hash parameters
-(see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
-The exception to this is that the body or url MAY be absent if it is redacted.
-
-For inline included attachments:
-
-* body: "String"
-* encoding: "String"
-
-Alternatively, for externally referenced attachments:
-
-* url: "String"
-* content_hash: "String" \| "String\[\]"
-
-### dialog
-
-Attachments are added as data related to the dialog.
-The dialog parameter is used to identify the dialog that the attachment is part of.
-The dialog is identified by the index to the dialog Object in the dialog objects array.
-
-* dialog: "UnsignedInt"
 
 
 ## Group Object
@@ -1616,10 +1617,15 @@ The following table defines the initial values for the Dialog Object Types Regis
 
 ### Attachment Object Parameter Names Registry
 
+TODO: type or purpose
+
 The following defines the intial values for the Attachment Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
+| start | attachment start time | IESG | [](#attachment-start) RFC XXXX |
+| party | sending party index | IESG | [](#party) RFC XXXX |
+| dialog | associated dialog index | IESG | [](#attachment-dialog) RFC XXXX |
 | mediatype | attachment body media type | IESG | [](#attachment-mediatype) RFC XXXX |
 | filename | attachment content filename | IESG | [](#attachment-filename) RFC XXXX |
 | body | attachment inline content | IESG | [](#attachment-content) RFC XXXX |
@@ -1633,8 +1639,13 @@ The following defines the intial values for the Analysis Object Parameter Names 
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
+| type | analysis type | IESG | [](#analysis-type) RFC XXX |
+| dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
 | mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
 | filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
+| vendor | vendor producing content | IESG | [](#vendor) RFC XXXX |
+| product | vendor product producing content| IESG | [](#product) RFC XXXX |
+| schema | product schema of content| IESG | [](#schema) RFC XXXX |
 | body | analysis inline content | IESG | [](#analysis-content) RFC XXXX |
 | encoding | analysis inline content encoding | IESG | [](#analysis-content) RFC XXXX |
 | url | analysis referenced content URL | IESG | [](#analysis-content) RFC XXXX |
