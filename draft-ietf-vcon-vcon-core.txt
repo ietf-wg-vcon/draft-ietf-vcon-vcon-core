@@ -88,23 +88,24 @@ Table of Contents
      2.4.  Externally Referenced Files
        2.4.1.  url
        2.4.2.  content_hash
-     2.5.  Extensioning vCon
+     2.5.  Extending vCon
    3.  vCon JSON Object
    4.  Unsigned Form of vCon Object
      4.1.  vCon JSON Object Keys and Values
        4.1.1.  vcon
        4.1.2.  uuid
        4.1.3.  extensions
-       4.1.4.  created_at
-       4.1.5.  updated_at
-       4.1.6.  subject
-       4.1.7.  redacted
-       4.1.8.  appended
-       4.1.9.  group Objects Array
-       4.1.10. parties Objects Array
-       4.1.11. dialog Objects Array
-       4.1.12. analysis Objects Array
-       4.1.13. attachments Objects Array
+       4.1.4.  must_support
+       4.1.5.  created_at
+       4.1.6.  updated_at
+       4.1.7.  subject
+       4.1.8.  redacted
+       4.1.9.  appended
+       4.1.10. group Objects Array
+       4.1.11. parties Objects Array
+       4.1.12. dialog Objects Array
+       4.1.13. analysis Objects Array
+       4.1.14. attachments Objects Array
      4.2.  Party Object
        4.2.1.  tel
        4.2.2.  stir
@@ -451,7 +452,7 @@ Table of Contents
    JSON pointer referenced elements of "rcd" claim or the URI referenced
    content contained in the claim.
 
-2.5.  Extensioning vCon
+2.5.  Extending vCon
 
    vCon provides a means to extend the schema defined in this document.
    A vCon extension can define new parameters at any level of the
@@ -463,6 +464,33 @@ Table of Contents
    * Define the new semantics and values for change parameters * List
    depricated parameters, what should be used in its stead and migration
    approaches
+
+   Extensions to the vCon schema can be classified into two categories:
+
+   *  *Compatible*: These extensions introduce additional data or fields
+      without altering the meaning or structure of existing elements.
+      Implementations that do not recognize these extensions can safely
+      ignore them while maintaining valid processing of the vCon.
+
+   *  *Incompatible*: These extensions modify existing semantics or
+      schema definitions in ways that render a vCon incompatible with
+      implementations that do not support the extension.  Interpreting
+      such a vCon correctly requires explicit awareness of the
+      extension.
+
+   Wherever feasible, extensions *SHOULD* be designed as non-disruptive
+   to preserve compatibility with existing implementations.
+
+   However, when disruptive extensions are necessary, the names of all
+   such extensions *MUST* be listed in the must_support (Section 4.1.4)
+   parameter of the vCon.  This allows implementations to determine
+   whether they are capable of processing the vCon safely and
+   accurately.
+
+   Implementations that encounter a vCon containing a disruptive
+   extension listed in the must_support parameter, but do not support
+   that extension, *MUST NOT* process the vCon except to reject it or
+   notify the user.
 
 3.  vCon JSON Object
 
@@ -502,7 +530,7 @@ Table of Contents
    or exporting to another security domain, it SHOULD sign or encrypt
    the new vCon instance version.  The new vCon instance version SHOULD
    refer to the prior vCon instance version via the redacted
-   (Section 4.1.7) or appended (Section 4.1.8) parameters.
+   (Section 4.1.8) or appended (Section 4.1.9) parameters.
 
 4.1.  vCon JSON Object Keys and Values
 
@@ -551,7 +579,20 @@ Table of Contents
 
    *  extensions: "String[]"
 
-4.1.4.  created_at
+4.1.4.  must_support
+
+   Implementations that include extensions which are incompatible with
+   the core vCon schema MUST list the names of those extensions in the
+   must_support parameter.  A vCon that includes a must_support
+   parameter indicates that correct interpretation of the vCon requires
+   explicit support for the listed extensions.  An implementation that
+   does not recognize or support the extensions listed in the
+   must_support parameter MUST NOT attempt to process or operate on the
+   vCon, except to reject it or report unsupported content.
+
+   *  must_support: "String[]"
+
+4.1.5.  created_at
 
    The created_at parameter provides the creation time of this vcon,
    which MUST be present, and should not changed once the vcon object is
@@ -559,7 +600,7 @@ Table of Contents
 
    *  created_at: "Date"
 
-4.1.5.  updated_at
+4.1.6.  updated_at
 
    The updated_at parameter provides the last modified time of this
    vcon, which MAY be present.  For unsigned forms, the updated_at of
@@ -570,7 +611,7 @@ Table of Contents
 
    *  updated_at: "Date"
 
-4.1.6.  subject
+4.1.7.  subject
 
    The subject or the topic of the conversation is provided in the
    subject parameter.  This parameter is optional as not all
@@ -584,16 +625,16 @@ Table of Contents
    The string value of the subject parameter is a free formed JSON
    string with no constrained syntax.
 
-4.1.7.  redacted
+4.1.8.  redacted
 
    A redacted vCon SHOULD provide a reference to the unredacted or
    prior, less redacted, vCon instance version of itself.  The purpose
-   of the Redacted Object (Section 4.1.7.1) is to provide the reference
+   of the Redacted Object (Section 4.1.8.1) is to provide the reference
    to the unredacted or less redacted version of the vCon from which
    this vCon was derived.  For privacy reasons, it may be necessary to
    redact a vCon to construct another vCon without the PII.  This allows
    the non-PII portion of the vCon to still be analyzed or used in a
-   broader scope.  The Redacted Object (Section 4.1.7.1) SHOULD contain
+   broader scope.  The Redacted Object (Section 4.1.8.1) SHOULD contain
    the uuid parameter and MAY include the vCon inline via the body and
    encoding parameters or alternatively the url, content_hash parameters
    (see Inline Files (Section 2.3) and Externally Referenced Files
@@ -626,7 +667,7 @@ Table of Contents
    *  redacted: "Redacted" (optional, mutually exclusive with appended
       and group parameters)
 
-4.1.7.1.  Redacted Object
+4.1.8.1.  Redacted Object
 
    A Redacted Object contains the following parameters:
 
@@ -704,12 +745,12 @@ Table of Contents
 
                     Figure 1: redacted vCon object tree
 
-4.1.8.  appended
+4.1.9.  appended
 
    A signed or encrypted vCon cannot be modified without invalidating
    it.  In these cases, to allow for adding of additional information a
    new vCon instance version MUST be created.  The prior vCon instance
-   version is referenced by the Appended Object (Section 4.1.8.1).  Then
+   version is referenced by the Appended Object (Section 4.1.9.1).  Then
    the appended information is added to the new vCon instance version
    (i.e. top level vCon object).
 
@@ -722,7 +763,7 @@ Table of Contents
    *  appended: "Appended" (optional, mutually exclusive with redacted
       and group parameters)
 
-4.1.8.1.  Appended Object
+4.1.9.1.  Appended Object
 
    The Appended Object contains the following parameters:
 
@@ -789,7 +830,7 @@ Table of Contents
 
                     Figure 2: appended vCon object tree
 
-4.1.9.  group Objects Array
+4.1.10.  group Objects Array
 
    The scope of a conversation is defined by the observer.  It may be
    any of the following in this non-exhaustive list:
@@ -818,7 +859,7 @@ Table of Contents
 
    The group array contains a Group Object (Section 4.6) for each vCon.
 
-4.1.10.  parties Objects Array
+4.1.11.  parties Objects Array
 
    The name, identity or contact information of all of the parties
    involved with the conversation are included in the parties object
@@ -834,7 +875,7 @@ Table of Contents
    The value of the parties parameter is an array of Party Objects
    (Section 4.2).
 
-4.1.11.  dialog Objects Array
+4.1.12.  dialog Objects Array
 
    The actual conversation which occurred over text, audio or video that
    was captured, is contained in the dialog Objects Array.
@@ -844,7 +885,7 @@ Table of Contents
    The value of the dialog parameter is an array of Dialog Objects
    (Section 4.3).
 
-4.1.12.  analysis Objects Array
+4.1.13.  analysis Objects Array
 
    Analysis, which is performed on the conversational data, is stored in
    the analysis Objects array.
@@ -854,7 +895,7 @@ Table of Contents
    The value of the analysis parameter is an array of Analysis Objects
    (Section 4.5).
 
-4.1.13.  attachments Objects Array
+4.1.14.  attachments Objects Array
 
    Ancillary documents, discussed, presented, referenced or related to
    the conversation may be stored in the attachments array.
@@ -1627,9 +1668,9 @@ Table of Contents
    conflict in some ways.  To enable this, multiple versions of a vCon
    may be created.  Versions of a vCon may add information (e.g.
    analysis added to a prior vCon referenced by the appended
-   (Section 4.1.8)) and versions that remove information (e.g.
+   (Section 4.1.9)) and versions that remove information (e.g.
    redactions of privacy information removed from the vCon referenced in
-   the redacted (Section 4.1.7)).  Redactions may be at different levels
+   the redacted (Section 4.1.8)).  Redactions may be at different levels
    for example:
 
    *  PII masked to remove PII data in the text, audio, video or
@@ -1661,10 +1702,10 @@ Table of Contents
    leaves a security domain, it SHOULD be signed to prevent it from
    being altered.  If the new security domain needs to alter it, a new
    vCon is created with the removed or added data and the prior version
-   is referenced (i.e. via the redacted (Section 4.1.7) or appended
-   (Section 4.1.8)).  See the redacted vCon object tree figure-1 and
+   is referenced (i.e. via the redacted (Section 4.1.8) or appended
+   (Section 4.1.9)).  See the redacted vCon object tree figure-1 and
    appended vCon object tree figure-2.  If information is redacted for
-   privacy reasons, the vCon referenced in the redacted (Section 4.1.7),
+   privacy reasons, the vCon referenced in the redacted (Section 4.1.8),
    if inline, SHOULD be encrypted to protect the privacy information in
    the unredacted version of the vCon.
 
@@ -2041,51 +2082,59 @@ Table of Contents
    The following defines the intial values for the vCon Object Parameter
    Names Registry.
 
-    +================+=================+============+================+
-    | Parameter Name | Parameter       | Change     | Specification  |
-    |                | Description     | Controller | Document(s)    |
-    +================+=================+============+================+
-    | vcon           | Schema version  | IESG       | Section 4.1.1  |
-    |                | number          |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | uuid           | vCon instance   | IESG       | Section 4.1.2  |
-    |                | UUID            |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | extensions     | list of         | IESG       | Section 4.1.3  |
-    |                | extensions used |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | created_at     | creation date   | IESG       | Section 4.1.4  |
-    |                |                 |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | updated_at     | modification    | IESG       | Section 4.1.5  |
-    |                | date            |            | RFC XXXXX      |
-    +----------------+-----------------+------------+----------------+
-    | subject        | conversation    | IESG       | Section 4.1.6  |
-    |                | subject         |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | redacted       | Redacted Object | IESG       | Section 4.1.7  |
-    |                |                 |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | appended       | Appended Object | IESG       | Section 4.1.7  |
-    |                |                 |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | group          | Group Objects   | IESG       | Section 4.1.9  |
-    |                | array           |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | parties        | Parties Objects | IESG       | Section 4.1.10 |
-    |                | array           |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | dialog         | Dialog Objects  | IESG       | Section 4.1.11 |
-    |                | array           |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | analysis       | Analysis        | IESG       | Section 4.1.12 |
-    |                | Objects array   |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
-    | attachments    | Attachment      | IESG       | Section 4.1.13 |
-    |                | Objects array   |            | RFC XXXX       |
-    +----------------+-----------------+------------+----------------+
+   +==============+======================+============+================+
+   | Parameter    | Parameter            | Change     | Specification  |
+   | Name         | Description          | Controller | Document(s)    |
+   +==============+======================+============+================+
+   | vcon         | Schema version       | IESG       | Section 4.1.1  |
+   |              | number               |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | uuid         | vCon instance UUID   | IESG       | Section 4.1.2  |
+   |              |                      |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | extensions   | list of extensions   | IESG       | Section 4.1.3  |
+   |              | used                 |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | must_support | list of incompatible | IESG       | Section 4.1.4  |
+   |              | extensions used      |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | created_at   | creation date        | IESG       | Section 4.1.5  |
+   |              |                      |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | updated_at   | modification date    | IESG       | Section 4.1.6  |
+   |              |                      |            | RFC XXXXX      |
+   +--------------+----------------------+------------+----------------+
+   | subject      | conversation subject | IESG       | Section 4.1.7  |
+   |              |                      |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | redacted     | Redacted Object      | IESG       | Section 4.1.8  |
+   |              |                      |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | appended     | Appended Object      | IESG       | Section 4.1.8  |
+   |              |                      |            | RFC XXXX       |
+   +--------------+----------------------+------------+----------------+
+   | group        | Group Objects array  | IESG       | Section        |
+   |              |                      |            | 4.1.10 RFC     |
+   |              |                      |            | XXXX           |
+   +--------------+----------------------+------------+----------------+
+   | parties      | Parties Objects      | IESG       | Section        |
+   |              | array                |            | 4.1.11 RFC     |
+   |              |                      |            | XXXX           |
+   +--------------+----------------------+------------+----------------+
+   | dialog       | Dialog Objects array | IESG       | Section        |
+   |              |                      |            | 4.1.12 RFC     |
+   |              |                      |            | XXXX           |
+   +--------------+----------------------+------------+----------------+
+   | analysis     | Analysis Objects     | IESG       | Section        |
+   |              | array                |            | 4.1.13 RFC     |
+   |              |                      |            | XXXX           |
+   +--------------+----------------------+------------+----------------+
+   | attachments  | Attachment Objects   | IESG       | Section        |
+   |              | array                |            | 4.1.14 RFC     |
+   |              |                      |            | XXXX           |
+   +--------------+----------------------+------------+----------------+
 
-                                 Table 1
+                                  Table 1
 
 6.3.3.  Parties Object Parameter Names Registry
 
@@ -2449,22 +2498,22 @@ Table of Contents
    | Parameter      | Parameter         | Change     | Specification   |
    | Name           | Description       | Controller | Document(s)     |
    +================+===================+============+=================+
-   | uuid           | less redacted     | IESG       | Section 4.1.7.1 |
+   | uuid           | less redacted     | IESG       | Section 4.1.8.1 |
    |                | vCon UUID         |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
-   | type           | redaction type or | IESG       | Section 4.1.7.1 |
+   | type           | redaction type or | IESG       | Section 4.1.8.1 |
    |                | reason            |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
-   | body           | inline less       | IESG       | Section 4.1.7.1 |
+   | body           | inline less       | IESG       | Section 4.1.8.1 |
    |                | redacted vCon     |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
-   | encoding       | content encoding  | IESG       | Section 4.1.7.1 |
+   | encoding       | content encoding  | IESG       | Section 4.1.8.1 |
    |                |                   |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
-   | url            | referenced less   | IESG       | Section 4.1.7.1 |
+   | url            | referenced less   | IESG       | Section 4.1.8.1 |
    |                | redacted vCon URL |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
-   | content_hash   | less redacted     | IESG       | Section 4.1.7.1 |
+   | content_hash   | less redacted     | IESG       | Section 4.1.8.1 |
    |                | vCon hash         |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
 
@@ -2479,19 +2528,19 @@ Table of Contents
    | Parameter Name | Parameter        | Change     | Specification   |
    |                | Description      | Controller | Document(s)     |
    +================+==================+============+=================+
-   | uuid           | prior vCon       | IESG       | Section 4.1.8.1 |
+   | uuid           | prior vCon       | IESG       | Section 4.1.9.1 |
    |                | version UUID     |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
-   | body           | inline prior     | IESG       | Section 4.1.8.1 |
+   | body           | inline prior     | IESG       | Section 4.1.9.1 |
    |                | version vCon     |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
-   | encoding       | content encoding | IESG       | Section 4.1.8.1 |
+   | encoding       | content encoding | IESG       | Section 4.1.9.1 |
    |                |                  |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
-   | url            | referenced prior | IESG       | Section 4.1.8.1 |
+   | url            | referenced prior | IESG       | Section 4.1.9.1 |
    |                | version vCon URL |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
-   | content_hash   | prior version    | IESG       | Section 4.1.8.1 |
+   | content_hash   | prior version    | IESG       | Section 4.1.9.1 |
    |                | vCon hash        |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
 
@@ -4782,7 +4831,7 @@ A.9.  Redacted vCon
 
    This is an example redaction of the vCon in the example Two Party
    Call vCon With Externally Referenced Recording (Appendix A.5).  Most
-   notable is the Redacted object (Section 4.1.7) which references the
+   notable is the Redacted object (Section 4.1.8) which references the
    lesser redacted version of this vCon.  In addition the *url*
    parameter has been redacted from the Dialog Object (Section 4.3), but
    the rest of the Dialog Object (Section 4.3) was left in the
