@@ -318,7 +318,7 @@ The subsequent characters are the Base64Url encoded (see Section 2 [JWS]) digest
 or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
 contained in the claim.
 
-## Extensioning vCon
+## Extending vCon
 
 vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
@@ -328,6 +328,18 @@ To do so, a new extension definition MUST do the following:
 * Define the new parameter(s), their meaning, value types and register them with IANA
 * Define the new semantics and values for change parameters
 * List depricated parameters, what should be used in its stead and migration approaches
+
+Extensions to the vCon schema can be classified into two categories:
+
+* **Compatible**: These extensions introduce additional data or fields without altering the meaning or structure of existing elements. Implementations that do not recognize these extensions can safely ignore them while maintaining valid processing of the vCon.
+
+* **Incompatible**: These extensions modify existing semantics or schema definitions in ways that render a vCon incompatible with implementations that do not support the extension. Interpreting such a vCon correctly requires explicit awareness of the extension.
+
+Wherever feasible, extensions **SHOULD** be designed as non-disruptive to preserve compatibility with existing implementations.
+
+However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`must_support`](#must_support) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
+
+Implementations that encounter a vCon containing a disruptive extension listed in the must_support parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
 
 # vCon JSON Object
 
@@ -392,6 +404,14 @@ The vCon schema can be extended through the definition of new extensions.
 The extensions parameter SHOULD contain the list names of all vCon extensions for any parameters used that are not defined in this core vCon schem document.
 
 * extensions: "String\[\]"
+
+### must_support {#must_support}
+
+Implementations that include extensions which are incompatible with the core vCon schema MUST list the names of those extensions in the must_support parameter.
+A vCon that includes a must_support parameter indicates that correct interpretation of the vCon requires explicit support for the listed extensions.
+An implementation that does not recognize or support the extensions listed in the must_support parameter MUST NOT attempt to process or operate on the vCon, except to reject it or report unsupported content.
+
+* must_support: "String\[\]"
 
 ### created_at {#created_at}
 
@@ -1481,6 +1501,7 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | vcon | Schema version number | IESG | [](#vcon) RFC XXXX |
 | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
 | extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
+| must_support | list of incompatible extensions used | IESG | [must_support](#must_support) RFC XXXX |
 | created_at | creation date | IESG | [](#created_at) RFC XXXX |
 | updated_at | modification date | IESG | [](#updated_at) RFC XXXXX |
 | subject | conversation subject | IESG | [](#subject) RFC XXXX |
