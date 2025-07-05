@@ -1450,19 +1450,23 @@ All of those registries have the same registry template.
 ### Object Registry Template
 
 Parameter Name:
+
   The string name of a parametr to be used within the Object.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
 Parameter Description:
+
   Brief description of the parameter
 
 Change Controller:
+
    For Standards Track RFCs, list the "IESG".  For others, give the
    name of the responsible party.  Other details (e.g., postal
    address, email address, home page URI) may also be included.
 
 Specification Document(s):
+
    Reference to the document or documents that specify the parameter,
    preferably including URIs that can be used to retrieve copies of
    the documents.  An indication of the relevant sections may also be
@@ -1540,19 +1544,23 @@ This document defines a new registry for the token name values that are permited
 ##### Dialog Type Name Registration Template
 
 Dialog Type Name:
+
   The string token name of a Dialog Object Type
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
 Dialog Type Description:
+
   Brief description of the Dialog Object type
 
 Change Controller:
+
    For Standards Track RFCs, list the "IESG".  For others, give the
    name of the responsible party.  Other details (e.g., postal
    address, email address, home page URI) may also be included.
 
 Specification Document(s):
+
    Reference to the document or documents that specify the parameter,
    preferably including URIs that can be used to retrieve copies of
    the documents.  An indication of the relevant sections may also be
@@ -1588,19 +1596,23 @@ This document defines a new registry for the token name values that are permitte
 ##### party_event Event Name Registration Template
 
 party_event Event Name:
+
   The string token name of a party_event Object event type.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
 party_event Event Description:
+
   Brief description of the party_event Object Event
 
 Change Controller:
+
    For Standards Track RFCs, list the "IESG".  For others, give the
    name of the responsible party.  Other details (e.g., postal
    address, email address, home page URI) may also be included.
 
 Specification Document(s):
+
    Reference to the document or documents that specify the parameter,
    preferably including URIs that can be used to retrieve copies of
    the documents.  An indication of the relevant sections may also be
@@ -1703,19 +1715,23 @@ Values for this registry are to be defined in subsequent documents which define 
 ### Extensions Registration Template
 
 Extension Name:
+
   The string token name of an extension to the vCon JSON schema.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
 Extension Description:
+
   Brief description of the the vCon extension
 
 Change Controller:
+
    For Standards Track RFCs, list the "IESG".  For others, give the
    name of the responsible party.  Other details (e.g., postal
    address, email address, home page URI) may also be included.
 
 Specification Document(s):
+
    Reference to the document or documents that specify the parameter,
    preferably including URIs that can be used to retrieve copies of
    the documents.  An indication of the relevant sections may also be
