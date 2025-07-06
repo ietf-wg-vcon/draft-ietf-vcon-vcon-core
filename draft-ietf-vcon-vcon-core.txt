@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                             5 July 2025
-Expires: 6 January 2026
+Intended status: Standards Track                             6 July 2025
+Expires: 7 January 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2026.
+   This Internet-Draft will expire on 7 January 2026.
 
 Copyright Notice
 
@@ -108,15 +108,16 @@ Table of Contents
        4.1.14. attachments Objects Array
      4.2.  Party Object
        4.2.1.  tel
-       4.2.2.  stir
-       4.2.3.  mailto
-       4.2.4.  name
-       4.2.5.  validation
-       4.2.6.  jCard
-       4.2.7.  gmlpos
-       4.2.8.  civicaddress
-       4.2.9.  timezone
-       4.2.10. uuid
+       4.2.2.  sip
+       4.2.3.  stir
+       4.2.4.  mailto
+       4.2.5.  name
+       4.2.6.  validation
+       4.2.7.  jCard
+       4.2.8.  gmlpos
+       4.2.9.  civicaddress
+       4.2.10. timezone
+       4.2.11. uuid
      4.3.  Dialog Object
        4.3.1.  type
        4.3.2.  start
@@ -127,10 +128,11 @@ Table of Contents
        4.3.7.  filename
        4.3.8.  Dialog Content
        4.3.9.  disposition
-       4.3.10. party_history Objects Array
-       4.3.11. Dialog Transfer
-       4.3.12. application
-       4.3.13. message_id
+       4.3.10. session_id
+       4.3.11. party_history Objects Array
+       4.3.12. Dialog Transfer
+       4.3.13. application
+       4.3.14. message_id
      4.4.  Attachment Object
        4.4.1.  type or purpose
        4.4.2.  start
@@ -166,7 +168,7 @@ Table of Contents
      6.3.  vCon JSON registry
        6.3.1.  Object Registry Template
        6.3.2.  vCon Object Parameter Names Registry
-       6.3.3.  Parties Object Parameter Names Registry
+       6.3.3.  Party Object Parameter Names Registry
        6.3.4.  Dialog Object Parameter Names Registry
        6.3.5.  party_history Object Parameter Names Registry
        6.3.6.  Attachment Object Parameter Names Registry
@@ -216,8 +218,8 @@ Table of Contents
    services, including post-conversation analysis tools, customer
    support systems, and business intelligence platforms.  By defining a
    consistent data format, *vCon* ensures interoperability across
-   various platforms, regardless of the communication mode—whether text,
-   audio, video, or other formats.
+   various platforms, regardless of the communication mode - whether
+   text, audio, video, or other formats.
 
    The *vCon* format captures the essential components of a
    conversation, including metadata, media content, related documents,
@@ -456,14 +458,15 @@ Table of Contents
 
    vCon provides a means to extend the schema defined in this document.
    A vCon extension can define new parameters at any level of the
-   schema.  It can also redefine the semantics of or depricate existing
+   schema.  It can also redefine the semantics of or deprecate existing
    parameters.  To do so, a new extension definition MUST do the
    following: * Define a new Section 4.1.3 token value and register it
    with IANA (see examples) (Section 6.3)) * Define the new
    parameter(s), their meaning, value types and register them with IANA
    * Define the new semantics and values for change parameters * List
-   depricated parameters, what should be used in its stead and migration
-   approaches
+   deprecated parameters, what should be used in its stead and migration
+   approaches * Use snake case naming convention for parameter names (as
+   opposed to camel case)
 
    Extensions to the vCon schema can be classified into two categories:
 
@@ -575,7 +578,7 @@ Table of Contents
    The vCon schema can be extended through the definition of new
    extensions.  The extensions parameter SHOULD contain the list names
    of all vCon extensions for any parameters used that are not defined
-   in this core vCon schem document.
+   in this core vCon schema document.
 
    *  extensions: "String[]"
 
@@ -685,16 +688,9 @@ Table of Contents
    redacted version referenced by the redacted uuid parameter.  This
    should indicate the type of information that was redacted.
 
-   As defined in Inline Files (Section 2.3) body and encoding MAY be
-   included:
-
-   *  body: "String"
-
-   *  encoding: "String"
-
-   Alternatively, as defined in Externally Referenced Files
-   (Section 2.4) url SHOULD be included unless redacted and content_hash
-   MUST be included:
+   The the location of the referenced vCon MAY be provided as defined in
+   Externally Referenced Files (Section 2.4) by including url and
+   content_hash. content_hash MUST be included if url is provided.
 
    *  url: "String"
 
@@ -712,32 +708,34 @@ Table of Contents
    unredacted vCon in the unsigned form in it's payload parameter.
 
                    --------------
-   Signed          | JWS        |
-   redacted vCon:  |            | payload parameter
-                   |    payload-|-- contains unsigned
-                   -------------- / redacted vCon
+   Signed          | JWS   uuid-|-- redacted vCon uuid in header
+   redacted vCon:  |            |
+                   |    payload-|-- unsigned redacted vCon in
+                   -------------- / payload parameter
                                  /
                -------------    /
    vCon which  |vCon       |<---
-   has been    |           | redacted parameter contains
-   redacted:   |  redacted-|-- or refers to JWE
-               ------------- / encrypted unredacted vCon
-                            /
+   has been    |           |
+   redacted:   |  redacted-|-- Redacted Object
+               ------------- / refers to JWE
+                            / encrypted unredacted vCon
                            /
                           /
                          /
                         /
-                       / ---------------
-                       ->| JWE         | cyphertext
-   Encrypted signed      |             | parameter
-   unredacted vCon:      |  cyphertext-|--- contains
-                         ---------------  / JWS signed
-                                         / unredacted
-                     -------------      / vCon
-   Signed            |JWS        |<-----
-   unredacted vcon:  |           | payload contains
-                     |   payload-|-- unsigned
-                     -------------  \ unredacted vCon
+                       / ---------------   signed unredacted vCon
+                       ->| JWE    uuid-|-- uuid in unprotected
+   Encrypted signed      |             |
+   unredacted vCon:      |  cyphertext-|--- JWS signed
+                         ---------------  / unredacted vCon
+                                         / in cyphertext
+                    /-------------------/ parameter
+                   /
+                  /  -------------
+   Signed         -> |JWS   uuid-|-- unredacted vCon uuid in header
+   unredacted vcon:  |           |
+                     |   payload-|-- unsigned unredacted vCon
+                     -------------  \ in payload
                                      \   ----------
                                       -->| vCon   |
    Unsigned unredacted vCon:             |        |
@@ -747,18 +745,21 @@ Table of Contents
 
 4.1.9.  appended
 
+   TODO: should the name be appended, updated or amended?
+
    A signed or encrypted vCon cannot be modified without invalidating
    it.  In these cases, to allow for adding of additional information a
    new vCon instance version MUST be created.  The prior vCon instance
-   version is referenced by the Appended Object (Section 4.1.9.1).  Then
-   the appended information is added to the new vCon instance version
-   (i.e. top level vCon object).
+   version is referenced by the Appended Object (Section 4.1.9.1).  The
+   vCon with appended or amended data contains all of the data that is
+   in the referenced vCon with the exception of data that is amended.
+   That is to say that the newer version of the vCon is a deep copy of
+   the prior version with the amended and additional data added to it.
 
    The prior vCon instance version SHOULD be referenced via the uuid of
-   the prior vCon instance version, and MAY include the body and
-   encoding parameters or alternatively the url and content_hash
-   parameters (see Inline Files (Section 2.3) and Externally Referenced
-   Files (Section 2.4)).
+   the prior vCon instance version, and MAY include the url and
+   content_hash parameters (see Externally Referenced Files
+   (Section 2.4)).
 
    *  appended: "Appended" (optional, mutually exclusive with redacted
       and group parameters)
@@ -772,15 +773,9 @@ Table of Contents
    The value contains the uuid string value (Section 4.1.2) of the
    unredacted/original vCon instance version.
 
-   Alternatively, as defined in Inline Files (Section 2.3) body and
-   encoding MAY be included:
-
-   *  body: "String"
-
-   *  encoding: "String"
-
-   Alternatively, as defined in Externally Referenced Files
-   (Section 2.4) url and content_hash MAY be included:
+   The location of the referenced vCon MAY be provided, as defined in
+   Externally Referenced Files (Section 2.4) by including url and
+   content_hash.  content_hash MUST be provided if url is provided.
 
    *  url: "String"
 
@@ -792,36 +787,35 @@ Table of Contents
    payload parameter.  The second level object is the appended vCon with
    additional conversational data (e.g. analysis data).  It refers to
    its original parent (or prior vCon instance version) of the vCon in
-   its appended parameter.  Note: the appended parameter may include the
-   original in the body parameter or refer to it via URL.  The appended
-   vCon in this figure refers to the JWS signed version of the vCon,
-   which in turn contains the original vCon in unsigned form in its
-   payload parameter.
+   its appended parameter.  Note: the appended parameter may refer to
+   the prior version of the vCon via URL.  The appended vCon in this
+   figure refers to the JWS signed version of the vCon, which in turn
+   contains the original vCon in unsigned form in its payload parameter.
 
                    --------------
-   Signed          | JWS        |
-   appended vCon:  |            | payload parameter
-                   |    payload-|-- contains unsigned
-                   -------------- / appended vCon
-                                 /
+   Signed          | JWS   uuid-|-- appended vCon uuid in header
+   appended vCon:  |            |
+                   |    payload-|-- payload parameter
+                   -------------- / contains unsigned
+                                 / appended vCon
                -------------    /
    vCon with   |vCon       |<---
-   appended    |           | appended parameter contains
-   data:       |  appended-|--- or refers to JWS
-               |  analysis |  / signed original vCon
-               ------------- / along with additional
-                            / conversational data
-                           / (e.g. analysis)
-                          /
+   appended    |           |
+   data:       |  appended-|--- appended parameter
+               |  analysis-|  / refers to JWS
+               ------------- / signed original vCon
+                            / along with additional
+                           / conversational data
+                          / (e.g. analysis)
                          /
                         /
                        / ------------
-                       ->| JWS      | payload
-   Encrypted signed      |          | parameter
-   original vCon:        |  payload-|--- contains
-                         ------------  / unsigned
-                                      / original
-                     -------------   / vCon
+                       ->| JWS uuid-|-- original vCon uuid in header
+   signed                |          |
+   original vCon:        |  payload-|--- payload parameter
+                         ------------  / contains unsigned
+                                      / original vCon
+                     -------------   /
    Original vCon:    |vCon       |<--
                      |           |
                      |   parties |
@@ -883,7 +877,10 @@ Table of Contents
    *  dialog: "Dialog[]" (optional)
 
    The value of the dialog parameter is an array of Dialog Objects
-   (Section 4.3).
+   (Section 4.3).  It should be noted that the Dialog Objects may not be
+   sorted in chronological order.  It is the applications responsibility
+   to sort dialog and transcriptions if they are needed in chronological
+   order.
 
 4.1.13.  analysis Objects Array
 
@@ -917,7 +914,16 @@ Table of Contents
    The value of the tel parameter SHOULD be a valid [TEL] URL.  The URL
    scheme prefix (i.e. "tel:") is optional.
 
-4.2.2.  stir
+4.2.2.  sip
+
+   The [SIP] URL for the party can be provided in the sip parameter.
+
+   *  sip: "String" (optional)
+
+      The value of the sip parameter is the addr-spec as defined in
+      section 25.1 of [SIP].
+
+4.2.3.  stir
 
    If the STIR [PASSporT] was provided to identify the party, the
    PASSporT can be included in the stir parameter for the party.
@@ -927,7 +933,7 @@ Table of Contents
    The string value of the stir parameter contains the [PASSporT] in the
    JWS Compact Serialization form.
 
-4.2.3.  mailto
+4.2.4.  mailto
 
    If the mailto URL is known for the party, it can be included in the
    mailto parameter.
@@ -938,7 +944,7 @@ Table of Contents
    valid [MAILTO] URL.  The URL scheme prefix (i.e. "mailto:") is
    optional.
 
-4.2.4.  name
+4.2.5.  name
 
    If the party's name is known, it can be included in the name
    parameter.
@@ -948,7 +954,7 @@ Table of Contents
    The string value of the name parameter is a free form JSON string in
    which part or all of the party's name can be included.
 
-4.2.5.  validation
+4.2.6.  validation
 
    Proof of authorization of the communication channel through STIR,
    login or possession of a device, is often not sufficient proof of the
@@ -972,11 +978,11 @@ Table of Contents
    The value of the validation string MAY be "none" or enterprise or
    domain defined token or string values.
 
-4.2.6.  jCard
+4.2.7.  jCard
 
    TODO: Do we want to support including a jCard for the party?
 
-4.2.7.  gmlpos
+4.2.8.  gmlpos
 
    If the geolocation of the party is known, it can be added in the
    gmlpos parameter.  The gmlpos parameter contains the latitude and
@@ -988,7 +994,7 @@ Table of Contents
    The gmlpos parameter value contains a string of the same format as
    the gml:pos element defined in section 3.2 of the [PIDF-LO] PIDF.
 
-4.2.8.  civicaddress
+4.2.9.  civicaddress
 
    The the civicaddress parameter value contains a Civicaddress Object
    which is optional and contains civic address information about the
@@ -1044,11 +1050,11 @@ Table of Contents
 
    TODO: Do we just specify for the start of the conversation?
 
-4.2.9.  timezone
+4.2.10.  timezone
 
    TODO: timezone for the location of the party?
 
-4.2.10.  uuid
+4.2.11.  uuid
 
    The uuid is a unique identifier for the participant.  In a contact
    center, this is particularly important for the call agent
@@ -1145,8 +1151,12 @@ Table of Contents
    there may be a separate recording file for each party in a
    conversation, where only one party is recorded per file.  In this
    situation, it is necessary to indicate the originator as the dialog
-   Object parties parameter will contain only one party and may not be
-   the originator.
+   Object parties parameter may contain only one party and may not be
+   the originator.  It should be noted that the recordings may be
+   shorter than the collective conference when there is a separate
+   recording per speaker/party.  For example the recording(s) of the
+   individual speaker may be trimmed to only the parts where they are
+   actually speaking.
 
    TODO: For an email thread, To and Cc parties are all passive.  Do we
    just put the sender as the party or do we want to list all of the
@@ -1229,6 +1239,8 @@ Table of Contents
 
 4.3.9.  disposition
 
+   TODO: should this go in CC extensions?
+
    If the dialog type is "incomplete", it must have a disposition
    parameter.  The value of the disposition parameter provides the
    reason that the "call control" failed.  The term: "call control" is
@@ -1266,7 +1278,16 @@ Table of Contents
       longer an "incomplete" type dialog, it is a "recording" type and
       the conversation SHOULD be included in the Dialog Content.
 
-4.3.10.  party_history Objects Array
+4.3.10.  session_id
+
+   The [SESSION-ID] MAY be included for the dialog.
+
+   *  session_id: "String" (optional)
+
+      The session_id value is the string as defined in section 4.1 of
+      [SESSION-ID].
+
+4.3.11.  party_history Objects Array
 
    Participants in a dialog may not all join and leave at the same time.
    To support the capturing of the information when parties join, drop,
@@ -1275,7 +1296,7 @@ Table of Contents
 
    *  party_history: "Party_History[]" (optional)
 
-4.3.10.1.  Party_History Object
+4.3.11.1.  Party_History Object
 
    The Party_History Object contains the following parameters:
 
@@ -1303,7 +1324,7 @@ Table of Contents
 
       -  "unmute" - when the part is taken off mute
 
-4.3.11.  Dialog Transfer
+4.3.12.  Dialog Transfer
 
    A dialog of type "transfer" documents the rolls of three parties and
    the relationship between 2 or three dialog segments.  In a transfer
@@ -1373,7 +1394,7 @@ Table of Contents
    in the analysis section of the Vcon after the conversation has
    occurred.
 
-4.3.12.  application
+4.3.13.  application
 
    The application parameter is used to capture the application,
    communication channel or context over which the conversation was
@@ -1385,7 +1406,7 @@ Table of Contents
 
    *  application "String" (optional)
 
-4.3.13.  message_id
+4.3.14.  message_id
 
    Some messaging systems assign a unique message identifier to each
    message.  The message_id parameter may be used to label the message
@@ -1428,7 +1449,7 @@ Table of Contents
 
    *  party: "UnsignedInt"
 
-   The value of the party parameter is the index into the Parties Object
+   The value of the party parameter is the index into the Party Object
    array to the party that contributed the attachment.
 
 4.4.4.  dialog
@@ -1502,7 +1523,7 @@ Table of Contents
    *  type: "String"
 
    TODO: this list is not sufficient.  Do we enforce a specific set of
-   tokens.  Seems like analysis has a pretty huge set of possiblities.
+   tokens.  Seems like analysis has a pretty huge set of possibilities.
 
    The string value SHOULD be one of the following:
 
@@ -1630,7 +1651,7 @@ Table of Contents
    The Group Object SHOULD contain the uuid and either the body and
    encoding parameters or the url content_hash parameters (see Inline
    Files (Section 2.3) and Externally Referenced Files (Section 2.4)).
-   The vCon MAY be referenced via UUID:
+   The referenced vCon SHOULD be via UUID:
 
    *  uuid: "String"
 
@@ -1650,9 +1671,9 @@ Table of Contents
 
    The encoding string MUST have the value: "json".
 
-   Alternatively, the vCon can be externally referenced.  The url and
-   content_hash parameters and values are defined in Externally
-   Referenced Files (Section 2.4).
+   In addition, the location for the referenced vCon MAY be provided.
+   The url and content_hash parameters and values are defined in
+   Externally Referenced Files (Section 2.4).
 
    *  url: "String"
 
@@ -1784,7 +1805,8 @@ Table of Contents
    *  payload: "String"
 
    The value of the payload is the Base64Url Encoded string containing
-   the unsigned form of the JSON vCon.  The general construction of the
+   either: the unsigned form of the JSON vCon; or the gzipped [GZIP]
+   unsigned form of the JSON vCon.  The general construction of the
    payload string value is described in section 7.2.1 of [JWK]
 
    *  signatures "Signature[]"
@@ -1879,7 +1901,8 @@ Table of Contents
 
    *  cty: "String"
 
-   The string value of cty SHOULD be "application/vcon"
+   The string value of cty SHOULD be either "application/vcon" or
+   "application/vcon+gzip"
 
    *  enc: "String"
 
@@ -2055,9 +2078,9 @@ Table of Contents
 
    Parameter Name:
 
-   The string name of a parametr to be used within the Object.  The name
-   is case sensitive.  Names may not match other registered names in a
-   case-insensitive manner unless the Designated Experts state that
+   The string name of a parameter to be used within the Object.  The
+   name is case sensitive.  Names may not match other registered names
+   in a case-insensitive manner unless the Designated Experts state that
    there is a compelling reason to allow an exception.
 
    Parameter Description:
@@ -2079,8 +2102,8 @@ Table of Contents
 
 6.3.2.  vCon Object Parameter Names Registry
 
-   The following defines the intial values for the vCon Object Parameter
-   Names Registry.
+   The following defines the initial values for the vCon Object
+   Parameter Names Registry.
 
    +==============+======================+============+================+
    | Parameter    | Parameter            | Change     | Specification  |
@@ -2102,7 +2125,7 @@ Table of Contents
    |              |                      |            | RFC XXXX       |
    +--------------+----------------------+------------+----------------+
    | updated_at   | modification date    | IESG       | Section 4.1.6  |
-   |              |                      |            | RFC XXXXX      |
+   |              |                      |            | RFC XXXX       |
    +--------------+----------------------+------------+----------------+
    | subject      | conversation subject | IESG       | Section 4.1.7  |
    |              |                      |            | RFC XXXX       |
@@ -2117,8 +2140,8 @@ Table of Contents
    |              |                      |            | 4.1.10 RFC     |
    |              |                      |            | XXXX           |
    +--------------+----------------------+------------+----------------+
-   | parties      | Parties Objects      | IESG       | Section        |
-   |              | array                |            | 4.1.11 RFC     |
+   | parties      | Party Objects array  | IESG       | Section        |
+   |              |                      |            | 4.1.11 RFC     |
    |              |                      |            | XXXX           |
    +--------------+----------------------+------------+----------------+
    | dialog       | Dialog Objects array | IESG       | Section        |
@@ -2136,43 +2159,46 @@ Table of Contents
 
                                   Table 1
 
-6.3.3.  Parties Object Parameter Names Registry
+6.3.3.  Party Object Parameter Names Registry
 
-   The following defines the intial values for the Parties Object
+   The following defines the initial values for the Party Object
    Parameter Names Registry.
 
       +================+=============+============+================+
       | Parameter Name | Parameter   | Change     | Specification  |
       |                | Description | Controller | Document(s)    |
       +================+=============+============+================+
-      | tel            | tell URL    | IESG       | Section 4.2.1  |
+      | tel            | tel URL     | IESG       | Section 4.2.1  |
       |                |             |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | stir           | STIR token  | IESG       | Section 4.2.2  |
+      | sip            | SIP URL     | IESG       | Section 4.2.1  |
       |                |             |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | mailto         | mailto URL  | IESG       | Section 4.2.3  |
+      | stir           | STIR token  | IESG       | Section 4.2.3  |
       |                |             |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | name           | participant | IESG       | Section 4.2.4  |
+      | mailto         | mailto URL  | IESG       | Section 4.2.4  |
+      |                |             |            | RFC XXXX       |
+      +----------------+-------------+------------+----------------+
+      | name           | participant | IESG       | Section 4.2.5  |
       |                | name        |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | validation     | validation  | IESG       | Section 4.2.5  |
+      | validation     | validation  | IESG       | Section 4.2.6  |
       |                | method      |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | jCard          | participant | IESG       | Section 4.2.6  |
+      | jCard          | participant | IESG       | Section 4.2.7  |
       |                | jCard       |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | gmlpos         | participant | IESG       | Section 4.2.7  |
+      | gmlpos         | participant | IESG       | Section 4.2.8  |
       |                | geolocation |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | civicaddress   | civic       | IESG       | Section 4.2.8  |
+      | civicaddress   | civic       | IESG       | Section 4.2.9  |
       |                | address     |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | timezone       | participant | IESG       | Section 4.2.9  |
+      | timezone       | participant | IESG       | Section 4.2.10 |
       |                | timezone    |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | uuid           | particiant  | IESG       | Section 4.2.10 |
+      | uuid           | participant | IESG       | Section 4.2.11 |
       |                | UUID        |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
 
@@ -2180,7 +2206,7 @@ Table of Contents
 
 6.3.4.  Dialog Object Parameter Names Registry
 
-   The following defines the intial values for the Dialog Object
+   The following defines the initial values for the Dialog Object
    Parameter Names Registry.
 
    +=================+=======================+==========+==============+
@@ -2223,40 +2249,44 @@ Table of Contents
    | disposition     | dialog disposition    |IESG      |Section 4.3.9 |
    |                 |                       |          |RFC XXXX      |
    +-----------------+-----------------------+----------+--------------+
+   | session_id      | RFC7989 session ID    |IESG      |Section       |
+   |                 |                       |          |4.3.10 RFC    |
+   |                 |                       |          |XXXX          |
+   +-----------------+-----------------------+----------+--------------+
    | party_history   | dialog party events   |IESG      |Section       |
-   |                 | history               |          |4.3.10 RFC    |
+   |                 | history               |          |4.3.11 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | transferee      | transferee party      |IESG      |Section       |
-   |                 | index                 |          |4.3.11 RFC    |
+   |                 | index                 |          |4.3.12 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | transferor      | transferor party      |IESG      |Section       |
-   |                 | index                 |          |4.3.11 RFC    |
+   |                 | index                 |          |4.3.12 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | transfer_target | transfer target party |IESG      |Section       |
-   |                 | index                 |          |4.3.11 RFC    |
+   |                 | index                 |          |4.3.12 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | original        | original transfer     |IESG      |Section       |
-   |                 | dialog index          |          |4.3.11 RFC    |
+   |                 | dialog index          |          |4.3.12 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | consultation    | consultation`transfer |IESG      |Section       |
-   |                 | dialog index          |          |4.3.11 RFC    |
+   |                 | dialog index          |          |4.3.12 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | target_dialog   | target_dialog         |IESG      |Section       |
-   |                 | transfer dialog index |          |4.3.11 RFC    |
+   |                 | transfer dialog index |          |4.3.12 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | application     | dialog source         |IESG      |Section       |
-   |                 | application           |          |4.3.12 RFC    |
+   |                 | application           |          |4.3.13 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
    | message_id      | dialog message id     |IESG      |Section       |
-   |                 |                       |          |4.3.13 RFC    |
+   |                 |                       |          |4.3.14 RFC    |
    |                 |                       |          |XXXX          |
    +-----------------+-----------------------+----------+--------------+
 
@@ -2265,7 +2295,7 @@ Table of Contents
 6.3.4.1.  Dialog Type Name Registry
 
    This document defines a new registry for the token name values that
-   are permited as values to the dialog type (Section 4.3.1) parameter.
+   are permitted as values to the dialog type (Section 4.3.1) parameter.
 
 6.3.4.1.1.  Dialog Type Name Registration Template
 
@@ -2311,7 +2341,7 @@ Table of Contents
       | transfer         | transfer    | IESG       | Section 4.3.1 |
       |                  | dialog      |            | RFC XXXX      |
       +------------------+-------------+------------+---------------+
-      | incomplete       | incompleted | IESG       | Section 4.3.1 |
+      | incomplete       | incomplete  | IESG       | Section 4.3.1 |
       |                  | dialog      |            | RFC XXXX      |
       +------------------+-------------+------------+---------------+
 
@@ -2319,7 +2349,7 @@ Table of Contents
 
 6.3.5.  party_history Object Parameter Names Registry
 
-   The party_history Object Parameter Names Regisry uses the Object
+   The party_history Object Parameter Names Registry uses the Object
    Registry Template (Section 6.3.1) registry template.  This initial
    values for the party_history Object Parameter Names Registry are
    listed in the following table.
@@ -2328,13 +2358,13 @@ Table of Contents
      | Parameter Name | Parameter   | Change     | Specification    |
      |                | Description | Controller | Document(s)      |
      +================+=============+============+==================+
-     | party          | event party | IESG       | Section 4.3.10.1 |
+     | party          | event party | IESG       | Section 4.3.11.1 |
      |                | index       |            | RFC XXXX         |
      +----------------+-------------+------------+------------------+
-     | time           | time event  | IESG       | Section 4.3.10.1 |
+     | time           | time event  | IESG       | Section 4.3.11.1 |
      |                | occurred    |            | RFC XXXX         |
      +----------------+-------------+------------+------------------+
-     | event          | event type  | IESG       | Section 4.3.10.1 |
+     | event          | event type  | IESG       | Section 4.3.11.1 |
      |                |             |            | RFC XXXX         |
      +----------------+-------------+------------+------------------+
 
@@ -2344,7 +2374,7 @@ Table of Contents
 
    This document defines a new registry for the token name values that
    are permitted as values to the party_event Object event
-   (Section 4.3.10.1) parameter.
+   (Section 4.3.11.1) parameter.
 
 6.3.5.1.1.  party_event Event Name Registration Template
 
@@ -2381,22 +2411,22 @@ Table of Contents
     | party_event | party_event Event | Change     | Specification    |
     | Event Name  | Description       | Controller | Document(s)      |
     +=============+===================+============+==================+
-    | join        | party join event  | IESG       | Section 4.3.10.1 |
+    | join        | party join event  | IESG       | Section 4.3.11.1 |
     |             |                   |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
-    | drop        | party drop event  | IESG       | Section 4.3.10.1 |
+    | drop        | party drop event  | IESG       | Section 4.3.11.1 |
     |             |                   |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
-    | hold        | party on hold     | IESG       | Section 4.3.10.1 |
+    | hold        | party on hold     | IESG       | Section 4.3.11.1 |
     |             | event             |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
-    | unhold      | party off hold    | IESG       | Section 4.3.10.1 |
+    | unhold      | party off hold    | IESG       | Section 4.3.11.1 |
     |             | event             |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
-    | mute        | party on mute     | IESG       | Section 4.3.10.1 |
+    | mute        | party on mute     | IESG       | Section 4.3.11.1 |
     |             | event             |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
-    | unmute      | party off mute    | IESG       | Section 4.3.10.1 |
+    | unmute      | party off mute    | IESG       | Section 4.3.11.1 |
     |             | event             |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
 
@@ -2406,7 +2436,7 @@ Table of Contents
 
    TODO: type or purpose
 
-   The following defines the intial values for the Attachment Object
+   The following defines the initial values for the Attachment Object
    Parameter Names Registry.
 
    +==============+=======================+============+===============+
@@ -2446,7 +2476,7 @@ Table of Contents
 
 6.3.7.  Analysis Object Parameter Names Registry
 
-   The following defines the intial values for the Analysis Object
+   The following defines the initial values for the Analysis Object
    Parameter Names Registry.
 
    +================+=====================+============+===============+
@@ -2454,7 +2484,7 @@ Table of Contents
    | Name           | Description         | Controller | Document(s)   |
    +================+=====================+============+===============+
    | type           | analysis type       | IESG       | Section 4.5.1 |
-   |                |                     |            | RFC XXX       |
+   |                |                     |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
    | dialog         | associated dialog   | IESG       | Section 4.5.2 |
    |                | index               |            | RFC XXXX      |
@@ -2491,7 +2521,7 @@ Table of Contents
 
 6.3.8.  Redacted Object Parameter Names Registry
 
-   The following defines the intial values for the Redacted Object
+   The following defines the initial values for the Redacted Object
    Parameter Names Registry.
 
    +================+===================+============+=================+
@@ -2504,12 +2534,6 @@ Table of Contents
    | type           | redaction type or | IESG       | Section 4.1.8.1 |
    |                | reason            |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
-   | body           | inline less       | IESG       | Section 4.1.8.1 |
-   |                | redacted vCon     |            | RFC XXXX        |
-   +----------------+-------------------+------------+-----------------+
-   | encoding       | content encoding  | IESG       | Section 4.1.8.1 |
-   |                |                   |            | RFC XXXX        |
-   +----------------+-------------------+------------+-----------------+
    | url            | referenced less   | IESG       | Section 4.1.8.1 |
    |                | redacted vCon URL |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
@@ -2521,7 +2545,7 @@ Table of Contents
 
 6.3.9.  Appended Object Parameter Names Registry
 
-   The following defines the intial values for the Appended Object
+   The following defines the initial values for the Appended Object
    Parameter Names Registry.
 
    +================+==================+============+=================+
@@ -2530,12 +2554,6 @@ Table of Contents
    +================+==================+============+=================+
    | uuid           | prior vCon       | IESG       | Section 4.1.9.1 |
    |                | version UUID     |            | RFC XXXX        |
-   +----------------+------------------+------------+-----------------+
-   | body           | inline prior     | IESG       | Section 4.1.9.1 |
-   |                | version vCon     |            | RFC XXXX        |
-   +----------------+------------------+------------+-----------------+
-   | encoding       | content encoding | IESG       | Section 4.1.9.1 |
-   |                |                  |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
    | url            | referenced prior | IESG       | Section 4.1.9.1 |
    |                | version vCon URL |            | RFC XXXX        |
@@ -2548,7 +2566,7 @@ Table of Contents
 
 6.3.10.  Group Object Parameter Names Registry
 
-   The following defines the intial values for the Group Object
+   The following defines the initial values for the Group Object
    Parameter Names Registry.
 
      +================+================+============+===============+
@@ -2557,12 +2575,6 @@ Table of Contents
      +================+================+============+===============+
      | uuid           | child vCon     | IESG       | Section 4.6   |
      |                | version UUID   |            | RFC XXXX      |
-     +----------------+----------------+------------+---------------+
-     | body           | inline child   | IESG       | Section 4.6   |
-     |                | vCon           |            | RFC XXXX      |
-     +----------------+----------------+------------+---------------+
-     | encoding       | content        | IESG       | Section 4.6   |
-     |                | encoding       |            | RFC XXXX      |
      +----------------+----------------+------------+---------------+
      | url            | referenced     | IESG       | Section 4.6   |
      |                | child vCon URL |            | RFC XXXX      |
@@ -2576,10 +2588,10 @@ Table of Contents
 6.4.  vCon Extensions Names Registry
 
    This document defines and new registry for the token name values that
-   are permited as values to the [extensions]s(#extensions) parameter.
+   are permitted as values to the [extensions]s(#extensions) parameter.
    However it does not define any values for this registry.  Values for
    this registry are to be defined in subsequent documents which define
-   extnensions to the vCon schema.
+   extensions to the vCon schema.
 
 6.4.1.  Extensions Registration Template
 
@@ -2739,6 +2751,12 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [SESSION-ID]
+              Jones, P., Salgueiro, G., Pearce, C., and P. Giralt, "End-
+              to-End Session Identification in IP-Based Multimedia
+              Communication Networks", RFC 7989, DOI 10.17487/RFC7989,
+              October 2016, <https://www.rfc-editor.org/rfc/rfc7989>.
+
    [SMTP]     Klensin, J., "Simple Mail Transfer Protocol", RFC 5321,
               DOI 10.17487/RFC5321, October 2008,
               <https://www.rfc-editor.org/rfc/rfc5321>.
@@ -2787,6 +2805,12 @@ Table of Contents
               (SHA and SHA-based HMAC and HKDF)", RFC 6234,
               DOI 10.17487/RFC6234, May 2011,
               <https://www.rfc-editor.org/rfc/rfc6234>.
+
+   [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
+              A., Peterson, J., Sparks, R., Handley, M., and E.
+              Schooler, "SIP: Session Initiation Protocol", RFC 3261,
+              DOI 10.17487/RFC3261, June 2002,
+              <https://www.rfc-editor.org/rfc/rfc3261>.
 
    [SIP-XFER] Sparks, R., Johnston, A., Ed., and D. Petrie, "Session
               Initiation Protocol (SIP) Call Control - Transfer",
