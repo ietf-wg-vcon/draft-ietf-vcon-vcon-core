@@ -340,7 +340,7 @@ Extensions to the vCon schema can be classified into two categories:
 
 * **Incompatible**: These extensions modify existing semantics or schema definitions in ways that render a vCon incompatible with implementations that do not support the extension. Interpreting such a vCon correctly requires explicit awareness of the extension.
 
-Wherever feasible, extensions **SHOULD** be designed as non-disruptive to preserve compatibility with existing implementations.
+Wherever feasible, extensions **SHOULD** be designed as **Compatible** to preserve compatibility with existing implementations.
 
 However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`must_support`](#must_support) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
 
@@ -406,7 +406,7 @@ domains of uniqueness.
 ### extensions
 
 The vCon schema can be extended through the definition of new extensions.
-The extensions parameter SHOULD contain the list names of all vCon extensions for any parameters used that are not defined in this core vCon schema document.
+The extensions parameter SHOULD contain the list of names of all vCon extensions for any parameters used that are not defined in this core vCon schema document.
 
 * extensions: "String\[\]"
 
@@ -1398,7 +1398,7 @@ The JSON format for vCon is mandatory to implement.
 
 * Type name: application
 
-* Subtype name: vcon+json
+* Subtype name: vcon
 
 * Required parameters: N/A
 
