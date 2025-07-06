@@ -72,6 +72,8 @@ normative:
 
   PIDF-LO: RFC5491
 
+  SESSION-ID: RFC7989
+
   SMTP: RFC5321
 
   TEL: RFC3966
@@ -839,6 +841,8 @@ Alternatively, for externally referenced dialog:
 
 ### disposition
 
+TODO: should this go in CC extensions?
+
 If the dialog type is "incomplete", it must have a disposition parameter.
 The value of the disposition parameter provides the reason that the "call control" failed.
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
@@ -856,6 +860,14 @@ The value of the disposition parameter MUST be one of the following string:
   * "voicemail-no-message" - a call or connection was made, the voicemail system answered, but no message was left
 
     Note: if a message was left with the voicemail system this is no longer an "incomplete" type dialog, it is a "recording" type and the conversation SHOULD be included in the Dialog Content.
+
+### session_id {#session_id}
+
+The [SESSION-ID] MAY be included for the dialog.
+
+* session_id: "String" (optional)
+
+  The session_id value is the string as defined in section 4.1 of [SESSION-ID].
 
 ### party_history Objects Array {#party_history-objects-array}
 
