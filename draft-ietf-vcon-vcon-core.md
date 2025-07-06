@@ -1229,7 +1229,7 @@ The vCon General JWS JSON Serialization MUST include x5c or x5u in the unprotect
 
 * payload: "String"
 
-The value of the payload is the Base64Url Encoded string containing the unsigned form of the JSON vCon.
+The value of the payload is the Base64Url Encoded string containing either: the unsigned form of the JSON vCon; or the gzipped unsigned form of the JSON vCon.
 The general construction of the payload string value is described in section 7.2.1 of [JWK]
 
 * signatures "Signature\[\]"
@@ -1305,7 +1305,7 @@ The string value of tag is the the Authentication Tag as defined in section 7.2.
 
 * cty: "String"
 
-The string value of cty SHOULD be "application/vcon"
+The string value of cty SHOULD be either "application/vcon" or "application/vcon+gzip"
 
 * enc: "String"
 
