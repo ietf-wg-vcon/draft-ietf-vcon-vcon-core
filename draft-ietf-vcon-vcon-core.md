@@ -513,12 +513,15 @@ The signed unredacted vCon contains the unredacted vCon in the unsigned form in 
 
 ### appended
 
+TODO: should the name be appended, updated or ammended?
+
 A signed or encrypted vCon cannot be modified without invalidating it.
 In these cases, to allow for adding of additional information a new vCon instance version MUST be created.
 The prior vCon instance version is referenced by the [Appended Object](#appended-object).
-Then the appended information is added to the new vCon instance version (i.e. top level vCon object).
+The vCon with appended or ammended data contains all of the data that is in the referenced vCon with the exception of data that is ammended.
+That is to say that the newer version of the vCon is a deep copy of the prior version with the ammended and additional data added to it.
 
-The prior vCon instance version SHOULD be referenced via the uuid of the prior vCon instance version, and MAY include the body and encoding parameters or alternatively the url and content_hash parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
+The prior vCon instance version SHOULD be referenced via the uuid of the prior vCon instance version, and MAY include the url and content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
 
 * appended: "Appended" (optional, mutually exclusive with redacted and group parameters)
 
@@ -539,7 +542,7 @@ The following figure illustrates an example partial JSON object tree for an appe
 The top level object is the JWS signed appended vCon which contains the unsigned form of the vCon in it's payload parameter.
 The second level object is the appended vCon with additional conversational data (e.g. analysis data).
 It refers to its original parent (or prior vCon instance version) of the vCon in its appended parameter.
-Note: the appended parameter may include the original in the body parameter or refer to it via URL.
+Note: the appended parameter may refer to the prior version of the vCon via URL.
 The appended vCon in this figure refers to the JWS signed version of the vCon, which in turn contains the original vCon in unsigned form in its payload parameter.
 
 ~~~
