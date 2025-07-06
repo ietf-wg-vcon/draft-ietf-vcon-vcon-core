@@ -328,6 +328,7 @@ To do so, a new extension definition MUST do the following:
 * Define the new parameter(s), their meaning, value types and register them with IANA
 * Define the new semantics and values for change parameters
 * List depricated parameters, what should be used in its stead and migration approaches
+* Use snake case naming convention for parameter names (as opposed to camel case)
 
 Extensions to the vCon schema can be classified into two categories:
 
