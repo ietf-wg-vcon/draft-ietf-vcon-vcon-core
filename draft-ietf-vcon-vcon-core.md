@@ -155,7 +155,7 @@ The goal of **vCon** is to provide a standardized, platform-agnostic structure f
 ##  Purpose of vCon
 
 The **vCon** standard enables the abstraction of conversation data, making it easier to integrate communication platforms with external services, including post-conversation analysis tools, customer support systems, and business intelligence platforms.
-By defining a consistent data format, **vCon** ensures interoperability across various platforms, regardless of the communication mode—whether text, audio, video, or other formats.
+By defining a consistent data format, **vCon** ensures interoperability across various platforms, regardless of the communication mode - whether text, audio, video, or other formats.
 
 The **vCon** format captures the essential components of a conversation, including metadata, media content, related documents, and post-conversation analysis.
 This abstraction simplifies data exchange, apply AI-driven analysis, as well as model training and testing.
@@ -326,12 +326,12 @@ contained in the claim.
 
 vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
-It can also redefine the semantics of or depricate existing parameters.
+It can also redefine the semantics of or deprecate existing parameters.
 To do so, a new extension definition MUST do the following:
 * Define a new [extensions](#extensions) token value and register it with IANA [(see examples)](#vcon-json-registry))
 * Define the new parameter(s), their meaning, value types and register them with IANA
 * Define the new semantics and values for change parameters
-* List depricated parameters, what should be used in its stead and migration approaches
+* List deprecated parameters, what should be used in its stead and migration approaches
 * Use snake case naming convention for parameter names (as opposed to camel case)
 
 Extensions to the vCon schema can be classified into two categories:
@@ -406,7 +406,7 @@ domains of uniqueness.
 ### extensions
 
 The vCon schema can be extended through the definition of new extensions.
-The extensions parameter SHOULD contain the list names of all vCon extensions for any parameters used that are not defined in this core vCon schem document.
+The extensions parameter SHOULD contain the list names of all vCon extensions for any parameters used that are not defined in this core vCon schema document.
 
 * extensions: "String\[\]"
 
@@ -513,13 +513,13 @@ The signed unredacted vCon contains the unredacted vCon in the unsigned form in 
 
 ### appended
 
-TODO: should the name be appended, updated or ammended?
+TODO: should the name be appended, updated or amended?
 
 A signed or encrypted vCon cannot be modified without invalidating it.
 In these cases, to allow for adding of additional information a new vCon instance version MUST be created.
 The prior vCon instance version is referenced by the [Appended Object](#appended-object).
-The vCon with appended or ammended data contains all of the data that is in the referenced vCon with the exception of data that is ammended.
-That is to say that the newer version of the vCon is a deep copy of the prior version with the ammended and additional data added to it.
+The vCon with appended or amended data contains all of the data that is in the referenced vCon with the exception of data that is amended.
+That is to say that the newer version of the vCon is a deep copy of the prior version with the amended and additional data added to it.
 
 The prior vCon instance version SHOULD be referenced via the uuid of the prior vCon instance version, and MAY include the url and content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
 
@@ -595,7 +595,7 @@ The actual conversation which occurred over text, audio or video that was captur
 
 The value of the dialog parameter is an array of [Dialog Objects](#dialog-object).
 It should be noted that the Dialog Objects may not be sorted in chronological order.
-It is the applications resposibility to sort dialog and transcriptions if they are needed in chonological order.
+It is the applications responsibility to sort dialog and transcriptions if they are needed in chronological order.
 
 ### analysis Objects Array
 
@@ -1063,7 +1063,7 @@ The type parameter is used to label the semantic type of analysis data.
 
 * type: "String"
 
-TODO:  this list is not sufficient.  Do we enforce a specific set of tokens.  Seems like analysis has a pretty huge set of possiblities.
+TODO:  this list is not sufficient.  Do we enforce a specific set of tokens.  Seems like analysis has a pretty huge set of possibilities.
 
 The string value SHOULD be one of the following:
 
@@ -1255,7 +1255,7 @@ The vCon General JWS JSON Serialization MUST include x5c or x5u in the unprotect
 
 * payload: "String"
 
-The value of the payload is the Base64Url Encoded string containing either: the unsigned form of the JSON vCon; or the gzipped unsigned form of the JSON vCon.
+The value of the payload is the Base64Url Encoded string containing either: the unsigned form of the JSON vCon; or the gzipped [GZIP] unsigned form of the JSON vCon.
 The general construction of the payload string value is described in section 7.2.1 of [JWK]
 
 * signatures "Signature\[\]"
@@ -1491,7 +1491,7 @@ All of those registries have the same registry template.
 
 Parameter Name:
 
-  The string name of a parametr to be used within the Object.
+  The string name of a parameter to be used within the Object.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
@@ -1514,7 +1514,7 @@ Specification Document(s):
 
 ### vCon Object Parameter Names Registry
 
-The following defines the intial values for the vCon Object Parameter Names Registry.
+The following defines the initial values for the vCon Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1523,7 +1523,7 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
 | must_support | list of incompatible extensions used | IESG | [must_support](#must_support) RFC XXXX |
 | created_at | creation date | IESG | [](#created_at) RFC XXXX |
-| updated_at | modification date | IESG | [](#updated_at) RFC XXXXX |
+| updated_at | modification date | IESG | [](#updated_at) RFC XXXX |
 | subject | conversation subject | IESG | [](#subject) RFC XXXX |
 | redacted | Redacted Object | IESG | [](#redacted) RFC XXXX |
 | appended | Appended Object | IESG | [](#redacted) RFC XXXX |
@@ -1535,7 +1535,7 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 
 ### Party Object Parameter Names Registry
 
-The following defines the intial values for the Party Object Parameter Names Registry.
+The following defines the initial values for the Party Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1549,11 +1549,11 @@ The following defines the intial values for the Party Object Parameter Names Reg
 | gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
 | civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
 | timezone | participant timezone | IESG | [](#timezone) RFC XXXX |
-| uuid | particiant UUID | IESG | [](#party-uuid) RFC XXXX |
+| uuid | participant UUID | IESG | [](#party-uuid) RFC XXXX |
 
 ### Dialog Object Parameter Names Registry
 
-The following defines the intial values for the Dialog Object Parameter Names Registry.
+The following defines the initial values for the Dialog Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1582,7 +1582,7 @@ The following defines the intial values for the Dialog Object Parameter Names Re
 
 #### Dialog Type Name Registry
 
-This document defines a new registry for the token name values that are permited as values to the [dialog type](#dialog-type) parameter.
+This document defines a new registry for the token name values that are permitted as values to the [dialog type](#dialog-type) parameter.
 
 ##### Dialog Type Name Registration Template
 
@@ -1618,12 +1618,12 @@ The following table defines the initial values for the Dialog Object Types Regis
 | text | text dialog | IESG | [](#dialog-type) RFC XXXX |
 | recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
 | transfer | transfer dialog | IESG | [](#dialog-type) RFC XXXX |
-| incomplete | incompleted dialog | IESG | [](#dialog-type) RFC XXXX |
+| incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
 
 
 ### party_history Object Parameter Names Registry
 
-The party_history Object Parameter Names Regisry uses the [Object Registry Template](#object-registry-template) registry template.
+The party_history Object Parameter Names Registry uses the [Object Registry Template](#object-registry-template) registry template.
 This initial values for the party_history Object Parameter Names Registry are listed in the following table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
@@ -1678,7 +1678,7 @@ The following table defines the initial values for the Dialog Object Types Regis
 
 TODO: type or purpose
 
-The following defines the intial values for the Attachment Object Parameter Names Registry.
+The following defines the initial values for the Attachment Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1694,11 +1694,11 @@ The following defines the intial values for the Attachment Object Parameter Name
 
 ### Analysis Object Parameter Names Registry
 
-The following defines the intial values for the Analysis Object Parameter Names Registry.
+The following defines the initial values for the Analysis Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| type | analysis type | IESG | [](#analysis-type) RFC XXX |
+| type | analysis type | IESG | [](#analysis-type) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
 | mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
 | filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
@@ -1712,7 +1712,7 @@ The following defines the intial values for the Analysis Object Parameter Names 
 
 ### Redacted Object Parameter Names Registry
 
-The following defines the intial values for the Redacted Object Parameter Names Registry.
+The following defines the initial values for the Redacted Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1723,7 +1723,7 @@ The following defines the intial values for the Redacted Object Parameter Names 
 
 ### Appended Object Parameter Names Registry
 
-The following defines the intial values for the Appended Object Parameter Names Registry.
+The following defines the initial values for the Appended Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1734,7 +1734,7 @@ The following defines the intial values for the Appended Object Parameter Names 
 
 ### Group Object Parameter Names Registry
 
-The following defines the intial values for the Group Object Parameter Names Registry.
+The following defines the initial values for the Group Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1745,9 +1745,9 @@ The following defines the intial values for the Group Object Parameter Names Reg
 
 ## vCon Extensions Names Registry
 
-This document defines and new registry for the token name values that are permited as values to the [extensions]s(#extensions) parameter.
+This document defines and new registry for the token name values that are permitted as values to the [extensions]s(#extensions) parameter.
 However it does not define any values for this registry.
-Values for this registry are to be defined in subsequent documents which define extnensions to the vCon schema.
+Values for this registry are to be defined in subsequent documents which define extensions to the vCon schema.
 
 ### Extensions Registration Template
 
