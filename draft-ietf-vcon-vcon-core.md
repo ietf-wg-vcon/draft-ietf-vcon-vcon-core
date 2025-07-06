@@ -586,6 +586,8 @@ The actual conversation which occurred over text, audio or video that was captur
 * dialog: "Dialog\[\]" (optional)
 
 The value of the dialog parameter is an array of [Dialog Objects](#dialog-object).
+It should be noted that the Dialog Objects may not be sorted in chronological order.
+It is the applications resposibility to sort dialog and transcriptions if they are needed in chonological order.
 
 ### analysis Objects Array
 
@@ -771,7 +773,9 @@ It is implied that the first party in the dialog Object parties list, is the ori
 However, in some situations, it is difficult to impose the constraint that the first channel of a recording is the originator.
 If ensuring that the first channel and party listed is the originator is not possible, the optional originator parameter indicates the originator party.
 In other cases, there may be a separate recording file for each party in a conversation, where only one party is recorded per file.
-In this situation, it is necessary to indicate the originator as the dialog Object parties parameter will contain only one party and may not be the originator.
+In this situation, it is necessary to indicate the originator as the dialog Object parties parameter may contain only one party and may not be the originator.
+It should be noted that the recordings may be shorter than the collective conference when there is a separate recording per speaker/party.
+For example the recording(s) of the individual speaker may be trimmed to only the parts where they are actually speaking.
 
 TODO: For an email thread, To and Cc parties are all passive.  Do we just put the sender as the party or do we want to list all of the recipients and by convention the sender is the first party?  Note that each dialog/email could have a difference set of recipients.
 
@@ -790,6 +794,7 @@ The originator value is the index into the parties Objects Array, to the party t
 
 The media type for the piece of dialog included or referenced is provided in the mediatype parameter.
 The mediatype parameter MUST be provided for inline dialog files and MUST be provided if the Content-Type header in the [HTTPS] response for the externally referenced URL is not provided.
+
 
 * mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
 
