@@ -1555,6 +1555,7 @@ The following defines the intial values for the Dialog Object Parameter Names Re
 | url | dialog referenced content URL | IESG | [](#dialog-content) RFC XXXX |
 | content_hash | dialog content hash | IESG | [](#dialog-content) RFC XXXX |
 | disposition | dialog disposition | IESG | [](#disposition) RFC XXXX |
+| session_id | RFC7989 session ID  | IESG | [](#session_id) RFC XXXX |
 | party_history | dialog party events history | IESG | [](#party_history-objects-array) RFC XXXX |
 | transferee | transferee party index | IESG | [](#dialog-transfer) RFC XXXX |
 | transferor | transferor party index | IESG | [](#dialog-transfer) RFC XXXX |
