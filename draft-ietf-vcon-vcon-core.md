@@ -357,6 +357,9 @@ The JSON form of a vCon is contained in a JSON object in one of three forms:
 The unsigned form of the vCon has a single top level object.
 This top level vCon object is also contained as described in the [signed](#signed-form-of-vcon-object) and [encrypted](#encrypted-form-of-vcon-object) forms of the vCon.
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
+The signed form of vCon is defined in [](#signed-form-of-vcon-object) using [JWE] to provide integrity and proof of the conversation data.
+The encrypted form of vCon is defined in [](#encrypted-form-of-vcon-object) to provide complete privacy of the conversationaldata.
+Partial privacy can be provide for a vCon using the [redacted](#redacted) construct.
 
 # Unsigned Form of vCon Object
 
