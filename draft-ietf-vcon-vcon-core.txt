@@ -481,8 +481,8 @@ Table of Contents
       such a vCon correctly requires explicit awareness of the
       extension.
 
-   Wherever feasible, extensions *SHOULD* be designed as non-disruptive
-   to preserve compatibility with existing implementations.
+   Wherever feasible, extensions *SHOULD* be designed as *Compatible* to
+   preserve compatibility with existing implementations.
 
    However, when disruptive extensions are necessary, the names of all
    such extensions *MUST* be listed in the must_support (Section 4.1.4)
@@ -576,9 +576,9 @@ Table of Contents
 4.1.3.  extensions
 
    The vCon schema can be extended through the definition of new
-   extensions.  The extensions parameter SHOULD contain the list names
-   of all vCon extensions for any parameters used that are not defined
-   in this core vCon schema document.
+   extensions.  The extensions parameter SHOULD contain the list of
+   names of all vCon extensions for any parameters used that are not
+   defined in this core vCon schema document.
 
    *  extensions: "String[]"
 
@@ -1980,7 +1980,7 @@ Table of Contents
 
    *  Type name: application
 
-   *  Subtype name: vcon+json
+   *  Subtype name: vcon
 
    *  Required parameters: N/A
 

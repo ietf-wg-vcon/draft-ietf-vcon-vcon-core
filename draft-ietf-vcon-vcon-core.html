@@ -1886,7 +1886,7 @@ To do so, a new extension definition <span class="bcp14">MUST</span> do the foll
             <p id="section-2.5-3.2.1"><strong>Incompatible</strong>: These extensions modify existing semantics or schema definitions in ways that render a vCon incompatible with implementations that do not support the extension. Interpreting such a vCon correctly requires explicit awareness of the extension.<a href="#section-2.5-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.5-4">Wherever feasible, extensions <strong><span class="bcp14">SHOULD</span></strong> be designed as non-disruptive to preserve compatibility with existing implementations.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
+<p id="section-2.5-4">Wherever feasible, extensions <strong><span class="bcp14">SHOULD</span></strong> be designed as <strong>Compatible</strong> to preserve compatibility with existing implementations.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
 <p id="section-2.5-5">However, when disruptive extensions are necessary, the names of all such extensions <strong><span class="bcp14">MUST</span></strong> be listed in the <span><a href="#must_support" class="internal xref"><code>must_support</code></a> (<a href="#must_support" class="auto internal xref">Section 4.1.4</a>)</span> parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
 <p id="section-2.5-6">Implementations that encounter a vCon containing a disruptive extension listed in the must_support parameter, but do not support that extension, <strong><span class="bcp14">MUST NOT</span></strong> process the vCon except to reject it or notify the user.<a href="#section-2.5-6" class="pilcrow">¶</a></p>
 </section>
@@ -1984,7 +1984,7 @@ domains of uniqueness.<a href="#section-4.1.2-5" class="pilcrow">¶</a></p>
 <a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-extensions" class="section-name selfRef">extensions</a>
           </h4>
 <p id="section-4.1.3-1">The vCon schema can be extended through the definition of new extensions.
-The extensions parameter <span class="bcp14">SHOULD</span> contain the list names of all vCon extensions for any parameters used that are not defined in this core vCon schema document.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
+The extensions parameter <span class="bcp14">SHOULD</span> contain the list of names of all vCon extensions for any parameters used that are not defined in this core vCon schema document.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.1.3-2.1">
               <p id="section-4.1.3-2.1.1">extensions: "String[]"<a href="#section-4.1.3-2.1.1" class="pilcrow">¶</a></p>
@@ -3659,7 +3659,7 @@ The presence of both of the following parameters indicates that the vCon is in t
             <p id="section-6.1-2.1.1">Type name: application<a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.1-2.2">
-            <p id="section-6.1-2.2.1">Subtype name: vcon+json<a href="#section-6.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-2.2.1">Subtype name: vcon<a href="#section-6.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.1-2.3">
             <p id="section-6.1-2.3.1">Required parameters: N/A<a href="#section-6.1-2.3.1" class="pilcrow">¶</a></p>
