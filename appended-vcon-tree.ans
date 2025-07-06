@@ -1,27 +1,27 @@
                 --------------
-Signed          | JWS        |
-appended vCon:  |            | payload parameter
-                |    payload-|-- contains unsigned
-                -------------- / appended vCon
-                              /
+Signed          | JWS   uuid-|-- appended vCon uuid in header
+appended vCon:  |            |
+                |    payload-|-- payload parameter
+                -------------- / contains unsigned
+                              / appended vCon
             -------------    /
 vCon with   |vCon       |<---
-appended    |           | appended parameter contains
-data:       |  appended-|--- or refers to JWS
-            |  analysis |  / signed original vCon
-            ------------- / along with additional
-                         / conversational data
-                        / (e.g. analysis)
-                       /
+appended    |           |
+data:       |  appended-|--- appended parameter
+            |  analysis-|  / refers to JWS
+            ------------- / signed original vCon
+                         / along with additional
+                        / conversational data
+                       / (e.g. analysis)
                       /
                      /
                     / ------------
-                    ->| JWS      | payload
-Encrypted signed      |          | parameter
-original vCon:        |  payload-|--- contains
-                      ------------  / unsigned
-                                   / original
-                  -------------   / vCon
+                    ->| JWS uuid-|-- original vCon uuid in header
+signed                |          |
+original vCon:        |  payload-|--- payload parameter
+                      ------------  / contains unsigned
+                                   / original vCon
+                  -------------   /
 Original vCon:    |vCon       |<--
                   |           |
                   |   parties |
