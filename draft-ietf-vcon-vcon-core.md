@@ -484,13 +484,8 @@ The value of the redacted type parameter is used to indicate the type of redacti
 this vCon relative to the less redacted version referenced by the redacted uuid parameter.
 This should indicate the type of information that was redacted.
 
-As defined in [Inline Files](#inline-files) body and encoding MAY be included:
-
-* body: "String"
-* encoding: "String"
-
-Alternatively, as defined in [Externally Referenced Files](#externally-referenced-files) url SHOULD be
-included unless redacted and content_hash MUST be included:
+The the location of the referenced vCon MAY be provided as defined in [Externally Referenced Files](#externally-referenced-files) by including url  and content_hash.
+content_hash MUST be included if url is provided.
 
 * url: "String"
 * content_hash: "String" \| "String\[\]"
@@ -530,13 +525,7 @@ The Appended Object contains the following parameters:
 
 The value contains the [uuid string value](#uuid) of the unredacted/original vCon instance version.
 
-Alternatively, as defined in [Inline Files](#inline-files) body and encoding MAY be included:
-
-* body: "String"
-* encoding: "String"
-
-Alternatively, as defined in [Externally Referenced Files](#externally-referenced-files) url and content_hash
-MAY be included:
+The location of the referenced vCon MAY be provided, as defined in [Externally Referenced Files](#externally-referenced-files) by including url and content_hash.  content_hash MUST be provided if url is provided.
 
 * url: "String"
 * content_hash: "String" \| "String\[\]"
@@ -1135,7 +1124,7 @@ The Group Object includes or refers to a vCon to be aggregated into the whole of
 
 The Group Object SHOULD contain the uuid and either the body and encoding parameters or the url content_hash
 parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
-The vCon MAY be referenced via UUID:
+The referenced vCon SHOULD be via UUID:
 
 * uuid: "String"
 
@@ -1152,7 +1141,7 @@ The JSON unsigned form of the vCon, the JWS signed form of the vCon or the JWE e
 
 The encoding string MUST have the value: "json".
 
-Alternatively, the vCon can be externally referenced.
+In addition, the location for the referenced vCon MAY be provided.
 The url and content_hash parameters and values are defined in
 [Externally Referenced Files](#externally-referenced-files).
 
@@ -1696,8 +1685,6 @@ The following defines the intial values for the Redacted Object Parameter Names 
 | --- | --- | --- | --- |
 | uuid | less redacted vCon UUID | IESG | [](#redacted-object) RFC XXXX |
 | type | redaction type or reason | IESG | [](#redacted-object) RFC XXXX |
-| body | inline less redacted vCon | IESG | [](#redacted-object) RFC XXXX |
-| encoding | content encoding | IESG | [](#redacted-object) RFC XXXX |
 | url | referenced less redacted vCon URL | IESG | [](#redacted-object) RFC XXXX |
 | content_hash | less redacted vCon hash | IESG | [](#redacted-object) RFC XXXX |
 
@@ -1708,8 +1695,6 @@ The following defines the intial values for the Appended Object Parameter Names 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
 | uuid | prior vCon version UUID | IESG | [](#appended-object) RFC XXXX |
-| body | inline prior version vCon | IESG | [](#appended-object) RFC XXXX |
-| encoding | content encoding | IESG | [](#appended-object) RFC XXXX |
 | url | referenced prior version vCon URL | IESG | [](#appended-object) RFC XXXX |
 | content_hash | prior version vCon hash | IESG | [](#appended-object) RFC XXXX |
 
@@ -1721,8 +1706,6 @@ The following defines the intial values for the Group Object Parameter Names Reg
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
 | uuid | child vCon version UUID | IESG | [](#group-object) RFC XXXX |
-| body | inline child vCon | IESG | [](#group-object) RFC XXXX |
-| encoding | content encoding | IESG | [](#group-object) RFC XXXX |
 | url | referenced child vCon URL | IESG | [](#group-object) RFC XXXX |
 | content_hash | prior version vCon hash | IESG | [](#group-object) RFC XXXX |
 
