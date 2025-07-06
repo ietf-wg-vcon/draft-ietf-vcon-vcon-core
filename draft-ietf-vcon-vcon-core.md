@@ -97,6 +97,8 @@ informative:
 
   SHA-512: RFC6234
 
+  SIP: RFC3261
+
   SIP-XFER: RFC5589
 
   STIR-PASS: I-D.draft-ietf-stir-passport-rcd
@@ -619,6 +621,14 @@ If the tel URL for the party is known, it can be included in the tel parameter.
 The value of the tel parameter SHOULD be a valid [TEL] URL.  The URL scheme prefix (i.e. "tel:") is optional.
 
 
+### sip
+
+The [SIP] URL for the party can be provided in the sip parameter.
+
+* sip: "String" (optional)
+
+  The value of the sip parameter is the addr-spec as defined in section 25.1 of [SIP].
+
 ### stir
 
 If the STIR [PASSporT] was provided to identify the party, the PASSporT can be included in the stir
@@ -990,7 +1000,7 @@ This party is identified by the party parameter in the Attachment Object.
 
 * party: "UnsignedInt"
 
-The value of the party parameter is the index into the Parties Object array to the party that contributed the attachment.
+The value of the party parameter is the index into the Party Object array to the party that contributed the attachment.
 
 ### dialog {#attachment-dialog}
 
@@ -1515,18 +1525,19 @@ The following defines the intial values for the vCon Object Parameter Names Regi
 | redacted | Redacted Object | IESG | [](#redacted) RFC XXXX |
 | appended | Appended Object | IESG | [](#redacted) RFC XXXX |
 | group | Group Objects array | IESG | [](#group-objects-array) RFC XXXX |
-| parties | Parties Objects array | IESG | [](#parties-objects-array) RFC XXXX |
+| parties | Party Objects array | IESG | [](#parties-objects-array) RFC XXXX |
 | dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
 | analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |
 | attachments | Attachment Objects array | IESG | [](#attachments-objects-array) RFC XXXX |
 
-### Parties Object Parameter Names Registry
+### Party Object Parameter Names Registry
 
-The following defines the intial values for the Parties Object Parameter Names Registry.
+The following defines the intial values for the Party Object Parameter Names Registry.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| tel | tell URL | IESG | [](#tel) RFC XXXX |
+| tel | tel URL | IESG | [](#tel) RFC XXXX |
+| sip | SIP URL | IESG | [](#tel) RFC XXXX |
 | stir | STIR token | IESG | [](#stir) RFC XXXX |
 | mailto | mailto URL | IESG | [](#mailto) RFC XXXX |
 | name | participant name | IESG | [](#name) RFC XXXX |
