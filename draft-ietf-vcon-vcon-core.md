@@ -248,7 +248,7 @@ For the ease of documentation, the convention for [JSON] notation used in this d
 * "Mediatype" - A "String" value that MUST be of the following form as defined in section 5.1 of [MIME]:
     type "/" subtype
 
-* "ContentHash" - The string token value for is generated using the same approach used in section 6 of [STIR-PASS].
+* "ContentHash" - The string token value is generated using the same approach used in section 6 of [STIR-PASS].
 The relevant text is copied here for convenience and to remove the normative dependency.
 The hash string token values are formed from combining a string that
 defines the crypto algorithm used to generate the digest along with the Base64Url Encoded value of the
@@ -365,7 +365,7 @@ The unsigned form of the vCon has a single top level object.
 This top level vCon object is also contained as described in the [signed](#signed-form-of-vcon-object) and [encrypted](#encrypted-form-of-vcon-object) forms of the vCon.
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
 The signed form of vCon is defined in [](#signed-form-of-vcon-object) using [JWE] to provide integrity and proof of the conversation data.
-The encrypted form of vCon is defined in [](#encrypted-form-of-vcon-object) to provide complete privacy of the conversationaldata.
+The encrypted form of vCon is defined in [](#encrypted-form-of-vcon-object) to provide complete privacy of the conversational data.
 Partial privacy or data minimization can be provide for a vCon using the [redacted](#redacted) construct.
 
 # Unsigned Form of vCon Object
