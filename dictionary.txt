@@ -23,6 +23,7 @@ COSE
 cty
 ciphertext
 CLI
+ContentHash
 crypto
 dan
 de
@@ -32,6 +33,8 @@ DEVOPS
 dgpetrie
 diarization
 dict
+DID
+DIDs
 DOB
 docname
 ECRIT
@@ -158,6 +161,7 @@ tel
 TEL
 thomas
 TMN
+TR
 tts
 UnisignedInt
 unredacted
