@@ -248,6 +248,23 @@ For the ease of documentation, the convention for [JSON] notation used in this d
 * "Mediatype" - A "String" value that MUST be of the following form as defined in section 5.1 of [MIME]:
     type "/" subtype
 
+* "ContentHash" - The string token value for is generated using the same approach used in section 6 of [STIR-PASS].
+The relevant text is copied here for convenience and to remove the normative dependency.
+The hash string token values are formed from combining a string that
+defines the crypto algorithm used to generate the digest along with the Base64Url Encoded value of the
+SHA-512 hash, as defined in section 6.3 and 6.4 [SHA-512], of the body of the content at the given url.
+The hash algorithm is identified by "sha512".
+SHA-512 is part of the SHA-2 set of cryptographic hash functions [SHA-512] defined by the US National
+Institute of Standards and Technology (NIST).
+Implementations MAY support additional recommended hash algorithms in [IANA-COSE-ALG]; that is, the hash
+algorithm has "Yes" in the "Recommended" column of the IANA registry.
+Hash algorithm identifiers MUST use only lowercase letters, and they MUST NOT contain hyphen characters.
+The character following the algorithm string MUST be a hyphen character, "-", or ASCII 45.
+The subsequent characters are the Base64Url encoded (see Section 2 [JWS]) digest of a canonicalized and concatenated string
+or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
+contained in the claim.
+
+
 * "A\[\]" and array of values of type A.
 
 All parameters are assumed to be mandatory unless other wise noted.
@@ -287,10 +304,9 @@ Files and data stored externally from the vCon MUST be "signed" to ensure that t
 Objects that refer to a file which is externally stored from the vCon MUST have the parameters: url,
 content_hash.
 These parameters are defined in the following subsections.
+The values and format of the hashes are defined in [](#json-notation) type: ContentHash.
 The use of [SHA-512] hash for ensuring that the externally referenced data or file has not been modified, is defined in this document.
 Other methods of ensuring integrity may be added in the future.
-The following subsections define how the specific algorithm used and how that content hash information is
-included in a vCon so that the content can be verified.
 
 ### url
 
@@ -310,24 +326,8 @@ The SHA-512 [SHA-512] algorithm MUST be supported.
 Other algorithms MAY be included.
 The algorithm used for signing the externally referenced file is defined in section 6.3 and 6.4 of [SHA-512].
 
-  content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
-The string token value(s) for the content_hash parameter use the same approach used in section 6 of [STIR-PASS].
-The relevant text is copied here for convenience and to remove the normative dependency.
-The hash string token values in the content_hash parameter are formed from combining a string that
-defines the crypto algorithm used to generate the digest along with the Base64Url Encoded value of the
-SHA-512 hash, as defined in section 6.3 and 6.4 [SHA-512], of the body of the content at the given url.
-
-The hash algorithm is identified by "sha512".
-SHA-512 is part of the SHA-2 set of cryptographic hash functions [SHA-512] defined by the US National
-Institute of Standards and Technology (NIST).
-Implementations MAY support additional recommended hash algorithms in [IANA-COSE-ALG]; that is, the hash
-algorithm has "Yes" in the "Recommended" column of the IANA registry.
-Hash algorithm identifiers MUST use only lowercase letters, and they MUST NOT contain hyphen characters.
-The character following the algorithm string MUST be a hyphen character, "-", or ASCII 45.
-The subsequent characters are the Base64Url encoded (see Section 2 [JWS]) digest of a canonicalized and concatenated string
-or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
-contained in the claim.
 
 ## Extending vCon
 
@@ -461,8 +461,7 @@ A redacted vCon SHOULD provide a reference to the unredacted or prior, less reda
 The purpose of the [Redacted Object](#redacted-object) is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
 For privacy reasons, it may be necessary to redact a vCon to construct another vCon without the PII.
 This allows the non-PII portion of the vCon to still be analyzed or used in a broader scope.
-The [Redacted Object](#redacted-object) SHOULD contain the uuid parameter and MAY include the vCon inline via the body and encoding parameters or alternatively the url, content_hash parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
-If the unredacted vCon is included in the body, the unredacted vCon MUST be in the encrypted form.
+The [Redacted Object](#redacted-object) SHOULD contain the uuid parameter and MAY include the url, content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL MUST
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.
 
@@ -503,7 +502,7 @@ The the location of the referenced vCon MAY be provided as defined in [Externall
 content_hash MUST be included if url is provided.
 
 * url: "String"
-* content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
 The following diagram illustrates an example partial JSON object tree for a redacted vCon.
 The top level object is a JWS signed vCon which contains a vCon in the unsigned form in the payload
@@ -546,7 +545,7 @@ The value contains the [uuid string value](#uuid) of the unredacted/original vCo
 The location of the referenced vCon MAY be provided, as defined in [Externally Referenced Files](#externally-referenced-files) by including url and content_hash.  content_hash MUST be provided if url is provided.
 
 * url: "String"
-* content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
 The following figure illustrates an example partial JSON object tree for an appended vCon.
 The top level object is the JWS signed appended vCon which contains the unsigned form of the vCon in it's payload parameter.
@@ -870,7 +869,7 @@ For inline included dialog:
 Alternatively, for externally referenced dialog:
 
 * url: "String"  (optional in an a redacted vCon)
-* content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
 ### disposition
 
@@ -1064,7 +1063,7 @@ For inline included attachments:
 Alternatively, for externally referenced attachments:
 
 * url: "String"
-* content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
 
 ## Analysis Object
@@ -1160,7 +1159,7 @@ For inline included analysis:
 Alternatively, for externally referenced analysis:
 
 * url: "String"
-* content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
 
 ## Group Object
@@ -1173,8 +1172,8 @@ There are situations in the above example, where it is desired to treat these as
 For this reason, it may be necessary to aggregate the separate vCon into a single vCon which is considered the whole of a conversation.
 The Group Object includes or refers to a vCon to be aggregated into the whole of a single vCon conversation.
 
-The Group Object SHOULD contain the uuid and either the body and encoding parameters or the url content_hash
-parameters (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
+The Group Object SHOULD contain the uuid and the url and content_hash
+parameters (see [Externally Referenced Files](#externally-referenced-files)).
 The referenced vCon SHOULD be via UUID:
 
 * uuid: "String"
@@ -1197,7 +1196,7 @@ The url and content_hash parameters and values are defined in
 [Externally Referenced Files](#externally-referenced-files).
 
 * url: "String"
-* content_hash: "String" \| "String\[\]"
+* content_hash: "ContentHash" \| "ContentHash\[\]"
 
 # Security Considerations
 
