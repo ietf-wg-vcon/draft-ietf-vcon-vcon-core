@@ -42,6 +42,13 @@ normative:
 
   RFC3339:
 
+  DID:
+    target: https://www.w3.org/TR/did-core/
+    title: "Decentralized Identifiers (DIDs) v1.0"
+    author:
+      org: W3C
+    date: July 2022
+
   GEOPRIV: RFC4119
 
   GZIP: RFC1952
@@ -660,6 +667,16 @@ If the party's name is known, it can be included in the name parameter.
 * name: "String" (optional)
 
 The string value of the name parameter is a free form JSON string in which part or all of the party's name can be included.
+
+### did
+
+If a Decentralized Identifier [DID] is known for the party, it can be included in the did parameter.
+
+* did: "String" (optional)
+
+The value of the did parameter MUST be a valid DID URI that enables verifiable, decentralized digital identity for the party.
+DIDs are designed to be decoupled from centralized registries and identity providers, allowing the controller of the DID to prove control without requiring permission from other parties.
+The DID can refer to any subject (person, organization, thing, etc.) as determined by the controller of the DID.
 
 ### validation
 
