@@ -357,6 +357,28 @@ Table of Contents
    *  "Mediatype" - A "String" value that MUST be of the following form
       as defined in section 5.1 of [MIME]: type "/" subtype
 
+   *  "ContentHash" - The string token value for is generated using the
+      same approach used in section 6 of [STIR-PASS].  The relevant text
+      is copied here for convenience and to remove the normative
+      dependency.  The hash string token values are formed from
+      combining a string that defines the crypto algorithm used to
+      generate the digest along with the Base64Url Encoded value of the
+      SHA-512 hash, as defined in section 6.3 and 6.4 [SHA-512], of the
+      body of the content at the given url.  The hash algorithm is
+      identified by "sha512".  SHA-512 is part of the SHA-2 set of
+      cryptographic hash functions [SHA-512] defined by the US National
+      Institute of Standards and Technology (NIST).  Implementations MAY
+      support additional recommended hash algorithms in [IANA-COSE-ALG];
+      that is, the hash algorithm has "Yes" in the "Recommended" column
+      of the IANA registry.  Hash algorithm identifiers MUST use only
+      lowercase letters, and they MUST NOT contain hyphen characters.
+      The character following the algorithm string MUST be a hyphen
+      character, "-", or ASCII 45.  The subsequent characters are the
+      Base64Url encoded (see Section 2 [JWS]) digest of a canonicalized
+      and concatenated string or binary data based on the JSON pointer
+      referenced elements of "rcd" claim or the URI referenced content
+      contained in the claim.
+
    *  "A[]" and array of values of type A.
 
    All parameters are assumed to be mandatory unless other wise noted.
@@ -404,12 +426,11 @@ Table of Contents
    ensure that they have not been modified.  Objects that refer to a
    file which is externally stored from the vCon MUST have the
    parameters: url, content_hash.  These parameters are defined in the
-   following subsections.  The use of [SHA-512] hash for ensuring that
-   the externally referenced data or file has not been modified, is
-   defined in this document.  Other methods of ensuring integrity may be
-   added in the future.  The following subsections define how the
-   specific algorithm used and how that content hash information is
-   included in a vCon so that the content can be verified.
+   following subsections.  The values and format of the hashes are
+   defined in Section 2.2 type: ContentHash.  The use of [SHA-512] hash
+   for ensuring that the externally referenced data or file has not been
+   modified, is defined in this document.  Other methods of ensuring
+   integrity may be added in the future.
 
 2.4.1.  url
 
@@ -430,30 +451,7 @@ Table of Contents
    algorithm used for signing the externally referenced file is defined
    in section 6.3 and 6.4 of [SHA-512].
 
-   content_hash: "String" | "String[]"
-
-   The string token value(s) for the content_hash parameter use the same
-   approach used in section 6 of [STIR-PASS].  The relevant text is
-   copied here for convenience and to remove the normative dependency.
-   The hash string token values in the content_hash parameter are formed
-   from combining a string that defines the crypto algorithm used to
-   generate the digest along with the Base64Url Encoded value of the
-   SHA-512 hash, as defined in section 6.3 and 6.4 [SHA-512], of the
-   body of the content at the given url.
-
-   The hash algorithm is identified by "sha512".  SHA-512 is part of the
-   SHA-2 set of cryptographic hash functions [SHA-512] defined by the US
-   National Institute of Standards and Technology (NIST).
-   Implementations MAY support additional recommended hash algorithms in
-   [IANA-COSE-ALG]; that is, the hash algorithm has "Yes" in the
-   "Recommended" column of the IANA registry.  Hash algorithm
-   identifiers MUST use only lowercase letters, and they MUST NOT
-   contain hyphen characters.  The character following the algorithm
-   string MUST be a hyphen character, "-", or ASCII 45.  The subsequent
-   characters are the Base64Url encoded (see Section 2 [JWS]) digest of
-   a canonicalized and concatenated string or binary data based on the
-   JSON pointer referenced elements of "rcd" claim or the URI referenced
-   content contained in the claim.
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
 2.5.  Extending vCon
 
@@ -516,8 +514,8 @@ Table of Contents
    Section 5.2 using [JWE] to provide integrity and proof of the
    conversation data.  The encrypted form of vCon is defined in
    Section 5.3 to provide complete privacy of the conversationaldata.
-   Partial privacy can be provide for a vCon using the Section 4.1.8
-   construct.
+   Partial privacy or data minimization can be provide for a vCon using
+   the Section 4.1.8 construct.
 
 4.  Unsigned Form of vCon Object
 
@@ -644,14 +642,11 @@ Table of Contents
    redact a vCon to construct another vCon without the PII.  This allows
    the non-PII portion of the vCon to still be analyzed or used in a
    broader scope.  The Redacted Object (Section 4.1.8.1) SHOULD contain
-   the uuid parameter and MAY include the vCon inline via the body and
-   encoding parameters or alternatively the url, content_hash parameters
-   (see Inline Files (Section 2.3) and Externally Referenced Files
-   (Section 2.4)).  If the unredacted vCon is included in the body, the
-   unredacted vCon MUST be in the encrypted form.  If a reference to the
-   unredacted vCon is provided in the url parameter, the access to that
-   URL MUST be restricted to only those who should be allowed to see the
-   identity or PII for the redacted vCon.
+   the uuid parameter and MAY include the url, content_hash parameters
+   (see Externally Referenced Files (Section 2.4)).  If a reference to
+   the unredacted vCon is provided in the url parameter, the access to
+   that URL MUST be restricted to only those who should be allowed to
+   see the identity or PII for the redacted vCon.
 
    The method(s) for redaction of text, audio and video can be done with
    existing post processing of media.  The method of redaction is out of
@@ -700,7 +695,7 @@ Table of Contents
 
    *  url: "String"
 
-   *  content_hash: "String" | "String[]"
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
    The following diagram illustrates an example partial JSON object tree
    for a redacted vCon.  The top level object is a JWS signed vCon which
@@ -785,7 +780,7 @@ Table of Contents
 
    *  url: "String"
 
-   *  content_hash: "String" | "String[]"
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
    The following figure illustrates an example partial JSON object tree
    for an appended vCon.  The top level object is the JWS signed
@@ -1256,7 +1251,7 @@ Table of Contents
 
    *  url: "String" (optional in an a redacted vCon)
 
-   *  content_hash: "String" | "String[]"
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
 4.3.9.  disposition
 
@@ -1522,7 +1517,7 @@ Table of Contents
 
    *  url: "String"
 
-   *  content_hash: "String" | "String[]"
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
 4.5.  Analysis Object
 
@@ -1649,7 +1644,7 @@ Table of Contents
 
    *  url: "String"
 
-   *  content_hash: "String" | "String[]"
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
 4.6.  Group Object
 
@@ -1669,10 +1664,9 @@ Table of Contents
    The Group Object includes or refers to a vCon to be aggregated into
    the whole of a single vCon conversation.
 
-   The Group Object SHOULD contain the uuid and either the body and
-   encoding parameters or the url content_hash parameters (see Inline
-   Files (Section 2.3) and Externally Referenced Files (Section 2.4)).
-   The referenced vCon SHOULD be via UUID:
+   The Group Object SHOULD contain the uuid and the url and content_hash
+   parameters (see Externally Referenced Files (Section 2.4)).  The
+   referenced vCon SHOULD be via UUID:
 
    *  uuid: "String"
 
@@ -1698,7 +1692,7 @@ Table of Contents
 
    *  url: "String"
 
-   *  content_hash: "String" | "String[]"
+   *  content_hash: "ContentHash" | "ContentHash[]"
 
 5.  Security Considerations
 

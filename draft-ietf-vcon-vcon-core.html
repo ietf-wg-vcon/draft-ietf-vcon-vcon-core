@@ -1751,7 +1751,24 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
   type "/" subtype<a href="#section-2.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.2-2.6">
-            <p id="section-2.2-2.6.1">"A[]" and array of values of type A.<a href="#section-2.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-2.2-2.6.1">"ContentHash" - The string token value for is generated using the same approach used in section 6 of <span>[<a href="#STIR-PASS" class="cite xref">STIR-PASS</a>]</span>.
+The relevant text is copied here for convenience and to remove the normative dependency.
+The hash string token values are formed from combining a string that
+defines the crypto algorithm used to generate the digest along with the Base64Url Encoded value of the
+SHA-512 hash, as defined in section 6.3 and 6.4 <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span>, of the body of the content at the given url.
+The hash algorithm is identified by "sha512".
+SHA-512 is part of the SHA-2 set of cryptographic hash functions <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span> defined by the US National
+Institute of Standards and Technology (NIST).
+Implementations <span class="bcp14">MAY</span> support additional recommended hash algorithms in <span>[<a href="#IANA-COSE-ALG" class="cite xref">IANA-COSE-ALG</a>]</span>; that is, the hash
+algorithm has "Yes" in the "Recommended" column of the IANA registry.
+Hash algorithm identifiers <span class="bcp14">MUST</span> use only lowercase letters, and they <span class="bcp14">MUST NOT</span> contain hyphen characters.
+The character following the algorithm string <span class="bcp14">MUST</span> be a hyphen character, "-", or ASCII 45.
+The subsequent characters are the Base64Url encoded (see Section 2 <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>) digest of a canonicalized and concatenated string
+or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
+contained in the claim.<a href="#section-2.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.2-2.7">
+            <p id="section-2.2-2.7.1">"A[]" and array of values of type A.<a href="#section-2.2-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-2.2-3">All parameters are assumed to be mandatory unless other wise noted.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
@@ -1816,10 +1833,9 @@ Depending upon the data in the file, it may require encoding to be used as a val
 Objects that refer to a file which is externally stored from the vCon <span class="bcp14">MUST</span> have the parameters: url,
 content_hash.
 These parameters are defined in the following subsections.
+The values and format of the hashes are defined in <a href="#json-notation" class="auto internal xref">Section 2.2</a> type: ContentHash.
 The use of <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span> hash for ensuring that the externally referenced data or file has not been modified, is defined in this document.
-Other methods of ensuring integrity may be added in the future.
-The following subsections define how the specific algorithm used and how that content hash information is
-included in a vCon so that the content can be verified.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+Other methods of ensuring integrity may be added in the future.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 <div id="url">
 <section id="section-2.4.1">
           <h4 id="name-url">
@@ -1846,22 +1862,11 @@ algorithms are desired to be provided.
 The SHA-512 <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span> algorithm <span class="bcp14">MUST</span> be supported.
 Other algorithms <span class="bcp14">MAY</span> be included.
 The algorithm used for signing the externally referenced file is defined in section 6.3 and 6.4 of <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span>.<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.4.2-2">content_hash: "String" | "String[]"<a href="#section-2.4.2-2" class="pilcrow">¶</a></p>
-<p id="section-2.4.2-3">The string token value(s) for the content_hash parameter use the same approach used in section 6 of <span>[<a href="#STIR-PASS" class="cite xref">STIR-PASS</a>]</span>.
-The relevant text is copied here for convenience and to remove the normative dependency.
-The hash string token values in the content_hash parameter are formed from combining a string that
-defines the crypto algorithm used to generate the digest along with the Base64Url Encoded value of the
-SHA-512 hash, as defined in section 6.3 and 6.4 <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span>, of the body of the content at the given url.<a href="#section-2.4.2-3" class="pilcrow">¶</a></p>
-<p id="section-2.4.2-4">The hash algorithm is identified by "sha512".
-SHA-512 is part of the SHA-2 set of cryptographic hash functions <span>[<a href="#SHA-512" class="cite xref">SHA-512</a>]</span> defined by the US National
-Institute of Standards and Technology (NIST).
-Implementations <span class="bcp14">MAY</span> support additional recommended hash algorithms in <span>[<a href="#IANA-COSE-ALG" class="cite xref">IANA-COSE-ALG</a>]</span>; that is, the hash
-algorithm has "Yes" in the "Recommended" column of the IANA registry.
-Hash algorithm identifiers <span class="bcp14">MUST</span> use only lowercase letters, and they <span class="bcp14">MUST NOT</span> contain hyphen characters.
-The character following the algorithm string <span class="bcp14">MUST</span> be a hyphen character, "-", or ASCII 45.
-The subsequent characters are the Base64Url encoded (see Section 2 <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>) digest of a canonicalized and concatenated string
-or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
-contained in the claim.<a href="#section-2.4.2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.4.2-2.1">
+              <p id="section-2.4.2-2.1.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-2.4.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 </section>
@@ -1918,7 +1923,7 @@ This top level vCon object is also contained as described in the <span><a href="
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
 The signed form of vCon is defined in <a href="#signed-form-of-vcon-object" class="auto internal xref">Section 5.2</a> using <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> to provide integrity and proof of the conversation data.
 The encrypted form of vCon is defined in <a href="#encrypted-form-of-vcon-object" class="auto internal xref">Section 5.3</a> to provide complete privacy of the conversationaldata.
-Partial privacy can be provide for a vCon using the <a href="#redacted" class="auto internal xref">Section 4.1.8</a> construct.<a href="#section-3-3" class="pilcrow">¶</a></p>
+Partial privacy or data minimization can be provide for a vCon using the <a href="#redacted" class="auto internal xref">Section 4.1.8</a> construct.<a href="#section-3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unsigned-form-of-vcon-object">
@@ -2069,8 +2074,7 @@ The subject may also be derived from analysis of the dialog.<a href="#section-4.
 The purpose of the <span><a href="#redacted-object" class="internal xref">Redacted Object</a> (<a href="#redacted-object" class="auto internal xref">Section 4.1.8.1</a>)</span> is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
 For privacy reasons, it may be necessary to redact a vCon to construct another vCon without the PII.
 This allows the non-PII portion of the vCon to still be analyzed or used in a broader scope.
-The <span><a href="#redacted-object" class="internal xref">Redacted Object</a> (<a href="#redacted-object" class="auto internal xref">Section 4.1.8.1</a>)</span> <span class="bcp14">SHOULD</span> contain the uuid parameter and <span class="bcp14">MAY</span> include the vCon inline via the body and encoding parameters or alternatively the url, content_hash parameters (see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
-If the unredacted vCon is included in the body, the unredacted vCon <span class="bcp14">MUST</span> be in the encrypted form.
+The <span><a href="#redacted-object" class="internal xref">Redacted Object</a> (<a href="#redacted-object" class="auto internal xref">Section 4.1.8.1</a>)</span> <span class="bcp14">SHOULD</span> contain the uuid parameter and <span class="bcp14">MAY</span> include the url, content_hash parameters (see <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL <span class="bcp14">MUST</span>
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.<a href="#section-4.1.8-1" class="pilcrow">¶</a></p>
 <p id="section-4.1.8-2">The method(s) for redaction of text, audio and video can be done with existing post processing of media.
@@ -2126,7 +2130,7 @@ content_hash <span class="bcp14">MUST</span> be included if url is provided.<a h
                 <p id="section-4.1.8.1-7.1.1">url: "String"<a href="#section-4.1.8.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-4.1.8.1-7.2">
-                <p id="section-4.1.8.1-7.2.1">content_hash: "String" | "String[]"<a href="#section-4.1.8.1-7.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.1.8.1-7.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.1.8.1-7.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-4.1.8.1-8">The following diagram illustrates an example partial JSON object tree for a redacted vCon.
@@ -2221,7 +2225,7 @@ That is to say that the newer version of the vCon is a deep copy of the prior ve
                 <p id="section-4.1.9.1-5.1.1">url: "String"<a href="#section-4.1.9.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-4.1.9.1-5.2">
-                <p id="section-4.1.9.1-5.2.1">content_hash: "String" | "String[]"<a href="#section-4.1.9.1-5.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.1.9.1-5.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.1.9.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-4.1.9.1-6">The following figure illustrates an example partial JSON object tree for an appended vCon.
@@ -2793,7 +2797,7 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
               <p id="section-4.3.8-5.1.1">url: "String"  (optional in an a redacted vCon)<a href="#section-4.3.8-5.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.3.8-5.2">
-              <p id="section-4.3.8-5.2.1">content_hash: "String" | "String[]"<a href="#section-4.3.8-5.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.3.8-5.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.3.8-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3133,7 +3137,7 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
               <p id="section-4.4.7-5.1.1">url: "String"<a href="#section-4.4.7-5.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.4.7-5.2">
-              <p id="section-4.4.7-5.2.1">content_hash: "String" | "String[]"<a href="#section-4.4.7-5.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.4.7-5.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.4.7-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3297,7 +3301,7 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
               <p id="section-4.5.8-5.1.1">url: "String"<a href="#section-4.5.8-5.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.5.8-5.2">
-              <p id="section-4.5.8-5.2.1">content_hash: "String" | "String[]"<a href="#section-4.5.8-5.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.8-5.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.5.8-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3316,8 +3320,8 @@ What is considered the boundary of a conversation is a business decision.
 There are situations in the above example, where it is desired to treat these as a single conversation, but each set of dialog is created in a single vCon (e.g. each dialog occurred in a separate communication silo or security domain) which gets signed.
 For this reason, it may be necessary to aggregate the separate vCon into a single vCon which is considered the whole of a conversation.
 The Group Object includes or refers to a vCon to be aggregated into the whole of a single vCon conversation.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
-<p id="section-4.6-2">The Group Object <span class="bcp14">SHOULD</span> contain the uuid and either the body and encoding parameters or the url content_hash
-parameters (see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
+<p id="section-4.6-2">The Group Object <span class="bcp14">SHOULD</span> contain the uuid and the url and content_hash
+parameters (see <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
 The referenced vCon <span class="bcp14">SHOULD</span> be via UUID:<a href="#section-4.6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.6-3.1">
@@ -3347,7 +3351,7 @@ The url and content_hash parameters and values are defined in
             <p id="section-4.6-11.1.1">url: "String"<a href="#section-4.6-11.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.6-11.2">
-            <p id="section-4.6-11.2.1">content_hash: "String" | "String[]"<a href="#section-4.6-11.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.6-11.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.6-11.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
