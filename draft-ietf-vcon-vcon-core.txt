@@ -357,9 +357,9 @@ Table of Contents
    *  "Mediatype" - A "String" value that MUST be of the following form
       as defined in section 5.1 of [MIME]: type "/" subtype
 
-   *  "ContentHash" - The string token value for is generated using the
-      same approach used in section 6 of [STIR-PASS].  The relevant text
-      is copied here for convenience and to remove the normative
+   *  "ContentHash" - The string token value is generated using the same
+      approach used in section 6 of [STIR-PASS].  The relevant text is
+      copied here for convenience and to remove the normative
       dependency.  The hash string token values are formed from
       combining a string that defines the crypto algorithm used to
       generate the digest along with the Base64Url Encoded value of the
@@ -513,7 +513,7 @@ Table of Contents
    analysis of conversations.  The signed form of vCon is defined in
    Section 5.2 using [JWE] to provide integrity and proof of the
    conversation data.  The encrypted form of vCon is defined in
-   Section 5.3 to provide complete privacy of the conversationaldata.
+   Section 5.3 to provide complete privacy of the conversational data.
    Partial privacy or data minimization can be provide for a vCon using
    the Section 4.1.8 construct.
 
