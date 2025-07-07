@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                             6 July 2025
-Expires: 7 January 2026
+Intended status: Standards Track                             7 July 2025
+Expires: 8 January 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2026.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -112,12 +112,13 @@ Table of Contents
        4.2.3.  stir
        4.2.4.  mailto
        4.2.5.  name
-       4.2.6.  validation
-       4.2.7.  jCard
-       4.2.8.  gmlpos
-       4.2.9.  civicaddress
-       4.2.10. timezone
-       4.2.11. uuid
+       4.2.6.  did
+       4.2.7.  validation
+       4.2.8.  jCard
+       4.2.9.  gmlpos
+       4.2.10. civicaddress
+       4.2.11. timezone
+       4.2.12. uuid
      4.3.  Dialog Object
        4.3.1.  type
        4.3.2.  start
@@ -959,7 +960,22 @@ Table of Contents
    The string value of the name parameter is a free form JSON string in
    which part or all of the party's name can be included.
 
-4.2.6.  validation
+4.2.6.  did
+
+   If a Decentralized Identifier [DID] is known for the party, it can be
+   included in the did parameter.
+
+   *  did: "String" (optional)
+
+   The value of the did parameter MUST be a valid DID URI that enables
+   verifiable, decentralized digital identity for the party.  DIDs are
+   designed to be decoupled from centralized registries and identity
+   providers, allowing the controller of the DID to prove control
+   without requiring permission from other parties.  The DID can refer
+   to any subject (person, organization, thing, etc.) as determined by
+   the controller of the DID.
+
+4.2.7.  validation
 
    Proof of authorization of the communication channel through STIR,
    login or possession of a device, is often not sufficient proof of the
@@ -983,11 +999,11 @@ Table of Contents
    The value of the validation string MAY be "none" or enterprise or
    domain defined token or string values.
 
-4.2.7.  jCard
+4.2.8.  jCard
 
    TODO: Do we want to support including a jCard for the party?
 
-4.2.8.  gmlpos
+4.2.9.  gmlpos
 
    If the geolocation of the party is known, it can be added in the
    gmlpos parameter.  The gmlpos parameter contains the latitude and
@@ -999,7 +1015,7 @@ Table of Contents
    The gmlpos parameter value contains a string of the same format as
    the gml:pos element defined in section 3.2 of the [PIDF-LO] PIDF.
 
-4.2.9.  civicaddress
+4.2.10.  civicaddress
 
    The the civicaddress parameter value contains a Civicaddress Object
    which is optional and contains civic address information about the
@@ -1055,11 +1071,11 @@ Table of Contents
 
    TODO: Do we just specify for the start of the conversation?
 
-4.2.10.  timezone
+4.2.11.  timezone
 
    TODO: timezone for the location of the party?
 
-4.2.11.  uuid
+4.2.12.  uuid
 
    The uuid is a unique identifier for the participant.  In a contact
    center, this is particularly important for the call agent
@@ -2188,22 +2204,22 @@ Table of Contents
       | name           | participant | IESG       | Section 4.2.5  |
       |                | name        |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | validation     | validation  | IESG       | Section 4.2.6  |
+      | validation     | validation  | IESG       | Section 4.2.7  |
       |                | method      |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | jCard          | participant | IESG       | Section 4.2.7  |
+      | jCard          | participant | IESG       | Section 4.2.8  |
       |                | jCard       |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | gmlpos         | participant | IESG       | Section 4.2.8  |
+      | gmlpos         | participant | IESG       | Section 4.2.9  |
       |                | geolocation |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | civicaddress   | civic       | IESG       | Section 4.2.9  |
+      | civicaddress   | civic       | IESG       | Section 4.2.10 |
       |                | address     |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | timezone       | participant | IESG       | Section 4.2.10 |
+      | timezone       | participant | IESG       | Section 4.2.11 |
       |                | timezone    |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | uuid           | participant | IESG       | Section 4.2.11 |
+      | uuid           | participant | IESG       | Section 4.2.12 |
       |                | UUID        |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
 
@@ -2679,6 +2695,9 @@ Table of Contents
 8.  References
 
 8.1.  Normative References
+
+   [DID]      W3C, "Decentralized Identifiers (DIDs) v1.0", July 2022,
+              <https://www.w3.org/TR/did-core/>.
 
    [GEOPRIV]  Peterson, J., "A Presence-based GEOPRIV Location Object
               Format", RFC 4119, DOI 10.17487/RFC4119, December 2005,
