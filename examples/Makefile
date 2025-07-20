@@ -2,6 +2,7 @@
 VCON_PATH=../../../
 GENERATED_EXAMPLES=ab_call_ext_rec.vcon \
          ab_call_int_rec.vcon \
+         ab_call_ext_rec_appended.vcon \
          ab_call_ext_rec_signed.vcon \
          ab_call_ext_rec_encrypted.vcon \
          ab_call_ext_rec_decrypted.vcon \
@@ -54,6 +55,9 @@ ab_call_ext_rec_decrypted_verified.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_re
 
 ab_call_int_rec.vcon: ${VCON_PATH}vcon ${VCON} ab.vcon ab_call.wav 
 	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab.vcon add in-recording ab_call.wav 2022-06-21T13:53:26-04:00 "[0,1]" | jq '.' > ab_call_int_rec.vcon)
+
+ab_call_ext_rec_appended.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec.vcon
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter create_appended | jq '.' > ab_call_ext_rec_appended.vcon)
 
 b_email_acct_prob_image.vcon: email_acct_prob_bob_image.txt
 	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_acct_prob_bob_image.txt | jq '.' > b_email_acct_prob_image.vcon)
