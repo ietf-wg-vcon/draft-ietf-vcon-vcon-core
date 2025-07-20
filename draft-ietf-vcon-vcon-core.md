@@ -1948,7 +1948,15 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 
 ## Appended Signed vCon
 
-TODO: appended vCon example
+This is an example vCon with an [Appended Object](#appended) referencing the vCon that it appends addional content.
+In this case it is referening the signed vCon example above.
+
+The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_appended.vcon
+
+~~~
+{::include examples/ab_call_ext_rec_appended.pp}
+~~~
 
 ## vCon Group
 
