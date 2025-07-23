@@ -1423,19 +1423,19 @@ The JSON format for vCon is mandatory to implement.
 
 * Optional parameters: N/A; unrecognized parameters should be ignored.
 
-* Encoding considerations: [JSON]
+* Encoding considerations: 8bit
 
-* Additional information:
+* Additional information: [JSON] format
 
 * Security considerations: See Security Considerations section of this document.
 
-* Interoperability considerations:
+* Interoperability considerations: The vCon schema is defined in RFC XXXX.  The schema may be extended through extensions as defined there.
 
-* Published specification: VCON, this document
+* Published specification: [VCON], this document: RFC XXXX
 
 * Applications that use this media type:
 
-* Fragment identifier considerations:
+* Fragment identifier considerations: N/A
 
 * Additional Information:
 
@@ -1470,19 +1470,19 @@ when sending.
 
 * Optional parameters: N/A; unrecognized parameters should be ignored.
 
-* Encoding considerations: [GZIP]
+* Encoding considerations: binary
 
-* Additional information:
+* Additional information: [GZIP] compression of [JSON] format
 
 * Security considerations: See Security Considerations section of this document.
 
-* Interoperability considerations:
+* Interoperability considerations: The vCon schema is defined in RFC XXXX.  The schema may be extended through extensions as defined there.
 
-* Published specification: [VCON], this document
+* Published specification: [VCON], this document: RFC XXXX
 
 * Applications that use this media type:
 
-* Fragment identifier considerations:
+* Fragment identifier considerations: N/A
 
 * Additional Information:
 
