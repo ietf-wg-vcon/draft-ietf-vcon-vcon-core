@@ -393,7 +393,7 @@ The "vcon" parameter was used to differentiate schema changes to the vCon core c
 incompatablities were created in Internet-Draft versions.
 The extension mechanism replaces the need for schema versioning.
 The vcon parameter was used to contain the syntactic version of the JSON format used in the vCon.
-(see [Non-Upward Compatible Changes to the vCon Container]#name-non-upward-compatible-changes-to-the-vcon-container)
+(see [Non-Upward Compatible Changes to the vCon Container](#name-non-upward-compatible-changes-to-the-vcon-container))
 
 * vcon: "String"
 
@@ -1817,7 +1817,7 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 * Change Controller: IESG
 * Specification Document(s): [Header Object](#unprotected-object) of RFC XXXX
 
-# Non-Upward Compatible Changes to the vCon Container
+# Non-Upward Compatible Changes to the vCon Container {#name-non-upward-compatible-changes-to-the-vcon-container}
 
 ## Version 0.3.0 to 0.4.0
 
