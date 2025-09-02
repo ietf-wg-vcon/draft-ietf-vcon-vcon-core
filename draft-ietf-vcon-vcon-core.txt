@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                            23 July 2025
-Expires: 24 January 2026
+Intended status: Standards Track                        2 September 2025
+Expires: 6 March 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 January 2026.
+   This Internet-Draft will expire on 6 March 2026.
 
 Copyright Notice
 
@@ -100,7 +100,7 @@ Table of Contents
        4.1.6.  updated_at
        4.1.7.  subject
        4.1.8.  redacted
-       4.1.9.  appended
+       4.1.9.  amended
        4.1.10. group Objects Array
        4.1.11. parties Objects Array
        4.1.12. dialog Objects Array
@@ -175,15 +175,16 @@ Table of Contents
        6.3.6.  Attachment Object Parameter Names Registry
        6.3.7.  Analysis Object Parameter Names Registry
        6.3.8.  Redacted Object Parameter Names Registry
-       6.3.9.  Appended Object Parameter Names Registry
+       6.3.9.  Amended Object Parameter Names Registry
        6.3.10. Group Object Parameter Names Registry
      6.4.  vCon Extensions Names Registry
        6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
      6.6.  JSON Web Signature and Encryption Unprotected Parameters
    7.  Non-Upward Compatible Changes to the vCon Container
-     7.1.  Version 0.0.2 to 0.3.0
-     7.2.  Version 0.0.1 to 0.0.2
+     7.1.  Version 0.3.0 to 0.4.0
+     7.2.  Version 0.0.2 to 0.3.0
+     7.3.  Version 0.0.1 to 0.0.2
    8.  References
      8.1.  Normative References
      8.2.  Informative References
@@ -197,7 +198,7 @@ Table of Contents
      A.7.  Signed vCon
      A.8.  Encrypted vCon
      A.9.  Redacted vCon
-     A.10. Appended Signed vCon
+     A.10. Amended Signed vCon
      A.11. vCon Group
    Acknowledgments
    Author's Address
@@ -329,7 +330,7 @@ Table of Contents
       conversation
 
    *  vCon instance version - a single version of an instance of a
-      conversation, which may be modified to redact or append additional
+      conversation, which may be modified to redact or amend additional
       information forming a subsequent vCon instance version
 
    *  vCon syntax version - the version for the data syntax used for
@@ -530,14 +531,14 @@ Table of Contents
    A vCon may be constructed across several security domains.  When a
    vCon is to be exported from one security domain to another, it SHOULD
    be signed or encyrpted by the domain that constructed it.  The
-   subsequent domain may have need to redact or append data to the vCon.
+   subsequent domain may have need to redact or amend data to the vCon.
    Alternatively the originating domain may want to redact the vCon
    before providing it to an other domain.  The second or subsequent
    domain, MAY modify the prior vCon instance version and when complete
    or exporting to another security domain, it SHOULD sign or encrypt
    the new vCon instance version.  The new vCon instance version SHOULD
    refer to the prior vCon instance version via the redacted
-   (Section 4.1.8) or appended (Section 4.1.9) parameters.
+   (Section 4.1.8) or amended (Section 4.1.9) parameters.
 
 4.1.  vCon JSON Object Keys and Values
 
@@ -546,13 +547,18 @@ Table of Contents
 
 4.1.1.  vcon
 
-   The the value of vcon parameter contains the syntactic version of the
-   JSON format used in the vCon.
+   THe "vcon" parameter is DEPRECATED as of the publication of this
+   document as an RFC.  The "vcon" parameter was used to differentiate
+   schema changes to the vCon core container when incompatablities were
+   created in Internet-Draft versions.  The extension mechanism replaces
+   the need for schema versioning.  The vcon parameter was used to
+   contain the syntactic version of the JSON format used in the vCon.
+   (see Non-Upward Compatible Changes to the vCon Container (Section 7))
 
    *  vcon: "String"
 
    For syntax defined in this document, the string MUST have the value:
-   "0.3.0"
+   "0.4.0"
 
 4.1.2.  uuid
 
@@ -668,7 +674,7 @@ Table of Contents
    create an empty placeholder such that object array indices do not
    change for the rest of the elements of the array.
 
-   *  redacted: "Redacted" (optional, mutually exclusive with appended
+   *  redacted: "Redacted" (optional, mutually exclusive with amended
       and group parameters)
 
 4.1.8.1.  Redacted Object
@@ -744,30 +750,28 @@ Table of Contents
 
                     Figure 1: redacted vCon object tree
 
-4.1.9.  appended
-
-   TODO: should the name be appended, updated or amended?
+4.1.9.  amended
 
    A signed or encrypted vCon cannot be modified without invalidating
    it.  In these cases, to allow for adding of additional information a
    new vCon instance version MUST be created.  The prior vCon instance
-   version is referenced by the Appended Object (Section 4.1.9.1).  The
-   vCon with appended or amended data contains all of the data that is
-   in the referenced vCon with the exception of data that is amended.
-   That is to say that the newer version of the vCon is a deep copy of
-   the prior version with the amended and additional data added to it.
+   version is referenced by the Amended Object (Section 4.1.9.1).  The
+   vCon with amended data contains all of the data that is in the
+   referenced vCon with the exception of data that is amended.  That is
+   to say that the newer version of the vCon is a deep copy of the prior
+   version with the amended and additional data added to it.
 
    The prior vCon instance version SHOULD be referenced via the uuid of
    the prior vCon instance version, and MAY include the url and
    content_hash parameters (see Externally Referenced Files
    (Section 2.4)).
 
-   *  appended: "Appended" (optional, mutually exclusive with redacted
-      and group parameters)
+   *  amended: "Amended" (optional, mutually exclusive with redacted and
+      group parameters)
 
-4.1.9.1.  Appended Object
+4.1.9.1.  Amended Object
 
-   The Appended Object contains the following parameters:
+   The Amended Object contains the following parameters:
 
    *  uuid: "String" (optional if inline or external reference provided)
 
@@ -783,15 +787,17 @@ Table of Contents
    *  content_hash: "ContentHash" | "ContentHash[]"
 
    The following figure illustrates an example partial JSON object tree
-   for an appended vCon.  The top level object is the JWS signed
-   appended vCon which contains the unsigned form of the vCon in it's
-   payload parameter.  The second level object is the appended vCon with
+   for an amended vCon.  The top level object is the JWS signed amended
+   vCon which contains the unsigned form of the vCon in it's payload
+   parameter.  The second level object is the amended vCon with
    additional conversational data (e.g. analysis data).  It refers to
    its original parent (or prior vCon instance version) of the vCon in
-   its appended parameter.  Note: the appended parameter may refer to
-   the prior version of the vCon via URL.  The appended vCon in this
-   figure refers to the JWS signed version of the vCon, which in turn
-   contains the original vCon in unsigned form in its payload parameter.
+   its amended parameter.  Note: the amended parameter may refer to the
+   prior version of the vCon via URL.  The amended vCon in this figure
+   refers to the JWS signed version of the vCon, which in turn contains
+   the original vCon in unsigned form in its payload parameter.
+
+   TODO: generate amended tree to replace appended tree
 
                    --------------
    Signed          | JWS   uuid-|-- appended vCon uuid in header
@@ -823,7 +829,7 @@ Table of Contents
                      |   dialog  |
                      -------------
 
-                    Figure 2: appended vCon object tree
+                     Figure 2: amended vCon object tree
 
 4.1.10.  group Objects Array
 
@@ -850,7 +856,7 @@ Table of Contents
    array, using a Group Object for each vCon instance.
 
    *  group: "Group[]" (optional, mutually exclusive with redacted and
-      appended parameters)
+      amended parameters)
 
    The group array contains a Group Object (Section 4.6) for each vCon.
 
@@ -861,9 +867,6 @@ Table of Contents
    array.  Whether the parties were observers, passive or active
    participants in the conversation, they each are included as a Party
    Object in the parties array.
-
-   TODO: Should this be a object not an array to make it easier to
-   append parties (i.e. indices of append vCons change when appended)?
 
    *  parties: "Party[]"
 
@@ -1703,7 +1706,7 @@ Table of Contents
    evolve a vCon (e.g. adding analysis, translations and transcriptions)
    conflict in some ways.  To enable this, multiple versions of a vCon
    may be created.  Versions of a vCon may add information (e.g.
-   analysis added to a prior vCon referenced by the appended
+   analysis added to a prior vCon referenced by the amended
    (Section 4.1.9)) and versions that remove information (e.g.
    redactions of privacy information removed from the vCon referenced in
    the redacted (Section 4.1.8)).  Redactions may be at different levels
@@ -1738,9 +1741,9 @@ Table of Contents
    leaves a security domain, it SHOULD be signed to prevent it from
    being altered.  If the new security domain needs to alter it, a new
    vCon is created with the removed or added data and the prior version
-   is referenced (i.e. via the redacted (Section 4.1.8) or appended
+   is referenced (i.e. via the redacted (Section 4.1.8) or amended
    (Section 4.1.9)).  See the redacted vCon object tree figure-1 and
-   appended vCon object tree figure-2.  If information is redacted for
+   amended vCon object tree figure-2.  If information is redacted for
    privacy reasons, the vCon referenced in the redacted (Section 4.1.8),
    if inline, SHOULD be encrypted to protect the privacy information in
    the unredacted version of the vCon.
@@ -1753,7 +1756,7 @@ Table of Contents
    externally referenced data from the perspective of this document, is
    proof of integrity of that data.
 
-   Using the above described approach for redaction and appending of
+   Using the above described approach for redaction and amending of
    data, we can reduce the security operations on a vCon to signing and
    encryption.  Two approaches to signing are needed as we have data, in
    JSON format, that is contained within the vCon and may have data
@@ -2152,7 +2155,7 @@ Table of Contents
    | redacted     | Redacted Object      | IESG       | Section 4.1.8  |
    |              |                      |            | RFC XXXX       |
    +--------------+----------------------+------------+----------------+
-   | appended     | Appended Object      | IESG       | Section 4.1.8  |
+   | amended      | Amended Object       | IESG       | Section 4.1.8  |
    |              |                      |            | RFC XXXX       |
    +--------------+----------------------+------------+----------------+
    | group        | Group Objects array  | IESG       | Section        |
@@ -2562,9 +2565,9 @@ Table of Contents
 
                                   Table 9
 
-6.3.9.  Appended Object Parameter Names Registry
+6.3.9.  Amended Object Parameter Names Registry
 
-   The following defines the initial values for the Appended Object
+   The following defines the initial values for the Amended Object
    Parameter Names Registry.
 
    +================+==================+============+=================+
@@ -2674,7 +2677,11 @@ Table of Contents
 
 7.  Non-Upward Compatible Changes to the vCon Container
 
-7.1.  Version 0.0.2 to 0.3.0
+7.1.  Version 0.3.0 to 0.4.0
+
+   *  The "appended" Object was renamed to "amended"
+
+7.2.  Version 0.0.2 to 0.3.0
 
    *  "transfer-target" parameter was renamed to "transfer_target" to be
       consistent with other compound names that use the underscore
@@ -2684,7 +2691,7 @@ Table of Contents
       consistent with other compound names that use the underscore
       ("_").
 
-7.2.  Version 0.0.1 to 0.0.2
+7.3.  Version 0.0.1 to 0.0.2
 
    *  "mimetype" parameters were renamed to "mediatype"
 
@@ -4962,15 +4969,17 @@ A.9.  Redacted vCon
      }
    }
 
-A.10.  Appended Signed vCon
+A.10.  Amended Signed vCon
 
-   This is an example vCon with an Appended Object (Section 4.1.9)
-   referencing the vCon that it appends addional content.  In this case
-   it is referening the signed vCon example above.
+   This is an example vCon with an Amended Object (Section 4.1.9)
+   referencing the vCon that it amends or adds addional content.  In
+   this case it is referening the signed vCon example above.
 
    The unformatted version of the following example can be downloaded
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
-   vcon-core/refs/heads/main/examples/ab_call_ext_rec_appended.vcon
+   vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
+
+   TODO: generate amended example to replace appended example
 
    {
      "vcon": "0.0.2",
