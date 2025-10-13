@@ -557,10 +557,8 @@ It refers to its original parent (or prior vCon instance version) of the vCon in
 Note: the amended parameter may refer to the prior version of the vCon via URL.
 The amended vCon in this figure refers to the JWS signed version of the vCon, which in turn contains the original vCon in unsigned form in its payload parameter.
 
-TODO: generate amended tree to replace appended tree
-
 ~~~
-{::include appended-vcon-tree.ans}
+{::include amended-vcon-tree.ans}
 ~~~
 {: #diagram2 title="amended vCon object tree"}
 
@@ -1961,10 +1959,8 @@ In this case it is referening the signed vCon example above.
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
 
-TODO: generate amended example to replace appended example
-
 ~~~
-{::include examples/ab_call_ext_rec_appended.pp}
+{::include examples/ab_call_ext_rec_amended.pp}
 ~~~
 
 ## vCon Group
