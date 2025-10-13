@@ -1,13 +1,13 @@
                 --------------
-Signed          | JWS   uuid-|-- appended vCon uuid in header
-appended vCon:  |            |
+Signed          | JWS   uuid-|-- amended vCon uuid in header
+amended vCon:   |            |
                 |    payload-|-- payload parameter
                 -------------- / contains unsigned
-                              / appended vCon
+                              / amended vCon
             -------------    /
 vCon with   |vCon       |<---
-appended    |           |
-data:       |  appended-|--- appended parameter
+amended     |           |
+data:       |   amended-|--- amended parameter
             |  analysis-|  / refers to JWS
             ------------- / signed original vCon
                          / along with additional
