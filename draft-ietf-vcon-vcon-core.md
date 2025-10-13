@@ -287,6 +287,8 @@ Depending upon the data in the file, it may require encoding to be used as a val
 ### encoding
 
 The encoding parameter describes the type of encoding that was performed on the string value of the body parameter.
+If the body parameter is provided and is not an empty string, the encoding parameter MUST be provided.
+In the interest of being tolerent for interoperablity, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.
 
 * encoding: "String"
 
