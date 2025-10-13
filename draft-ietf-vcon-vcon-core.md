@@ -566,6 +566,8 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 
 ### group Objects Array
 
+The optional groups Object array can contains a list of related vCons to provide an agregation of vCons in this vCon.
+The idea is that the referenced vCons are all part of a larger conversation defined in this vCon, containing the Group Object array.
 The scope of a conversation is defined by the observer.
 It may be any of the following in this non-exhaustive list:
 
