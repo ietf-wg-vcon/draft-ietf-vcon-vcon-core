@@ -1805,7 +1805,9 @@ Depending upon the data in the file, it may require encoding to be used as a val
           <h4 id="name-encoding">
 <a href="#section-2.3.2" class="section-number selfRef">2.3.2. </a><a href="#name-encoding" class="section-name selfRef">encoding</a>
           </h4>
-<p id="section-2.3.2-1">The encoding parameter describes the type of encoding that was performed on the string value of the body parameter.<a href="#section-2.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.3.2-1">The encoding parameter describes the type of encoding that was performed on the string value of the body parameter.
+If the body parameter is provided and is not an empty string, the encoding parameter <span class="bcp14">MUST</span> be provided.
+In the interest of being tolerent for interoperablity, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.<a href="#section-2.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.3.2-2.1">
               <p id="section-2.3.2-2.1.1">encoding: "String"<a href="#section-2.3.2-2.1.1" class="pilcrow">¶</a></p>
