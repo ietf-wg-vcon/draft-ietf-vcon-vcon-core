@@ -59,6 +59,13 @@ normative:
     target: <https://www.iana.org/assignments/cose/cose.xhtml>
     title: "COSE Algorithms"
 
+  H-460-27:
+    target: tbd
+    title: End-to-End Session Identifier for H.323 Systems
+    refcontent: H.460.27
+    date: November 2015
+    org: International Telecommunications Union
+    
   JMAP: RFC8620
 
   JSON: RFC8259
@@ -902,9 +909,17 @@ The value of the disposition parameter MUST be one of the following string:
 
 The [SESSION-ID] MAY be included for the dialog.
 
+TODO: should this be an object e.g.
+
+    { local: String, remote: Str }
+
 * session_id: "String" (optional)
 
-  The session_id value is the string as defined in section 4.1 of [SESSION-ID].
+  The session_id value is the string as defined in section 5 of [SESSION-ID].
+  The string SHOULD be the content of the whole Session-ID header value.
+
+TODO: need text for mapping [H-460-27] to the above String or object.
+
 
 ### party_history Objects Array {#party_history-objects-array}
 
