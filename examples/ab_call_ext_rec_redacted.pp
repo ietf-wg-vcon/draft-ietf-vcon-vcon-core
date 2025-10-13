@@ -31,31 +31,31 @@
         {
           "parties": 0,
           "start": "2022-06-21T17:53:27.200000+00:00",
-          "duration": 4.9800001,
+          "duration": 5.1199998,
           "text": "Hello.  This is {{URL}}.  My name is Bob.  How
              can I help you?  Hi."
         },
         {
           "parties": 0,
           "start": "2022-06-21T17:53:32.320000+00:00",
-          "duration": 15.1950003,
-          "text": "I'd like to add Sue to my service.  Okay.  Can
-             you give me your name and phone number so I can look
-             up your account?  My name is Alice, and my number is
-             {{INTEGER}} {{SSN}}.  Thank you."
+          "duration": 15.3349993,
+          "text": "I'd like to add Fu to my service.  Okay.  Can 
+            you give me your name and phone number so I can look 
+            up your account?  My name is Alice, and my number is 
+            {{INTEGER}} {{SSN}}.  Thank you."
         },
         {
           "parties": 0,
-          "start": "2022-06-21T17:53:49.015000+00:00",
-          "duration": 6.239874999999998,
+          "start": "2022-06-21T17:53:48.935000+00:00",
+          "duration": 6.399873000000003,
           "text": "{{US_STATE}}.  I've added two to your service.
-              Is there anything else I can help you with?  No.  T
-            hank you."
+              Is there anything else that I can help you with?  N
+            o.  Thank you."
         },
         {
           "parties": 0,
-          "start": "2022-06-21T17:53:55.254875+00:00",
-          "duration": 2.8200000000000003,
+          "start": "2022-06-21T17:53:55.334875+00:00",
+          "duration": 2.5599999999999987,
           "text": "Goodbye.  Goodbye.  Have a nice day."
         }
       ],
@@ -68,7 +68,7 @@
   "attachments": [],
   "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
   "redacted": {
-    "uuid": "0195544a-b9b1-8ee4-b9a2-279e0d16bc46",
+    "uuid": "0199ded0-8a0f-87c2-b9a2-279e0d16bc46",
     "type": "PII Redaction"
   }
 }

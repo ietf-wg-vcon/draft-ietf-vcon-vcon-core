@@ -25,9 +25,22 @@
       "filename": "ab_call.mp3",
       "content_hash": "sha512-GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iC
         ONNThnH0a75fhUM6cYzLZ5GynSURREvZwmOh54-2lRRieyj82UQ"
+    },
+    {
+      "type": "text",
+      "start": "2022-06-21T17:53:26.000+00:00",
+      "parties": [
+        1
+      ],
+      "mediatype": "text/plain",
+      "body": "Good day!",
+      "encoding": "none"
     }
   ],
   "analysis": [],
   "attachments": [],
-  "uuid": "0199ded0-8a0f-87c2-b9a2-279e0d16bc46"
+  "uuid": "0199df09-8a13-8f10-a20f-d188127fad29",
+  "amended": {
+    "uuid": "0199df09-86fb-8355-b9a2-279e0d16bc46"
+  }
 }
