@@ -1952,7 +1952,7 @@ The new vCon instance version <span class="bcp14">SHOULD</span> refer to the pri
           <h4 id="name-vcon">
 <a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-vcon" class="section-name selfRef">vcon</a>
           </h4>
-<p id="section-4.1.1-1">THe "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
+<p id="section-4.1.1-1">The "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
 The "vcon" parameter was used to differentiate schema changes to the vCon core container when
 incompatablities were created in Internet-Draft versions.
 The extension mechanism replaces the need for schema versioning.
@@ -2700,7 +2700,13 @@ In other cases, there may be a separate recording file for each party in a conve
 In this situation, it is necessary to indicate the originator as the dialog Object parties parameter may contain only one party and may not be the originator.
 It should be noted that the recordings may be shorter than the collective conference when there is a separate recording per speaker/party.
 For example the recording(s) of the individual speaker may be trimmed to only the parts where they are actually speaking.<a href="#section-4.3.4-5" class="pilcrow">¶</a></p>
-<p id="section-4.3.4-6">TODO: For an email thread, To and Cc parties are all passive.  Do we just put the sender as the party or do we want to list all of the recipients and by convention the sender is the first party?  Note that each dialog/email could have a difference set of recipients.<a href="#section-4.3.4-6" class="pilcrow">¶</a></p>
+<p id="section-4.3.4-6">In the email context, <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> messages have the headers From, To, Cc and Bcc that all correspond to parties to the text Dialog Object.
+The From header should be the first party index in the parties parameter for the text Dialog Object.
+They are the implied orginator.
+The parties listed in the To, Cc and Bcc <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> headers (if present) should all be added in that order to the parties parameter in the text Dialog Object.
+The sender <span class="bcp14">SHOULD</span> be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
+A text Dialog Object should only contain a single <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> message.
+Each may have a different set of parties.<a href="#section-4.3.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="originator">
