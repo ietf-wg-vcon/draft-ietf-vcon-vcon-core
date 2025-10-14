@@ -65,7 +65,7 @@ normative:
     refcontent: H.460.27
     date: November 2015
     org: International Telecommunications Union
-    
+
   JMAP: RFC8620
 
   JSON: RFC8259
