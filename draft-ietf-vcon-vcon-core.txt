@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         13 October 2025
-Expires: 16 April 2026
+Intended status: Standards Track                         14 October 2025
+Expires: 17 April 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 April 2026.
+   This Internet-Draft will expire on 17 April 2026.
 
 Copyright Notice
 
@@ -78,7 +78,7 @@ Table of Contents
      1.1.  Purpose of vCon
      1.2.  Extending the vCon Schema
      1.3.  Benefits of vCon
-       1.3.1.  1.4. *Scope of the Document*
+     1.4.  *Scope of the Document*
    2.  Conventions and Definitions
      2.1.  Terminology
      2.2.  JSON Notation
@@ -190,16 +190,15 @@ Table of Contents
      8.2.  Informative References
    Appendix A.  Example vCons
      A.1.  Two Party Call vCon With Inline Recording
-     A.2.  Text Chat vCon
-     A.3.  Email Thread Multipart vCon
-     A.4.  Email Thread Text vCon
-     A.5.  Two Party Call vCon With Externally Referenced Recording
-     A.6.  Two Party Call vCon with Analysis
-     A.7.  Signed vCon
-     A.8.  Encrypted vCon
-     A.9.  Redacted vCon
-     A.10. Amended Signed vCon
-     A.11. vCon Group
+     A.2.  Email Thread Multipart vCon
+     A.3.  Email Thread Text vCon
+     A.4.  Two Party Call vCon With Externally Referenced Recording
+     A.5.  Two Party Call vCon with Analysis
+     A.6.  Signed vCon
+     A.7.  Encrypted vCon
+     A.8.  Redacted vCon
+     A.9.  Amended Signed vCon
+     A.10. vCon Group
    Acknowledgments
    Author's Address
 
@@ -271,7 +270,7 @@ Table of Contents
       conversations by providing deeper insights and driving business
       decisions.
 
-1.3.1.  1.4. *Scope of the Document*
+1.4.  *Scope of the Document*
 
    This document defines the core structure and schema for *vCon* as a
    JSON format.  Detailed specifications for the various parameters and
@@ -1308,10 +1307,17 @@ Table of Contents
 
    The [SESSION-ID] MAY be included for the dialog.
 
+   TODO: should this be an object e.g.
+
+   { local: String, remote: Str }
+
    *  session_id: "String" (optional)
 
-      The session_id value is the string as defined in section 4.1 of
-      [SESSION-ID].
+      The session_id value is the string as defined in section 5 of
+      [SESSION-ID].  The string SHOULD be the content of the whole
+      Session-ID header value.
+
+   TODO: need text for mapping [H-460-27] to the above String or object.
 
 4.3.11.  party_history Objects Array
 
@@ -2719,6 +2725,9 @@ Table of Contents
               RFC 1952, DOI 10.17487/RFC1952, May 1996,
               <https://www.rfc-editor.org/rfc/rfc1952>.
 
+   [H-460-27] "End-to-End Session Identifier for H.323 Systems",
+              H.460.27, November 2015, <tbd>.
+
    [HTTPS]    Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
@@ -3102,11 +3111,7 @@ A.1.  Two Party Call vCon With Inline Recording
      "uuid": "0199decd-7187-8ef1-b9a2-279e0d16bc46"
    }
 
-A.2.  Text Chat vCon
-
-   TODO: text vCon example
-
-A.3.  Email Thread Multipart vCon
+A.2.  Email Thread Multipart vCon
 
    The following is an unsigned form of an vCon for a 2 message email
    thread between 2 parties.  The email messages are multipart MIME
@@ -3245,7 +3250,7 @@ A.3.  Email Thread Multipart vCon
      "uuid": "0195544a-cc55-8d85-b9a2-279e0d16bc46"
    }
 
-A.4.  Email Thread Text vCon
+A.3.  Email Thread Text vCon
 
    The following is an unsigned form of an vCon for a 3 message email
    thread between 2 parties.  The email messages are plain text message
@@ -3332,7 +3337,7 @@ A.4.  Email Thread Text vCon
      "uuid": "0195544a-d292-8cda-b9a2-279e0d16bc46"
    }
 
-A.5.  Two Party Call vCon With Externally Referenced Recording
+A.4.  Two Party Call vCon With Externally Referenced Recording
 
    This example vCon is for a simple 2 party PSTN call.  It has a single
    Dialog Object which reference a single channel wav format recording
@@ -3376,7 +3381,7 @@ A.5.  Two Party Call vCon With Externally Referenced Recording
      "uuid": "0199ded0-8a0f-87c2-b9a2-279e0d16bc46"
    }
 
-A.6.  Two Party Call vCon with Analysis
+A.5.  Two Party Call vCon with Analysis
 
    TODO: fix diarization in transcript
 
@@ -4305,10 +4310,10 @@ A.6.  Two Party Call vCon with Analysis
      "uuid": "0199ded0-8a0f-87c2-b9a2-279e0d16bc46"
    }
 
-A.7.  Signed vCon
+A.6.  Signed vCon
 
    This example vCon is the signed form of the Two Party Call vCon With
-   Externally Referenced Recording (Appendix A.5) example.  The private
+   Externally Referenced Recording (Appendix A.4) example.  The private
    key used to sign this can be found at:
 
  https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
@@ -4570,10 +4575,10 @@ A.7.  Signed vCon
      ]
    }
 
-A.8.  Encrypted vCon
+A.7.  Encrypted vCon
 
    This example vCon is the encrypted form of the Signed vCon
-   (Appendix A.7) example.  The private key to decrypt it can be found
+   (Appendix A.6) example.  The private key to decrypt it can be found
    at:
 
  https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
@@ -4896,10 +4901,10 @@ A.8.  Encrypted vCon
      }
    }
 
-A.9.  Redacted vCon
+A.8.  Redacted vCon
 
    This is an example redaction of the vCon in the example Two Party
-   Call vCon With Externally Referenced Recording (Appendix A.5).  Most
+   Call vCon With Externally Referenced Recording (Appendix A.4).  Most
    notable is the Redacted object (Section 4.1.8) which references the
    lesser redacted version of this vCon.  In addition the *url*
    parameter has been redacted from the Dialog Object (Section 4.3), but
@@ -4985,11 +4990,12 @@ A.9.  Redacted vCon
      }
    }
 
-A.10.  Amended Signed vCon
+A.9.  Amended Signed vCon
 
    This is an example vCon with an Amended Object (Section 4.1.9)
    referencing the vCon that it amends or adds addional content.  In
-   this case it is referening the signed vCon example above.
+   this case it is referening the signed vCon example above.  An example
+   text Dialog Object (index 1) is the ammendement.
 
    The unformatted version of the following example can be downloaded
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
@@ -5042,7 +5048,7 @@ A.10.  Amended Signed vCon
      }
    }
 
-A.11.  vCon Group
+A.10.  vCon Group
 
    TODO: group vCon example
 
