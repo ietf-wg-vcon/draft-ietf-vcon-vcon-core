@@ -253,6 +253,7 @@ For the ease of documentation, the convention for [JSON] notation used in this d
 * "UnsignedFloat" - a positive JSON floating point number containing a decimal point as defined in section 6 of [JSON].
 
 * "Mediatype" - A "String" value that MUST be of the following form as defined in section 5.1 of [MIME]:
+
     type "/" subtype
 
 * "ContentHash" - The string token value is generated using the same approach used in section 6 of [STIR-PASS].
@@ -271,6 +272,12 @@ The subsequent characters are the Base64Url encoded (see Section 2 [JWS]) digest
 or binary data based on the JSON pointer referenced elements of "rcd" claim or the URI referenced content
 contained in the claim.
 
+
+* "SessionId" - An object with the String parameters: "local" and "remote".
+The String values of these parameters are UUIDs as defined in section 5 of [SESSION-ID] as "local-uuid" and "remote-uuid".
+This is designed to also work with the H.323 correlated [H-460-27] which refers to them as "Sender-UUID" and "Recipient-UUID".
+
+    { "local": String, "remote": String }
 
 * "A\[\]" and array of values of type A.
 
@@ -914,17 +921,15 @@ The value of the disposition parameter MUST be one of the following string:
 ### session_id {#session_id}
 
 The [SESSION-ID] MAY be included for the dialog.
+If the same [SESSION-ID] applies to all the parties in a dialog, than a single instance of the
+SessionId Object is provided as the value of session_id.
+If some parties have a different or no associated [SESSION-ID] for this Dialog Object, then the array structure of the session_id value MUST correlate to the array structure of the Dialog Object's parties index array.
+Parties which do not have a [SESSION-ID] associated with this dialog, MUST have a null value for the SessionID Object.
+That is no Object, not an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of [SESSION-ID].
+It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See [SESSION-ID]).
+In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value SHOULD be used as defined in section 7 of [SESSION-ID].
 
-TODO: should this be an object e.g.
-
-    { local: String, remote: Str }
-
-* session_id: "String" (optional)
-
-  The session_id value is the string as defined in section 5 of [SESSION-ID].
-  The string SHOULD be the content of the whole Session-ID header value.
-
-TODO: need text for mapping [H-460-27] to the above String or object.
+* session_id: "SessionId" \| "SessionId\[\]" \| ("SessionId" \| "SessionId\[\]")\[\] (optional)
 
 
 ### party_history Objects Array {#party_history-objects-array}
@@ -1994,7 +1999,9 @@ TODO: group vCon example
 
 * Thank you to Thomas McCarthy-Howe for inventing the concept of a vCon and the many discussions that we had while this concept was developed into reality.
 * Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases.
-* Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon.
+* Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon and testing out the extension framework with MIME.
 * The examples in this document were generated using the command line interface (CLI) from the py-vcon [PY-VCON] python open source project.
 * Thank you to Steve Lasker for formatting and spelling edits.
+* Thank you to Marc Petit-Huguenin for sorting out session_id.
+
 
