@@ -397,7 +397,7 @@ The keys and values for the top level vCon JSON object are defined in the follow
 
 ### vcon
 
-THe "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
+The "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
 The "vcon" parameter was used to differentiate schema changes to the vCon core container when
 incompatablities were created in Internet-Draft versions.
 The extension mechanism replaces the need for schema versioning.
@@ -824,7 +824,13 @@ In this situation, it is necessary to indicate the originator as the dialog Obje
 It should be noted that the recordings may be shorter than the collective conference when there is a separate recording per speaker/party.
 For example the recording(s) of the individual speaker may be trimmed to only the parts where they are actually speaking.
 
-TODO: For an email thread, To and Cc parties are all passive.  Do we just put the sender as the party or do we want to list all of the recipients and by convention the sender is the first party?  Note that each dialog/email could have a difference set of recipients.
+In the email context, [SMTP] messages have the headers From, To, Cc and Bcc that all correspond to parties to the text Dialog Object.
+The From header should be the first party index in the parties parameter for the text Dialog Object.
+They are the implied orginator.
+The parties listed in the To, Cc and Bcc [SMTP] headers (if present) should all be added in that order to the parties parameter in the text Dialog Object.
+The sender SHOULD be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
+A text Dialog Object should only contain a single [SMTP] message.
+Each may have a different set of parties.
 
 ### originator
 
