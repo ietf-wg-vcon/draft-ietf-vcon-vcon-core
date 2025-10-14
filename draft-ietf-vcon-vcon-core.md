@@ -194,7 +194,7 @@ The **vCon** standard offers several key benefits:
 - **Data Automation**: The **vCon** format simplifies the automation of processes involving conversational data, improving efficiency and reducing the risk of errors.
 - **Enterprise Integration**: The ability to integrate conversation data with third-party tools and services enhances the value of conversations by providing deeper insights and driving business decisions.
 
-### 1.4. **Scope of the Document**
+## **Scope of the Document**
 
 This document defines the core structure and schema for **vCon** as a JSON format.
 Detailed specifications for the various parameters and the extension framework will be provided in subsequent sections.
