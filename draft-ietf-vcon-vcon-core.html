@@ -1745,8 +1745,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-2.2-2.4.1">"UnsignedFloat" - a positive JSON floating point number containing a decimal point as defined in section 6 of <span>[<a href="#JSON" class="cite xref">JSON</a>]</span>.<a href="#section-2.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.2-2.5">
-            <p id="section-2.2-2.5.1">"Mediatype" - A "String" value that <span class="bcp14">MUST</span> be of the following form as defined in section 5.1 of <span>[<a href="#MIME" class="cite xref">MIME</a>]</span>:
-  type "/" subtype<a href="#section-2.2-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-2.2-2.5.1">"Mediatype" - A "String" value that <span class="bcp14">MUST</span> be of the following form as defined in section 5.1 of <span>[<a href="#MIME" class="cite xref">MIME</a>]</span>:<a href="#section-2.2-2.5.1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2.5.2">
+type "/" subtype<a href="#section-2.2-2.5.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.2-2.6">
             <p id="section-2.2-2.6.1">"ContentHash" - The string token value is generated using the same approach used in section 6 of <span>[<a href="#STIR-PASS" class="cite xref">STIR-PASS</a>]</span>.
@@ -1766,7 +1767,14 @@ or binary data based on the JSON pointer referenced elements of "rcd" claim or t
 contained in the claim.<a href="#section-2.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.2-2.7">
-            <p id="section-2.2-2.7.1">"A[]" and array of values of type A.<a href="#section-2.2-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-2.2-2.7.1">"SessionId" - An object with the String parameters: "local" and "remote".
+The String values of these parameters are UUIDs as defined in section 5 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> as "local-uuid" and "remote-uuid".
+This is designed to also work with the H.323 correlated <span>[<a href="#H-460-27" class="cite xref">H-460-27</a>]</span> which refers to them as "Sender-UUID" and "Recipient-UUID".<a href="#section-2.2-2.7.1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2.7.2">
+{ "local": String, "remote": String }<a href="#section-2.2-2.7.2" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.2-2.8">
+            <p id="section-2.2-2.8.1">"A[]" and array of values of type A.<a href="#section-2.2-2.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-2.2-3">All parameters are assumed to be mandatory unless other wise noted.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
@@ -2858,22 +2866,19 @@ Note: if a message was left with the voicemail system this is no longer an "inco
           <h4 id="name-session_id">
 <a href="#section-4.3.10" class="section-number selfRef">4.3.10. </a><a href="#name-session_id" class="section-name selfRef">session_id</a>
           </h4>
-<p id="section-4.3.10-1">The <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> <span class="bcp14">MAY</span> be included for the dialog.<a href="#section-4.3.10-1" class="pilcrow">¶</a></p>
-<p id="section-4.3.10-2">TODO: should this be an object e.g.<a href="#section-4.3.10-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.3.10-3">
-<pre>
-{ local: String, remote: Str }
-</pre><a href="#section-4.3.10-3" class="pilcrow">¶</a>
-</div>
+<p id="section-4.3.10-1">The <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> <span class="bcp14">MAY</span> be included for the dialog.
+If the same <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> applies to all the parties in a dialog, than a single instance of the
+SessionId Object is provided as the value of session_id.
+If some parties have a different or no associated <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> for this Dialog Object, then the array structure of the session_id value <span class="bcp14">MUST</span> correlate to the array structure of the Dialog Object's parties index array.
+Parties which do not have a <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> associated with this dialog, <span class="bcp14">MUST</span> have a null value for the SessionID Object.
+That is no Object, not an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
+It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>).
+In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value <span class="bcp14">SHOULD</span> be used as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.<a href="#section-4.3.10-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.3.10-4.1">
-              <p id="section-4.3.10-4.1.1">session_id: "String" (optional)<a href="#section-4.3.10-4.1.1" class="pilcrow">¶</a></p>
-<p id="section-4.3.10-4.1.2">
-The session_id value is the string as defined in section 5 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
-The string <span class="bcp14">SHOULD</span> be the content of the whole Session-ID header value.<a href="#section-4.3.10-4.1.2" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.3.10-2.1">
+              <p id="section-4.3.10-2.1.1">session_id: "SessionId" | "SessionId[]" | ("SessionId" | "SessionId[]")[] (optional)<a href="#section-4.3.10-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.3.10-5">TODO: need text for mapping <span>[<a href="#H-460-27" class="cite xref">H-460-27</a>]</span> to the above String or object.<a href="#section-4.3.10-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="party_history-objects-array">
@@ -7319,13 +7324,16 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
           <p id="appendix-B-1.2.1">Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases.<a href="#appendix-B-1.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-1.3">
-          <p id="appendix-B-1.3.1">Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon.<a href="#appendix-B-1.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-1.3.1">Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon and testing out the extension framework with MIME.<a href="#appendix-B-1.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-1.4">
           <p id="appendix-B-1.4.1">The examples in this document were generated using the command line interface (CLI) from the py-vcon <span>[<a href="#PY-VCON" class="cite xref">PY-VCON</a>]</span> python open source project.<a href="#appendix-B-1.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-1.5">
           <p id="appendix-B-1.5.1">Thank you to Steve Lasker for formatting and spelling edits.<a href="#appendix-B-1.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-1.6">
+          <p id="appendix-B-1.6.1">Thank you to Marc Petit-Huguenin for sorting out session_id.<a href="#appendix-B-1.6.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
