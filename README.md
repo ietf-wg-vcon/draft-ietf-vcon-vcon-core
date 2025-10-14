@@ -13,7 +13,7 @@ This is the working area for the IETF [VCON Working Group](https://datatracker.i
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/blob//CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/blob/main/CONTRIBUTING.md).
 
 The contributing file also has tips on how to make contributions, if you
 don't already know how to do that.
