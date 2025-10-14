@@ -28,7 +28,8 @@
       "type": "text",
       "start": "2022-06-21T17:53:26.000+00:00",
       "parties": [
-        1
+        1,
+        0
       ],
       "mediatype": "text/plain",
       "body": "Good day!",
@@ -37,8 +38,8 @@
   ],
   "analysis": [],
   "attachments": [],
-  "uuid": "0199df09-8a13-8f10-a20f-d188127fad29",
+  "uuid": "0199e054-f029-8e87-a20f-d188127fad29",
   "amended": {
-    "uuid": "0199df09-86fb-8355-b9a2-279e0d16bc46"
+    "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
   }
 }

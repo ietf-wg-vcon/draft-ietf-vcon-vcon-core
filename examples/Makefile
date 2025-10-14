@@ -58,7 +58,7 @@ ab_call_int_rec.vcon: ${VCON_PATH}vcon ${VCON} ab.vcon ab_call.wav
 
 ab_call_ext_rec_amended.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec.vcon
 	$(eval DIALOG_DATE := $(shell jq .dialog[0].start ab_call_ext_rec.vcon))
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter create_amended | jq '.dialog += [{"type": "text", "start": $(DIALOG_DATE), "parties": [1], "mediatype": "text/plain", "body": "Good day!", "encoding": "none"}]' | jq '.' > ab_call_ext_rec_amended.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter create_amended | jq '.dialog += [{"type": "text", "start": $(DIALOG_DATE), "parties": [1, 0], "mediatype": "text/plain", "body": "Good day!", "encoding": "none"}]' | jq '.' > ab_call_ext_rec_amended.vcon)
 
 b_email_acct_prob_image.vcon: email_acct_prob_bob_image.txt
 	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_acct_prob_bob_image.txt | jq '.' > b_email_acct_prob_image.vcon)

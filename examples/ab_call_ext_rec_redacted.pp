@@ -55,7 +55,7 @@
         {
           "parties": 0,
           "start": "2022-06-21T17:53:55.334875+00:00",
-          "duration": 2.5599999999999987,
+          "duration": 2.6399989999999995,
           "text": "Goodbye.  Goodbye.  Have a nice day."
         }
       ],
@@ -68,7 +68,7 @@
   "attachments": [],
   "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
   "redacted": {
-    "uuid": "0199ded0-8a0f-87c2-b9a2-279e0d16bc46",
+    "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46",
     "type": "PII Redaction"
   }
 }
