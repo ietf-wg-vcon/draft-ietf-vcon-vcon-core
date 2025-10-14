@@ -1876,10 +1876,6 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 {::include examples/ab_call_int_rec.pp}
 ~~~
 
-## Text Chat vCon
-
-TODO: text vCon example
-
 ## Email Thread Multipart vCon
 
 The following is an unsigned form of an vCon for a 2 message email thread between 2 parties.
@@ -1974,6 +1970,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 
 This is an example vCon with an [Amended Object](#amended) referencing the vCon that it amends or adds addional content.
 In this case it is referening the signed vCon example above.
+An example text Dialog Object (index 1) is the ammendement.
 
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
