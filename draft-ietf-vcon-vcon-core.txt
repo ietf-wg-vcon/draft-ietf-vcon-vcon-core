@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         14 October 2025
-Expires: 17 April 2026
+Intended status: Standards Track                         15 October 2025
+Expires: 18 April 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 April 2026.
+   This Internet-Draft will expire on 18 April 2026.
 
 Copyright Notice
 
@@ -1127,11 +1127,12 @@ Table of Contents
    A dialog of type "incomplete" or "transfer" MUST NOT have Dialog
    Content.  In the "incomplete" case the call or conversation failed to
    be setup to the point of exchanging any conversation.  Incomplete
-   dialogs MUST have a disposition parameter which indicates why the
-   call or conversations failed.  In the "transfer" case, the
-   conversation is recorded in other dialogs.  The Dialog Transfer
-   parameters, are used to show the roles and relationships between the
-   parties and other dialogs as the transfer process occurred.
+   Dialog Objects MUST have a disposition parameter which indicates why
+   the call or conversations failed.  In the "transfer" case, the
+   conversation is recorded in other Dialog Objects.  The Dialog
+   Transfer parameters, are used to show the roles and relationships
+   between the parties and other Dialog Objects as the transfer process
+   occurred.
 
 4.3.2.  start
 
@@ -1294,8 +1295,8 @@ Table of Contents
    dialog, but analysis of the conversation and is not included in the
    dialog portion.
 
-   *  disposition: "String" (required for incomplete type dialogs,
-      SHOULD NOT be present for other dialog types)
+   *  disposition: "String" (required for incomplete type Dialog
+      Objects, SHOULD NOT be present for other dialog types)
 
    The value of the disposition parameter MUST be one of the following
    string:
@@ -1414,31 +1415,53 @@ Table of Contents
    The value of the transferor parameter is the index into the parties
    Object array to the party that played the role of the Transferor.
 
-   *  transfer_target: "UnsignedInt"
+   *  transfer_target: "UnsignedInt" | "UnsignedInt[]"
 
    The value of the transfer_target parameter is the index into the
    parties Object array to the party that played the role of the
    Transfer Target.
 
-   *  original: "UnsignedInt"
+   The consultation, target_dialog and transfer parameters all refer to
+   the Dialog Objects that correspond to the 2 to 3 calls that are part
+   of a transfer.  These calls may end up spread across multiple Dialog
+   Objects due to the nature of how the calls are recorded.  For example
+   each party may be recorded in a separate file which will result in a
+   dialog for each.  Alternatively a call may go on hold where recording
+   is stopped and back off again resulting where recording is started
+   again in a separate recording file, resulting in multiple Dialog
+   Objects.  For this reason, the values for the consultation,
+   target_dialog and transfer parameters MAY have a single UnsignedInt
+   or an array of UnsignedInt.
 
-   The value of the original parameter is the index into the dialogs
-   Object array to the "recording" or "text" type dialog for the
-   original dialog between the Transferee and the Transferor.
+   There are scenarios where we know that a transfer has occurred, but
+   we have no Dialog Object information for one or two of the
+   consultation, target or transfer calls.  In this case the Dialog
+   Object index for the consultation, target_dialog and transfer
+   parameter is set to -1 to indicate that we have no Dialog Object for
+   that call, but know that the dialog occurred.
 
-   *  consultation: "UnsignedInt" (optional)
+   *  original: "UnsignedInt" | "UnsignedInt[]"
 
-   The value of the consultation parameter is the index into the dialogs
-   Object array to the "recording", "text" or "incomplete" type dialog
-   for the consultative dialog between the Transferor and the Transfer
-   Target.
+   The value of the original parameter is the index/indices into the
+   dialog Object array to the "recording" or "text" type Dialog Object
+   for the original dialog between the Transferee and the Transferor.
 
-   *  target_dialog: "UnsignedInt"
+   *  consultation: "UnsignedInt" | "UnsignedInt[]" (optional)
 
-   The value of the target_dialog parameter is the index into the
-   dialogs Object array to the "recording", "text" or "incomplete" type
-   dialog for the target dialog between the Transferee and the Transfer
-   Target.
+   The value of the consultation parameter is the index/indices into the
+   Dialog Object array to the "recording", "text" or "incomplete" type
+   Dialog Object for the consultative dialog between the Transferor and
+   the Transfer Target.  It is also possible for there to be more than
+   one consultation.  This may occur for a number of reasons.  Call
+   attempts may fail.  The caller may decide the consultation with a
+   party is not the desired transfer target.
+
+   *  target_dialog: "UnsignedInt" | "UnsignedInt[]"
+
+   The value of the target_dialog parameter is the index/indices into
+   the Dialog Object array to the "recording", "text" or "incomplete"
+   type dialog for the target dialog between the Transferee and the
+   Transfer Target.
 
    A "transfer" type dialog MUST NOT contain the parties, originator,
    mediatype, filename or Dialog Content parameters.
@@ -1602,8 +1625,8 @@ Table of Contents
       analysis was not derived from any of the dialog)
 
    The value of the dialog parameter is the index to the dialog or array
-   of indices to dialogs in the dialog array to which this analysis
-   object corresponds.
+   of indices to the Dialog Object array to which this analysis object
+   corresponds.
 
 4.5.3.  mediatype
 
