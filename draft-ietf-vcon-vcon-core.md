@@ -364,10 +364,15 @@ Extensions to the vCon schema can be classified into two categories:
 * **Incompatible**: These extensions modify existing semantics or schema definitions in ways that render a vCon incompatible with implementations that do not support the extension. Interpreting such a vCon correctly requires explicit awareness of the extension.
 
 Wherever feasible, extensions **SHOULD** be designed as **Compatible** to preserve compatibility with existing implementations.
+The question of Compatible vs Incompatible is a little subjective.
+A transcriber for vCon can be fairly tolerant of changes adding new parameters or objects to a vCon.
+On the other hand, a redactor must be aware of the implications of all parameters in the vCon to be sure to redact all of the objective information.
+In these cases a transcriber will likely only need to look at the critical extensions.
+However the redactor perhaps should reject vCons with any extension that it does not support.
 
-However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`must_support`](#must_support) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
+However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
 
-Implementations that encounter a vCon containing a disruptive extension listed in the must_support parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
+Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
 
 # vCon JSON Object
 
@@ -441,13 +446,13 @@ The extensions parameter SHOULD contain the list of names of all vCon extensions
 
 * extensions: "String\[\]"
 
-### must_support {#must_support}
+### critical {#critical}
 
-Implementations that include extensions which are incompatible with the core vCon schema MUST list the names of those extensions in the must_support parameter.
-A vCon that includes a must_support parameter indicates that correct interpretation of the vCon requires explicit support for the listed extensions.
-An implementation that does not recognize or support the extensions listed in the must_support parameter MUST NOT attempt to process or operate on the vCon, except to reject it or report unsupported content.
+Implementations that include extensions which are incompatible with the core vCon schema MUST list the names of those extensions in the critical parameter.
+A vCon that includes a critical parameter indicates that correct interpretation of the vCon requires explicit support for the listed extensions.
+An implementation that does not recognize or support the extensions listed in the critical parameter MUST NOT attempt to process or operate on the vCon, except to reject it or report unsupported content.
 
-* must_support: "String\[\]"
+* critical: "String\[\]"
 
 ### created_at {#created_at}
 
@@ -1583,7 +1588,7 @@ The following defines the initial values for the vCon Object Parameter Names Reg
 | vcon | Schema version number | IESG | [](#vcon) RFC XXXX |
 | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
 | extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
-| must_support | list of incompatible extensions used | IESG | [must_support](#must_support) RFC XXXX |
+| critical | list of incompatible extensions used | IESG | [critical](#critical) RFC XXXX |
 | created_at | creation date | IESG | [](#created_at) RFC XXXX |
 | updated_at | modification date | IESG | [](#updated_at) RFC XXXX |
 | subject | conversation subject | IESG | [](#subject) RFC XXXX |
@@ -1863,6 +1868,8 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 ## Version 0.3.0 to 0.4.0
 
   * The "appended" Object was renamed to "amended"
+  * The "must_support" parameter was renamed to "critical" to be consistent with other IETF JSON schema extension mechanisms.
+  * The "session_id" Dialog Object parameter was changes from a String to a SessionId Object.
 
 ## Version 0.0.2 to 0.3.0
 
@@ -2014,6 +2021,8 @@ TODO: group vCon example
 * Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon and testing out the extension framework with MIME.
 * The examples in this document were generated using the command line interface (CLI) from the py-vcon [PY-VCON] python open source project.
 * Thank you to Steve Lasker for formatting and spelling edits.
+* Thank you to Mike Jones for input and help media types, version and helping to form the extension framework.
+* Thank you to Jonathan Lennox for numerous inputs including separate single channel recordings per party and the extension framework.
 * Thank you to Marc Petit-Huguenin for sorting out session_id.
 
 
