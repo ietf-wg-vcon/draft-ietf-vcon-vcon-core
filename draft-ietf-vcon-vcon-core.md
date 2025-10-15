@@ -993,6 +993,12 @@ The Party_History Object contains the following parameters:
     * "unhold" - when the part is taken off hold
     * "mute" - when the party is muted
     * "unmute" - when the part is taken off mute
+    * "dtmfdown" - when a DTMF button was pressed
+    * "dtmfup" - when a DTMF button was released
+
+* dtmf: "String" - (required for dtmfdown and dtmfup events)
+
+The dtmf parameter value is the String value of the DTMF digit or character that was pressed or rleased.
 
 ### Dialog Transfer
 
