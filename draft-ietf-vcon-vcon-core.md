@@ -898,8 +898,6 @@ Alternatively, for externally referenced dialog:
 
 ### disposition
 
-TODO: should this go in CC extensions?
-
 If the dialog type is "incomplete", it must have a disposition parameter.
 The value of the disposition parameter provides the reason that the "call control" failed.
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
