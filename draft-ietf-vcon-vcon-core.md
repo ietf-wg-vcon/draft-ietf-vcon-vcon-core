@@ -780,8 +780,32 @@ In a contact center, this is particularly important for the call agent participa
 ## Dialog Object
 
 The Dialog object references or contains text, audio or video captured from the conversation.
-Currently two types of dialog objects are defined in this document.
-One for text media and the other for audio or video recording files.
+Currently four types of dialog objects are defined in this document:
+
+* Text based media communications
+* Audio or Video recorded media communications
+* Metadata for failed or incompleted communications
+* Metadata for providing relationships between other Dialog Objects in transfer scenarios
+
+Media-based Dialog Objects (type text and recording) SHOULD contain only media that is transcribable.
+Media that is transcribable can be converted into a textual representation of sequential communication between parties.
+While images such as sunsets, cows, photographs of documents, or application forms may be describable, they are not transcribable in a concise manner and SHOULD NOT be included as Dialog Objects.
+They SHOULD be included as Attachement Objects.
+
+Text and audio may be subject to interpretation, but they are transcribable to a precise dialog representation.
+Although transcriptions may not always be accurate, there exists a single correct transcription for any given content.
+
+Media that is not transcribable SHOULD be included in the vCon as Attachment Objects rather than Dialog Objects.
+
+For example, a fax or photograph of a text-based letter is transcribable and MAY be included as a Dialog Object.
+Most other faxes and photographs SHOULD be included as Attachment Objects and SHOULD NOT be included as Dialog Objects.
+Similarly, a musical recording, even if it is in MP3 audio format, SHOULD be included as an Attachment and SHOULD NOT be included as a Dialog Object.
+
+It may not always be known at the time of vCon construction whether an image or recording is transcribable.
+When uncertain, the default SHOULD be to include images as Attachment Objects and audio or video recordings as Dialog Objects.
+
+This distinction is important for interoperability.
+If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.
 
 TODO: Is there other signalling data that we want to capture other than start and duration and the media (e.g. from jabber, sms, mms, email, SIP, etc.)?
 
