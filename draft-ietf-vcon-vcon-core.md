@@ -787,9 +787,9 @@ A dialog of type "text" had  has Dialog Content that either contains a body or r
 A dialog of type "transfer" does not capture actual conversation exchange, but rather captures operations, parties and relations between dialog segments.
 A dialog of type "incomplete" or "transfer" MUST NOT have Dialog Content.
 In the "incomplete" case the call or conversation failed to be setup to the point of exchanging any conversation.
-Incomplete dialogs MUST have a disposition parameter which indicates why the call or conversations failed.
-In the "transfer" case, the conversation is recorded in other dialogs.
-The Dialog Transfer parameters, are used to show the roles and relationships between the parties and other dialogs as the transfer process occurred.
+Incomplete Dialog Objects MUST have a disposition parameter which indicates why the call or conversations failed.
+In the "transfer" case, the conversation is recorded in other Dialog Objects.
+The Dialog Transfer parameters, are used to show the roles and relationships between the parties and other Dialog Objects as the transfer process occurred.
 
 
 ### start {#dialog-start}
@@ -905,7 +905,7 @@ The value of the disposition parameter provides the reason that the "call contro
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
 This latter definition of call disposition is not dialog, but analysis of the conversation and is not included in the dialog portion.
 
-* disposition: "String" (required for incomplete type dialogs, SHOULD NOT be present for other dialog types)
+* disposition: "String" (required for incomplete type Dialog Objects, SHOULD NOT be present for other dialog types)
 
 The value of the disposition parameter MUST be one of the following string:
 
@@ -987,21 +987,35 @@ The value of the transferee parameter is the index into the parties Object array
 
 The value of the transferor parameter is the index into the parties Object array to the party that played the role of the Transferor.
 
-* transfer_target: "UnsignedInt"
+* transfer_target: "UnsignedInt" \| "UnsignedInt\[\]"
 
 The value of the transfer_target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
 
-* original: "UnsignedInt"
 
-The value of the original parameter is the index into the dialogs Object array to the "recording" or "text" type dialog for the original dialog between the Transferee and the Transferor.
+The consultation, target_dialog and transfer parameters all refer to the Dialog Objects that correspond to the 2 to 3 calls that are part of a transfer.
+These calls may end up spread across multiple Dialog Objects due to the nature of how the calls are recorded.
+For example each party may be recorded in a separate file which will result in a dialog for each.
+Alternatively a call may go on hold where recording is stopped and back off again resulting where recording is started again in a separate recording file, resulting in multiple Dialog Objects.
+For this reason, the values for the consultation, target_dialog and transfer parameters MAY have a single UnsignedInt or an array of UnsignedInt.
 
-* consultation: "UnsignedInt" (optional)
+There are scenarios where we know that a transfer has occurred, but we have no Dialog Object information for one or two of the consultation, target or transfer calls.
+In this case the Dialog Object index for the consultation, target_dialog and transfer parameter is set to -1 to indicate that we have no Dialog Object for that call, but know that the dialog occurred.
 
-The value of the consultation parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the consultative dialog between the Transferor and the Transfer Target.
+* original: "UnsignedInt" \| "UnsignedInt\[\]"
 
-* target_dialog: "UnsignedInt"
+The value of the original parameter is the index/indices into the dialog Object array to the "recording" or "text" type Dialog Object for the original dialog between the Transferee and the Transferor.
 
-The value of the target_dialog parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
+* consultation: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
+
+The value of the consultation parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type Dialog Object for the consultative dialog between the Transferor and the Transfer Target.
+It is also possible for there to be more than one consultation.
+This may occur for a number of reasons.
+Call attempts may fail.
+The caller may decide the consultation with a party is not the desired transfer target.
+
+* target_dialog: "UnsignedInt" \| "UnsignedInt\[\]"
+
+The value of the target_dialog parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
 
 A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, filename or Dialog Content parameters.
 
@@ -1130,7 +1144,7 @@ The dialog parameter is used to indicate which Dialog Objects this analysis was 
 
 * dialog: "UnsignedInt" \| "UnsignedInt\[\]" (optional only if the analysis was not derived from any of the dialog)
 
-The value of the dialog parameter is the index to the dialog or array of indices to dialogs in the dialog array to which this analysis object corresponds.
+The value of the dialog parameter is the index to the dialog or array of indices to the Dialog Object array to which this analysis object corresponds.
 
 ### mediatype {#analysis-mediatype}
 
