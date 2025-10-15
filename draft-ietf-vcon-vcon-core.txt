@@ -1435,6 +1435,15 @@ Table of Contents
 
       -  "unmute" - when the part is taken off mute
 
+      -  "dtmfdown" - when a DTMF button was pressed
+
+      -  "dtmfup" - when a DTMF button was released
+
+   *  dtmf: "String" - (required for dtmfdown and dtmfup events)
+
+   The dtmf parameter value is the String value of the DTMF digit or
+   character that was pressed or rleased.
+
 4.3.12.  Dialog Transfer
 
    A dialog of type "transfer" documents the rolls of three parties and
