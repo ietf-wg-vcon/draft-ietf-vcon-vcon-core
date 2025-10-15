@@ -628,6 +628,7 @@ The actual conversation which occurred over text, audio or video that was captur
 
 The value of the dialog parameter is an array of [Dialog Objects](#dialog-object).
 It should be noted that the Dialog Objects may not be sorted in chronological order.
+They are in the order that they were added.
 It is the applications responsibility to sort dialog and transcriptions if they are needed in chronological order.
 
 ### analysis Objects Array
@@ -641,6 +642,8 @@ The value of the analysis parameter is an array of [Analysis Objects](#analysis-
 ### attachments Objects Array
 
 Ancillary documents, discussed, presented, referenced or related to the conversation may be stored in the attachments array.
+It should be noted that the Attachment Objects may not be sorted in chronological order.
+They are in the order that they were added.
 
 * attachments: "Attachment\[\]" (optional)
 
@@ -802,6 +805,8 @@ The Dialog Transfer parameters, are used to show the roles and relationships bet
 The start parameter contains the date and time for the beginning of the captured piece of dialog.
 For text it is the time that the party started typing or if not available, then it is the time the text was sent.
 For audio and video recordings, it is the time which corresponds to the beginning of the recording.
+It should be noted that Dialog Objects may not be ordered by the value of the start parameter.
+Dialog Objects in the dialog array are in order that they were added to the vCon and cannot be reordered with out correcting the dialog indices which occur in other Objects in the vCon.
 
 * start: "Date"
 
@@ -1059,6 +1064,8 @@ TODO: Do we want a semantic type like: contract or presentation?  Or a subject o
 ### start {#attachment-start}
 
 The start parameter contains the date and time that the Attachment Object was sent/exchanged.
+It should be noted that Attachment Objects may not be ordered by the value of the start parameter.
+Attachment Objects in the attachments array are in order that they were added to the vCon and cannot be reordered with out correcting the attachment indices which may occur in other Objects in the vCon.
 
 * start: "Date"
 
