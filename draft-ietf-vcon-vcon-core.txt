@@ -907,9 +907,9 @@ Table of Contents
 
    The value of the dialog parameter is an array of Dialog Objects
    (Section 4.3).  It should be noted that the Dialog Objects may not be
-   sorted in chronological order.  It is the applications responsibility
-   to sort dialog and transcriptions if they are needed in chronological
-   order.
+   sorted in chronological order.  They are in the order that they were
+   added.  It is the applications responsibility to sort dialog and
+   transcriptions if they are needed in chronological order.
 
 4.1.13.  analysis Objects Array
 
@@ -924,7 +924,9 @@ Table of Contents
 4.1.14.  attachments Objects Array
 
    Ancillary documents, discussed, presented, referenced or related to
-   the conversation may be stored in the attachments array.
+   the conversation may be stored in the attachments array.  It should
+   be noted that the Attachment Objects may not be sorted in
+   chronological order.  They are in the order that they were added.
 
    *  attachments: "Attachment[]" (optional)
 
@@ -1148,7 +1150,11 @@ Table of Contents
    the captured piece of dialog.  For text it is the time that the party
    started typing or if not available, then it is the time the text was
    sent.  For audio and video recordings, it is the time which
-   corresponds to the beginning of the recording.
+   corresponds to the beginning of the recording.  It should be noted
+   that Dialog Objects may not be ordered by the value of the start
+   parameter.  Dialog Objects in the dialog array are in order that they
+   were added to the vCon and cannot be reordered with out correcting
+   the dialog indices which occur in other Objects in the vCon.
 
    *  start: "Date"
 
@@ -1520,7 +1526,11 @@ Table of Contents
 4.4.2.  start
 
    The start parameter contains the date and time that the Attachment
-   Object was sent/exchanged.
+   Object was sent/exchanged.  It should be noted that Attachment
+   Objects may not be ordered by the value of the start parameter.
+   Attachment Objects in the attachments array are in order that they
+   were added to the vCon and cannot be reordered with out correcting
+   the attachment indices which may occur in other Objects in the vCon.
 
    *  start: "Date"
 
