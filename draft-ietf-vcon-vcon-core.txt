@@ -1283,8 +1283,6 @@ Table of Contents
 
 4.3.9.  disposition
 
-   TODO: should this go in CC extensions?
-
    If the dialog type is "incomplete", it must have a disposition
    parameter.  The value of the disposition parameter provides the
    reason that the "call control" failed.  The term: "call control" is

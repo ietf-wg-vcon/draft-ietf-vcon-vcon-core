@@ -2826,37 +2826,36 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
           <h4 id="name-disposition">
 <a href="#section-4.3.9" class="section-number selfRef">4.3.9. </a><a href="#name-disposition" class="section-name selfRef">disposition</a>
           </h4>
-<p id="section-4.3.9-1">TODO: should this go in CC extensions?<a href="#section-4.3.9-1" class="pilcrow">¶</a></p>
-<p id="section-4.3.9-2">If the dialog type is "incomplete", it must have a disposition parameter.
+<p id="section-4.3.9-1">If the dialog type is "incomplete", it must have a disposition parameter.
 The value of the disposition parameter provides the reason that the "call control" failed.
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
-This latter definition of call disposition is not dialog, but analysis of the conversation and is not included in the dialog portion.<a href="#section-4.3.9-2" class="pilcrow">¶</a></p>
+This latter definition of call disposition is not dialog, but analysis of the conversation and is not included in the dialog portion.<a href="#section-4.3.9-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.3.9-3.1">
-              <p id="section-4.3.9-3.1.1">disposition: "String" (required for incomplete type Dialog Objects, <span class="bcp14">SHOULD NOT</span> be present for other dialog types)<a href="#section-4.3.9-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.3.9-2.1">
+              <p id="section-4.3.9-2.1.1">disposition: "String" (required for incomplete type Dialog Objects, <span class="bcp14">SHOULD NOT</span> be present for other dialog types)<a href="#section-4.3.9-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.3.9-4">The value of the disposition parameter <span class="bcp14">MUST</span> be one of the following string:<a href="#section-4.3.9-4" class="pilcrow">¶</a></p>
+<p id="section-4.3.9-3">The value of the disposition parameter <span class="bcp14">MUST</span> be one of the following string:<a href="#section-4.3.9-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.3.9-5.1">
-              <p id="section-4.3.9-5.1.1">"no-answer" - a call or connection was attempted, but no one answered or accepted the connection<a href="#section-4.3.9-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.3.9-4.1">
+              <p id="section-4.3.9-4.1.1">"no-answer" - a call or connection was attempted, but no one answered or accepted the connection<a href="#section-4.3.9-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.3.9-5.2">
-              <p id="section-4.3.9-5.2.1">"congestion" - a call or connection was attempted, but was unable to be completed due to system load<a href="#section-4.3.9-5.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-4.3.9-4.2">
+              <p id="section-4.3.9-4.2.1">"congestion" - a call or connection was attempted, but was unable to be completed due to system load<a href="#section-4.3.9-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.3.9-5.3">
-              <p id="section-4.3.9-5.3.1">"failed" - a call or connection was attempted, but failed<a href="#section-4.3.9-5.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-4.3.9-4.3">
+              <p id="section-4.3.9-4.3.1">"failed" - a call or connection was attempted, but failed<a href="#section-4.3.9-4.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.3.9-5.4">
-              <p id="section-4.3.9-5.4.1">"busy" - a call or connection was attempted, but the party was busy with another conversation<a href="#section-4.3.9-5.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-4.3.9-4.4">
+              <p id="section-4.3.9-4.4.1">"busy" - a call or connection was attempted, but the party was busy with another conversation<a href="#section-4.3.9-4.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.3.9-5.5">
-              <p id="section-4.3.9-5.5.1">"hung-up" - a call or connection was made, but the party hung-up before any conversation occurred<a href="#section-4.3.9-5.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-4.3.9-4.5">
+              <p id="section-4.3.9-4.5.1">"hung-up" - a call or connection was made, but the party hung-up before any conversation occurred<a href="#section-4.3.9-4.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-4.3.9-5.6">
-              <p id="section-4.3.9-5.6.1">"voicemail-no-message" - a call or connection was made, the voicemail system answered, but no message was left<a href="#section-4.3.9-5.6.1" class="pilcrow">¶</a></p>
-<p id="section-4.3.9-5.6.2">
-Note: if a message was left with the voicemail system this is no longer an "incomplete" type dialog, it is a "recording" type and the conversation <span class="bcp14">SHOULD</span> be included in the Dialog Content.<a href="#section-4.3.9-5.6.2" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-4.3.9-4.6">
+              <p id="section-4.3.9-4.6.1">"voicemail-no-message" - a call or connection was made, the voicemail system answered, but no message was left<a href="#section-4.3.9-4.6.1" class="pilcrow">¶</a></p>
+<p id="section-4.3.9-4.6.2">
+Note: if a message was left with the voicemail system this is no longer an "incomplete" type dialog, it is a "recording" type and the conversation <span class="bcp14">SHOULD</span> be included in the Dialog Content.<a href="#section-4.3.9-4.6.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
