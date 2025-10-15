@@ -2638,9 +2638,36 @@ In a contact center, this is particularly important for the call agent participa
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-dialog-object" class="section-name selfRef">Dialog Object</a>
         </h3>
 <p id="section-4.3-1">The Dialog object references or contains text, audio or video captured from the conversation.
-Currently two types of dialog objects are defined in this document.
-One for text media and the other for audio or video recording files.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.3-2">TODO: Is there other signalling data that we want to capture other than start and duration and the media (e.g. from jabber, sms, mms, email, SIP, etc.)?<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+Currently four types of dialog objects are defined in this document:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.3-2.1">
+            <p id="section-4.3-2.1.1">Text based media communications<a href="#section-4.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-2.2">
+            <p id="section-4.3-2.2.1">Audio or Video recorded media communications<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-2.3">
+            <p id="section-4.3-2.3.1">Metadata for failed or incompleted communications<a href="#section-4.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-2.4">
+            <p id="section-4.3-2.4.1">Metadata for providing relationships between other Dialog Objects in transfer scenarios<a href="#section-4.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-4.3-3">Media-based Dialog Objects (type text and recording) <span class="bcp14">SHOULD</span> contain only media that is transcribable.
+Media that is transcribable can be converted into a textual representation of sequential communication between parties.
+While images such as sunsets, cows, photographs of documents, or application forms may be describable, they are not transcribable in a concise manner and <span class="bcp14">SHOULD NOT</span> be included as Dialog Objects.
+They <span class="bcp14">SHOULD</span> be included as Attachement Objects.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">Text and audio may be subject to interpretation, but they are transcribable to a precise dialog representation.
+Although transcriptions may not always be accurate, there exists a single correct transcription for any given content.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.3-5">Media that is not transcribable <span class="bcp14">SHOULD</span> be included in the vCon as Attachment Objects rather than Dialog Objects.<a href="#section-4.3-5" class="pilcrow">¶</a></p>
+<p id="section-4.3-6">For example, a fax or photograph of a text-based letter is transcribable and <span class="bcp14">MAY</span> be included as a Dialog Object.
+Most other faxes and photographs <span class="bcp14">SHOULD</span> be included as Attachment Objects and <span class="bcp14">SHOULD NOT</span> be included as Dialog Objects.
+Similarly, a musical recording, even if it is in MP3 audio format, <span class="bcp14">SHOULD</span> be included as an Attachment and <span class="bcp14">SHOULD NOT</span> be included as a Dialog Object.<a href="#section-4.3-6" class="pilcrow">¶</a></p>
+<p id="section-4.3-7">It may not always be known at the time of vCon construction whether an image or recording is transcribable.
+When uncertain, the default <span class="bcp14">SHOULD</span> be to include images as Attachment Objects and audio or video recordings as Dialog Objects.<a href="#section-4.3-7" class="pilcrow">¶</a></p>
+<p id="section-4.3-8">This distinction is important for interoperability.
+If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
+<p id="section-4.3-9">TODO: Is there other signalling data that we want to capture other than start and duration and the media (e.g. from jabber, sms, mms, email, SIP, etc.)?<a href="#section-4.3-9" class="pilcrow">¶</a></p>
 <div id="dialog-type">
 <section id="section-4.3.1">
           <h4 id="name-type">
