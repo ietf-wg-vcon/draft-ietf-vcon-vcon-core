@@ -2253,8 +2253,9 @@ Table of Contents
 6.3.2.  vCon Object Parameter Names Registry
 
    The following defines the initial values for the vCon Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
    +=============+======================+============+================+
    | Parameter   | Parameter            | Change     | Specification  |
