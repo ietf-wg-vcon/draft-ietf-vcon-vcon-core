@@ -1810,7 +1810,7 @@ Depending upon the data in the file, it may require encoding to be used as a val
           </h4>
 <p id="section-2.3.2-1">The encoding parameter describes the type of encoding that was performed on the string value of the body parameter.
 If the body parameter is provided and is not an empty string, the encoding parameter <span class="bcp14">MUST</span> be provided.
-In the interest of being tolerent for interoperablity, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.<a href="#section-2.3.2-1" class="pilcrow">¶</a></p>
+In the interest of being tolerant for interoperability, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.<a href="#section-2.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.3.2-2.1">
               <p id="section-2.3.2-2.1.1">encoding: "String"<a href="#section-2.3.2-2.1.1" class="pilcrow">¶</a></p>
@@ -1967,7 +1967,7 @@ The new vCon instance version <span class="bcp14">SHOULD</span> refer to the pri
           </h4>
 <p id="section-4.1.1-1">The "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
 The "vcon" parameter was used to differentiate schema changes to the vCon core container when
-incompatablities were created in Internet-Draft versions.
+incompatibilities were created in Internet-Draft versions.
 The extension mechanism replaces the need for schema versioning.
 The vcon parameter was used to contain the syntactic version of the JSON format used in the vCon.
 (see <span><a href="#name-non-upward-compatible-changes-to-the-vcon-container" class="internal xref">Non-Upward Compatible Changes to the vCon Container</a> (<a href="#name-non-upward-compatible-changes-to-the-vcon-container" class="auto internal xref">Section 7</a>)</span>)<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
@@ -2299,7 +2299,7 @@ Original vCon:    |vCon       |&lt;--
           <h4 id="name-group-objects-array">
 <a href="#section-4.1.10" class="section-number selfRef">4.1.10. </a><a href="#name-group-objects-array" class="section-name selfRef">group Objects Array</a>
           </h4>
-<p id="section-4.1.10-1">The optional groups Object array can contains a list of related vCons to provide an agregation of vCons in this vCon.
+<p id="section-4.1.10-1">The optional groups Object array can contains a list of related vCons to provide an aggregation of vCons in this vCon.
 The idea is that the referenced vCons are all part of a larger conversation defined in this vCon, containing the Group Object array.
 The scope of a conversation is defined by the observer.
 It may be any of the following in this non-exhaustive list:<a href="#section-4.1.10-1" class="pilcrow">¶</a></p>
@@ -2656,7 +2656,7 @@ Currently four types of dialog objects are defined in this document:<a href="#se
 <p id="section-4.3-3">Media-based Dialog Objects (type text and recording) <span class="bcp14">SHOULD</span> contain only media that is transcribable.
 Media that is transcribable can be converted into a textual representation of sequential communication between parties.
 While images such as sunsets, cows, photographs of documents, or application forms may be describable, they are not transcribable in a concise manner and <span class="bcp14">SHOULD NOT</span> be included as Dialog Objects.
-They <span class="bcp14">SHOULD</span> be included as Attachement Objects.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+They <span class="bcp14">SHOULD</span> be included as Attachment Objects.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 <p id="section-4.3-4">Text and audio may be subject to interpretation, but they are transcribable to a precise dialog representation.
 Although transcriptions may not always be accurate, there exists a single correct transcription for any given content.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 <p id="section-4.3-5">Media that is not transcribable <span class="bcp14">SHOULD</span> be included in the vCon as Attachment Objects rather than Dialog Objects.<a href="#section-4.3-5" class="pilcrow">¶</a></p>
@@ -2747,7 +2747,7 @@ It should be noted that the recordings may be shorter than the collective confer
 For example the recording(s) of the individual speaker may be trimmed to only the parts where they are actually speaking.<a href="#section-4.3.4-5" class="pilcrow">¶</a></p>
 <p id="section-4.3.4-6">In the email context, <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> messages have the headers From, To, Cc and Bcc that all correspond to parties to the text Dialog Object.
 The From header should be the first party index in the parties parameter for the text Dialog Object.
-They are the implied orginator.
+They are the implied originator.
 The parties listed in the To, Cc and Bcc <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> headers (if present) should all be added in that order to the parties parameter in the text Dialog Object.
 The sender <span class="bcp14">SHOULD</span> be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
 A text Dialog Object should only contain a single <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> message.
@@ -2906,7 +2906,7 @@ Note: if a message was left with the voicemail system this is no longer an "inco
 If the same <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> applies to all the parties in a dialog, than a single instance of the
 SessionId Object is provided as the value of session_id.
 If some parties have a different or no associated <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> for this Dialog Object, then the array structure of the session_id value <span class="bcp14">MUST</span> correlate to the array structure of the Dialog Object's parties index array.
-Parties which do not have a <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> associated with this dialog, <span class="bcp14">MUST</span> have a null value for the SessionID Object.
+Parties which do not have a <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> associated with this dialog, <span class="bcp14">MUST</span> have a null value for the SessionId Object.
 That is no Object, not an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
 It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>).
 In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value <span class="bcp14">SHOULD</span> be used as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.<a href="#section-4.3.10-1" class="pilcrow">¶</a></p>
@@ -2981,7 +2981,7 @@ The string token for the event which <span class="bcp14">MUST</span> be one of t
                 <p id="section-4.3.11.1-2.4.1">dtmf: "String" - (required for dtmfdown and dtmfup events)<a href="#section-4.3.11.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-<p id="section-4.3.11.1-3">The dtmf parameter value is the String value of the DTMF digit or character that was pressed or rleased.<a href="#section-4.3.11.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.3.11.1-3">The dtmf parameter value is the String value of the DTMF digit or character that was pressed or released.<a href="#section-4.3.11.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3936,7 +3936,7 @@ When registering new entries, the following template should be used.<a href="#se
 <a href="#section-6.3.2" class="section-number selfRef">6.3.2. </a><a href="#name-vcon-object-parameter-names" class="section-name selfRef">vCon Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.2-1">The following defines the initial values for the vCon Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.2-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.2-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
             <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -4056,7 +4056,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.3" class="section-number selfRef">6.3.3. </a><a href="#name-party-object-parameter-name" class="section-name selfRef">Party Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.3-1">The following defines the initial values for the Party Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.3-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.3-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
             <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -4155,7 +4155,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.4" class="section-number selfRef">6.3.4. </a><a href="#name-dialog-object-parameter-nam" class="section-name selfRef">Dialog Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.4-1">The following defines the initial values for the Dialog Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.4-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.4-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-3">
             <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
@@ -4410,7 +4410,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.5" class="section-number selfRef">6.3.5. </a><a href="#name-party_history-object-parame" class="section-name selfRef">party_history Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.5-1">This initial values for the party_history Object Parameter Names Registry are listed in the following table.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.5-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.5-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-5">
             <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
 <thead>
@@ -4561,7 +4561,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.6-1">TODO: type or purpose parameter?<a href="#section-6.3.6-1" class="pilcrow">¶</a></p>
 <p id="section-6.3.6-2">The following defines the initial values for the Attachment Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.6-2" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.6-2" class="pilcrow">¶</a></p>
 <table class="center" id="table-7">
             <caption><a href="#table-7" class="selfRef">Table 7</a></caption>
 <thead>
@@ -4646,7 +4646,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.7" class="section-number selfRef">6.3.7. </a><a href="#name-analysis-object-parameter-n" class="section-name selfRef">Analysis Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.7-1">The following defines the initial values for the Analysis Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.7-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.7-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-8">
             <caption><a href="#table-8" class="selfRef">Table 8</a></caption>
 <thead>
@@ -4745,7 +4745,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.8" class="section-number selfRef">6.3.8. </a><a href="#name-redacted-object-parameter-n" class="section-name selfRef">Redacted Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.8-1">The following defines the initial values for the Redacted Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.8-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.8-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-9">
             <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
 <thead>
@@ -4795,7 +4795,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.9" class="section-number selfRef">6.3.9. </a><a href="#name-amended-object-parameter-na" class="section-name selfRef">Amended Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.9-1">The following defines the initial values for the Amended Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.9-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.9-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-10">
             <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
@@ -4838,7 +4838,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.10" class="section-number selfRef">6.3.10. </a><a href="#name-group-object-parameter-name" class="section-name selfRef">Group Object Parameter Names Registry</a>
           </h4>
 <p id="section-6.3.10-1">The following defines the initial values for the Group Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering addtional entries to this table.<a href="#section-6.3.10-1" class="pilcrow">¶</a></p>
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.10-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-11">
             <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
 <thead>
@@ -5042,7 +5042,7 @@ Values for this registry are to be defined in subsequent documents which define 
 <dd class="break"></dd>
 <dt id="H-460-27">[H-460-27]</dt>
         <dd>
-<span class="refTitle">"End-to-End Session Identifier for H.323 Systems"</span>, <span class="refContent">H.460.27</span>, <time datetime="2015-11" class="refDate">November 2015</time>, <span>&lt;<a href="tbd">tbd</a>&gt;</span>. </dd>
+<span class="refTitle">"End-to-End Session Identifier for H.323 Systems"</span>, <span class="refContent">H.460.27</span>, <time datetime="2015-11" class="refDate">November 2015</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-H.460.27">https://www.itu.int/rec/T-REC-H.460.27</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="HTTPS">[HTTPS]</dt>
         <dd>
@@ -7331,9 +7331,9 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
         <h3 id="name-amended-signed-vcon">
 <a href="#appendix-A.9" class="section-number selfRef">A.9. </a><a href="#name-amended-signed-vcon" class="section-name selfRef">Amended Signed vCon</a>
         </h3>
-<p id="appendix-A.9-1">This is an example vCon with an <span><a href="#amended" class="internal xref">Amended Object</a> (<a href="#amended" class="auto internal xref">Section 4.1.9</a>)</span> referencing the vCon that it amends or adds addional content.
-In this case it is referening the signed vCon example above.
-An example text Dialog Object (index 1) is the ammendement.<a href="#appendix-A.9-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.9-1">This is an example vCon with an <span><a href="#amended" class="internal xref">Amended Object</a> (<a href="#amended" class="auto internal xref">Section 4.1.9</a>)</span> referencing the vCon that it amends or adds additional content.
+In this case it is referencing the signed vCon example above.
+An example text Dialog Object (index 1) is the amendment.<a href="#appendix-A.9-1" class="pilcrow">¶</a></p>
 <p id="appendix-A.9-2">The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon<a href="#appendix-A.9-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A.9-3">

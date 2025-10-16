@@ -418,8 +418,8 @@ Table of Contents
    The encoding parameter describes the type of encoding that was
    performed on the string value of the body parameter.  If the body
    parameter is provided and is not an empty string, the encoding
-   parameter MUST be provided.  In the interest of being tolerent for
-   interoperablity, if the encoding value is not provided, applications
+   parameter MUST be provided.  In the interest of being tolerant for
+   interoperability, if the encoding value is not provided, applications
    can attempt to derive the encoding token value based upon the
    mediatype parameter or filename extension if either is provided.
 
@@ -572,7 +572,7 @@ Table of Contents
 
    The "vcon" parameter is DEPRECATED as of the publication of this
    document as an RFC.  The "vcon" parameter was used to differentiate
-   schema changes to the vCon core container when incompatablities were
+   schema changes to the vCon core container when incompatibilities were
    created in Internet-Draft versions.  The extension mechanism replaces
    the need for schema versioning.  The vcon parameter was used to
    contain the syntactic version of the JSON format used in the vCon.
@@ -855,8 +855,8 @@ Table of Contents
 4.1.10.  group Objects Array
 
    The optional groups Object array can contains a list of related vCons
-   to provide an agregation of vCons in this vCon.  The idea is that the
-   referenced vCons are all part of a larger conversation defined in
+   to provide an aggregation of vCons in this vCon.  The idea is that
+   the referenced vCons are all part of a larger conversation defined in
    this vCon, containing the Group Object array.  The scope of a
    conversation is defined by the observer.  It may be any of the
    following in this non-exhaustive list:
@@ -1131,7 +1131,7 @@ Table of Contents
    between parties.  While images such as sunsets, cows, photographs of
    documents, or application forms may be describable, they are not
    transcribable in a concise manner and SHOULD NOT be included as
-   Dialog Objects.  They SHOULD be included as Attachement Objects.
+   Dialog Objects.  They SHOULD be included as Attachment Objects.
 
    Text and audio may be subject to interpretation, but they are
    transcribable to a precise dialog representation.  Although
@@ -1256,7 +1256,7 @@ Table of Contents
    and Bcc that all correspond to parties to the text Dialog Object.
    The From header should be the first party index in the parties
    parameter for the text Dialog Object.  They are the implied
-   orginator.  The parties listed in the To, Cc and Bcc [SMTP] headers
+   originator.  The parties listed in the To, Cc and Bcc [SMTP] headers
    (if present) should all be added in that order to the parties
    parameter in the text Dialog Object.  The sender SHOULD be allowed to
    set a policy, through out of band means, as to whether they would
@@ -1387,7 +1387,7 @@ Table of Contents
    session_id value MUST correlate to the array structure of the Dialog
    Object's parties index array.  Parties which do not have a
    [SESSION-ID] associated with this dialog, MUST have a null value for
-   the SessionID Object.  That is no Object, not an empty Object and not
+   the SessionId Object.  That is no Object, not an empty Object and not
    an Object with two "nil UUIDs" as defined in section 7 of
    [SESSION-ID].  It is also possible that the SessionId Object will not
    have values for both the local and remote parameters in some
@@ -1442,7 +1442,7 @@ Table of Contents
    *  dtmf: "String" - (required for dtmfdown and dtmfup events)
 
    The dtmf parameter value is the String value of the DTMF digit or
-   character that was pressed or rleased.
+   character that was pressed or released.
 
 4.3.12.  Dialog Transfer
 
@@ -2254,7 +2254,7 @@ Table of Contents
 
    The following defines the initial values for the vCon Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
    +=============+======================+============+================+
@@ -2310,7 +2310,7 @@ Table of Contents
 
    The following defines the initial values for the Party Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
       +================+=============+============+================+
@@ -2357,7 +2357,7 @@ Table of Contents
 
    The following defines the initial values for the Dialog Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
    +=================+=======================+==========+==============+
@@ -2502,7 +2502,7 @@ Table of Contents
 
    This initial values for the party_history Object Parameter Names
    Registry are listed in the following table.  Use the template in
-   Object Registry Template (Section 6.3.1) when registering addtional
+   Object Registry Template (Section 6.3.1) when registering additional
    entries to this table.
 
      +================+=============+============+==================+
@@ -2595,7 +2595,7 @@ Table of Contents
 
    The following defines the initial values for the Attachment Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
    +==============+=======================+============+===============+
@@ -2637,7 +2637,7 @@ Table of Contents
 
    The following defines the initial values for the Analysis Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
    +================+=====================+============+===============+
@@ -2684,7 +2684,7 @@ Table of Contents
 
    The following defines the initial values for the Redacted Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
    +================+===================+============+=================+
@@ -2710,7 +2710,7 @@ Table of Contents
 
    The following defines the initial values for the Amended Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
    +================+==================+============+=================+
@@ -2733,7 +2733,7 @@ Table of Contents
 
    The following defines the initial values for the Group Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering addtional entries to this
+   Template (Section 6.3.1) when registering additional entries to this
    table.
 
      +================+================+============+===============+
@@ -2864,7 +2864,8 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc1952>.
 
    [H-460-27] "End-to-End Session Identifier for H.323 Systems",
-              H.460.27, November 2015, <tbd>.
+              H.460.27, November 2015,
+              <https://www.itu.int/rec/T-REC-H.460.27>.
 
    [HTTPS]    Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP Semantics", STD 97, RFC 9110,
@@ -5131,9 +5132,9 @@ A.8.  Redacted vCon
 A.9.  Amended Signed vCon
 
    This is an example vCon with an Amended Object (Section 4.1.9)
-   referencing the vCon that it amends or adds addional content.  In
-   this case it is referening the signed vCon example above.  An example
-   text Dialog Object (index 1) is the ammendement.
+   referencing the vCon that it amends or adds additional content.  In
+   this case it is referencing the signed vCon example above.  An
+   example text Dialog Object (index 1) is the amendment.
 
    The unformatted version of the following example can be downloaded
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
