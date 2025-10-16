@@ -1620,7 +1620,7 @@ Specification Document(s):
 ### vCon Object Parameter Names Registry
 
 The following defines the initial values for the vCon Object Parameter Names Registry.
-Use the template in (#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
