@@ -60,7 +60,7 @@ normative:
     title: "COSE Algorithms"
 
   H-460-27:
-    target: tbd
+    target: https://www.itu.int/rec/T-REC-H.460.27
     title: End-to-End Session Identifier for H.323 Systems
     refcontent: H.460.27
     date: November 2015
@@ -302,7 +302,7 @@ Depending upon the data in the file, it may require encoding to be used as a val
 
 The encoding parameter describes the type of encoding that was performed on the string value of the body parameter.
 If the body parameter is provided and is not an empty string, the encoding parameter MUST be provided.
-In the interest of being tolerent for interoperablity, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.
+In the interest of being tolerant for interoperability, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.
 
 * encoding: "String"
 
@@ -411,7 +411,7 @@ The keys and values for the top level vCon JSON object are defined in the follow
 
 The "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
 The "vcon" parameter was used to differentiate schema changes to the vCon core container when
-incompatablities were created in Internet-Draft versions.
+incompatibilities were created in Internet-Draft versions.
 The extension mechanism replaces the need for schema versioning.
 The vcon parameter was used to contain the syntactic version of the JSON format used in the vCon.
 (see [Non-Upward Compatible Changes to the vCon Container](#name-non-upward-compatible-changes-to-the-vcon-container))
@@ -585,7 +585,7 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 
 ### group Objects Array
 
-The optional groups Object array can contains a list of related vCons to provide an agregation of vCons in this vCon.
+The optional groups Object array can contains a list of related vCons to provide an aggregation of vCons in this vCon.
 The idea is that the referenced vCons are all part of a larger conversation defined in this vCon, containing the Group Object array.
 The scope of a conversation is defined by the observer.
 It may be any of the following in this non-exhaustive list:
@@ -790,7 +790,7 @@ Currently four types of dialog objects are defined in this document:
 Media-based Dialog Objects (type text and recording) SHOULD contain only media that is transcribable.
 Media that is transcribable can be converted into a textual representation of sequential communication between parties.
 While images such as sunsets, cows, photographs of documents, or application forms may be describable, they are not transcribable in a concise manner and SHOULD NOT be included as Dialog Objects.
-They SHOULD be included as Attachement Objects.
+They SHOULD be included as Attachment Objects.
 
 Text and audio may be subject to interpretation, but they are transcribable to a precise dialog representation.
 Although transcriptions may not always be accurate, there exists a single correct transcription for any given content.
@@ -867,7 +867,7 @@ For example the recording(s) of the individual speaker may be trimmed to only th
 
 In the email context, [SMTP] messages have the headers From, To, Cc and Bcc that all correspond to parties to the text Dialog Object.
 The From header should be the first party index in the parties parameter for the text Dialog Object.
-They are the implied orginator.
+They are the implied originator.
 The parties listed in the To, Cc and Bcc [SMTP] headers (if present) should all be added in that order to the parties parameter in the text Dialog Object.
 The sender SHOULD be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
 A text Dialog Object should only contain a single [SMTP] message.
@@ -956,7 +956,7 @@ The [SESSION-ID] MAY be included for the dialog.
 If the same [SESSION-ID] applies to all the parties in a dialog, than a single instance of the
 SessionId Object is provided as the value of session_id.
 If some parties have a different or no associated [SESSION-ID] for this Dialog Object, then the array structure of the session_id value MUST correlate to the array structure of the Dialog Object's parties index array.
-Parties which do not have a [SESSION-ID] associated with this dialog, MUST have a null value for the SessionID Object.
+Parties which do not have a [SESSION-ID] associated with this dialog, MUST have a null value for the SessionId Object.
 That is no Object, not an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of [SESSION-ID].
 It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See [SESSION-ID]).
 In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value SHOULD be used as defined in section 7 of [SESSION-ID].
@@ -998,7 +998,7 @@ The Party_History Object contains the following parameters:
 
 * dtmf: "String" - (required for dtmfdown and dtmfup events)
 
-The dtmf parameter value is the String value of the DTMF digit or character that was pressed or rleased.
+The dtmf parameter value is the String value of the DTMF digit or character that was pressed or released.
 
 ### Dialog Transfer
 
@@ -1620,7 +1620,7 @@ Specification Document(s):
 ### vCon Object Parameter Names Registry
 
 The following defines the initial values for the vCon Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1642,7 +1642,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 ### Party Object Parameter Names Registry
 
 The following defines the initial values for the Party Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1661,7 +1661,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 ### Dialog Object Parameter Names Registry
 
 The following defines the initial values for the Dialog Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1732,7 +1732,7 @@ The following table defines the initial values for the Dialog Object Types Regis
 ### party_history Object Parameter Names Registry
 
 This initial values for the party_history Object Parameter Names Registry are listed in the following table.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1790,7 +1790,7 @@ The following table defines the initial values for the Dialog Object Types Regis
 TODO: type or purpose parameter?
 
 The following defines the initial values for the Attachment Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1807,7 +1807,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 ### Analysis Object Parameter Names Registry
 
 The following defines the initial values for the Analysis Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1826,7 +1826,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 ### Redacted Object Parameter Names Registry
 
 The following defines the initial values for the Redacted Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1838,7 +1838,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 ### Amended Object Parameter Names Registry
 
 The following defines the initial values for the Amended Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1850,7 +1850,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 ### Group Object Parameter Names Registry
 
 The following defines the initial values for the Group Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering addtional entries to this table.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -2047,9 +2047,9 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 
 ## Amended Signed vCon
 
-This is an example vCon with an [Amended Object](#amended) referencing the vCon that it amends or adds addional content.
-In this case it is referening the signed vCon example above.
-An example text Dialog Object (index 1) is the ammendement.
+This is an example vCon with an [Amended Object](#amended) referencing the vCon that it amends or adds additional content.
+In this case it is referencing the signed vCon example above.
+An example text Dialog Object (index 1) is the amendment.
 
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
