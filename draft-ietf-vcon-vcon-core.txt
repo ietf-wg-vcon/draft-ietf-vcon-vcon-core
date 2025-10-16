@@ -2309,8 +2309,9 @@ Table of Contents
 6.3.3.  Party Object Parameter Names Registry
 
    The following defines the initial values for the Party Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
       +================+=============+============+================+
       | Parameter Name | Parameter   | Change     | Specification  |
@@ -2355,8 +2356,9 @@ Table of Contents
 6.3.4.  Dialog Object Parameter Names Registry
 
    The following defines the initial values for the Dialog Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
    +=================+=======================+==========+==============+
    | Parameter Name  | Parameter Description |Change    |Specification |
@@ -2498,11 +2500,10 @@ Table of Contents
 
 6.3.5.  party_history Object Parameter Names Registry
 
-   The party_history Object Parameter Names Registry uses the Object
-   Registry Template (Section 6.3.1) registry template.  This initial
-   values for the party_history Object Parameter Names Registry are
-   listed in the following table.  Use the template in (#object-
-   registry-template) when registering addtional entries to this table.
+   This initial values for the party_history Object Parameter Names
+   Registry are listed in the following table.  Use the template in
+   Object Registry Template (Section 6.3.1) when registering addtional
+   entries to this table.
 
      +================+=============+============+==================+
      | Parameter Name | Parameter   | Change     | Specification    |
@@ -2593,8 +2594,9 @@ Table of Contents
    TODO: type or purpose parameter?
 
    The following defines the initial values for the Attachment Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
    +==============+=======================+============+===============+
    | Parameter    | Parameter             | Change     | Specification |
@@ -2634,8 +2636,9 @@ Table of Contents
 6.3.7.  Analysis Object Parameter Names Registry
 
    The following defines the initial values for the Analysis Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
    +================+=====================+============+===============+
    | Parameter      | Parameter           | Change     | Specification |
@@ -2680,8 +2683,9 @@ Table of Contents
 6.3.8.  Redacted Object Parameter Names Registry
 
    The following defines the initial values for the Redacted Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
    +================+===================+============+=================+
    | Parameter      | Parameter         | Change     | Specification   |
@@ -2705,8 +2709,9 @@ Table of Contents
 6.3.9.  Amended Object Parameter Names Registry
 
    The following defines the initial values for the Amended Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
    +================+==================+============+=================+
    | Parameter Name | Parameter        | Change     | Specification   |
@@ -2727,8 +2732,9 @@ Table of Contents
 6.3.10.  Group Object Parameter Names Registry
 
    The following defines the initial values for the Group Object
-   Parameter Names Registry.  Use the template in (#object-registry-
-   template) when registering addtional entries to this table.
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering addtional entries to this
+   table.
 
      +================+================+============+===============+
      | Parameter Name | Parameter      | Change     | Specification |
