@@ -4,6 +4,7 @@ addr
 acct
 alg
 ans
+Bcc
 bcp
 bot
 bots
@@ -36,6 +37,10 @@ dict
 DID
 DIDs
 DOB
+dtmf
+DTMF
+dtmfdown
+dtmfup
 docname
 ECRIT
 enablement
@@ -61,6 +66,7 @@ HS
 html
 https
 HTTPS
+Huguenin
 IAB
 iat
 IANA
@@ -69,6 +75,7 @@ IEC
 IESG
 ietf
 IETF
+incompleted
 inhouse
 int
 io
@@ -87,6 +94,7 @@ JWK
 JWS
 JWT
 Lasker
+Lennox
 LLC
 lmk
 loc
@@ -113,6 +121,7 @@ PBX
 pc
 pdf
 peabody
+Petit
 petrie
 Petrie
 PIDF
@@ -139,6 +148,7 @@ rosenberg
 Rohan
 RSA
 SaaS
+SessionId
 SHA
 sha
 Siciliano
@@ -162,6 +172,7 @@ TEL
 thomas
 TMN
 TR
+transcribable
 tts
 UnisignedInt
 unredacted
@@ -183,6 +194,7 @@ vcon
 vCon
 vCons
 versioned
+versioning
 voicemail
 wav
 webchat
