@@ -1585,11 +1585,12 @@ when sending.
 
 * Change controller: IETF
 
-## vCon JSON registry
+## vCon JSON Registry
 
 This document defines a number of new IANA registries for the JSON vCon schema.
 Each Object (i.e. dict, map, dictionary) has its own registry of parameter names.
-All of those registries have the same registry template.
+All of those registries have the same registry template which is defined in the following subsection.
+When registering new entries, the following template should be used.
 
 ### Object Registry Template
 
@@ -1619,6 +1620,7 @@ Specification Document(s):
 ### vCon Object Parameter Names Registry
 
 The following defines the initial values for the vCon Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1640,6 +1642,7 @@ The following defines the initial values for the vCon Object Parameter Names Reg
 ### Party Object Parameter Names Registry
 
 The following defines the initial values for the Party Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1658,6 +1661,7 @@ The following defines the initial values for the Party Object Parameter Names Re
 ### Dialog Object Parameter Names Registry
 
 The following defines the initial values for the Dialog Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1729,6 +1733,7 @@ The following table defines the initial values for the Dialog Object Types Regis
 
 The party_history Object Parameter Names Registry uses the [Object Registry Template](#object-registry-template) registry template.
 This initial values for the party_history Object Parameter Names Registry are listed in the following table.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1777,12 +1782,16 @@ The following table defines the initial values for the Dialog Object Types Regis
 | unhold | party off hold event | IESG | [](#party_history-object) RFC XXXX |
 | mute | party on mute event | IESG | [](#party_history-object) RFC XXXX |
 | unmute | party off mute event | IESG | [](#party_history-object) RFC XXXX |
+| dtmfdown | DTMF button press event | IESG | [](#party_history-object) RFC XXXX |
+| dtmfup | DTMF button release event | IESG | [](#party_history-object) RFC XXXX |
+
 
 ### Attachment Object Parameter Names Registry
 
-TODO: type or purpose
+TODO: type or purpose parameter?
 
 The following defines the initial values for the Attachment Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1799,6 +1808,7 @@ The following defines the initial values for the Attachment Object Parameter Nam
 ### Analysis Object Parameter Names Registry
 
 The following defines the initial values for the Analysis Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1817,6 +1827,7 @@ The following defines the initial values for the Analysis Object Parameter Names
 ### Redacted Object Parameter Names Registry
 
 The following defines the initial values for the Redacted Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1828,6 +1839,7 @@ The following defines the initial values for the Redacted Object Parameter Names
 ### Amended Object Parameter Names Registry
 
 The following defines the initial values for the Amended Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
@@ -1839,6 +1851,7 @@ The following defines the initial values for the Amended Object Parameter Names 
 ### Group Object Parameter Names Registry
 
 The following defines the initial values for the Group Object Parameter Names Registry.
+Use the template in (#object-registry-template) when registering addtional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
