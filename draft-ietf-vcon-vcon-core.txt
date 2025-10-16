@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         15 October 2025
-Expires: 18 April 2026
+Intended status: Standards Track                         16 October 2025
+Expires: 19 April 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2026.
+   This Internet-Draft will expire on 19 April 2026.
 
 Copyright Notice
 
@@ -166,7 +166,7 @@ Table of Contents
    6.  IANA Considerations
      6.1.  JSON Format vCon Mediatype
      6.2.  gzip Format vCon Mediatype
-     6.3.  vCon JSON registry
+     6.3.  vCon JSON Registry
        6.3.1.  Object Registry Template
        6.3.2.  vCon Object Parameter Names Registry
        6.3.3.  Party Object Parameter Names Registry
@@ -2216,12 +2216,13 @@ Table of Contents
 
    *  Change controller: IETF
 
-6.3.  vCon JSON registry
+6.3.  vCon JSON Registry
 
    This document defines a number of new IANA registries for the JSON
    vCon schema.  Each Object (i.e. dict, map, dictionary) has its own
    registry of parameter names.  All of those registries have the same
-   registry template.
+   registry template which is defined in the following subsection.  When
+   registering new entries, the following template should be used.
 
 6.3.1.  Object Registry Template
 
@@ -2252,7 +2253,8 @@ Table of Contents
 6.3.2.  vCon Object Parameter Names Registry
 
    The following defines the initial values for the vCon Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
    +=============+======================+============+================+
    | Parameter   | Parameter            | Change     | Specification  |
@@ -2306,7 +2308,8 @@ Table of Contents
 6.3.3.  Party Object Parameter Names Registry
 
    The following defines the initial values for the Party Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
       +================+=============+============+================+
       | Parameter Name | Parameter   | Change     | Specification  |
@@ -2351,7 +2354,8 @@ Table of Contents
 6.3.4.  Dialog Object Parameter Names Registry
 
    The following defines the initial values for the Dialog Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
    +=================+=======================+==========+==============+
    | Parameter Name  | Parameter Description |Change    |Specification |
@@ -2496,7 +2500,8 @@ Table of Contents
    The party_history Object Parameter Names Registry uses the Object
    Registry Template (Section 6.3.1) registry template.  This initial
    values for the party_history Object Parameter Names Registry are
-   listed in the following table.
+   listed in the following table.  Use the template in (#object-
+   registry-template) when registering addtional entries to this table.
 
      +================+=============+============+==================+
      | Parameter Name | Parameter   | Change     | Specification    |
@@ -2573,15 +2578,22 @@ Table of Contents
     | unmute      | party off mute    | IESG       | Section 4.3.11.1 |
     |             | event             |            | RFC XXXX         |
     +-------------+-------------------+------------+------------------+
+    | dtmfdown    | DTMF button press | IESG       | Section 4.3.11.1 |
+    |             | event             |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
+    | dtmfup      | DTMF button       | IESG       | Section 4.3.11.1 |
+    |             | release event     |            | RFC XXXX         |
+    +-------------+-------------------+------------+------------------+
 
                                   Table 6
 
 6.3.6.  Attachment Object Parameter Names Registry
 
-   TODO: type or purpose
+   TODO: type or purpose parameter?
 
    The following defines the initial values for the Attachment Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
    +==============+=======================+============+===============+
    | Parameter    | Parameter             | Change     | Specification |
@@ -2621,7 +2633,8 @@ Table of Contents
 6.3.7.  Analysis Object Parameter Names Registry
 
    The following defines the initial values for the Analysis Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
    +================+=====================+============+===============+
    | Parameter      | Parameter           | Change     | Specification |
@@ -2666,7 +2679,8 @@ Table of Contents
 6.3.8.  Redacted Object Parameter Names Registry
 
    The following defines the initial values for the Redacted Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
    +================+===================+============+=================+
    | Parameter      | Parameter         | Change     | Specification   |
@@ -2690,7 +2704,8 @@ Table of Contents
 6.3.9.  Amended Object Parameter Names Registry
 
    The following defines the initial values for the Amended Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
    +================+==================+============+=================+
    | Parameter Name | Parameter        | Change     | Specification   |
@@ -2711,7 +2726,8 @@ Table of Contents
 6.3.10.  Group Object Parameter Names Registry
 
    The following defines the initial values for the Group Object
-   Parameter Names Registry.
+   Parameter Names Registry.  Use the template in (#object-registry-
+   template) when registering addtional entries to this table.
 
      +================+================+============+===============+
      | Parameter Name | Parameter      | Change     | Specification |
