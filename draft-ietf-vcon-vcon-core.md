@@ -583,33 +583,6 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 ~~~
 {: #diagram2 title="amended vCon object tree"}
 
-### group Objects Array
-
-The optional groups Object array can contains a list of related vCons to provide an aggregation of vCons in this vCon.
-The idea is that the referenced vCons are all part of a larger conversation defined in this vCon, containing the Group Object array.
-The scope of a conversation is defined by the observer.
-It may be any of the following in this non-exhaustive list:
-
-* a quick text exchange
-
-* a simple 2-way call
-
-* an evolving group chat
-
-* a class lecture and question and answer session
-
-* a web chat, evolving to a 2 way call, progressing to a transferred 3-way call transitioning to a video conference
-
-* a series of weekly status calls
-
-In support of these constructs, it may be desirable to aggregate a group of vCons as opposed to including
-all of the dialog in a single vCon.
-The conversations may be over heterogeneous or homogeneous medium.
-A vCon MAY aggregated a group of vCon instances in the group array, using a Group Object for each vCon instance.
-
-* group: "Group\[\]" (optional, mutually exclusive with redacted and amended parameters)
-
-The group array contains a [Group Object](#group-object) for each vCon.
 
 ### parties Objects Array
 
@@ -718,10 +691,6 @@ It is up to the domain creating the vCon to define the set of tokens or values t
 
 The value of the validation string MAY be "none" or enterprise or domain defined token or string values.
 
-### jCard
-
-TODO: Do we want to support including a jCard for the party?
-
 ### gmlpos
 
 If the geolocation of the party is known, it can be added in the gmlpos parameter.
@@ -759,15 +728,6 @@ Note that the parameter names MUST be in lower case when contained in the Civica
 * nam: "String" (optional)
 * pc: "String" (optional)
 
-TODO: Do we need RFC6848 civic address extensions?
-
-TODO: Is there a need for any temporal location?  For example should location be an array, each element with a time stamp?
-
-TODO: Do we just specify for the start of the conversation?
-
-### timezone
-
-TODO: timezone for the location of the party?
 
 ### uuid {#party-uuid}
 
@@ -806,8 +766,6 @@ When uncertain, the default SHOULD be to include images as Attachment Objects an
 
 This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.
-
-TODO: Is there other signalling data that we want to capture other than start and duration and the media (e.g. from jabber, sms, mms, email, SIP, etc.)?
 
 ### type {#dialog-type}
 
@@ -1087,9 +1045,12 @@ Ancillary documents to the conversation are included or referenced in the Attach
 There is no constraint on the types files which can be included or referenced.
 As most modes of communication, that allow the exchange of files, do not constrain the file type, any file type may be included here.
 
-### type or purpose
+### purpose {#attachment-purpose}
 
-TODO: Do we want a semantic type like: contract or presentation?  Or a subject or title.
+The purpose parameter may be used to provide a text base description of the purpose or point of the attachement.
+There is no restriced set of values for this description.
+
+* purpose: "String" (optional)
 
 ### start {#attachment-start}
 
@@ -1247,42 +1208,6 @@ Alternatively, for externally referenced analysis:
 * content_hash: "ContentHash" \| "ContentHash\[\]"
 
 
-## Group Object
-
-A conversation may have take place using different modes (e.g. web chat which evolves to email, which evolves to phone call, which evolves to video conference).
-A conversation could take place over several calls (e.g. multiple calls regarding a support incident or problem).
-Each of these examples might be considered a single conversation event though there are multiple sets of dialog in each.
-What is considered the boundary of a conversation is a business decision.
-There are situations in the above example, where it is desired to treat these as a single conversation, but each set of dialog is created in a single vCon (e.g. each dialog occurred in a separate communication silo or security domain) which gets signed.
-For this reason, it may be necessary to aggregate the separate vCon into a single vCon which is considered the whole of a conversation.
-The Group Object includes or refers to a vCon to be aggregated into the whole of a single vCon conversation.
-
-The Group Object SHOULD contain the uuid and the url and content_hash
-parameters (see [Externally Referenced Files](#externally-referenced-files)).
-The referenced vCon SHOULD be via UUID:
-
-* uuid: "String"
-
-The value of the uuid parameter, is the [uuid string value](#uuid) of the referenced vCon to be aggregated.
-
-The vCon MAY be included in line as the value of the body parameter.
-The encoding parameter MUST be included with the body parameter, if provided, to describe the encoding of the vCon body.
-
-* body: "vCon"
-
-The JSON unsigned form of the vCon, the JWS signed form of the vCon or the JWE encrypted form of the vCon.
-
-* encoding: "String"
-
-The encoding string MUST have the value: "json".
-
-In addition, the location for the referenced vCon MAY be provided.
-The url and content_hash parameters and values are defined in
-[Externally Referenced Files](#externally-referenced-files).
-
-* url: "String"
-* content_hash: "ContentHash" \| "ContentHash\[\]"
-
 # Security Considerations
 
 The security concerns for vCons can put into two categories: making the conversation immutable through integrity verification and protecting the confidentiality of privacy of the parties to the conversation and/or their PII.
@@ -1405,8 +1330,6 @@ When the vCon is verified, the value of this uuid parameter SHOULD be verified a
 TODO: How to deal with expired signatures?
 
 ## Encrypted Form of vCon Object
-
-TODO: Check this terminology:
 
 A vCon MUST be signed first using JWS as defined in [Signed Form of vCon Object](#signed-form-of-vcon-object), then encrypted using JWE as opposed to just encrypted with integrity protection.
 The rationale is that meta data and dialog will typically be collected in one security domain, then may be stored or exported to another.
@@ -1633,7 +1556,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | subject | conversation subject | IESG | [](#subject) RFC XXXX |
 | redacted | Redacted Object | IESG | [](#redacted) RFC XXXX |
 | amended | Amended Object | IESG | [](#redacted) RFC XXXX |
-| group | Group Objects array | IESG | [](#group-objects-array) RFC XXXX |
+| group | reserved for future extension | IESG | RFC XXXX |
 | parties | Party Objects array | IESG | [](#parties-objects-array) RFC XXXX |
 | dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
 | analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |
@@ -1794,6 +1717,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
+| purpose | atachment object purpose description | IESG | [](#attachment-purpose) RFC XXXX |
 | start | attachment start time | IESG | [](#attachment-start) RFC XXXX |
 | party | sending party index | IESG | [](#party) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#attachment-dialog) RFC XXXX |
@@ -1845,18 +1769,6 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | uuid | prior vCon version UUID | IESG | [](#amended-object) RFC XXXX |
 | url | referenced prior version vCon URL | IESG | [](#amended-object) RFC XXXX |
 | content_hash | prior version vCon hash | IESG | [](#amended-object) RFC XXXX |
-
-
-### Group Object Parameter Names Registry
-
-The following defines the initial values for the Group Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| uuid | child vCon version UUID | IESG | [](#group-object) RFC XXXX |
-| url | referenced child vCon URL | IESG | [](#group-object) RFC XXXX |
-| content_hash | prior version vCon hash | IESG | [](#group-object) RFC XXXX |
 
 
 ## vCon Extensions Names Registry
@@ -2058,9 +1970,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 {::include examples/ab_call_ext_rec_amended.pp}
 ~~~
 
-## vCon Group
-
-TODO: group vCon example
+TODO add JSON Schema
 
 # Acknowledgments
 {:numbered="false"}
