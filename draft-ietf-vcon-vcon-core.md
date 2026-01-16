@@ -1575,10 +1575,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | mailto | mailto URL | IESG | [](#mailto) RFC XXXX |
 | name | participant name | IESG | [](#name) RFC XXXX |
 | validation | validation method | IESG | [](#validation) RFC XXXX |
-| jCard | participant jCard | IESG | [](#jcard) RFC XXXX |
 | gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
 | civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
-| timezone | participant timezone | IESG | [](#timezone) RFC XXXX |
 | uuid | participant UUID | IESG | [](#party-uuid) RFC XXXX |
 
 ### Dialog Object Parameter Names Registry
