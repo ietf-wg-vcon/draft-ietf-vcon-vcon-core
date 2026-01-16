@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                        26 November 2025
-Expires: 30 May 2026
+Intended status: Standards Track                         16 January 2026
+Expires: 20 July 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,11 +56,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 May 2026.
+   This Internet-Draft will expire on 20 July 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -101,11 +101,10 @@ Table of Contents
        4.1.7.  subject
        4.1.8.  redacted
        4.1.9.  amended
-       4.1.10. group Objects Array
-       4.1.11. parties Objects Array
-       4.1.12. dialog Objects Array
-       4.1.13. analysis Objects Array
-       4.1.14. attachments Objects Array
+       4.1.10. parties Objects Array
+       4.1.11. dialog Objects Array
+       4.1.12. analysis Objects Array
+       4.1.13. attachments Objects Array
      4.2.  Party Object
        4.2.1.  tel
        4.2.2.  sip
@@ -114,11 +113,9 @@ Table of Contents
        4.2.5.  name
        4.2.6.  did
        4.2.7.  validation
-       4.2.8.  jCard
-       4.2.9.  gmlpos
-       4.2.10. civicaddress
-       4.2.11. timezone
-       4.2.12. uuid
+       4.2.8.  gmlpos
+       4.2.9.  civicaddress
+       4.2.10. uuid
      4.3.  Dialog Object
        4.3.1.  type
        4.3.2.  start
@@ -135,7 +132,7 @@ Table of Contents
        4.3.13. application
        4.3.14. message_id
      4.4.  Attachment Object
-       4.4.1.  type or purpose
+       4.4.1.  purpose
        4.4.2.  start
        4.4.3.  party
        4.4.4.  dialog
@@ -151,7 +148,6 @@ Table of Contents
        4.5.6.  product
        4.5.7.  schema
        4.5.8.  Analysis Content
-     4.6.  Group Object
    5.  Security Considerations
      5.1.  Signing Externally Referenced Files
      5.2.  Signed Form of vCon Object
@@ -176,7 +172,6 @@ Table of Contents
        6.3.7.  Analysis Object Parameter Names Registry
        6.3.8.  Redacted Object Parameter Names Registry
        6.3.9.  Amended Object Parameter Names Registry
-       6.3.10. Group Object Parameter Names Registry
      6.4.  vCon Extensions Names Registry
        6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
@@ -198,7 +193,6 @@ Table of Contents
      A.7.  Encrypted vCon
      A.8.  Redacted vCon
      A.9.  Amended Signed vCon
-     A.10. vCon Group
    Acknowledgments
    Author's Address
 
@@ -852,40 +846,7 @@ Table of Contents
 
                      Figure 2: amended vCon object tree
 
-4.1.10.  group Objects Array
-
-   The optional groups Object array can contains a list of related vCons
-   to provide an aggregation of vCons in this vCon.  The idea is that
-   the referenced vCons are all part of a larger conversation defined in
-   this vCon, containing the Group Object array.  The scope of a
-   conversation is defined by the observer.  It may be any of the
-   following in this non-exhaustive list:
-
-   *  a quick text exchange
-
-   *  a simple 2-way call
-
-   *  an evolving group chat
-
-   *  a class lecture and question and answer session
-
-   *  a web chat, evolving to a 2 way call, progressing to a transferred
-      3-way call transitioning to a video conference
-
-   *  a series of weekly status calls
-
-   In support of these constructs, it may be desirable to aggregate a
-   group of vCons as opposed to including all of the dialog in a single
-   vCon.  The conversations may be over heterogeneous or homogeneous
-   medium.  A vCon MAY aggregated a group of vCon instances in the group
-   array, using a Group Object for each vCon instance.
-
-   *  group: "Group[]" (optional, mutually exclusive with redacted and
-      amended parameters)
-
-   The group array contains a Group Object (Section 4.6) for each vCon.
-
-4.1.11.  parties Objects Array
+4.1.10.  parties Objects Array
 
    The name, identity or contact information of all of the parties
    involved with the conversation are included in the parties object
@@ -898,7 +859,7 @@ Table of Contents
    The value of the parties parameter is an array of Party Objects
    (Section 4.2).
 
-4.1.12.  dialog Objects Array
+4.1.11.  dialog Objects Array
 
    The actual conversation which occurred over text, audio or video that
    was captured, is contained in the dialog Objects Array.
@@ -911,7 +872,7 @@ Table of Contents
    added.  It is the applications responsibility to sort dialog and
    transcriptions if they are needed in chronological order.
 
-4.1.13.  analysis Objects Array
+4.1.12.  analysis Objects Array
 
    Analysis, which is performed on the conversational data, is stored in
    the analysis Objects array.
@@ -921,7 +882,7 @@ Table of Contents
    The value of the analysis parameter is an array of Analysis Objects
    (Section 4.5).
 
-4.1.14.  attachments Objects Array
+4.1.13.  attachments Objects Array
 
    Ancillary documents, discussed, presented, referenced or related to
    the conversation may be stored in the attachments array.  It should
@@ -1024,11 +985,7 @@ Table of Contents
    The value of the validation string MAY be "none" or enterprise or
    domain defined token or string values.
 
-4.2.8.  jCard
-
-   TODO: Do we want to support including a jCard for the party?
-
-4.2.9.  gmlpos
+4.2.8.  gmlpos
 
    If the geolocation of the party is known, it can be added in the
    gmlpos parameter.  The gmlpos parameter contains the latitude and
@@ -1040,7 +997,7 @@ Table of Contents
    The gmlpos parameter value contains a string of the same format as
    the gml:pos element defined in section 3.2 of the [PIDF-LO] PIDF.
 
-4.2.10.  civicaddress
+4.2.9.  civicaddress
 
    The the civicaddress parameter value contains a Civicaddress Object
    which is optional and contains civic address information about the
@@ -1089,18 +1046,7 @@ Table of Contents
 
    *  pc: "String" (optional)
 
-   TODO: Do we need RFC6848 civic address extensions?
-
-   TODO: Is there a need for any temporal location?  For example should
-   location be an array, each element with a time stamp?
-
-   TODO: Do we just specify for the start of the conversation?
-
-4.2.11.  timezone
-
-   TODO: timezone for the location of the party?
-
-4.2.12.  uuid
+4.2.10.  uuid
 
    The uuid is a unique identifier for the participant.  In a contact
    center, this is particularly important for the call agent
@@ -1159,10 +1105,6 @@ Table of Contents
    will not be able to consistently determine where content should be
    placed and users of vCons will not know where content can be found
    within the vCon.
-
-   TODO: Is there other signalling data that we want to capture other
-   than start and duration and the media (e.g. from jabber, sms, mms,
-   email, SIP, etc.)?
 
 4.3.1.  type
 
@@ -1570,10 +1512,13 @@ Table of Contents
    that allow the exchange of files, do not constrain the file type, any
    file type may be included here.
 
-4.4.1.  type or purpose
+4.4.1.  purpose
 
-   TODO: Do we want a semantic type like: contract or presentation?  Or
-   a subject or title.
+   The purpose parameter may be used to provide a text base description
+   of the purpose or point of the attachement.  There is no restriced
+   set of values for this description.
+
+   *  purpose: "String" (optional)
 
 4.4.2.  start
 
@@ -1776,54 +1721,6 @@ Table of Contents
 
    *  content_hash: "ContentHash" | "ContentHash[]"
 
-4.6.  Group Object
-
-   A conversation may have take place using different modes (e.g. web
-   chat which evolves to email, which evolves to phone call, which
-   evolves to video conference).  A conversation could take place over
-   several calls (e.g. multiple calls regarding a support incident or
-   problem).  Each of these examples might be considered a single
-   conversation event though there are multiple sets of dialog in each.
-   What is considered the boundary of a conversation is a business
-   decision.  There are situations in the above example, where it is
-   desired to treat these as a single conversation, but each set of
-   dialog is created in a single vCon (e.g. each dialog occurred in a
-   separate communication silo or security domain) which gets signed.
-   For this reason, it may be necessary to aggregate the separate vCon
-   into a single vCon which is considered the whole of a conversation.
-   The Group Object includes or refers to a vCon to be aggregated into
-   the whole of a single vCon conversation.
-
-   The Group Object SHOULD contain the uuid and the url and content_hash
-   parameters (see Externally Referenced Files (Section 2.4)).  The
-   referenced vCon SHOULD be via UUID:
-
-   *  uuid: "String"
-
-   The value of the uuid parameter, is the uuid string value
-   (Section 4.1.2) of the referenced vCon to be aggregated.
-
-   The vCon MAY be included in line as the value of the body parameter.
-   The encoding parameter MUST be included with the body parameter, if
-   provided, to describe the encoding of the vCon body.
-
-   *  body: "vCon"
-
-   The JSON unsigned form of the vCon, the JWS signed form of the vCon
-   or the JWE encrypted form of the vCon.
-
-   *  encoding: "String"
-
-   The encoding string MUST have the value: "json".
-
-   In addition, the location for the referenced vCon MAY be provided.
-   The url and content_hash parameters and values are defined in
-   Externally Referenced Files (Section 2.4).
-
-   *  url: "String"
-
-   *  content_hash: "ContentHash" | "ContentHash[]"
-
 5.  Security Considerations
 
    The security concerns for vCons can put into two categories: making
@@ -2007,8 +1904,6 @@ Table of Contents
    TODO: How to deal with expired signatures?
 
 5.3.  Encrypted Form of vCon Object
-
-   TODO: Check this terminology:
 
    A vCon MUST be signed first using JWS as defined in Signed Form of
    vCon Object (Section 5.2), then encrypted using JWE as opposed to
@@ -2288,19 +2183,19 @@ Table of Contents
    | amended     | Amended Object       | IESG       | Section 4.1.8  |
    |             |                      |            | RFC XXXX       |
    +-------------+----------------------+------------+----------------+
-   | group       | Group Objects array  | IESG       | Section 4.1.10 |
+   | group       | reserved for future  | IESG       | RFC XXXX       |
+   |             | extension            |            |                |
+   +-------------+----------------------+------------+----------------+
+   | parties     | Party Objects array  | IESG       | Section 4.1.10 |
    |             |                      |            | RFC XXXX       |
    +-------------+----------------------+------------+----------------+
-   | parties     | Party Objects array  | IESG       | Section 4.1.11 |
+   | dialog      | Dialog Objects array | IESG       | Section 4.1.11 |
    |             |                      |            | RFC XXXX       |
    +-------------+----------------------+------------+----------------+
-   | dialog      | Dialog Objects array | IESG       | Section 4.1.12 |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | analysis    | Analysis Objects     | IESG       | Section 4.1.13 |
+   | analysis    | Analysis Objects     | IESG       | Section 4.1.12 |
    |             | array                |            | RFC XXXX       |
    +-------------+----------------------+------------+----------------+
-   | attachments | Attachment Objects   | IESG       | Section 4.1.14 |
+   | attachments | Attachment Objects   | IESG       | Section 4.1.13 |
    |             | array                |            | RFC XXXX       |
    +-------------+----------------------+------------+----------------+
 
@@ -2335,19 +2230,13 @@ Table of Contents
       | validation     | validation  | IESG       | Section 4.2.7  |
       |                | method      |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | jCard          | participant | IESG       | Section 4.2.8  |
-      |                | jCard       |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | gmlpos         | participant | IESG       | Section 4.2.9  |
+      | gmlpos         | participant | IESG       | Section 4.2.8  |
       |                | geolocation |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | civicaddress   | civic       | IESG       | Section 4.2.10 |
+      | civicaddress   | civic       | IESG       | Section 4.2.9  |
       |                | address     |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
-      | timezone       | participant | IESG       | Section 4.2.11 |
-      |                | timezone    |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | uuid           | participant | IESG       | Section 4.2.12 |
+      | uuid           | participant | IESG       | Section 4.2.10 |
       |                | UUID        |            | RFC XXXX       |
       +----------------+-------------+------------+----------------+
 
@@ -2602,11 +2491,14 @@ Table of Contents
    | Parameter    | Parameter             | Change     | Specification |
    | Name         | Description           | Controller | Document(s)   |
    +==============+=======================+============+===============+
+   | purpose      | atachment object      | IESG       | Section 4.4.1 |
+   |              | purpose description   |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
    | start        | attachment start      | IESG       | Section 4.4.2 |
    |              | time                  |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | party        | sending party         | IESG       | Section 4.4.3 |
-   |              | index                 |            | RFC XXXX      |
+   | party        | sending party index   | IESG       | Section 4.4.3 |
+   |              |                       |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
    | dialog       | associated dialog     | IESG       | Section 4.4.4 |
    |              | index                 |            | RFC XXXX      |
@@ -2614,8 +2506,8 @@ Table of Contents
    | mediatype    | attachment body       | IESG       | Section 4.4.5 |
    |              | media type            |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | filename     | attachment            | IESG       | Section 4.4.6 |
-   |              | content filename      |            | RFC XXXX      |
+   | filename     | attachment content    | IESG       | Section 4.4.6 |
+   |              | filename              |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
    | body         | attachment inline     | IESG       | Section 4.4.7 |
    |              | content               |            | RFC XXXX      |
@@ -2624,11 +2516,11 @@ Table of Contents
    |              | content encoding      |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
    | url          | attachment            | IESG       | Section 4.4.7 |
-   |              | referenced            |            | RFC XXXX      |
-   |              | content URL           |            |               |
+   |              | referenced content    |            | RFC XXXX      |
+   |              | URL                   |            |               |
    +--------------+-----------------------+------------+---------------+
-   | content_hash | attachment            | IESG       | Section 4.4.7 |
-   |              | content hash          |            | RFC XXXX      |
+   | content_hash | attachment content    | IESG       | Section 4.4.7 |
+   |              | hash                  |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
 
                                   Table 7
@@ -2728,29 +2620,6 @@ Table of Contents
    +----------------+------------------+------------+-----------------+
 
                                  Table 10
-
-6.3.10.  Group Object Parameter Names Registry
-
-   The following defines the initial values for the Group Object
-   Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
-   table.
-
-     +================+================+============+===============+
-     | Parameter Name | Parameter      | Change     | Specification |
-     |                | Description    | Controller | Document(s)   |
-     +================+================+============+===============+
-     | uuid           | child vCon     | IESG       | Section 4.6   |
-     |                | version UUID   |            | RFC XXXX      |
-     +----------------+----------------+------------+---------------+
-     | url            | referenced     | IESG       | Section 4.6   |
-     |                | child vCon URL |            | RFC XXXX      |
-     +----------------+----------------+------------+---------------+
-     | content_hash   | prior version  | IESG       | Section 4.6   |
-     |                | vCon hash      |            | RFC XXXX      |
-     +----------------+----------------+------------+---------------+
-
-                                 Table 11
 
 6.4.  vCon Extensions Names Registry
 
@@ -5188,9 +5057,7 @@ A.9.  Amended Signed vCon
      }
    }
 
-A.10.  vCon Group
-
-   TODO: group vCon example
+   TODO add JSON Schema
 
 Acknowledgments
 
