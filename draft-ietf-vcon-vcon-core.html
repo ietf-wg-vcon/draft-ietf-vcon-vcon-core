@@ -2344,6 +2344,13 @@ They are in the order that they were added.<a href="#section-4.1.13-1" class="pi
         <h3 id="name-party-object">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-party-object" class="section-name selfRef">Party Object</a>
         </h3>
+<p id="section-4.2-1">A Party Object contains information about a specific party or particiant in the conversation.
+The information that is available about the party varies with the context, the communcaiton mode and platform.
+There are times when no information is available for a party either intially or over the entire life of the vCon.
+In such situations, it is possible to have a Party Object with no parmaters in it.
+A Party Object <span class="bcp14">SHOULD</span> be created for each participant.
+This may result in more than one empty Party Object.
+They are distinct by the order or index in the Party Object array.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <div id="tel">
 <section id="section-4.2.1">
           <h4 id="name-tel">
@@ -2414,7 +2421,13 @@ prefix (i.e. "mailto:") is optional.<a href="#section-4.2.4-3" class="pilcrow">�
               <p id="section-4.2.5-2.1.1">name: "String" (optional)<a href="#section-4.2.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.2.5-3">The string value of the name parameter is a free form JSON string in which part or all of the party's name can be included.<a href="#section-4.2.5-3" class="pilcrow">¶</a></p>
+<p id="section-4.2.5-3">The string value of the name parameter is a free form JSON string in which part or all of the party's name can be included.
+It may be necessary, for privacy reasons, to not identify any information about the party.
+This <span class="bcp14">MAY</span> be indicated by creating a Party Object with only the name parameter and setting its value to "anonymous".
+A Party Object <span class="bcp14">SHOULD</span> be create for each anonymous party in the conversation.
+This is necessary to capture the number of parties and distiction between which party contribued what data or dialog in the conversation.
+Hence it is possible to have multiple anonymous Party Objects in the vCon.
+They are distinct by the order or index in the Party Object array.<a href="#section-4.2.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="did">
@@ -2588,6 +2601,11 @@ Similarly, a musical recording, even if it is in MP3 audio format, <span class="
 When uncertain, the default <span class="bcp14">SHOULD</span> be to include images as Attachment Objects and audio or video recordings as Dialog Objects.<a href="#section-4.3-7" class="pilcrow">¶</a></p>
 <p id="section-4.3-8">This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
+<p id="section-4.3-9">There are situations when no information is available for a dialog either intially or over the entire life of the vCon and yet it is known that the dialog occurred.
+For example this may occur in some call transfer cases where there is nothing known about the consultative call.
+In such situations, it is possible to have a Dialog Object with no parmaters in it.
+There may even be more than one empty Dialog Object.
+They are distinct by the order or index in the Dialog Object array.<a href="#section-4.3-9" class="pilcrow">¶</a></p>
 <div id="dialog-type">
 <section id="section-4.3.1">
           <h4 id="name-type">
@@ -2961,7 +2979,9 @@ For example each party may be recorded in a separate file which will result in a
 Alternatively a call may go on hold where recording is stopped and back off again resulting where recording is started again in a separate recording file, resulting in multiple Dialog Objects.
 For this reason, the values for the consultation, target_dialog and transfer parameters <span class="bcp14">MAY</span> have a single UnsignedInt or an array of UnsignedInt.<a href="#section-4.3.12-12" class="pilcrow">¶</a></p>
 <p id="section-4.3.12-13">There are scenarios where we know that a transfer has occurred, but we have no Dialog Object information for one or two of the consultation, target or transfer calls.
-In this case the Dialog Object index for the consultation, target_dialog and transfer parameter is set to -1 to indicate that we have no Dialog Object for that call, but know that the dialog occurred.<a href="#section-4.3.12-13" class="pilcrow">¶</a></p>
+In this case an empty Dialog Object is created and its index is used for the consultation, target_dialog or transfer parameter.
+A unique Dialog Object <span class="bcp14">SHOULD</span> be referenced for each role in the transfer.
+However a Dialog Object may be referenced in more than one transfer dialogs when multiple transfers occur.<a href="#section-4.3.12-13" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.12-14.1">
               <p id="section-4.3.12-14.1.1">original: "UnsignedInt" | "UnsignedInt[]"<a href="#section-4.3.12-14.1.1" class="pilcrow">¶</a></p>
