@@ -624,6 +624,14 @@ The value of the attachments parameter is an array of [Attachment Objects](#atta
 
 ## Party Object
 
+A Party Object contains information about a specific party or particiant in the conversation.
+The information that is available about the party varies with the context, the communcaiton mode and platform.
+There are times when no information is available for a party either intially or over the entire life of the vCon.
+In such situations, it is possible to have a Party Object with no parmaters in it.
+A Party Object SHOULD be created for each participant.
+This may result in more than one empty Party Object.
+They are distinct by the order or index in the Party Object array.
+
 ### tel
 
 If the tel URL for the party is known, it can be included in the tel parameter.
@@ -666,6 +674,12 @@ If the party's name is known, it can be included in the name parameter.
 * name: "String" (optional)
 
 The string value of the name parameter is a free form JSON string in which part or all of the party's name can be included.
+It may be necessary, for privacy reasons, to not identify any information about the party.
+This MAY be indicated by creating a Party Object with only the name parameter and setting its value to "anonymous".
+A Party Object SHOULD be create for each anonymous party in the conversation.
+This is necessary to capture the number of parties and distiction between which party contribued what data or dialog in the conversation.
+Hence it is possible to have multiple anonymous Party Objects in the vCon.
+They are distinct by the order or index in the Party Object array.
 
 ### did
 
@@ -766,6 +780,12 @@ When uncertain, the default SHOULD be to include images as Attachment Objects an
 
 This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.
+
+There are situations when no information is available for a dialog either intially or over the entire life of the vCon and yet it is known that the dialog occurred.
+For example this may occur in some call transfer cases where there is nothing known about the consultative call.
+In such situations, it is possible to have a Dialog Object with no parmaters in it.
+There may even be more than one empty Dialog Object.
+They are distinct by the order or index in the Dialog Object array.
 
 ### type {#dialog-type}
 
@@ -995,7 +1015,9 @@ Alternatively a call may go on hold where recording is stopped and back off agai
 For this reason, the values for the consultation, target_dialog and transfer parameters MAY have a single UnsignedInt or an array of UnsignedInt.
 
 There are scenarios where we know that a transfer has occurred, but we have no Dialog Object information for one or two of the consultation, target or transfer calls.
-In this case the Dialog Object index for the consultation, target_dialog and transfer parameter is set to -1 to indicate that we have no Dialog Object for that call, but know that the dialog occurred.
+In this case an empty Dialog Object is created and its index is used for the consultation, target_dialog or transfer parameter.
+A unique Dialog Object SHOULD be referenced for each role in the transfer.
+However a Dialog Object may be referenced in more than one transfer dialogs when multiple transfers occur.
 
 * original: "UnsignedInt" \| "UnsignedInt\[\]"
 
