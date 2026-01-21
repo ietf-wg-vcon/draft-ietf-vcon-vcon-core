@@ -5088,15 +5088,14 @@ A.9.  Amended Signed vCon
      }
    }
 
-   TODO add JSON Schema
-
 Appendix B.  vCon JSON Schema
 
    This JSON schema is provided as informational.  The text in secions
    1-6 of this document define the normative definition of the vCon
-   schema.  If the JSON scema provided below different from that in the
-   text of the above section, the text should be taken as the definitive
-   defintion and the JSON Schema below should be consider incorrect.
+   schema.  If the JSON schema provided below differs from that in the
+   text of the above sections, the text should be taken as the
+   definitive definition and the JSON Schema below should be consider
+   incorrect.
 
    The unformatted version of the following JSON schema can be
    downloaded from: https://raw.githubusercontent.com/ietf-wg-vcon/
