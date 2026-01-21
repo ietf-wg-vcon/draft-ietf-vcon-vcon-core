@@ -5097,9 +5097,11 @@ Appendix B.  vCon JSON Schema
    definitive definition and the JSON Schema below should be consider
    incorrect.
 
-   The unformatted version of the following JSON schema can be
-   downloaded from: https://raw.githubusercontent.com/ietf-wg-vcon/
-   draft-ietf-vcon-vcon-core/refs/heads/main/vcon_json_schema.json
+   The JSON Schema definition below has been formatted with line breaks
+   to print nicely on the page.  The unformatted version of the JSON
+   schema can be downloaded from: https://raw.githubusercontent.com/
+   ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/
+   vcon_json_schema.json
 
    {
      "$schema": "http://json-schema.org/draft-07/schema#",
