@@ -1419,6 +1419,9 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
                     <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-header-object" class="internal xref">Header Object</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-long-term-archiving-of-sign" class="internal xref">Long Term Archiving of Signed vCons</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
@@ -3494,7 +3497,24 @@ The x5c or x5u requirement makes the management and use of vCons easier, allowin
 This is added for convenience to not require verification of the signed vCon to get it's UUID.
 When the vCon is verified, the value of this uuid parameter <span class="bcp14">SHOULD</span> be verified against the UUID in the signed vCon.<a href="#section-5.2.2-9" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-10">TODO: How to deal with expired signatures?<a href="#section-5.2.2-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.2.2-11">
+</section>
+</div>
+<div id="long-term-archiving-of-signed-vcons">
+<section id="section-5.2.3">
+          <h4 id="name-long-term-archiving-of-sign">
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-long-term-archiving-of-sign" class="section-name selfRef">Long Term Archiving of Signed vCons</a>
+          </h4>
+<p id="section-5.2.3-1">In some use cases, it may be necessary to store or archive signed vCons for compliances or records purposes for as long as 10 years or more.
+In most cases the keys and certificates used to sign the vCon and construct the <span>[<a href="#JWS" class="cite xref">JWS</a>]</span> or signed form of the vCon, will have an expiration on the order of a few years at best.
+Below is an apporach on how integrety may be maintained on the archived vCon.
+There may be other approaches to this as well.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-2">For our example illustrated below, we have a vCon which was signed (labeled as JWS1).
+The certificate used to sign JWS1 has an expiration date.
+Before the expiration of the JWS1 signing certificate, the content of JWS1 (the vCon) is verified and then JWS1 is signed as the payload to construct JWS2.
+Before the expiration of the JWS2 certificate, the contents of JWS2 (JWS1) is verified and then JSW2 is signed as the payload to construct JWS3.
+The process is continued for the life of the vCon archiving.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">When it is desired to access the data in the archived vCon, first the outer JSW (JWS3 in diagram) is verified (payload of JWS2), then the vCon (payload in JWS1) is assumed to have valid integrety.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.2.3-4">
 <pre>
  ____________
 |    JWS3    |
@@ -3509,7 +3529,7 @@ When the vCon is verified, the value of this uuid parameter <span class="bcp14">
 ||__________||
 |____________|
 
-</pre><a href="#section-5.2.2-11" class="pilcrow">¶</a>
+</pre><a href="#section-5.2.3-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -7891,6 +7911,9 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 </li>
         <li class="normal" id="appendix-C-1.9">
           <p id="appendix-C-1.9.1">Thank you to Rob Sliwa for heling to review and test the JSON Schema.<a href="#appendix-C-1.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-1.10">
+          <p id="appendix-C-1.10.1">Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrety for long term storage of signed vCons.<a href="#appendix-C-1.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
