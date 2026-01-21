@@ -1992,6 +1992,19 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 
 TODO add JSON Schema
 
+# vCon JSON Schema
+
+This JSON schema is provided as informational.
+The text in secions 1-6 of this document define the normative definition of the vCon schema.
+If the JSON scema provided below different from that in the text of the above section, the text should be taken as the definitive defintion and the JSON Schema below should be consider incorrect.
+
+The unformatted version of the following JSON schema can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/vcon_json_schema.json
+
+~~~
+{::include vcon_json_schema.pp}
+~~~
+
 # Acknowledgments
 {:numbered="false"}
 
