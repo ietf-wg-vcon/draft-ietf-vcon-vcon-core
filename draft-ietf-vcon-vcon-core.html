@@ -3496,18 +3496,19 @@ When the vCon is verified, the value of this uuid parameter <span class="bcp14">
 <p id="section-5.2.2-10">TODO: How to deal with expired signatures?<a href="#section-5.2.2-10" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2.2-11">
 <pre>
-┌──────────┐
-│   JWS2   │
-│┌────────┐│
-││  JWS2  ││
-││┌──────┐││
-│││ JWS1 │││
-│││┌────┐│││
-││││vCon││││
-│││└────┘│││
-││└──────┘││
-│└────────┘│
-└──────────┘
+ ____________
+|    JWS3    |
+| __________ |
+||   JWS2   ||
+|| ________ ||
+|||  JSW1  |||
+||| ______ |||
+|||| vCon ||||
+||||______||||
+|||________|||
+||__________||
+|____________|
+
 </pre><a href="#section-5.2.2-11" class="pilcrow">¶</a>
 </div>
 </section>
