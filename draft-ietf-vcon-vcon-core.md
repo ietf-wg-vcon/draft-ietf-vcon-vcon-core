@@ -1996,7 +1996,9 @@ This JSON schema is provided as informational.
 The text in secions 1-6 of this document define the normative definition of the vCon schema.
 If the JSON schema provided below differs from that in the text of the above sections, the text should be taken as the definitive definition and the JSON Schema below should be consider incorrect.
 
-The unformatted version of the following JSON schema can be downloaded from:
+The JSON Schema definition below has been formatted with line breaks to
+print nicely on the page.
+The unformatted version of the JSON schema can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/vcon_json_schema.json
 
 ~~~
