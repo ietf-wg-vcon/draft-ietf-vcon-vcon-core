@@ -1406,14 +1406,15 @@ Table of Contents
 
       -  "unmute" - when the part is taken off mute
 
-      -  "dtmfdown" - when a DTMF button was pressed
+      -  "keydown" - when a DTMF or application key/button was pressed
 
-      -  "dtmfup" - when a DTMF button was released
+      -  "keyup" - when a DTMF or application key/button was released
 
-   *  dtmf: "String" - (required for dtmfdown and dtmfup events)
+   *  button: "String" - (required for keydown and keyup events)
 
-   The dtmf parameter value is the String value of the DTMF digit or
-   character that was pressed or released.
+   The button parameter value is the String value of the DTMF digit,
+   character or string label for the button that was pressed or
+   released.
 
 4.3.12.  Dialog Transfer
 
@@ -2478,34 +2479,35 @@ Table of Contents
    The following table defines the initial values for the Dialog Object
    Types Registry.
 
-    +=============+===================+============+==================+
-    | party_event | party_event Event | Change     | Specification    |
-    | Event Name  | Description       | Controller | Document(s)      |
-    +=============+===================+============+==================+
-    | join        | party join event  | IESG       | Section 4.3.11.1 |
-    |             |                   |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | drop        | party drop event  | IESG       | Section 4.3.11.1 |
-    |             |                   |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | hold        | party on hold     | IESG       | Section 4.3.11.1 |
-    |             | event             |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | unhold      | party off hold    | IESG       | Section 4.3.11.1 |
-    |             | event             |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | mute        | party on mute     | IESG       | Section 4.3.11.1 |
-    |             | event             |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | unmute      | party off mute    | IESG       | Section 4.3.11.1 |
-    |             | event             |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | dtmfdown    | DTMF button press | IESG       | Section 4.3.11.1 |
-    |             | event             |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
-    | dtmfup      | DTMF button       | IESG       | Section 4.3.11.1 |
-    |             | release event     |            | RFC XXXX         |
-    +-------------+-------------------+------------+------------------+
+   +=============+=====================+============+==================+
+   | party_event | party_event Event   | Change     | Specification    |
+   | Event Name  | Description         | Controller | Document(s)      |
+   +=============+=====================+============+==================+
+   | join        | party join event    | IESG       | Section 4.3.11.1 |
+   |             |                     |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | drop        | party drop event    | IESG       | Section 4.3.11.1 |
+   |             |                     |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | hold        | party on hold       | IESG       | Section 4.3.11.1 |
+   |             | event               |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | unhold      | party off hold      | IESG       | Section 4.3.11.1 |
+   |             | event               |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | mute        | party on mute       | IESG       | Section 4.3.11.1 |
+   |             | event               |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | unmute      | party off mute      | IESG       | Section 4.3.11.1 |
+   |             | event               |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | keydown     | DTMF/app key/       | IESG       | Section 4.3.11.1 |
+   |             | button press event  |            | RFC XXXX         |
+   +-------------+---------------------+------------+------------------+
+   | keyup       | DTMF/app key/       | IESG       | Section 4.3.11.1 |
+   |             | button release      |            | RFC XXXX         |
+   |             | event               |            |                  |
+   +-------------+---------------------+------------+------------------+
 
                                   Table 6
 
@@ -5550,13 +5552,13 @@ Appendix B.  vCon JSON Schema
            "event": {
              "type": "string",
              "enum": ["join", "drop", "hold", "unhold", "mute", "un
-               ute", "dtmfdown", "dtmfup"],
+               ute", "keydown", "keyup"],
              "description": "Type of event"
            },
-           "dtmf": {
+           "button": {
              "type": "string",
-             "description": "DTMF digit or character (required for
-               tmfdown/dtmfup events)"
+             "description": "DTMF digit, character or string (requi
+               ed for keydown/keyup events)"
            }
          }
        },
