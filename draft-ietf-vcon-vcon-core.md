@@ -1352,6 +1352,21 @@ When the vCon is verified, the value of this uuid parameter SHOULD be verified a
 TODO: How to deal with expired signatures?
 
 
+### Long Term Archiving of Signed vCons
+
+In some use cases, it may be necessary to store or archive signed vCons for compliances or records purposes for as long as 10 years or more.
+In most cases the keys and certificates used to sign the vCon and construct the [JWS] or signed form of the vCon, will have an expiration on the order of a few years at best.
+Below is an apporach on how integrety may be maintained on the archived vCon.
+There may be other approaches to this as well.
+
+For our example illustrated below, we have a vCon which was signed (labeled as JWS1).
+The certificate used to sign JWS1 has an expiration date.
+Before the expiration of the JWS1 signing certificate, the content of JWS1 (the vCon) is verified and then JWS1 is signed as the payload to construct JWS2.
+Before the expiration of the JWS2 certificate, the contents of JWS2 (JWS1) is verified and then JSW2 is signed as the payload to construct JWS3.
+The process is continued for the life of the vCon archiving.
+
+When it is desired to access the data in the archived vCon, first the outer JSW (JWS3 in diagram) is verified (payload of JWS2), then the vCon (payload in JWS1) is assumed to have valid integrety.
+
 ~~~
 {::include resign_jws.ans}
 ~~~
@@ -2023,5 +2038,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 * Thank you to Jonathan Lennox for numerous inputs including separate single channel recordings per party and the extension framework.
 * Thank you to Marc Petit-Huguenin for sorting out session_id.
 * Thank you to Rob Sliwa for heling to review and test the JSON Schema.
+* Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrety for long term storage of signed vCons.
+
 
 
