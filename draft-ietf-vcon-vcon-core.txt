@@ -1935,9 +1935,18 @@ Table of Contents
 
    TODO: How to deal with expired signatures?
 
-   ┌─────────────────────┐
-   │        vCon         │
-   └─────────────────────┘
+   ┌──────────┐
+   │   JWS2   │
+   │┌────────┐│
+   ││  JWS2  ││
+   ││┌──────┐││
+   │││ JWS1 │││
+   │││┌────┐│││
+   ││││vCon││││
+   │││└────┘│││
+   ││└──────┘││
+   │└────────┘│
+   └──────────┘
 
 5.3.  Encrypted Form of vCon Object
 
