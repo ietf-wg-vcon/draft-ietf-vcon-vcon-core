@@ -1353,7 +1353,7 @@ TODO: How to deal with expired signatures?
 
 
 ~~~
-{::include resign_jws.ans
+{::include resign_jws.ans}
 ~~~
 
 ## Encrypted Form of vCon Object
