@@ -258,21 +258,21 @@
             mat"
         },
         "duration": {
-          "oneOf": [
+          "anyOf": [
             {"type": "integer", "minimum": 0},
             {"type": "number", "minimum": 0}
           ],
           "description": "Duration in seconds"
         },
         "parties": {
-          "oneOf": [
+          "anyOf": [
             {"type": "integer", "minimum": 0},
             {"type": "array", "items": {"type": "integer", "mini
               um": 0}},
             {
               "type": "array",
               "items": {
-                "oneOf": [
+                "anyOf": [
                   {"type": "integer", "minimum": 0},
                   {"type": "array", "items": {"type": "integer",
                     "minimum": 0}}
@@ -582,4 +582,3 @@
     }
   }
 }
-

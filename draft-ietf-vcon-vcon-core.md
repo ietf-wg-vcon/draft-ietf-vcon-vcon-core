@@ -2014,5 +2014,6 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 * Thank you to Mike Jones for input and help media types, version and helping to form the extension framework.
 * Thank you to Jonathan Lennox for numerous inputs including separate single channel recordings per party and the extension framework.
 * Thank you to Marc Petit-Huguenin for sorting out session_id.
+* Thank you to Rob Sliwa for heling to review and test the JSON Schema.
 
 
