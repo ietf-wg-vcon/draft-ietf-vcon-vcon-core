@@ -1935,7 +1935,9 @@ Table of Contents
 
    TODO: How to deal with expired signatures?
 
-   {::include resign_jws.ans
+   ┌─────────────────────┐
+   │        vCon         │
+   └─────────────────────┘
 
 5.3.  Encrypted Form of vCon Object
 
