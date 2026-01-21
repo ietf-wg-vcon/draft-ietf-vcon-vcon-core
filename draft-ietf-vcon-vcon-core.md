@@ -1351,6 +1351,11 @@ When the vCon is verified, the value of this uuid parameter SHOULD be verified a
 
 TODO: How to deal with expired signatures?
 
+
+~~~
+{::include resign_jws.ans
+~~~
+
 ## Encrypted Form of vCon Object
 
 A vCon MUST be signed first using JWS as defined in [Signed Form of vCon Object](#signed-form-of-vcon-object), then encrypted using JWE as opposed to just encrypted with integrity protection.
