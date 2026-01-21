@@ -2006,9 +2006,12 @@ print nicely on the page.
 The unformatted version of the JSON schema can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/vcon_json_schema.json
 
+<pre>
 ~~~
 {::include vcon_json_schema.pp}
 ~~~
+</pre>
+
 
 # Acknowledgments
 {:numbered="false"}
