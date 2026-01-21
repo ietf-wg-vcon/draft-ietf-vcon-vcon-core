@@ -445,13 +445,13 @@
         "event": {
           "type": "string",
           "enum": ["join", "drop", "hold", "unhold", "mute", "un
-            ute", "dtmfdown", "dtmfup"],
+            ute", "keydown", "keyup"],
           "description": "Type of event"
         },
-        "dtmf": {
+        "button": {
           "type": "string",
-          "description": "DTMF digit or character (required for 
-            tmfdown/dtmfup events)"
+          "description": "DTMF digit, character or string (requi
+            ed for keydown/keyup events)"
         }
       }
     },

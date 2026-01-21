@@ -971,12 +971,12 @@ The Party_History Object contains the following parameters:
     * "unhold" - when the part is taken off hold
     * "mute" - when the party is muted
     * "unmute" - when the part is taken off mute
-    * "dtmfdown" - when a DTMF button was pressed
-    * "dtmfup" - when a DTMF button was released
+    * "keydown" - when a DTMF or application key/button was pressed
+    * "keyup" - when a DTMF or application key/button was released
 
-* dtmf: "String" - (required for dtmfdown and dtmfup events)
+* button: "String" - (required for keydown and keyup events)
 
-The dtmf parameter value is the String value of the DTMF digit or character that was pressed or released.
+The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.
 
 ### Dialog Transfer
 
@@ -1724,8 +1724,8 @@ The following table defines the initial values for the Dialog Object Types Regis
 | unhold | party off hold event | IESG | [](#party_history-object) RFC XXXX |
 | mute | party on mute event | IESG | [](#party_history-object) RFC XXXX |
 | unmute | party off mute event | IESG | [](#party_history-object) RFC XXXX |
-| dtmfdown | DTMF button press event | IESG | [](#party_history-object) RFC XXXX |
-| dtmfup | DTMF button release event | IESG | [](#party_history-object) RFC XXXX |
+| keydown | DTMF/app key/button press event | IESG | [](#party_history-object) RFC XXXX |
+| keyup | DTMF/app key/button release event | IESG | [](#party_history-object) RFC XXXX |
 
 
 ### Attachment Object Parameter Names Registry

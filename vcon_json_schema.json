@@ -381,12 +381,12 @@
         },
         "event": {
           "type": "string",
-          "enum": ["join", "drop", "hold", "unhold", "mute", "unmute", "dtmfdown", "dtmfup"],
+          "enum": ["join", "drop", "hold", "unhold", "mute", "unmute", "keydown", "keyup"],
           "description": "Type of event"
         },
-        "dtmf": {
+        "button": {
           "type": "string",
-          "description": "DTMF digit or character (required for dtmfdown/dtmfup events)"
+          "description": "DTMF digit, character or string (required for keydown/keyup events)"
         }
       }
     },
