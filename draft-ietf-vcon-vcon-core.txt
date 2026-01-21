@@ -5361,21 +5361,21 @@ Appendix B.  vCon JSON Schema
                mat"
            },
            "duration": {
-             "oneOf": [
+             "anyOf": [
                {"type": "integer", "minimum": 0},
                {"type": "number", "minimum": 0}
              ],
              "description": "Duration in seconds"
            },
            "parties": {
-             "oneOf": [
+             "anyOf": [
                {"type": "integer", "minimum": 0},
                {"type": "array", "items": {"type": "integer", "mini
                  um": 0}},
                {
                  "type": "array",
                  "items": {
-                   "oneOf": [
+                   "anyOf": [
                      {"type": "integer", "minimum": 0},
                      {"type": "array", "items": {"type": "integer",
                        "minimum": 0}}
@@ -5714,6 +5714,9 @@ Acknowledgments
       framework.
 
    *  Thank you to Marc Petit-Huguenin for sorting out session_id.
+
+   *  Thank you to Rob Sliwa for heling to review and test the JSON
+      Schema.
 
 Author's Address
 

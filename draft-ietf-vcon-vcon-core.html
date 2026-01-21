@@ -7512,21 +7512,21 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
             mat"
         },
         "duration": {
-          "oneOf": [
+          "anyOf": [
             {"type": "integer", "minimum": 0},
             {"type": "number", "minimum": 0}
           ],
           "description": "Duration in seconds"
         },
         "parties": {
-          "oneOf": [
+          "anyOf": [
             {"type": "integer", "minimum": 0},
             {"type": "array", "items": {"type": "integer", "mini
               um": 0}},
             {
               "type": "array",
               "items": {
-                "oneOf": [
+                "anyOf": [
                   {"type": "integer", "minimum": 0},
                   {"type": "array", "items": {"type": "integer",
                     "minimum": 0}}
@@ -7836,7 +7836,6 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
     }
   }
 }
-
 </pre><a href="#appendix-B-3" class="pilcrow">¶</a>
 </div>
 </section>
@@ -7870,6 +7869,9 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 </li>
         <li class="normal" id="appendix-C-1.8">
           <p id="appendix-C-1.8.1">Thank you to Marc Petit-Huguenin for sorting out session_id.<a href="#appendix-C-1.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-1.9">
+          <p id="appendix-C-1.9.1">Thank you to Rob Sliwa for heling to review and test the JSON Schema.<a href="#appendix-C-1.9.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
