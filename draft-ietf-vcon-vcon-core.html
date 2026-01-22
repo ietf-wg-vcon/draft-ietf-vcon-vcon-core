@@ -1061,7 +1061,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Petrie</td>
-<td class="center">Expires 25 July 2026</td>
+<td class="center">Expires 26 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1074,12 +1074,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-vcon-vcon-core-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-21" class="published">21 January 2026</time>
+<time datetime="2026-01-22" class="published">22 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-25">25 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-26">26 July 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 26 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2849,9 +2849,9 @@ Note: if a message was left with the voicemail system this is no longer an "inco
 <p id="section-4.3.10-1">The <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> <span class="bcp14">MAY</span> be included for the dialog.
 If the same <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> applies to all the parties in a dialog, than a single instance of the
 SessionId Object is provided as the value of session_id.
-If some parties have a different or no associated <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> for this Dialog Object, then the array structure of the session_id value <span class="bcp14">MUST</span> correlate to the array structure of the Dialog Object's parties index array.
-Parties which do not have a <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> associated with this dialog, <span class="bcp14">MUST</span> have a null value for the SessionId Object.
-That is no Object, not an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
+If some parties have a different or no associated <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> for this Dialog Object, then the array structure of the session_id objects <span class="bcp14">MUST</span> correlate to the array structure of the Dialog Object's parties index array.
+Parties which do not have a <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> associated with this dialog, <span class="bcp14">MUST</span> have an empty object ({}) for the SessionId Object.
+That an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
 It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>).
 In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value <span class="bcp14">SHOULD</span> be used as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.<a href="#section-4.3.10-1" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -3206,19 +3206,22 @@ For analysis data or files types for which a media type is not defined, the vend
 <p id="section-4.5.1-4">The string value <span class="bcp14">SHOULD</span> be one of the following:<a href="#section-4.5.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5.1-5.1">
-              <p id="section-4.5.1-5.1.1">"summary"<a href="#section-4.5.1-5.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.1-5.1.1">"report"<a href="#section-4.5.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.5.1-5.2">
-              <p id="section-4.5.1-5.2.1">"transcript"<a href="#section-4.5.1-5.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.1-5.2.1">"sentiment"<a href="#section-4.5.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.5.1-5.3">
-              <p id="section-4.5.1-5.3.1">"translation"<a href="#section-4.5.1-5.3.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.1-5.3.1">"summary"<a href="#section-4.5.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.5.1-5.4">
-              <p id="section-4.5.1-5.4.1">"sentiment"<a href="#section-4.5.1-5.4.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.1-5.4.1">"transcript"<a href="#section-4.5.1-5.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.5.1-5.5">
-              <p id="section-4.5.1-5.5.1">"tts"<a href="#section-4.5.1-5.5.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.1-5.5.1">"translation"<a href="#section-4.5.1-5.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-4.5.1-5.6">
+              <p id="section-4.5.1-5.6.1">"tts"<a href="#section-4.5.1-5.6.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3496,7 +3499,6 @@ The x5c or x5u requirement makes the management and use of vCons easier, allowin
 <p id="section-5.2.2-9">The string value of the UUID for the vCon contained in the payload parameter.
 This is added for convenience to not require verification of the signed vCon to get it's UUID.
 When the vCon is verified, the value of this uuid parameter <span class="bcp14">SHOULD</span> be verified against the UUID in the signed vCon.<a href="#section-5.2.2-9" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-10">TODO: How to deal with expired signatures?<a href="#section-5.2.2-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="long-term-archiving-of-signed-vcons">
@@ -4481,9 +4483,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           <h4 id="name-attachment-object-parameter">
 <a href="#section-6.3.6" class="section-number selfRef">6.3.6. </a><a href="#name-attachment-object-parameter" class="section-name selfRef">Attachment Object Parameter Names Registry</a>
           </h4>
-<p id="section-6.3.6-1">TODO: type or purpose parameter?<a href="#section-6.3.6-1" class="pilcrow">¶</a></p>
-<p id="section-6.3.6-2">The following defines the initial values for the Attachment Object Parameter Names Registry.
-Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.6-2" class="pilcrow">¶</a></p>
+<p id="section-6.3.6-1">The following defines the initial values for the Attachment Object Parameter Names Registry.
+Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.6-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-7">
             <caption><a href="#table-7" class="selfRef">Table 7</a></caption>
 <thead>
