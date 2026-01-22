@@ -395,6 +395,10 @@
       "description": "Represents an ancillary document related to the conversation",
       "required": ["start", "party", "dialog"],
       "properties": {
+        "purpose": {
+          "type": "string",
+          "description": "text description of what the attachment is for"
+        },
         "start": {
           "type": "string",
           "format": "date-time",
@@ -448,7 +452,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "description": "Semantic type of analysis (e.g., transcript, translation, summary, sentiment)"
+          "description": "Semantic type of analysis (e.g., report, sentiment, summary, transcript, translation, tts)"
         },
         "dialog": {
           "oneOf": [
