@@ -933,9 +933,9 @@ The value of the disposition parameter MUST be one of the following string:
 The [SESSION-ID] MAY be included for the dialog.
 If the same [SESSION-ID] applies to all the parties in a dialog, than a single instance of the
 SessionId Object is provided as the value of session_id.
-If some parties have a different or no associated [SESSION-ID] for this Dialog Object, then the array structure of the session_id value MUST correlate to the array structure of the Dialog Object's parties index array.
-Parties which do not have a [SESSION-ID] associated with this dialog, MUST have a null value for the SessionId Object.
-That is no Object, not an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of [SESSION-ID].
+If some parties have a different or no associated [SESSION-ID] for this Dialog Object, then the array structure of the session_id objects MUST correlate to the array structure of the Dialog Object's parties index array.
+Parties which do not have a [SESSION-ID] associated with this dialog, MUST have an empty object (\{\}) for the SessionId Object.
+That an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of [SESSION-ID].
 It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See [SESSION-ID]).
 In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value SHOULD be used as defined in section 7 of [SESSION-ID].
 
@@ -1154,10 +1154,11 @@ TODO:  this list is not sufficient.  Do we enforce a specific set of tokens.  Se
 
 The string value SHOULD be one of the following:
 
+  * "report"
+  * "sentiment"
   * "summary"
   * "transcript"
   * "translation"
-  * "sentiment"
   * "tts"
 
 ### dialog {#analysis-dialog}
@@ -1348,9 +1349,6 @@ The string value of x5u MUST contain an [HTTPS] URL as defined in section 4.1.5 
 The string value of the UUID for the vCon contained in the payload parameter.
 This is added for convenience to not require verification of the signed vCon to get it's UUID.
 When the vCon is verified, the value of this uuid parameter SHOULD be verified against the UUID in the signed vCon.
-
-TODO: How to deal with expired signatures?
-
 
 ### Long Term Archiving of Signed vCons
 
@@ -1749,8 +1747,6 @@ The following table defines the initial values for the Dialog Object Types Regis
 
 
 ### Attachment Object Parameter Names Registry
-
-TODO: type or purpose parameter?
 
 The following defines the initial values for the Attachment Object Parameter Names Registry.
 Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
