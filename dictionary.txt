@@ -4,6 +4,7 @@ addr
 acct
 alg
 ans
+app
 Bcc
 bcp
 bot
@@ -91,8 +92,11 @@ json
 JSON
 JWE
 JWK
+jws
 JWS
 JWT
+keydown
+keyup
 Lasker
 Lennox
 LLC
@@ -116,6 +120,7 @@ NIST
 OAEP
 ogg
 org
+Ounsworth
 PASSporT
 PBX
 pc
@@ -155,6 +160,7 @@ Siciliano
 siloed
 sipez
 SIPez
+Sliwa
 sms
 SSN
 std

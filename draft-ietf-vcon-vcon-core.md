@@ -624,10 +624,10 @@ The value of the attachments parameter is an array of [Attachment Objects](#atta
 
 ## Party Object
 
-A Party Object contains information about a specific party or particiant in the conversation.
-The information that is available about the party varies with the context, the communcaiton mode and platform.
-There are times when no information is available for a party either intially or over the entire life of the vCon.
-In such situations, it is possible to have a Party Object with no parmaters in it.
+A Party Object contains information about a specific party or participant in the conversation.
+The information that is available about the party varies with the context, the communication mode and platform.
+There are times when no information is available for a party either initially or over the entire life of the vCon.
+In such situations, it is possible to have a Party Object with no parameters in it.
 A Party Object SHOULD be created for each participant.
 This may result in more than one empty Party Object.
 They are distinct by the order or index in the Party Object array.
@@ -677,7 +677,7 @@ The string value of the name parameter is a free form JSON string in which part 
 It may be necessary, for privacy reasons, to not identify any information about the party.
 This MAY be indicated by creating a Party Object with only the name parameter and setting its value to "anonymous".
 A Party Object SHOULD be create for each anonymous party in the conversation.
-This is necessary to capture the number of parties and distiction between which party contribued what data or dialog in the conversation.
+This is necessary to capture the number of parties and distinction between which party contributed what data or dialog in the conversation.
 Hence it is possible to have multiple anonymous Party Objects in the vCon.
 They are distinct by the order or index in the Party Object array.
 
@@ -781,9 +781,9 @@ When uncertain, the default SHOULD be to include images as Attachment Objects an
 This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.
 
-There are situations when no information is available for a dialog either intially or over the entire life of the vCon and yet it is known that the dialog occurred.
+There are situations when no information is available for a dialog either initially or over the entire life of the vCon and yet it is known that the dialog occurred.
 For example this may occur in some call transfer cases where there is nothing known about the consultative call.
-In such situations, it is possible to have a Dialog Object with no parmaters in it.
+In such situations, it is possible to have a Dialog Object with no parameters in it.
 There may even be more than one empty Dialog Object.
 They are distinct by the order or index in the Dialog Object array.
 
@@ -1069,8 +1069,8 @@ As most modes of communication, that allow the exchange of files, do not constra
 
 ### purpose {#attachment-purpose}
 
-The purpose parameter may be used to provide a text base description of the purpose or point of the attachement.
-There is no restriced set of values for this description.
+The purpose parameter may be used to provide a text base description of the purpose or point of the attachment.
+There is no restricted set of values for this description.
 
 * purpose: "String" (optional)
 
@@ -1354,16 +1354,16 @@ When the vCon is verified, the value of this uuid parameter SHOULD be verified a
 
 In some use cases, it may be necessary to store or archive signed vCons for compliances or records purposes for as long as 10 years or more.
 In most cases the keys and certificates used to sign the vCon and construct the [JWS] or signed form of the vCon, will have an expiration on the order of a few years at best.
-Below is an apporach on how integrety may be maintained on the archived vCon.
+Below is an approach on how integrity may be maintained on the archived vCon.
 There may be other approaches to this as well.
 
 For our example illustrated below, we have a vCon which was signed (labeled as JWS1).
 The certificate used to sign JWS1 has an expiration date.
 Before the expiration of the JWS1 signing certificate, the content of JWS1 (the vCon) is verified and then JWS1 is signed as the payload to construct JWS2.
-Before the expiration of the JWS2 certificate, the contents of JWS2 (JWS1) is verified and then JSW2 is signed as the payload to construct JWS3.
+Before the expiration of the JWS2 certificate, the contents of JWS2 (JWS1) is verified and then JWS2 is signed as the payload to construct JWS3.
 The process is continued for the life of the vCon archiving.
 
-When it is desired to access the data in the archived vCon, first the outer JSW (JWS3 in diagram) is verified (payload of JWS2), then the vCon (payload in JWS1) is assumed to have valid integrety.
+When it is desired to access the data in the archived vCon, first the outer JWS (JWS3 in diagram) is verified (payload of JWS2), then the vCon (payload in JWS1) is assumed to have valid integrity.
 
 ~~~
 {::include resign_jws.ans}
@@ -1753,7 +1753,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| purpose | atachment object purpose description | IESG | [](#attachment-purpose) RFC XXXX |
+| purpose | attachment object purpose description | IESG | [](#attachment-purpose) RFC XXXX |
 | start | attachment start time | IESG | [](#attachment-start) RFC XXXX |
 | party | sending party index | IESG | [](#party) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#attachment-dialog) RFC XXXX |
@@ -2009,7 +2009,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 # vCon JSON Schema
 
 This JSON schema is provided as informational.
-The text in secions 1-6 of this document define the normative definition of the vCon schema.
+The text in sections 1-6 of this document define the normative definition of the vCon schema.
 If the JSON schema provided below differs from that in the text of the above sections, the text should be taken as the definitive definition and the JSON Schema below should be consider incorrect.
 
 The JSON Schema definition below has been formatted with line breaks to
@@ -2033,8 +2033,8 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 * Thank you to Mike Jones for input and help media types, version and helping to form the extension framework.
 * Thank you to Jonathan Lennox for numerous inputs including separate single channel recordings per party and the extension framework.
 * Thank you to Marc Petit-Huguenin for sorting out session_id.
-* Thank you to Rob Sliwa for heling to review and test the JSON Schema.
-* Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrety for long term storage of signed vCons.
+* Thank you to Rob Sliwa for helping to review and test the JSON Schema.
+* Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrity for long term storage of signed vCons.
 
 
 
