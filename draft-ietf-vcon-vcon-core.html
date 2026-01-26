@@ -38,7 +38,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.2.14
+    wcwidth 0.3.0
 -->
 <link href="draft-ietf-vcon-vcon-core.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -579,6 +579,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -649,7 +650,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1061,7 +1062,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Petrie</td>
-<td class="center">Expires 26 July 2026</td>
+<td class="center">Expires 30 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1074,12 +1075,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-vcon-vcon-core-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-22" class="published">22 January 2026</time>
+<time datetime="2026-01-26" class="published">26 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-26">26 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-30">30 July 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1134,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 26 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2350,10 +2351,10 @@ They are in the order that they were added.<a href="#section-4.1.13-1" class="pi
         <h3 id="name-party-object">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-party-object" class="section-name selfRef">Party Object</a>
         </h3>
-<p id="section-4.2-1">A Party Object contains information about a specific party or particiant in the conversation.
-The information that is available about the party varies with the context, the communcaiton mode and platform.
-There are times when no information is available for a party either intially or over the entire life of the vCon.
-In such situations, it is possible to have a Party Object with no parmaters in it.
+<p id="section-4.2-1">A Party Object contains information about a specific party or participant in the conversation.
+The information that is available about the party varies with the context, the communication mode and platform.
+There are times when no information is available for a party either initially or over the entire life of the vCon.
+In such situations, it is possible to have a Party Object with no parameters in it.
 A Party Object <span class="bcp14">SHOULD</span> be created for each participant.
 This may result in more than one empty Party Object.
 They are distinct by the order or index in the Party Object array.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
@@ -2431,7 +2432,7 @@ prefix (i.e. "mailto:") is optional.<a href="#section-4.2.4-3" class="pilcrow">�
 It may be necessary, for privacy reasons, to not identify any information about the party.
 This <span class="bcp14">MAY</span> be indicated by creating a Party Object with only the name parameter and setting its value to "anonymous".
 A Party Object <span class="bcp14">SHOULD</span> be create for each anonymous party in the conversation.
-This is necessary to capture the number of parties and distiction between which party contribued what data or dialog in the conversation.
+This is necessary to capture the number of parties and distinction between which party contributed what data or dialog in the conversation.
 Hence it is possible to have multiple anonymous Party Objects in the vCon.
 They are distinct by the order or index in the Party Object array.<a href="#section-4.2.5-3" class="pilcrow">¶</a></p>
 </section>
@@ -2607,9 +2608,9 @@ Similarly, a musical recording, even if it is in MP3 audio format, <span class="
 When uncertain, the default <span class="bcp14">SHOULD</span> be to include images as Attachment Objects and audio or video recordings as Dialog Objects.<a href="#section-4.3-7" class="pilcrow">¶</a></p>
 <p id="section-4.3-8">This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
-<p id="section-4.3-9">There are situations when no information is available for a dialog either intially or over the entire life of the vCon and yet it is known that the dialog occurred.
+<p id="section-4.3-9">There are situations when no information is available for a dialog either initially or over the entire life of the vCon and yet it is known that the dialog occurred.
 For example this may occur in some call transfer cases where there is nothing known about the consultative call.
-In such situations, it is possible to have a Dialog Object with no parmaters in it.
+In such situations, it is possible to have a Dialog Object with no parameters in it.
 There may even be more than one empty Dialog Object.
 They are distinct by the order or index in the Dialog Object array.<a href="#section-4.3-9" class="pilcrow">¶</a></p>
 <div id="dialog-type">
@@ -3065,8 +3066,8 @@ As most modes of communication, that allow the exchange of files, do not constra
           <h4 id="name-purpose">
 <a href="#section-4.4.1" class="section-number selfRef">4.4.1. </a><a href="#name-purpose" class="section-name selfRef">purpose</a>
           </h4>
-<p id="section-4.4.1-1">The purpose parameter may be used to provide a text base description of the purpose or point of the attachement.
-There is no restriced set of values for this description.<a href="#section-4.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.4.1-1">The purpose parameter may be used to provide a text base description of the purpose or point of the attachment.
+There is no restricted set of values for this description.<a href="#section-4.4.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.4.1-2.1">
               <p id="section-4.4.1-2.1.1">purpose: "String" (optional)<a href="#section-4.4.1-2.1.1" class="pilcrow">¶</a></p>
@@ -3508,14 +3509,14 @@ When the vCon is verified, the value of this uuid parameter <span class="bcp14">
           </h4>
 <p id="section-5.2.3-1">In some use cases, it may be necessary to store or archive signed vCons for compliances or records purposes for as long as 10 years or more.
 In most cases the keys and certificates used to sign the vCon and construct the <span>[<a href="#JWS" class="cite xref">JWS</a>]</span> or signed form of the vCon, will have an expiration on the order of a few years at best.
-Below is an apporach on how integrety may be maintained on the archived vCon.
+Below is an approach on how integrity may be maintained on the archived vCon.
 There may be other approaches to this as well.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.3-2">For our example illustrated below, we have a vCon which was signed (labeled as JWS1).
 The certificate used to sign JWS1 has an expiration date.
 Before the expiration of the JWS1 signing certificate, the content of JWS1 (the vCon) is verified and then JWS1 is signed as the payload to construct JWS2.
-Before the expiration of the JWS2 certificate, the contents of JWS2 (JWS1) is verified and then JSW2 is signed as the payload to construct JWS3.
+Before the expiration of the JWS2 certificate, the contents of JWS2 (JWS1) is verified and then JWS2 is signed as the payload to construct JWS3.
 The process is continued for the life of the vCon archiving.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.2.3-3">When it is desired to access the data in the archived vCon, first the outer JSW (JWS3 in diagram) is verified (payload of JWS2), then the vCon (payload in JWS1) is assumed to have valid integrety.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">When it is desired to access the data in the archived vCon, first the outer JWS (JWS3 in diagram) is verified (payload of JWS2), then the vCon (payload in JWS1) is assumed to have valid integrity.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2.3-4">
 <pre>
  ____________
@@ -3523,7 +3524,7 @@ The process is continued for the life of the vCon archiving.<a href="#section-5.
 | __________ |
 ||   JWS2   ||
 || ________ ||
-|||  JSW1  |||
+|||  JWS1  |||
 ||| ______ |||
 |||| vCon ||||
 ||||______||||
@@ -4498,7 +4499,7 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
             <tbody>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">purpose</td>
-                <td class="text-left" rowspan="1" colspan="1">atachment object purpose description</td>
+                <td class="text-left" rowspan="1" colspan="1">attachment object purpose description</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
                   <a href="#attachment-purpose" class="auto internal xref">Section 4.4.1</a> RFC XXXX</td>
@@ -7284,7 +7285,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-vcon-json-schema" class="section-name selfRef">vCon JSON Schema</a>
       </h2>
 <p id="appendix-B-1">This JSON schema is provided as informational.
-The text in secions 1-6 of this document define the normative definition of the vCon schema.
+The text in sections 1-6 of this document define the normative definition of the vCon schema.
 If the JSON schema provided below differs from that in the text of the above sections, the text should be taken as the definitive definition and the JSON Schema below should be consider incorrect.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">The JSON Schema definition below has been formatted with line breaks to
 print nicely on the page.
@@ -7920,10 +7921,10 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
           <p id="appendix-C-1.8.1">Thank you to Marc Petit-Huguenin for sorting out session_id.<a href="#appendix-C-1.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-1.9">
-          <p id="appendix-C-1.9.1">Thank you to Rob Sliwa for heling to review and test the JSON Schema.<a href="#appendix-C-1.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-1.9.1">Thank you to Rob Sliwa for helping to review and test the JSON Schema.<a href="#appendix-C-1.9.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-1.10">
-          <p id="appendix-C-1.10.1">Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrety for long term storage of signed vCons.<a href="#appendix-C-1.10.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-1.10.1">Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrity for long term storage of signed vCons.<a href="#appendix-C-1.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

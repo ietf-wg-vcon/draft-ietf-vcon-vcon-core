@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         22 January 2026
-Expires: 26 July 2026
+Intended status: Standards Track                         26 January 2026
+Expires: 30 July 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 July 2026.
+   This Internet-Draft will expire on 30 July 2026.
 
 Copyright Notice
 
@@ -899,11 +899,11 @@ Table of Contents
 4.2.  Party Object
 
    A Party Object contains information about a specific party or
-   particiant in the conversation.  The information that is available
-   about the party varies with the context, the communcaiton mode and
+   participant in the conversation.  The information that is available
+   about the party varies with the context, the communication mode and
    platform.  There are times when no information is available for a
-   party either intially or over the entire life of the vCon.  In such
-   situations, it is possible to have a Party Object with no parmaters
+   party either initially or over the entire life of the vCon.  In such
+   situations, it is possible to have a Party Object with no parameters
    in it.  A Party Object SHOULD be created for each participant.  This
    may result in more than one empty Party Object.  They are distinct by
    the order or index in the Party Object array.
@@ -962,10 +962,10 @@ Table of Contents
    only the name parameter and setting its value to "anonymous".  A
    Party Object SHOULD be create for each anonymous party in the
    conversation.  This is necessary to capture the number of parties and
-   distiction between which party contribued what data or dialog in the
-   conversation.  Hence it is possible to have multiple anonymous Party
-   Objects in the vCon.  They are distinct by the order or index in the
-   Party Object array.
+   distinction between which party contributed what data or dialog in
+   the conversation.  Hence it is possible to have multiple anonymous
+   Party Objects in the vCon.  They are distinct by the order or index
+   in the Party Object array.
 
 4.2.6.  did
 
@@ -1128,11 +1128,11 @@ Table of Contents
    within the vCon.
 
    There are situations when no information is available for a dialog
-   either intially or over the entire life of the vCon and yet it is
+   either initially or over the entire life of the vCon and yet it is
    known that the dialog occurred.  For example this may occur in some
    call transfer cases where there is nothing known about the
    consultative call.  In such situations, it is possible to have a
-   Dialog Object with no parmaters in it.  There may even be more than
+   Dialog Object with no parameters in it.  There may even be more than
    one empty Dialog Object.  They are distinct by the order or index in
    the Dialog Object array.
 
@@ -1548,7 +1548,7 @@ Table of Contents
 4.4.1.  purpose
 
    The purpose parameter may be used to provide a text base description
-   of the purpose or point of the attachement.  There is no restriced
+   of the purpose or point of the attachment.  There is no restricted
    set of values for this description.
 
    *  purpose: "String" (optional)
@@ -1942,8 +1942,8 @@ Table of Contents
    vCons for compliances or records purposes for as long as 10 years or
    more.  In most cases the keys and certificates used to sign the vCon
    and construct the [JWS] or signed form of the vCon, will have an
-   expiration on the order of a few years at best.  Below is an apporach
-   on how integrety may be maintained on the archived vCon.  There may
+   expiration on the order of a few years at best.  Below is an approach
+   on how integrity may be maintained on the archived vCon.  There may
    be other approaches to this as well.
 
    For our example illustrated below, we have a vCon which was signed
@@ -1952,19 +1952,19 @@ Table of Contents
    certificate, the content of JWS1 (the vCon) is verified and then JWS1
    is signed as the payload to construct JWS2.  Before the expiration of
    the JWS2 certificate, the contents of JWS2 (JWS1) is verified and
-   then JSW2 is signed as the payload to construct JWS3.  The process is
+   then JWS2 is signed as the payload to construct JWS3.  The process is
    continued for the life of the vCon archiving.
 
    When it is desired to access the data in the archived vCon, first the
-   outer JSW (JWS3 in diagram) is verified (payload of JWS2), then the
-   vCon (payload in JWS1) is assumed to have valid integrety.
+   outer JWS (JWS3 in diagram) is verified (payload of JWS2), then the
+   vCon (payload in JWS1) is assumed to have valid integrity.
 
     ____________
    |    JWS3    |
    | __________ |
    ||   JWS2   ||
    || ________ ||
-   |||  JSW1  |||
+   |||  JWS1  |||
    ||| ______ |||
    |||| vCon ||||
    ||||______||||
@@ -2559,7 +2559,7 @@ Table of Contents
    | Parameter    | Parameter             | Change     | Specification |
    | Name         | Description           | Controller | Document(s)   |
    +==============+=======================+============+===============+
-   | purpose      | atachment object      | IESG       | Section 4.4.1 |
+   | purpose      | attachment object     | IESG       | Section 4.4.1 |
    |              | purpose description   |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
    | start        | attachment start      | IESG       | Section 4.4.2 |
@@ -5127,7 +5127,7 @@ A.9.  Amended Signed vCon
 
 Appendix B.  vCon JSON Schema
 
-   This JSON schema is provided as informational.  The text in secions
+   This JSON schema is provided as informational.  The text in sections
    1-6 of this document define the normative definition of the vCon
    schema.  If the JSON schema provided below differs from that in the
    text of the above sections, the text should be taken as the
@@ -5763,11 +5763,11 @@ Acknowledgments
 
    *  Thank you to Marc Petit-Huguenin for sorting out session_id.
 
-   *  Thank you to Rob Sliwa for heling to review and test the JSON
+   *  Thank you to Rob Sliwa for helping to review and test the JSON
       Schema.
 
    *  Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for
-      their help with providing an approach to maintaining integrety for
+      their help with providing an approach to maintaining integrity for
       long term storage of signed vCons.
 
 Author's Address
