@@ -5,14 +5,16 @@ vcon = {
     ? subject: tstr,
     ? created_at: date_type,
     ? updated_at: date_type,
+    ? extensions: [* tstr],
+    ? critical: [* tstr],
     ? redacted: redacted_reference_type / empty_object_type,
-    ? ammended: vcon_reference_type / empty_object_type,
+    ? amended: vcon_reference_type / empty_object_type,
     ? group: [* vcon_reference_type],
     ? parties: [* party_object_type],
     ? dialog: [* dialog_object_type],
     ? attachments: [* attachment_object_type],
     ? analysis: [* analysis_object_type],
-    extension_object_type 
+    extension_object_type
   }
 
 ; Object and multi-parameter types
@@ -25,7 +27,12 @@ redacted_reference_type = {
   }
 
 vcon_reference_type = {
-    ~vcon_uuid_reference_type // ~vcon_inline_type // ~vcon_url_reference_type
+    ~vcon_uuid_reference_type // ~vcon_inline_type // ~vcon_url_content_hash_type
+  }
+
+vcon_url_content_hash_type = {
+    url_type,
+    content_hash_type
   }
 
 party_object_type = {
@@ -33,7 +40,7 @@ party_object_type = {
     ? str: tstr,
     ? mailto: tstr,
     ? name: tstr,
-    ? validataion: tstr,
+    ? validation: tstr,
     ? gmlpos: tstr,
     ? civicaddress: civicaddress_type,
     ? uuid_type,
@@ -58,10 +65,6 @@ vcon_inline_type = {
     inline_content_type
   }
 
-vcon_url_reference_type = {
-    url_referenced_content_type
-  }
-
 dialog_recording_object_type = (
     type: "recording",
     ? duration: uint,
@@ -84,10 +87,10 @@ dialog_transfer_object_type = (
     type: "transfer",
     transferee: party_index_type,
     transferor: party_index_type,
-    transfer-target: party_index_type,
+    transfer_target: party_index_type,
     original: dialog_index_type,
-    ? consulation: dialog_index_type,
-    target-dialog: dialog_index_type,
+    ? consultation: dialog_index_type,
+    target_dialog: dialog_index_type,
   )
 
 dialog_incomplete_object_type = (
@@ -96,29 +99,29 @@ dialog_incomplete_object_type = (
   )
 
 attachment_object_type = {
-    type: tstr,
-    start: date_type,
+    purpose: tstr,
+    ? start: date_type,
     party: party_index_type,
+    dialog: dialog_index_type,
     content_parameters_type,
     (inline_content_type // url_referenced_content_type),
-    extension_object_type 
+    extension_object_type
   }
 
 analysis_object_type = {
     type: tstr,
-    dialog: dialog_index_type,
+    ? dialog: dialog_index_type / [* dialog_index_type],
     content_parameters_type,
-    ? vendor: tstr,
+    vendor: tstr,
     ? product: tstr,
     ? schema: tstr,
     (inline_content_type // url_referenced_content_type),
-    extension_object_type 
+    extension_object_type
   }
 
 url_referenced_content_type = (
     url_type,
-    signature_algorithm_type,
-    signature_type
+    content_hash_type
   )
 
 inline_content_type = (
@@ -126,17 +129,17 @@ inline_content_type = (
   )
 
 text_body_type = (
-    encoding: "none" / "json"
+    encoding: "none" / "json",
     body: tstr
   )
 
 binary_body_type = (
-    encoding: "base64url"
+    encoding: "base64url",
     body: #6.21(bstr)
   )
 
 content_parameters_type = (
-    ? mime_type,
+    ? mediatype_type,
     ? filename: tstr,
   )
 
@@ -187,22 +190,20 @@ extension_object_type = (
    * tstr => any
   )
 
-mime_type = (
-    mimetype: tstr
+mediatype_type = (
+    mediatype: tstr
+  )
+
+; content_hash: "sha512-" followed by base64url-encoded SHA-512 digest.
+; May be a single string or an array of such strings.
+content_hash_type = (
+    content_hash: tstr / [+ tstr]
   )
 
 party_index_or_list_type =
     party_index_type / [* party_index_type]
 
 party_index_type = uint
-
-signature_algorithm_type = (
-    alg: tstr
-  )
-
-signature_type = (
-    signature: tstr
-  )
 
 uuid_type = (
     uuid: tstr
