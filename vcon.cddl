@@ -133,9 +133,11 @@ text_body_type = (
     body: tstr
   )
 
+; In JSON serialization the base64url body is a plain text string.
+; In CBOR serialization it is tag 21 wrapping a byte string (RFC 8949).
 binary_body_type = (
     encoding: "base64url",
-    body: #6.21(bstr)
+    body: tstr / #6.21(bstr)
   )
 
 content_parameters_type = (
