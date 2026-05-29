@@ -3,7 +3,7 @@ vcon = {
     vcon_version_type,
     uuid_type,
     ? subject: tstr,
-    ? created_at: date_type,
+    created_at: date_type,
     ? updated_at: date_type,
     ? extensions: [* tstr],
     ? critical: [* tstr],
@@ -37,24 +37,23 @@ vcon_url_content_hash_type = {
 
 party_object_type = {
     ? tel: tstr,
-    ? str: tstr,
+    ? sip: tstr,
+    ? stir: tstr,
     ? mailto: tstr,
     ? name: tstr,
     ? validation: tstr,
+    ? did: tstr,
     ? gmlpos: tstr,
     ? civicaddress: civicaddress_type,
     ? uuid_type,
-    ? role: tstr,
-    extension_object_type 
+    extension_object_type
   }
 
 dialog_object_type = {
     start: date_type,
     ? party_history: [* party_event_type],
     (dialog_recording_object_type // dialog_text_object_type // dialog_transfer_object_type // dialog_incomplete_object_type),
-    ? campaign: tstr,
-    ? interaction: tstr,
-    extension_object_type 
+    extension_object_type
   }
 
 vcon_uuid_reference_type = {
@@ -147,9 +146,11 @@ content_parameters_type = (
 
 party_event_type = {
     party: party_index_type,
-    event: "join" / "drop" / "hold" / "unhold" / "mute" / "unmute",
+    event: "join" / "drop" / "hold" / "unhold" / "mute" / "unmute" / "keydown" / "keyup",
     time: date_type,
-    extension_object_type 
+    ; button is required for keydown and keyup events.
+    ? button: tstr,
+    extension_object_type
   }
 
 civicaddress_type = {
