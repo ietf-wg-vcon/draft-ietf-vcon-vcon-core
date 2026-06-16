@@ -116,6 +116,9 @@ Table of Contents
        4.2.8.  gmlpos
        4.2.9.  civicaddress
        4.2.10. uuid
+       4.2.11. type
+       4.2.12. org
+       4.2.13. dept
      4.3.  Dialog Object
        4.3.1.  type
        4.3.2.  start
@@ -142,12 +145,13 @@ Table of Contents
      4.5.  Analysis Object
        4.5.1.  type
        4.5.2.  dialog
-       4.5.3.  mediatype
-       4.5.4.  filename
-       4.5.5.  vendor
-       4.5.6.  product
-       4.5.7.  schema
-       4.5.8.  Analysis Content
+       4.5.3.  attachment
+       4.5.4.  mediatype
+       4.5.5.  filename
+       4.5.6.  vendor
+       4.5.7.  product
+       4.5.8.  schema
+       4.5.9.  Analysis Content
    5.  Security Considerations
      5.1.  Signing Externally Referenced Files
      5.2.  Signed Form of vCon Object
@@ -1076,6 +1080,33 @@ Table of Contents
 
    *  uuid: "String" (optional)
 
+4.2.11.  type
+
+   There are different types of parties that participate in or
+   contribute information to a conversation.  The type parameter may be
+   used to indicate the type of participant represented by the Party
+   Object.
+
+   *  type: "String" (optional)
+
+   The value of the type parameter SHOULD be one of the following:
+   "person", "bot", "organization"
+
+4.2.12.  org
+
+   The party may belong to or be an organization.  The org parameter is
+   a free form text string for containing the organization identifier.
+
+   *  org: "String" (optional)
+
+4.2.13.  dept
+
+   The party may belong to a department withing an organization.  The
+   dept parameter is a free form text string for containing the party's
+   department identifier.
+
+   *  dept: "String" (optional)
+
 4.3.  Dialog Object
 
    The Dialog object references or contains text, audio or video
@@ -1566,9 +1597,16 @@ Table of Contents
 4.4.3.  party
 
    In most conversations, ancillary documents originate from one of the
-   parties to the conversation.  This is not necessarily the author, but
-   the person who distributed the document.  This party is identified by
-   the party parameter in the Attachment Object.
+   parties involved in the conversation.  This party is not necessarily
+   the document's author, but rather the party that distributed the
+   document.  The distributing party is identified by the party
+   parameter in the Attachment Object.  To provide provenance for the
+   attachment, the party index MUST be specified.  The identified party
+   need not be a participant in the conversation itself.  For example,
+   an organization that processes or constructs the vCon may add
+   attachments containing information about the conversation.  The
+   organization or entity that adds the attachment SHOULD be represented
+   as a Party Object.
 
    *  party: "UnsignedInt"
 
@@ -1675,7 +1713,20 @@ Table of Contents
    of indices to the Dialog Object array to which this analysis object
    corresponds.
 
-4.5.3.  mediatype
+4.5.3.  attachment
+
+   The analysis may pertain to one or more of the Attachment Objects in
+   the attachment array.  The attachment parameter is used to indicate
+   which Attachement Objects this analysis was based upon.
+
+   *  attachment: "UnsignedInt" | "UnsignedInt[]" (optional only if the
+      analysis was not derived from any of the attachments)
+
+   The value of the attachment parameter is the index to the attachment
+   or array of indices to the Attachment Object array to which this
+   analysis object corresponds.
+
+4.5.4.  mediatype
 
    The media type for the included or referenced analysis file is
    provided in the mediatype parameter.
@@ -1686,7 +1737,7 @@ Table of Contents
    The mediatype string contains the media type or [MIME] type of the
    analysis file.
 
-4.5.4.  filename
+4.5.5.  filename
 
    It is sometimes useful to preserve the name of the file which
    originally contained this analysis data.  This can be done in the
@@ -1697,7 +1748,7 @@ Table of Contents
    The file name string contains an optional name for the analysis data
    file referenced in this Analysis Object.
 
-4.5.5.  vendor
+4.5.6.  vendor
 
    There may not be a IANA registered media type for the file format
    containing the analysis data.  Even if a media type is defined, it is
@@ -1712,7 +1763,7 @@ Table of Contents
    The vendor string value contains the vendor or product name of the
    software which generated this analysis.
 
-4.5.6.  product
+4.5.7.  product
 
    As the vendor may have more than one product, the product parameter
    may be used to differentiate it from other products which may have
@@ -1720,7 +1771,7 @@ Table of Contents
 
    *  product: "string" (optional)
 
-4.5.7.  schema
+4.5.8.  schema
 
    The same vendor or software product may produce different formats or
    data for the same analysis.  The schema parameter allows the data
@@ -1735,7 +1786,7 @@ Table of Contents
    provide to differentiate from potentially multiple data formats for
    analysis provided by the same vendor or software.
 
-4.5.8.  Analysis Content
+4.5.9.  Analysis Content
 
    The Analysis Object SHOULD contain the body and encoding parameters
    or the url and content_hash parameters (see Inline Files
@@ -2276,39 +2327,48 @@ Table of Contents
    Template (Section 6.3.1) when registering additional entries to this
    table.
 
-      +================+=============+============+================+
-      | Parameter Name | Parameter   | Change     | Specification  |
-      |                | Description | Controller | Document(s)    |
-      +================+=============+============+================+
-      | tel            | tel URL     | IESG       | Section 4.2.1  |
-      |                |             |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | sip            | SIP URL     | IESG       | Section 4.2.1  |
-      |                |             |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | stir           | STIR token  | IESG       | Section 4.2.3  |
-      |                |             |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | mailto         | mailto URL  | IESG       | Section 4.2.4  |
-      |                |             |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | name           | participant | IESG       | Section 4.2.5  |
-      |                | name        |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | validation     | validation  | IESG       | Section 4.2.7  |
-      |                | method      |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | gmlpos         | participant | IESG       | Section 4.2.8  |
-      |                | geolocation |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | civicaddress   | civic       | IESG       | Section 4.2.9  |
-      |                | address     |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
-      | uuid           | participant | IESG       | Section 4.2.10 |
-      |                | UUID        |            | RFC XXXX       |
-      +----------------+-------------+------------+----------------+
+      +================+==============+============+================+
+      | Parameter Name | Parameter    | Change     | Specification  |
+      |                | Description  | Controller | Document(s)    |
+      +================+==============+============+================+
+      | tel            | tel URL      | IESG       | Section 4.2.1  |
+      |                |              |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | sip            | SIP URL      | IESG       | Section 4.2.1  |
+      |                |              |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | stir           | STIR token   | IESG       | Section 4.2.3  |
+      |                |              |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | mailto         | mailto URL   | IESG       | Section 4.2.4  |
+      |                |              |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | name           | participant  | IESG       | Section 4.2.5  |
+      |                | name         |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | validation     | validation   | IESG       | Section 4.2.7  |
+      |                | method       |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | gmlpos         | participant  | IESG       | Section 4.2.8  |
+      |                | geolocation  |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | civicaddress   | civic        | IESG       | Section 4.2.9  |
+      |                | address      |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | uuid           | participant  | IESG       | Section 4.2.10 |
+      |                | UUID         |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | type           | participant  | IESG       | Section 4.2.11 |
+      |                | type         |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | org            | participant  | IESG       | Section 4.2.12 |
+      |                | organization |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
+      | dept           | participant  | IESG       | Section 4.2.13 |
+      |                | department   |            | RFC XXXX       |
+      +----------------+--------------+------------+----------------+
 
-                                 Table 2
+                                  Table 2
 
 6.3.4.  Dialog Object Parameter Names Registry
 
@@ -2609,31 +2669,34 @@ Table of Contents
    | dialog         | associated dialog   | IESG       | Section 4.5.2 |
    |                | index               |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | mediatype      | analysis body media | IESG       | Section 4.5.3 |
+   | attachment     | associated          | IESG       | Section 4.5.3 |
+   |                | attachment index    |            | RFC XXXX      |
+   +----------------+---------------------+------------+---------------+
+   | mediatype      | analysis body media | IESG       | Section 4.5.4 |
    |                | type                |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | filename       | analysis content    | IESG       | Section 4.5.4 |
+   | filename       | analysis content    | IESG       | Section 4.5.5 |
    |                | filename            |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | vendor         | vendor producing    | IESG       | Section 4.5.5 |
+   | vendor         | vendor producing    | IESG       | Section 4.5.6 |
    |                | content             |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | product        | vendor product      | IESG       | Section 4.5.6 |
+   | product        | vendor product      | IESG       | Section 4.5.7 |
    |                | producing content   |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | schema         | product schema of   | IESG       | Section 4.5.7 |
+   | schema         | product schema of   | IESG       | Section 4.5.8 |
    |                | content             |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | body           | analysis inline     | IESG       | Section 4.5.8 |
+   | body           | analysis inline     | IESG       | Section 4.5.9 |
    |                | content             |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | encoding       | analysis inline     | IESG       | Section 4.5.8 |
+   | encoding       | analysis inline     | IESG       | Section 4.5.9 |
    |                | content encoding    |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | url            | analysis referenced | IESG       | Section 4.5.8 |
+   | url            | analysis referenced | IESG       | Section 4.5.9 |
    |                | content URL         |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
-   | content_hash   | analysis content    | IESG       | Section 4.5.8 |
+   | content_hash   | analysis content    | IESG       | Section 4.5.9 |
    |                | hash                |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
 
