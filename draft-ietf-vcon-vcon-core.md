@@ -751,6 +751,29 @@ In a contact center, this is particularly important for the call agent participa
 * uuid: "String" (optional)
 
 
+### type {#party-type}
+
+There are different types of parties that participate in or contribute information to a conversation.
+The type parameter may be used to indicate the type of participant represented by the Party Object.
+
+* type: "String" (optional)
+
+The value of the type parameter SHOULD be one of the following: "person", "bot", "organization"
+
+### org {#party-org}
+
+The party may belong to or be an organization.
+The org parameter is a free form text string for containing the organization identifier.
+
+* org: "String" (optional)
+
+### dept {#party-dept}
+
+The party may belong to a department withing an organization.
+The dept parameter is a free form text string for containing the party's department identifier.
+
+* dept: "String" (optional)
+
 ## Dialog Object
 
 The Dialog object references or contains text, audio or video captured from the conversation.
@@ -1622,6 +1645,10 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
 | civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
 | uuid | participant UUID | IESG | [](#party-uuid) RFC XXXX |
+| type | participant type | IESG | [](#party-type) RFC XXXX |
+| org | participant organization | IESG | [](#party-org) RFC XXXX |
+| dept | participant department | IESG | [](#party-dept) RFC XXXX |
+
 
 ### Dialog Object Parameter Names Registry
 
