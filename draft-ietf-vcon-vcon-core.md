@@ -1197,6 +1197,15 @@ The dialog parameter is used to indicate which Dialog Objects this analysis was 
 
 The value of the dialog parameter is the index to the dialog or array of indices to the Dialog Object array to which this analysis object corresponds.
 
+### attachment {#analysis-attachment}
+
+The analysis may pertain to one or more of the Attachment Objects in the attachment array.
+The attachment parameter is used to indicate which Attachement Objects this analysis was based upon.
+
+* attachment: "UnsignedInt" \| "UnsignedInt\[\]" (optional only if the analysis was not derived from any of the attachments)
+
+The value of the attachment parameter is the index to the attachment or array of indices to the Attachment Object array to which this analysis object corresponds.
+
 ### mediatype {#analysis-mediatype}
 
 The media type for the included or referenced analysis file is provided in the mediatype parameter.
@@ -1804,6 +1813,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | --- | --- | --- | --- |
 | type | analysis type | IESG | [](#analysis-type) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
+| attachment | associated attachment index | IESG | [](#analysis-attachment) RFC XXXX |
 | mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
 | filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
 | vendor | vendor producing content | IESG | [](#vendor) RFC XXXX |
