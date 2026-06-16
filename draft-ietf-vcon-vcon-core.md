@@ -769,7 +769,7 @@ The org parameter is a free form text string for containing the organization ide
 
 ### dept {#party-dept}
 
-The party may belong to a department withing an organization.
+The party may belong to a department with in an organization.
 The dept parameter is a free form text string for containing the party's department identifier.
 
 * dept: "String" (optional)
@@ -1177,8 +1177,6 @@ The type parameter is used to label the semantic type of analysis data.
 
 * type: "String"
 
-TODO:  this list is not sufficient.  Do we enforce a specific set of tokens.  Seems like analysis has a pretty huge set of possibilities.
-
 The string value SHOULD be one of the following:
 
   * "report"
@@ -1200,7 +1198,7 @@ The value of the dialog parameter is the index to the dialog or array of indices
 ### attachment {#analysis-attachment}
 
 The analysis may pertain to one or more of the Attachment Objects in the attachment array.
-The attachment parameter is used to indicate which Attachement Objects this analysis was based upon.
+The attachment parameter is used to indicate which Attachment Objects this analysis was based upon.
 
 * attachment: "UnsignedInt" \| "UnsignedInt\[\]" (optional only if the analysis was not derived from any of the attachments)
 
