@@ -1084,9 +1084,13 @@ Attachment Objects in the attachments array are in order that they were added to
 
 ### party
 
-In most conversations, ancillary documents originate from one of the parties to the conversation.
-This is not necessarily the author, but the person who distributed the document.
-This party is identified by the party parameter in the Attachment Object.
+In most conversations, ancillary documents originate from one of the parties involved in the conversation.
+This party is not necessarily the document's author, but rather the party that distributed the document.
+The distributing party is identified by the party parameter in the Attachment Object.
+To provide provenance for the attachment, the party index MUST be specified.
+The identified party need not be a participant in the conversation itself.
+For example, an organization that processes or constructs the vCon may add attachments containing information about the conversation.
+The organization or entity that adds the attachment SHOULD be represented as a Party Object.
 
 * party: "UnsignedInt"
 
