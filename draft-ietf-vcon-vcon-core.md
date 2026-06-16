@@ -1844,21 +1844,9 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 
 * Header Parameter Name: "uuid"
 * Header Parameter Description: UUID of the signed object
-* Header Parameter Usage Location(s): JWS
+* Header Parameter Usage Location(s): JWS, JWE
 * Change Controller: IESG
-* Specification Document(s): [Header Object](#header-object) of RFC XXXX
-
-## JSON Web Signature and Encryption Unprotected Parameters
-
-TODO: cannot find this registry
-
-This document registers the following new parameter in the [JWS] JSON Web Signature and Encryption Unprotected Parameters registry.
-
-* Header Parameter Name: "uuid"
-* Header Parameter Description: UUID of the encrypted object
-* Header Parameter Usage Location(s): JWE
-* Change Controller: IESG
-* Specification Document(s): [Header Object](#unprotected-object) of RFC XXXX
+* Specification Document(s): [Header Object](#header-object), [Header Object](#unprotected-object) of RFC XXXX
 
 # Non-Upward Compatible Changes to the vCon Container {#name-non-upward-compatible-changes-to-the-vcon-container}
 
