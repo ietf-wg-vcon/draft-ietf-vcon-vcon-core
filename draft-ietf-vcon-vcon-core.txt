@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         26 January 2026
-Expires: 30 July 2026
+Intended status: Standards Track                            16 June 2026
+Expires: 18 December 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 July 2026.
+   This Internet-Draft will expire on 18 December 2026.
 
 Copyright Notice
 
@@ -176,7 +176,6 @@ Table of Contents
      6.4.  vCon Extensions Names Registry
        6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
-     6.6.  JSON Web Signature and Encryption Unprotected Parameters
    7.  Non-Upward Compatible Changes to the vCon Container
      7.1.  Version 0.3.0 to 0.4.0
      7.2.  Version 0.0.2 to 0.3.0
@@ -2732,30 +2731,12 @@ Table of Contents
 
    *  Header Parameter Description: UUID of the signed object
 
-   *  Header Parameter Usage Location(s): JWS
+   *  Header Parameter Usage Location(s): JWS, JWE
 
    *  Change Controller: IESG
 
-   *  Specification Document(s): Header Object (Section 5.2.2) of RFC
-      XXXX
-
-6.6.  JSON Web Signature and Encryption Unprotected Parameters
-
-   TODO: cannot find this registry
-
-   This document registers the following new parameter in the [JWS] JSON
-   Web Signature and Encryption Unprotected Parameters registry.
-
-   *  Header Parameter Name: "uuid"
-
-   *  Header Parameter Description: UUID of the encrypted object
-
-   *  Header Parameter Usage Location(s): JWE
-
-   *  Change Controller: IESG
-
-   *  Specification Document(s): Header Object (Section 5.3.1) of RFC
-      XXXX
+   *  Specification Document(s): Header Object (Section 5.2.2), Header
+      Object (Section 5.3.1) of RFC XXXX
 
 7.  Non-Upward Compatible Changes to the vCon Container
 
@@ -2930,7 +2911,7 @@ Table of Contents
    [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
               A., Peterson, J., Sparks, R., Handley, M., and E.
               Schooler, "SIP: Session Initiation Protocol", RFC 3261,
-              DOI 10.17487/RFC3261, June 2002,
+              DOI 10.17487/RFC3261, July 2002,
               <https://www.rfc-editor.org/rfc/rfc3261>.
 
    [SIP-XFER] Sparks, R., Johnston, A., Ed., and D. Petrie, "Session
@@ -2952,8 +2933,8 @@ Table of Contents
    [vCon-white-paper]
               Howe, T., Petrie, D., Lieberman, M., and A. Quayle, "vCon:
               an Open Standard for Conversation Data", n.d.,
-              <https://github.com/vcon-dev/vcon/blob/main/docs/vCons_%20
-              an%20Open%20Standard%20for%20Conversation%20Data.pdf>.
+              <https://github.com/vcon-dev/vcon/blob/main/docs/
+              vCons_%20an%20Open%20Standard%20for%20Conversation%20Data.pdf>.
 
 Appendix A.  Example vCons
 
