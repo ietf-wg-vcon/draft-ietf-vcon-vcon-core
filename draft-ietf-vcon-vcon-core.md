@@ -857,6 +857,7 @@ The index for the Party Object SHOULD be included even if the indicated party wa
 Multi-channel recordings MUST have a parties value that is an array of the same size as the number of channels in the recording.
 The values in that array are either an integer or an array of integers which are the indices to the parties that contributed to the mix for the associated channel of the recording.
 The index for Party Objects SHOULD be included even if the party was silent the entire conversation.
+If not all channels are used in a recording, such that no parties are recorded on one or more channels, a null placeholder MUST be inserted into the parties array for the corresponding channel.
 
 It is implied that the first party in the dialog Object parties list, is the originator of the dialog.
 However, in some situations, it is difficult to impose the constraint that the first channel of a recording is the originator.
