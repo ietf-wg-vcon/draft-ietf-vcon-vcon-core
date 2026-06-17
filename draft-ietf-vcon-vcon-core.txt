@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                            16 June 2026
-Expires: 18 December 2026
+Intended status: Standards Track                            17 June 2026
+Expires: 19 December 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 December 2026.
+   This Internet-Draft will expire on 19 December 2026.
 
 Copyright Notice
 
@@ -1236,7 +1236,10 @@ Table of Contents
    which are the indices to the parties that contributed to the mix for
    the associated channel of the recording.  The index for Party Objects
    SHOULD be included even if the party was silent the entire
-   conversation.
+   conversation.  If not all channels are used in a recording, such that
+   no parties are recorded on one or more channels, a null placeholder
+   MUST be inserted into the parties array for the corresponding
+   channel.
 
    It is implied that the first party in the dialog Object parties list,
    is the originator of the dialog.  However, in some situations, it is
