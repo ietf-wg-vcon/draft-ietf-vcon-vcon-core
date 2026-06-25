@@ -210,7 +210,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["recording", "text", "transfer", "incomplete"],
+          "enum": ["recording", "text", "transfer", "incomplete", "recording-set"],
           "description": "Type of dialog"
         },
         "start": {
@@ -346,6 +346,15 @@
         "message_id": {
           "type": "string",
           "description": "Unique message identifier from the messaging system"
+        },
+        "recording_set": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the recording-set Dialog Object that this recording is a part of"
+        },
+        "recordings": {
+          "type": "array", "items": {"type": "integer", "minimum": 0},
+          "description": "recording-set reference to list of indices to recording Dialog Objects"
         }
       }
     },

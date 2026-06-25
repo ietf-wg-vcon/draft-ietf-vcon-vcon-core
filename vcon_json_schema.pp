@@ -251,7 +251,7 @@
         "type": {
           "type": "string",
           "enum": ["recording", "text", "transfer", "incomplete"
-            ],
+            , "recording-set"],
           "description": "Type of dialog"
         },
         "start": {
@@ -412,6 +412,18 @@
           "type": "string",
           "description": "Unique message identifier from the mes
             saging system"
+        },
+        "recording_set": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the recording-set Dialog Obje
+            ct that this recording is a part of"
+        },
+        "recordings": {
+          "type": "array", "items": {"type": "integer", "minimum
+            ": 0},
+          "description": "recording-set reference to list of ind
+            ices to recording Dialog Objects"
         }
       }
     },

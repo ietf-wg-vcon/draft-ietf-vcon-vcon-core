@@ -777,12 +777,13 @@ The dept parameter is a free form text string for containing the party's departm
 ## Dialog Object
 
 The Dialog object references or contains text, audio or video captured from the conversation.
-Currently four types of dialog objects are defined in this document:
+Currently five types of dialog objects are defined in this document:
 
 * Text based media communications
 * Audio or Video recorded media communications
 * Metadata for failed or incompleted communications
 * Metadata for providing relationships between other Dialog Objects in transfer scenarios
+* Metadata for providing relationships between recording Dialog Objects in recording-set scenarios
 
 Media-based Dialog Objects (type text and recording) SHOULD contain only media that is transcribable.
 Media that is transcribable can be converted into a textual representation of sequential communication between parties.
@@ -799,7 +800,7 @@ Most other faxes and photographs SHOULD be included as Attachment Objects and SH
 Similarly, a musical recording, even if it is in MP3 audio format, SHOULD be included as an Attachment and SHOULD NOT be included as a Dialog Object.
 
 It may not always be known at the time of vCon construction whether an image or recording is transcribable.
-When uncertain, the default SHOULD be to include images as Attachment Objects and audio or video recordings as Dialog Objects.
+
 
 This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.
@@ -814,22 +815,25 @@ They are distinct by the order or index in the Dialog Object array.
 
 * type: "String"
 
-The sting MUST have the value of either "recording", "text", "transfer" or "incomplete".
+The sting MUST have the value of either "recording", "recording-set", "text", "transfer" or "incomplete".
 A dialog of type "recording" has Dialog Content that either contains a body or refers to via url, which is a recording of the video and/or audio of a segment of the conversation.
+A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
 A dialog of type "text" had  has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.
 A dialog of type "transfer" does not capture actual conversation exchange, but rather captures operations, parties and relations between dialog segments.
-A dialog of type "incomplete" or "transfer" MUST NOT have Dialog Content.
+A dialog of type "incomplete", "transfer" or "recording-set" MUST NOT have Dialog Content.
 In the "incomplete" case the call or conversation failed to be setup to the point of exchanging any conversation.
 Incomplete Dialog Objects MUST have a disposition parameter which indicates why the call or conversations failed.
 In the "transfer" case, the conversation is recorded in other Dialog Objects.
-The Dialog Transfer parameters, are used to show the roles and relationships between the parties and other Dialog Objects as the transfer process occurred.
-
+In the "recording-set" case, the conversation is recorded in one or more "recording" Dialog Objects.
+The Dialog Transfer parameters are used to show the roles and relationships between the parties and other Dialog Objects as the transfer process occurred.
+The recording-set parameters are used to identify the set of "recording" Dialog Objects that collectively represent a call or session.
 
 ### start {#dialog-start}
 
 The start parameter contains the date and time for the beginning of the captured piece of dialog.
 For text it is the time that the party started typing or if not available, then it is the time the text was sent.
 For audio and video recordings, it is the time which corresponds to the beginning of the recording.
+For a recording-set Dialog Object, it is the time corresponding to the beginning of the call or session.
 It should be noted that Dialog Objects may not be ordered by the value of the start parameter.
 Dialog Objects in the dialog array are in order that they were added to the vCon and cannot be reordered with out correcting the dialog indices which occur in other Objects in the vCon.
 
@@ -840,6 +844,8 @@ Dialog Objects in the dialog array are in order that they were added to the vCon
 The duration parameter contains the duration in seconds of the referenced or included piece of dialog.
 For text, if known, it is the time duration from when the party started typing to when they completed typing and the text was sent.
 For recordings, it is the duration of the recording.
+For a recording-set Dialog Object, it is the duration of the call or session.
+The start and duration parameters of a recording-set Dialog Object identify the complete time interval represented by the associated recording Dialog Objects.
 
 * duration: "UnsignedInt" \| "UnsignedFloat" (optional)
 
@@ -858,6 +864,17 @@ Multi-channel recordings MUST have a parties value that is an array of the same 
 The values in that array are either an integer or an array of integers which are the indices to the parties that contributed to the mix for the associated channel of the recording.
 The index for Party Objects SHOULD be included even if the party was silent the entire conversation.
 If not all channels are used in a recording, such that no parties are recorded on one or more channels, a null placeholder MUST be inserted into the parties array for the corresponding channel.
+
+Some recording systems represent a single call or session using multiple recording Dialog Objects.
+This may occur when recordings are periodically segmented or when separate recordings are created for each party and talk spurt.
+In these cases, a single recording Dialog Object identifies only the parties captured, or potentially captured, in that recording.
+Other participants are identified only in the recording Dialog Objects in which they are captured or potentially captured.
+As a result, no single recording Dialog Object necessarily identifies all parties participating in the conversation.
+Similarly, party_events need to be associated with a Dialog Object, but a recording Dialog Object may not exist for the point in time at which the event occurs.
+A recording-set Dialog Object MAY be used to represent the complete call or session.
+The start parameter of a recording-set Dialog Object identifies the beginning of the call or session.
+The duration parameter of a recording-set Dialog Object identifies the duration of the call or session.
+The parties parameter of a recording-set Dialog Object SHOULD contain all parties known to participate in the call or session, regardless of whether they contribute recorded media.
 
 It is implied that the first party in the dialog Object parties list, is the originator of the dialog.
 However, in some situations, it is difficult to impose the constraint that the first channel of a recording is the originator.
@@ -885,6 +902,25 @@ The originator parameter is only provided if the first party of the dialog Objec
 * originator: "UnsignedInt" (optional)
 
 The originator value is the index into the parties Objects Array, to the party that originated the dialog.
+
+### recordings {#dialog-recordings}
+
+The recordings parameter identifies the recording Dialog Objects that are part of the recording-set Dialog Object.
+
+* recordings: "UnsignedInt[]"
+
+The recordings parameter contains the indices of all recording Dialog Objects that are part of the recording-set.
+The recordings parameter MUST be present in recording-set Dialog Objects.
+The recordings parameter MUST NOT be present in other Dialog Object types.
+
+### recording_set
+
+The recording_set parameter identifies the recording-set Dialog Object to which the recording Dialog Object belongs.
+
+* recording_set: "UnsignedInt" (optional if not part of a recording-set)
+
+The recording_set parameter SHOULD be present when a recording Dialog Object is part of a recording-set Dialog Object.
+The recording_set parameter MUST NOT be present in other Dialog Object types.
 
 ### mediatype {#dialog-mediatype}
 
@@ -917,8 +953,8 @@ This can be done in the filename parameter.
 ### Dialog Content
 
 The Dialog Object SHOULD contain the body and encoding parameters or the url and content_hash parameters for
-all dialog types other than "incomplete" and "transfer", these parameters MUST NOT be present for
-"incomplete" or "transfer" dialog types (see [Inline Files](#inline-files) and
+all dialog types other than "incomplete", "transfer" and "recording-set", these parameters MUST NOT be present for
+"incomplete", "transfer" or "recording-set" dialog types (see [Inline Files](#inline-files) and
 [Externally Referenced Files](#externally-referenced-files)).
 The exception to this is that the body or url MAY be absent if it is redacted.
 
@@ -1687,6 +1723,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | target_dialog | target_dialog transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
 | application | dialog source application | IESG | [](#application) RFC XXXX |
 | message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
+| recordings | multi recording dialog reference | IESG | [](#dialog-recordings) RFC XXXX |
+| recording_set | recording_set dialog reference | IESG | [](#recording_set) RFC XXXX |
 
 #### Dialog Type Name Registry
 
@@ -1727,6 +1765,7 @@ The following table defines the initial values for the Dialog Object Types Regis
 | recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
 | transfer | transfer dialog | IESG | [](#dialog-type) RFC XXXX |
 | incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
+| recording-set | multi-recording dialog | IESG | [](#dialog-type) RFC XXXX |
 
 
 ### party_history Object Parameter Names Registry
@@ -2033,6 +2072,8 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 ~~~
 {::include examples/ab_call_ext_rec_amended.pp}
 ~~~
+
+TODO:  recording-set example with party_history
 
 # vCon JSON Schema
 
