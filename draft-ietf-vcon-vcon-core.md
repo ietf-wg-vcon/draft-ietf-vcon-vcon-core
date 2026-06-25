@@ -913,7 +913,7 @@ The recordings parameter contains the indices of all recording Dialog Objects th
 The recordings parameter MUST be present in recording-set Dialog Objects.
 The recordings parameter MUST NOT be present in other Dialog Object types.
 
-### recording_set
+### recording_set {#dialog-recording-set}
 
 The recording_set parameter identifies the recording-set Dialog Object to which the recording Dialog Object belongs.
 
@@ -1724,7 +1724,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | application | dialog source application | IESG | [](#application) RFC XXXX |
 | message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
 | recordings | multi recording dialog reference | IESG | [](#dialog-recordings) RFC XXXX |
-| recording_set | recording_set dialog reference | IESG | [](#recording_set) RFC XXXX |
+| recording_set | recording_set dialog reference | IESG | [](#dialog-recording-set) RFC XXXX |
 
 #### Dialog Type Name Registry
 
@@ -2104,6 +2104,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 * Thank you to Marc Petit-Huguenin for sorting out session_id.
 * Thank you to Rob Sliwa for helping to review and test the JSON Schema.
 * Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrity for long term storage of signed vCons.
+* Thank you to Scott Godin for the idea and help on designing the multi-segment recording metadata concept for recording-set.
 
 
 
