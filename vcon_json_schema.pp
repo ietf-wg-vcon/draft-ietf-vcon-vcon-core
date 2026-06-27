@@ -3,15 +3,15 @@
   "$id": "https://ietf.org/vcon/schemas/unsigned-vcon.json",
   "title": "vCon - Unsigned Form",
   "description": "JSON schema for the unsigned form of vCon (Con
-    versational Data Container) as defined in draft-ietf-vcon-vco
-    n-core-01, sections 1-4",
+    versational Data Container) as defined in RFCXXXX",
   "type": "object",
-  "required": ["uuid", "created_at", "parties"],
+  "required": ["uuid", "created_at"],
   "properties": {
     "vcon": {
       "type": "string",
       "description": "DEPRECATED: Syntactic version of the JSON 
-        format. For this document, must be '0.4.0'",
+        format. This was used to indicate schema changes in the I
+        nternet-Draft versions'",
       "const": "0.4.0"
     },
     "uuid": {
@@ -22,17 +22,16 @@
     },
     "extensions": {
       "type": "array",
-      "description": "List of names of all vCon extensions for a
-        ny parameters not defined in the core schema",
+      "description": "List of names of all vCon extensions used 
+        by this vCon",
       "items": {
         "type": "string"
       }
     },
     "critical": {
       "type": "array",
-      "description": "List of extension names that are incompati
-        ble with the core vCon schema and require explicit suppor
-        t",
+      "description": "List of extension names that a consumer MU
+        ST support to safely process this vCon",
       "items": {
         "type": "string"
       }
@@ -56,13 +55,13 @@
     "redacted": {
       "type": "object",
       "description": "Reference to the unredacted or less redact
-        ed vCon instance version",
+        ed vCon prior instance",
       "required": ["uuid", "type"],
       "properties": {
         "uuid": {
           "type": "string",
-          "description": "UUID of the unredacted/prior vCon inst
-            ance version",
+          "description": "UUID of the unredacted or less redacte
+            d vCon prior instance",
           "format": "uuid"
         },
         "type": {
@@ -110,16 +109,6 @@
           "description": "Hash(es) of the external content (requ
             ired if url is provided)"
         }
-      }
-    },
-    "group": {
-      "type": "array",
-      "description": "Array of related vCons that aggregate into
-         this conversation",
-      "items": {
-        "type": "object",
-        "description": "Group Object - details not fully specifi
-          ed in sections 1-4"
       }
     },
     "parties": {
@@ -205,6 +194,20 @@
           "type": "string",
           "description": "Unique identifier for the participant",
           "format": "uuid"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["person", "bot", "organization"],
+          "description": "Particiant type"
+        },
+        "org": {
+          "type": "string",
+          "description": "Organization to which the party belong
+            s"
+        },
+        "dept": {
+          "type": "string",
+          "description": "Department to which the party belongs"
         }
       }
     },
@@ -291,6 +294,18 @@
           "minimum": 0,
           "description": "Index of the originating party if firs
             t party is not the originator"
+        },
+        "recordings": {
+          "type": "array", "items": {"type": "integer", "minimum
+            ": 0},
+          "description": "recording-set reference to list of ind
+            ices to recording Dialog Objects"
+        },
+        "recording_set": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the recording-set Dialog Obje
+            ct that this recording is a part of"
         },
         "mediatype": {
           "type": "string",
@@ -412,18 +427,6 @@
           "type": "string",
           "description": "Unique message identifier from the mes
             saging system"
-        },
-        "recording_set": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Index of the recording-set Dialog Obje
-            ct that this recording is a part of"
-        },
-        "recordings": {
-          "type": "array", "items": {"type": "integer", "minimum
-            ": 0},
-          "description": "recording-set reference to list of ind
-            ices to recording Dialog Objects"
         }
       }
     },
@@ -552,6 +555,15 @@
           ],
           "description": "Index/indices of dialog objects this a
             nalysis is based on"
+        },
+        "attachment": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0},
+            {"type": "array", "items": {"type": "integer", "mini
+              mum": 0}}
+          ],
+          "description": "Index/indices of attachment objects th
+            is analysis is based on"
         },
         "mediatype": {
           "type": "string",
