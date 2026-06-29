@@ -11,7 +11,7 @@
       "type": "string",
       "description": "DEPRECATED: Syntactic version of the JSON 
         format. This was used to indicate schema changes in the I
-        nternet-Draft versions'",
+        nternet-Draft versions",
       "const": "0.4.0"
     },
     "uuid": {
@@ -56,7 +56,7 @@
       "type": "object",
       "description": "Reference to the unredacted or less redact
         ed vCon prior instance",
-      "required": ["uuid", "type"],
+      "required": ["type"],
       "properties": {
         "uuid": {
           "type": "string",
@@ -165,8 +165,7 @@
         },
         "mailto": {
           "type": "string",
-          "description": "MAILTO URL (RFC6068) for the party",
-          "format": "email"
+          "description": "email address for the party"
         },
         "name": {
           "type": "string",
@@ -192,13 +191,11 @@
         },
         "uuid": {
           "type": "string",
-          "description": "Unique identifier for the participant",
-          "format": "uuid"
+          "description": "Unique identifier for the participant"
         },
         "type": {
           "type": "string",
-          "enum": ["person", "bot", "organization"],
-          "description": "Particiant type"
+          "description": "Participant type"
         },
         "org": {
           "type": "string",
@@ -281,7 +278,8 @@
                 "anyOf": [
                   {"type": "integer", "minimum": 0},
                   {"type": "array", "items": {"type": "integer",
-                     "minimum": 0}}
+                     "minimum": 0}},
+                  {"type": "null"}
                 ]
               }
             }
@@ -347,7 +345,7 @@
              for incomplete type)"
         },
         "session_id": {
-          "oneOf": [
+          "anyOf": [
             {"$ref": "#/definitions/SessionId"},
             {"type": "array", "items": {"$ref": "#/definitions/S
               essionId"}},
@@ -393,27 +391,27 @@
         },
         "original": {
           "oneOf": [
-            {"type": "integer", "minimum": -1},
+            {"type": "integer", "minimum": 0},
             {"type": "array", "items": {"type": "integer", "mini
-              mum": -1}}
+              mum": 0}}
           ],
           "description": "Dialog index/indices of original conve
             rsation (for transfer type)"
         },
         "consultation": {
           "oneOf": [
-            {"type": "integer", "minimum": -1},
+            {"type": "integer", "minimum": 0},
             {"type": "array", "items": {"type": "integer", "mini
-              mum": -1}}
+              mum": 0}}
           ],
           "description": "Dialog index/indices of consultation (
             for transfer type)"
         },
         "target_dialog": {
           "oneOf": [
-            {"type": "integer", "minimum": -1},
+            {"type": "integer", "minimum": 0},
             {"type": "array", "items": {"type": "integer", "mini
-              mum": -1}}
+              mum": 0}}
           ],
           "description": "Dialog index/indices of target dialog 
             (for transfer type)"
@@ -434,7 +432,6 @@
       "type": "object",
       "description": "Session identifier with local and remote U
         UIDs",
-      "required": ["local", "remote"],
       "properties": {
         "local": {
           "type": "string",
