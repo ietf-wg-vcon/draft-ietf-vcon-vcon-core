@@ -397,7 +397,7 @@ The vCon may start with only meta data and party information, then progress to c
 It may then get analysis added or it could be passed to another security domain for analysis.
 
 A vCon may be constructed across several security domains.
-When a vCon is to be exported from one security domain to another, it SHOULD be signed or encyrpted by the domain that constructed it.
+When a vCon is to be exported from one security domain to another, it SHOULD be signed or encrypted by the domain that constructed it.
 The subsequent domain may have need to redact or amend data to the vCon.
 Alternatively the originating domain may want to redact the vCon before providing it to an other domain.
 The second or subsequent domain, MAY modify the prior vCon instance version and when complete or exporting to another security domain, it SHOULD sign or encrypt the new vCon instance version.
@@ -457,7 +457,7 @@ An implementation that does not recognize or support the extensions listed in th
 ### created_at {#created_at}
 
 The created_at parameter provides the creation time of this vcon, which MUST be present, and should not
-changed once the vcon object is created.
+change once the vcon object is created.
 
 * created_at: "Date"
 
@@ -818,7 +818,7 @@ They are distinct by the order or index in the Dialog Object array.
 The sting MUST have the value of either "recording", "recording-set", "text", "transfer" or "incomplete".
 A dialog of type "recording" has Dialog Content that either contains a body or refers to via url, which is a recording of the video and/or audio of a segment of the conversation.
 A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
-A dialog of type "text" had  has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.
+A dialog of type "text" has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.
 A dialog of type "transfer" does not capture actual conversation exchange, but rather captures operations, parties and relations between dialog segments.
 A dialog of type "incomplete", "transfer" or "recording-set" MUST NOT have Dialog Content.
 In the "incomplete" case the call or conversation failed to be setup to the point of exchanging any conversation.
@@ -1040,7 +1040,7 @@ The button parameter value is the String value of the DTMF digit, character or s
 
 ### Dialog Transfer
 
-A dialog of type "transfer" documents the rolls of three parties and the relationship between 2 or three dialog segments.
+A dialog of type "transfer" documents the roles of three parties and the relationship between 2 or three dialog segments.
 In a transfer operation, the roles of the three parties to a transfer are defined in [SIP-XFER] as:
 
 * Transferee
@@ -1068,7 +1068,7 @@ The value of the transferor parameter is the index into the parties Object array
 The value of the transfer_target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
 
 
-The consultation, target_dialog and transfer parameters all refer to the Dialog Objects that correspond to the 2 to 3 calls that are part of a transfer.
+The consultation, target_dialog and original parameters all refer to the Dialog Objects that correspond to the 2 to 3 calls that are part of a transfer.
 These calls may end up spread across multiple Dialog Objects due to the nature of how the calls are recorded.
 For example each party may be recorded in a separate file which will result in a dialog for each.
 Alternatively a call may go on hold where recording is stopped and back off again resulting where recording is started again in a separate recording file, resulting in multiple Dialog Objects.
