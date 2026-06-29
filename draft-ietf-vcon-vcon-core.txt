@@ -3092,7 +3092,6 @@ A.1.  Two Party Call vCon With Inline Recording
    vcon-core/refs/heads/main/examples/ab_call_int_rec.vcon
 
    {
-     "vcon": "0.0.2",
      "parties": [
        {
          "tel": "+12345678901",
@@ -3300,7 +3299,7 @@ A.1.  Two Party Call vCon With Inline Recording
      ],
      "analysis": [],
      "attachments": [],
-     "uuid": "0199decd-7187-8ef1-b9a2-279e0d16bc46"
+     "uuid": "019f155a-5131-80ec-b9a2-279e0d16bc46"
    }
 
 A.2.  Email Thread Multipart vCon
@@ -3314,7 +3313,6 @@ A.2.  Email Thread Multipart vCon
    vcon-core/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
 
    {
-     "vcon": "0.0.2",
      "group": [],
      "parties": [
        {
@@ -3436,10 +3434,10 @@ A.2.  Email Thread Multipart vCon
      ],
      "analysis": [],
      "attachments": [],
-     "created_at": "2025-03-02T00:39:02.990+00:00",
+     "created_at": "2026-06-29T23:03:01.095+00:00",
      "redacted": {},
      "subject": "Account problem",
-     "uuid": "0195544a-cc55-8d85-b9a2-279e0d16bc46"
+     "uuid": "019f159f-2cfb-8d95-b9a2-279e0d16bc46"
    }
 
 A.3.  Email Thread Text vCon
@@ -3454,7 +3452,6 @@ A.3.  Email Thread Text vCon
    ab_email_prob_followup_text_thread.vcon
 
    {
-     "vcon": "0.0.2",
      "group": [],
      "parties": [
        {
@@ -3523,10 +3520,10 @@ A.3.  Email Thread Text vCon
      ],
      "analysis": [],
      "attachments": [],
-     "created_at": "2025-03-02T00:39:04.591+00:00",
+     "created_at": "2026-06-29T23:11:16.017+00:00",
      "redacted": {},
      "subject": "Account issue followup",
-     "uuid": "0195544a-d292-8cda-b9a2-279e0d16bc46"
+     "uuid": "019f15a6-ba37-8ed3-b9a2-279e0d16bc46"
    }
 
 A.4.  Two Party Call vCon With Externally Referenced Recording
@@ -3540,7 +3537,6 @@ A.4.  Two Party Call vCon With Externally Referenced Recording
    vcon-core/refs/heads/main/examples/ab_call_ext_rec.vcon
 
    {
-     "vcon": "0.0.2",
      "parties": [
        {
          "tel": "+12345678901",
@@ -3561,7 +3557,7 @@ A.4.  Two Party Call vCon With Externally Referenced Recording
            1
          ],
          "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vco
-           n-container/raw/refs/heads/main/examples/ab_call.mp3",
+           n-core/raw/refs/heads/main/examples/ab_call.mp3",
          "mediatype": "audio/x-mp3",
          "filename": "ab_call.mp3",
          "content_hash": "sha512-GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iC
@@ -3570,7 +3566,7 @@ A.4.  Two Party Call vCon With Externally Referenced Recording
      ],
      "analysis": [],
      "attachments": [],
-     "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
+     "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46"
    }
 
 A.5.  Two Party Call vCon with Analysis
@@ -3582,7 +3578,6 @@ A.5.  Two Party Call vCon with Analysis
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
 
    {
-     "vcon": "0.0.2",
      "parties": [
        {
          "tel": "+12345678901",
@@ -3603,7 +3598,7 @@ A.5.  Two Party Call vCon with Analysis
            1
          ],
          "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vco
-           n-container/raw/refs/heads/main/examples/ab_call.mp3",
+           n-core/raw/refs/heads/main/examples/ab_call.mp3",
          "mediatype": "audio/x-mp3",
          "filename": "ab_call.mp3",
          "content_hash": "sha512-GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iC
@@ -3617,10 +3612,10 @@ A.5.  Two Party Call vCon with Analysis
          "body": {
            "metadata": {
              "transaction_key": "deprecated",
-             "request_id": "277eb8c5-86a9-4333-968e-243c77bc9a63",
+             "request_id": "019f15a6-c5e6-7d72-a534-e0243ea2c868",
              "sha256": "04dc074100461f5082f2a7a286d0161f0e2728025e83
                c20592aa7ea3724c2933",
-             "created": "2025-10-14T01:32:14.393Z",
+             "created": "2026-06-29T23:11:19.157Z",
              "duration": 33.119938,
              "channels": 1,
              "models": [
@@ -3644,703 +3639,694 @@ A.5.  Two Party Call vCon with Analysis
                        to add Fu to my service. Okay. Can you give m
                        e your name and phone number so I can look up
                         your account? My name is Alice, and my numbe
-                       r is +1 234567890. Thank you. Okay. I've adde
-                       d two to your service. Is there anything else
-                        that I can help you with? No. Thank you. Goo
-                       dbye. Goodbye. Have a nice day.",
-                     "confidence": 0.9996748,
+                       r is 1234567890. Thank you. Okay. I've added
+                       two to your service. Is there anything else t
+                       hat I can help you with? No. Thank you. Goodb
+                       ye. Goodbye. Have a nice day.",
+                     "confidence": 1,
                      "words": [
                        {
                          "word": "hello",
                          "start": 1.1999999,
                          "end": 1.76,
-                         "confidence": 0.9944868,
+                         "confidence": 0.9946289,
                          "speaker": 0,
-                         "speaker_confidence": 0.13938093,
+                         "speaker_confidence": 0.13952476,
                          "punctuated_word": "Hello."
                        },
                        {
                          "word": "this",
                          "start": 1.76,
                          "end": 2.24,
-                         "confidence": 0.9994715,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.13938093,
+                         "speaker_confidence": 0.13952476,
                          "punctuated_word": "This"
                        },
                        {
                          "word": "is",
                          "start": 2.24,
                          "end": 2.3999999,
-                         "confidence": 0.99721825,
+                         "confidence": 0.9970703,
                          "speaker": 0,
-                         "speaker_confidence": 0.13938093,
+                         "speaker_confidence": 0.13952476,
                          "punctuated_word": "is"
                        },
                        {
                          "word": "example.com",
                          "start": 2.3999999,
                          "end": 3.4399998,
-                         "confidence": 0.906518,
+                         "confidence": 0.90738934,
                          "speaker": 0,
-                         "speaker_confidence": 0.13938093,
+                         "speaker_confidence": 0.13952476,
                          "punctuated_word": "example.com."
                        },
                        {
                          "word": "my",
                          "start": 3.4399998,
                          "end": 3.6,
-                         "confidence": 0.9998653,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "My"
                        },
                        {
                          "word": "name",
                          "start": 3.6,
                          "end": 3.6799998,
-                         "confidence": 0.99983394,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "name"
                        },
                        {
                          "word": "is",
                          "start": 3.6799998,
                          "end": 3.84,
-                         "confidence": 0.9993299,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "is"
                        },
                        {
                          "word": "bob",
                          "start": 3.84,
                          "end": 4.3199997,
-                         "confidence": 0.99975526,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "Bob."
                        },
                        {
                          "word": "how",
                          "start": 4.3199997,
                          "end": 4.48,
-                         "confidence": 0.99988914,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "How"
                        },
                        {
                          "word": "can",
                          "start": 4.48,
                          "end": 4.72,
-                         "confidence": 0.99987936,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "can"
                        },
                        {
                          "word": "i",
                          "start": 4.72,
                          "end": 4.7999997,
-                         "confidence": 0.99978393,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "I"
                        },
                        {
                          "word": "help",
                          "start": 4.7999997,
                          "end": 5.04,
-                         "confidence": 0.9999826,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "help"
                        },
                        {
                          "word": "you",
                          "start": 5.04,
                          "end": 5.52,
-                         "confidence": 0.99984753,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.50997114,
+                         "speaker_confidence": 0.51462495,
                          "punctuated_word": "you?"
                        },
                        {
                          "word": "hi",
                          "start": 5.6,
                          "end": 6.3199997,
-                         "confidence": 0.9995427,
+                         "confidence": 0.9995117,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "Hi."
                        },
                        {
                          "word": "i'd",
                          "start": 6.3199997,
                          "end": 6.72,
-                         "confidence": 0.995689,
+                         "confidence": 0.99560547,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "I'd"
                        },
                        {
                          "word": "like",
                          "start": 6.72,
                          "end": 6.8799996,
-                         "confidence": 0.99973685,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "like"
                        },
                        {
                          "word": "to",
                          "start": 6.8799996,
                          "end": 6.96,
-                         "confidence": 0.9985936,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "to"
                        },
                        {
                          "word": "add",
                          "start": 6.96,
                          "end": 7.2799997,
-                         "confidence": 0.98127615,
+                         "confidence": 0.9819336,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "add"
                        },
                        {
                          "word": "fu",
                          "start": 7.2799997,
                          "end": 7.68,
-                         "confidence": 0.37009612,
+                         "confidence": 0.36791992,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "Fu"
                        },
                        {
                          "word": "to",
                          "start": 7.68,
                          "end": 8,
-                         "confidence": 0.9966299,
+                         "confidence": 0.99609375,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "to"
                        },
                        {
                          "word": "my",
                          "start": 8,
                          "end": 8.16,
-                         "confidence": 0.9992099,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "my"
                        },
                        {
                          "word": "service",
                          "start": 8.16,
                          "end": 8.799999,
-                         "confidence": 0.9892741,
+                         "confidence": 0.9892578,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "service."
                        },
                        {
                          "word": "okay",
                          "start": 9.2,
                          "end": 9.839999,
-                         "confidence": 0.9997375,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "Okay."
                        },
                        {
                          "word": "can",
                          "start": 10.16,
                          "end": 10.4,
-                         "confidence": 0.9997745,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "Can"
                        },
                        {
                          "word": "you",
                          "start": 10.4,
                          "end": 10.559999,
-                         "confidence": 0.9999038,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "you"
                        },
                        {
                          "word": "give",
                          "start": 10.559999,
                          "end": 10.719999,
-                         "confidence": 0.9992379,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "give"
                        },
                        {
                          "word": "me",
                          "start": 10.719999,
                          "end": 10.88,
-                         "confidence": 0.99977034,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.57726574,
+                         "speaker_confidence": 0.576506,
                          "punctuated_word": "me"
                        },
                        {
                          "word": "your",
                          "start": 10.88,
                          "end": 11.04,
-                         "confidence": 0.99950397,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "your"
                        },
                        {
                          "word": "name",
                          "start": 11.04,
                          "end": 11.2,
-                         "confidence": 0.9999646,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "name"
                        },
                        {
                          "word": "and",
                          "start": 11.2,
                          "end": 11.44,
-                         "confidence": 0.9985328,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "and"
                        },
                        {
                          "word": "phone",
                          "start": 11.44,
                          "end": 11.599999,
-                         "confidence": 0.9995678,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "phone"
                        },
                        {
                          "word": "number",
                          "start": 11.599999,
                          "end": 11.84,
-                         "confidence": 0.9994261,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "number"
                        },
                        {
                          "word": "so",
                          "start": 11.84,
                          "end": 12.08,
-                         "confidence": 0.89335036,
+                         "confidence": 0.8935547,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "so"
                        },
                        {
                          "word": "i",
                          "start": 12.08,
                          "end": 12.16,
-                         "confidence": 0.999236,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.2667445,
+                         "speaker_confidence": 0.27221602,
                          "punctuated_word": "I"
                        },
                        {
                          "word": "can",
                          "start": 12.16,
                          "end": 12.32,
-                         "confidence": 0.99919015,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "can"
                        },
                        {
                          "word": "look",
                          "start": 12.32,
                          "end": 12.48,
-                         "confidence": 0.9993882,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "look"
                        },
                        {
                          "word": "up",
                          "start": 12.48,
                          "end": 12.639999,
-                         "confidence": 0.99802244,
+                         "confidence": 0.9980469,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "up"
                        },
                        {
                          "word": "your",
                          "start": 12.639999,
                          "end": 12.799999,
-                         "confidence": 0.99812704,
+                         "confidence": 0.9980469,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "your"
                        },
                        {
                          "word": "account",
                          "start": 12.799999,
                          "end": 13.12,
-                         "confidence": 0.9978804,
+                         "confidence": 0.9980469,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "account?"
                        },
                        {
                          "word": "my",
                          "start": 13.735,
                          "end": 14.135,
-                         "confidence": 0.9996507,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "My"
                        },
                        {
                          "word": "name",
                          "start": 14.135,
                          "end": 14.295,
-                         "confidence": 0.9998702,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "name"
                        },
                        {
                          "word": "is",
                          "start": 14.295,
                          "end": 14.455,
-                         "confidence": 0.99962306,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "is"
                        },
                        {
                          "word": "alice",
                          "start": 14.455,
                          "end": 15.174999,
-                         "confidence": 0.93576753,
+                         "confidence": 0.9355469,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "Alice,"
                        },
                        {
                          "word": "and",
                          "start": 15.174999,
                          "end": 15.335,
-                         "confidence": 0.9998963,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "and"
                        },
                        {
                          "word": "my",
                          "start": 15.335,
                          "end": 15.575,
-                         "confidence": 0.9999398,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "my"
                        },
                        {
                          "word": "number",
                          "start": 15.575,
                          "end": 15.8949995,
-                         "confidence": 0.9999269,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "number"
                        },
                        {
                          "word": "is",
                          "start": 15.8949995,
                          "end": 16.455,
-                         "confidence": 0.9997197,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "is"
                        },
                        {
-                         "word": "+1",
+                         "word": "1234567890",
                          "start": 16.455,
-                         "end": 16.775,
-                         "confidence": 0.99967515,
-                         "speaker": 0,
-                         "speaker_confidence": 0.6548568,
-                         "punctuated_word": "+1"
-                       },
-                       {
-                         "word": "234567890",
-                         "start": 16.775,
                          "end": 20.615,
-                         "confidence": 0.99982315,
+                         "confidence": 0.9999512,
                          "speaker": 0,
-                         "speaker_confidence": 0.65485674,
-                         "punctuated_word": "234567890."
+                         "speaker_confidence": 0.65581185,
+                         "punctuated_word": "1234567890."
                        },
                        {
                          "word": "thank",
                          "start": 20.775,
                          "end": 21.095,
-                         "confidence": 0.9998648,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "Thank"
                        },
                        {
                          "word": "you",
                          "start": 21.095,
                          "end": 21.654999,
-                         "confidence": 0.999934,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "you."
                        },
                        {
                          "word": "okay",
                          "start": 22.935,
                          "end": 23.335,
-                         "confidence": 0.9996748,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "Okay."
                        },
                        {
                          "word": "i've",
                          "start": 24.134874,
                          "end": 24.534874,
-                         "confidence": 0.995402,
+                         "confidence": 0.99560547,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "I've"
                        },
                        {
                          "word": "added",
                          "start": 24.534874,
                          "end": 24.854876,
-                         "confidence": 0.9885041,
+                         "confidence": 0.9873047,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "added"
                        },
                        {
                          "word": "two",
                          "start": 24.854876,
                          "end": 25.094875,
-                         "confidence": 0.80214345,
+                         "confidence": 0.79541016,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "two"
                        },
                        {
                          "word": "to",
                          "start": 25.094875,
                          "end": 25.254875,
-                         "confidence": 0.8400144,
+                         "confidence": 0.8339844,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "to"
                        },
                        {
                          "word": "your",
                          "start": 25.254875,
                          "end": 25.414875,
-                         "confidence": 0.9990602,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "your"
                        },
                        {
                          "word": "service",
                          "start": 25.414875,
                          "end": 25.734875,
-                         "confidence": 0.9951705,
+                         "confidence": 0.99560547,
                          "speaker": 0,
-                         "speaker_confidence": 0.6548568,
+                         "speaker_confidence": 0.6558119,
                          "punctuated_word": "service."
                        },
                        {
                          "word": "is",
                          "start": 25.734875,
                          "end": 25.894875,
-                         "confidence": 0.9998394,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "Is"
                        },
                        {
                          "word": "there",
                          "start": 25.894875,
                          "end": 26.054874,
-                         "confidence": 0.9998031,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "there"
                        },
                        {
                          "word": "anything",
                          "start": 26.054874,
                          "end": 26.294874,
-                         "confidence": 0.9997297,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "anything"
                        },
                        {
                          "word": "else",
                          "start": 26.294874,
                          "end": 26.534874,
-                         "confidence": 0.999869,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "else"
                        },
                        {
                          "word": "that",
                          "start": 26.534874,
                          "end": 26.694874,
-                         "confidence": 0.6311746,
+                         "confidence": 0.63183594,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "that"
                        },
                        {
                          "word": "i",
                          "start": 26.694874,
                          "end": 26.774876,
-                         "confidence": 0.9994104,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "I"
                        },
                        {
                          "word": "can",
                          "start": 26.774876,
                          "end": 26.934875,
-                         "confidence": 0.9998919,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "can"
                        },
                        {
                          "word": "help",
                          "start": 26.934875,
                          "end": 27.094875,
-                         "confidence": 0.9998467,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "help"
                        },
                        {
                          "word": "you",
                          "start": 27.094875,
                          "end": 27.174875,
-                         "confidence": 0.9998344,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "you"
                        },
                        {
                          "word": "with",
                          "start": 27.174875,
                          "end": 27.734875,
-                         "confidence": 0.9998601,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "with?"
                        },
                        {
                          "word": "no",
                          "start": 28.054874,
                          "end": 28.534874,
-                         "confidence": 0.99971354,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.4939385,
+                         "speaker_confidence": 0.49876177,
                          "punctuated_word": "No."
                        },
                        {
                          "word": "thank",
                          "start": 28.534874,
                          "end": 28.774876,
-                         "confidence": 0.99988055,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "Thank"
                        },
                        {
                          "word": "you",
                          "start": 28.774876,
                          "end": 29.334873,
-                         "confidence": 0.99990463,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "you."
                        },
                        {
                          "word": "goodbye",
                          "start": 29.334875,
                          "end": 29.974874,
-                         "confidence": 0.99884653,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "Goodbye."
                        },
                        {
                          "word": "goodbye",
                          "start": 30.374874,
                          "end": 31.014874,
-                         "confidence": 0.9991617,
+                         "confidence": 0.9995117,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "Goodbye."
                        },
                        {
                          "word": "have",
                          "start": 31.014874,
                          "end": 31.334875,
-                         "confidence": 0.9997665,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "Have"
                        },
                        {
                          "word": "a",
                          "start": 31.334875,
                          "end": 31.494875,
-                         "confidence": 0.9997255,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "a"
                        },
                        {
                          "word": "nice",
                          "start": 31.494875,
                          "end": 31.654875,
-                         "confidence": 0.99926084,
+                         "confidence": 0.99902344,
                          "speaker": 0,
-                         "speaker_confidence": 0.5919341,
+                         "speaker_confidence": 0.5973705,
                          "punctuated_word": "nice"
                        },
                        {
                          "word": "day",
                          "start": 31.654875,
-                         "end": 31.974874,
-                         "confidence": 0.9997565,
+                         "end": 31.894875,
+                         "confidence": 1,
                          "speaker": 0,
-                         "speaker_confidence": 0.007671833,
+                         "speaker_confidence": 0,
                          "punctuated_word": "day."
                        }
                      ],
@@ -4350,11 +4336,11 @@ A.5.  Two Party Call vCon with Analysis
                          ou? Hi.\n\nI'd like to add Fu to my service
                          . Okay. Can you give me your name and phone
                           number so I can look up your account? My n
-                         ame is Alice, and my number is +1 234567890
-                         . Thank you.\n\nOkay. I've added two to you
-                         r service. Is there anything else that I ca
-                         n help you with? No. Thank you.\n\nGoodbye.
-                          Goodbye. Have a nice day.",
+                         ame is Alice, and my number is 1234567890.
+                         Thank you.\n\nOkay. I've added two to your
+                         service. Is there anything else that I can
+                         help you with? No. Thank you.\n\nGoodbye. G
+                         oodbye. Have a nice day.",
                        "paragraphs": [
                          {
                            "sentences": [
@@ -4411,7 +4397,7 @@ A.5.  Two Party Call vCon with Analysis
                              },
                              {
                                "text": "My name is Alice, and my num
-                                 ber is +1 234567890.",
+                                 ber is 1234567890.",
                                "start": 13.735,
                                "end": 20.615
                              },
@@ -4422,7 +4408,7 @@ A.5.  Two Party Call vCon with Analysis
                              }
                            ],
                            "speaker": 0,
-                           "num_words": 37,
+                           "num_words": 36,
                            "start": 6.3199997,
                            "end": 21.654999
                          },
@@ -4476,13 +4462,13 @@ A.5.  Two Party Call vCon with Analysis
                              {
                                "text": "Have a nice day.",
                                "start": 31.014874,
-                               "end": 31.974874
+                               "end": 31.894875
                              }
                            ],
                            "speaker": 0,
                            "num_words": 6,
                            "start": 29.334875,
-                           "end": 31.974874
+                           "end": 31.894875
                          }
                        ]
                      }
@@ -4499,7 +4485,7 @@ A.5.  Two Party Call vCon with Analysis
        }
      ],
      "attachments": [],
-     "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
+     "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46"
    }
 
 A.6.  Signed vCon
@@ -4518,19 +4504,18 @@ A.6.  Signed vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
 
    {
-     "payload": "eyJ2Y29uIjoiMC4wLjIiLCJwYXJ0aWVzIjpbeyJ0ZWwiOiIrMTI
-       zNDU2Nzg5MDEiLCJuYW1lIjoiQWxpY2UifSx7InRlbCI6IisxOTg3NjU0MzIx
-       MCIsIm5hbWUiOiJCb2IifV0sImRpYWxvZyI6W3sidHlwZSI6InJlY29yZGluZ
-       yIsInN0YXJ0IjoiMjAyMi0wNi0yMVQxNzo1MzoyNi4wMDArMDA6MDAiLCJkdX
-       JhdGlvbiI6MzMuMTIsInBhcnRpZXMiOlswLDFdLCJ1cmwiOiJodHRwczovL2d
-       pdGh1Yi5jb20vaWV0Zi13Zy12Y29uL2RyYWZ0LWlldGYtdmNvbi12Y29uLWNv
-       bnRhaW5lci9yYXcvcmVmcy9oZWFkcy9tYWluL2V4YW1wbGVzL2FiX2NhbGwub
-       XAzIiwibWVkaWF0eXBlIjoiYXVkaW8veC1tcDMiLCJmaWxlbmFtZSI6ImFiX2
-       NhbGwubXAzIiwiY29udGVudF9oYXNoIjoic2hhNTEyLUdMeTZJUGFJVU0xR3F
-       6WnFmSVBabFdqYURzTmdOdlpNMGlDT05OVGhuSDBhNzVmaFVNNmNZekxaNUd5
-       blNVUlJFdlp3bU9oNTQtMmxSUmlleWo4MlVRIn1dLCJhbmFseXNpcyI6W10sI
-       mF0dGFjaG1lbnRzIjpbXSwidXVpZCI6IjAxOTllMDU0LWVkMTAtODAzNS1iOW
-       EyLTI3OWUwZDE2YmM0NiJ9",
+     "payload": "eyJwYXJ0aWVzIjpbeyJ0ZWwiOiIrMTIzNDU2Nzg5MDEiLCJuYW1
+       lIjoiQWxpY2UifSx7InRlbCI6IisxOTg3NjU0MzIxMCIsIm5hbWUiOiJCb2Ii
+       fV0sImRpYWxvZyI6W3sidHlwZSI6InJlY29yZGluZyIsInN0YXJ0IjoiMjAyM
+       i0wNi0yMVQxNzo1MzoyNi4wMDArMDA6MDAiLCJkdXJhdGlvbiI6MzMuMTIsIn
+       BhcnRpZXMiOlswLDFdLCJ1cmwiOiJodHRwczovL2dpdGh1Yi5jb20vaWV0Zi1
+       3Zy12Y29uL2RyYWZ0LWlldGYtdmNvbi12Y29uLWNvcmUvcmF3L3JlZnMvaGVh
+       ZHMvbWFpbi9leGFtcGxlcy9hYl9jYWxsLm1wMyIsIm1lZGlhdHlwZSI6ImF1Z
+       GlvL3gtbXAzIiwiZmlsZW5hbWUiOiJhYl9jYWxsLm1wMyIsImNvbnRlbnRfaG
+       FzaCI6InNoYTUxMi1HTHk2SVBhSVVNMUdxelpxZklQWmxXamFEc05nTnZaTTB
+       pQ09OTlRobkgwYTc1ZmhVTTZjWXpMWjVHeW5TVVJSRXZad21PaDU0LTJsUlJp
+       ZXlqODJVUSJ9XSwiYW5hbHlzaXMiOltdLCJhdHRhY2htZW50cyI6W10sInV1a
+       WQiOiIwMTlmMTVhNi1hNzUyLTgyNmYtYjlhMi0yNzllMGQxNmJjNDYifQ",
      "signatures": [
        {
          "header": {
@@ -4634,15 +4619,15 @@ A.6.  Signed vCon
                g=="
            ],
            "alg": "RS256",
-           "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
+           "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46"
          },
-         "signature": "qy0bjh14wxAddJl8inxxUDmNPd6IG6dD69ToSSdLZVxtR
-           V6w09ciK33s9WmlQdKoTvDdtN_qpnK8H58ZbZgobWKa_OLyWkw3k-oqvy
-           JHoqBIpJEaaXdpa0c85TmS9mIQepCMSeo3geIfP00MaCtcMYMwlNVuw6a
-           uiTk32-NqW3prIoxQeVb2Ev9ZpDX8S8j-emyYpukqOOz4qR9kTAlarltN
-           qvQRrMdl-OFv8mFKD4CZ4m07Oyet5WkVTOfs_Kqaazl2xMj2ZKie2VooL
-           nOL4YzaNav5pGC4_IDIjEVhfr5Xr8VADoChaIIeFwv8iHzPIitRlsaaCO
-           F6-4hkmN3e8w",
+         "signature": "bm5QIMo_J7XBhB6oRYaHo-0ENKjY7jJvrIq1mtm0BBXp7
+           Qdw4b8tC5ehb6fpebyLNrwp39S7MomHD85jj0pVyP7U5SX9q3x_otyGBV
+           -T4Jlm8tpBLKnvqS-5Q80tBClVfF6BOck2iFuWcOdCk_zGUpl32lgNzXs
+           HDQPUGVrzXDm0E3KrI625SiFKwX36Le56RfTrNLyT62R7DNYPpaNYtmqz
+           fDmLkO_vYu0rGBRksp2qK-xU12cF7A077fozpPD52qUNFF4NuiinGMQP3
+           hd4NuQRTZhos_n5PRTDI1AoVTSu1hOh2l-nrfhVNA13uVU6rm7JDaIAEv
+           GvoITPqg7H6A",
          "protected": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6W
            yJNSUlEMFRDQ0Fya0NBUUV3RFFZSktvWklodmNOQVFFTEJRQXdnYXN4Q3
            pBSkJnTlZCQVlUQWxWVE1Rc3dDUVlEVlFRSURBSk5RVEVSTUE4R0ExVUV
@@ -4782,312 +4767,312 @@ A.7.  Encrypted vCon
    {
      "protected": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1M
        TIifQ",
-     "iv": "QdiLBqkZBsZmvzgyes9iSw",
-     "ciphertext": "09tPHYpiiLOjSc8vi0KzhJ01p4e5gO0tGJ483F64f_ZsMuAo
-       kfnWiCgThUfrUpkO70zS867rchBaUoFbPnD6CNWBg5s9BG6zx375uKxPf2piI
-       Jf5gsRfYDGF5PUKMd27v97TYP8paitB8JuE2pSjMIlIMSobU7-uxWGiZJ_BA8
-       Ens-yn_CJCFpsc1d-MxPixbbBz78lRlmAwz72NoSZbIBtV6BCiVqoQZ5Yd5o7
-       KXA_F9265nhe9To-6DFk8qLuKV9dJP1ftjemSP9wiYCPIaSpBNG8JWkZo2GWy
-       NJreQY9j_3Yt1dZ4OsFkRFFdNJ12N-2BtCGceAfMvDD7Oyr7uSUFgRBZKqooH
-       BbWR6gIzyW5f-nD2VOjDGxOcXuUZi53COyqAzPdRCIXz_-rmACI5KmydLZRTX
-       HCgeQYOaEfEdP_wB0PF8j-GjoynP_gHzFZ8YgmHy8upRi5hUqGV7qzGC6t0Zv
-       O9fkqdH5mfmyXDpMhnZYtRFqol0MCl3OMQTtjLtJdw0s4hn30uzKhVwWlJsXK
-       Ewuw1KcYdEYDa10dfsd4DgJGxqcZwyEXHqg24fIYwEQDHFcw8RTnQV9E2SCDJ
-       YpydLVFff0MszhFW_WQHlgT4i_869LWQDk2XMzqEHQZEjSKcyZAMVaQ8FLiTf
-       GhRc1vyt5Wlql_oFdTxB-Jl9xyYdsLubbhDwVPKhmlz0qLePFEELuDJoZmjbz
-       0KCpdMoP5AW81oW1IP51lAtLoIpX7UiL7u1y1-9xGk0SnuiRmDqN01LBfJleR
-       UXSu5qOBdhY4dCKZu2tU2nLASqVMJUZyFxCOxWEct3wPKTR50N_g6KIG_t3Qc
-       tNqzhL2i9ineA0-1ESWXG-so3NPEeDRpxl7-dtlzmVBVrTVUeaqPnlxdraA0A
-       QeUn9MiIOYhFUJoJ_CwUEASCqd-GJ6T_teOizoYRDxBxiHfXH3YlFMxGe9XIV
-       QzlI8EvIfRpdG2NT15xM4BKVt0pjfCR0yZJX5h7sOxe8sFREz26DXXrcI_1Ew
-       02XCqQFhXEvDmp0HHrGr-ThXSo9Hp3nkFr0-nAQXXLcyqdLTTuCQRLVEuV5F1
-       OONlkqbOyMQK7WLAjXKXTLcDswerOYrTv92_VDln4YjmGoy3spGeezbSqyRFi
-       6tY9284ZEXERDwCF2kbPJFncVuXM5ldRbtL3Qyvwmko1qKKvPT2gEeaaCQQ4b
-       r1QnVYOfEiMtylN6uEyAzmlN6QFAjwAnyaPKbN2XTlC_6HeOXeMzfBGa47qZp
-       KO5lhoXtWuoiFSOPl-jNqFQ9mlugQ1IGTOjrLtCUdS_gqAL2XRNvzLFozsuqi
-       HW9S5MvWk8ZcOKCNSrAD2zxIZAQKkbsVmMrzrwQpNtR7ZA3Fb4KT3o5sEXusD
-       K-pJD0wn7Qgor5HIEOGQZlfZ08H-HoXkowT1ExFehiYX4_JsoMxCz-RO9oIJf
-       F7FFxwLX8esIebFsCoA0oWuescHz2Zg2AKeIzbOWUGJZKyCPbSW-p9EGlgnUy
-       86sOWLQ4EX5ZO2zUwP6Wrv3BH_vjEofQ2OX4C3l49Zu-j-k-L9-BYOmD5LUl9
-       2iUhj0hDyJAxayTPpJCEukCyvg63j9Utd9r1ze5mhMUuCby-a73fJNA61dDFb
-       v8Hdt-W_6xYEKXXRhuTQGTEnZP6DGY3vKCMHsqXxTRAcpYreldMUuxpDU9eyd
-       qX25Y0_HUDD8zDXadqfdDf0nYvfQtmHA3bDBXDdSHwMlcC3KznTJkHnTuY1i_
-       hMKOSbuOWEO5Ur5BS-OiorcW1pPd25c9kW0YzmGrvN_-TUAgcGWat4voGZYxi
-       bqyk3j6_tTSuPiIJhMWucF9GjztofH7xK5jfjOA98YuEzbQLJMBwcyU1LPUI7
-       2KUPyA73Dg05z7b5lK_b7qmC3idmPYU10ve4ussJGmU1gVFTF-F4o7MgzwW_N
-       a9a1jkHNldddzkQUgCYNLualnr33gUvR_3r2lJBUM-6K5jQvNiQbGsqh-U2Q7
-       6ZRU98cluVqMmnV4wNxQgXgykd2U1MtS_VgNtwL6ettjmSKl9wGd8RbYTqR64
-       3R_cFOevRSmuq7emmSr_UWUcU1eCSiZeWg-i99Z7u_-tV3CqRRKnF3rd0QJi8
-       zpCnMjq6HDW_akORAQdRzb6vJqnY_3h6qI8LdA2XWnlXXAlThUiXInM_p0mG4
-       bAVNJO0wk1-T075FwXJOzFtYqn4hd19emtBiKdcJcIyxLdRc6hG7xJM-bE-L8
-       tocqpvvxupco1XIsQxDcBKpmp6UgrvlVufn0ZOhuElEMcv6n8UcaSoxWh2-qy
-       xqAsfsp3MT5pjqBLzokAn0S3e9ZnId3B8OsN10n9b8CfubBoFoznRdduTlY9y
-       6qnOYnJc67tOewohfqznn2D-9JO5FtzaCRNzVB7sAhidimdIzI-WB059PjwIG
-       Y2ybqH9iR7AwqnWeuZSHtQjhJbCr9N7NWcf-IhtzFIPBMCzB_hU8nBvEGpepk
-       zO8-gIKwjhTqUCoMIfSQJZma_eGtjf43kKdK_K4cknWB3njaOyDskdaLLHV9O
-       4mT5EC5sQCcfDxE29wfWDvOZx5T8t5ncnc475hD-j8WsNjMolKNV4-ldSslzM
-       TR-Cggqt65tWb15THRrumeQN_tp88Da6OsHTOHl8w_TfE3dNKBAWPETvYS4CV
-       oDYRuI4NsW9_MWTvw_be6R2MRN86nFn9IQKcAMfUgL_uFCcjU9CHMBbsMlk8N
-       HIMTTd9xzWWZEWVW2CMLJWzOxb3ZN_VDhkJIIoTIuREOg14uk65AfR9i_T57x
-       jsnJCkZMNUUHvmEHYfQTX74INhGZ1GstnKFQynwu_en_CX_Z1luo1G0EXf0YX
-       TGUpp0QOPywuN5u-WVgMcA67pIigWlq6s8GVO3j7GmT5I49b0928lLw0gcpBR
-       bqW91OKMlAhxpemnvK_1X_9iRDfxPTeOWUWNBeddAYr8gIS-AVZrU3AbUJWbE
-       Pwadeqgjcjh7lxocbmn0lB5BzOERRzn5xRCgs7J_jTsgZtxLpoj6mVGGvart8
-       p62TtLjFOCknnkUN_4QxhrcPAPy5-E5ebBtAxUDV2w0bpiKxvLf5WPO_3m2NI
-       XtOjyPOxGjatHolGx1qboKhJmb-d_LGPzDEYzghZG0nyrX5qmMR_R_1roXJiJ
-       ouPCBq4ifysGg_cSEPvV-Hnct5BxQPCeVFeDjmJ4yLDaPobyRXbDYzilxyMoR
-       6dmRo_8EdicO4wCVjCYGsS2oCcKdX0ZAKhNegmDgKY3xIyapxP0-98QAGYtuy
-       GiSAY4QxEWGyKntNCeTftLSlu57mMz2FxiTeJNI8n6Ks32--TP_QGawxkz9CR
-       FDFlW7CNlvdHhGZa4MYPBxB-b_BAYZzO-PL9pOPNDhmOefgChGN6nm8cNIaIn
-       4m0TAXXRYg8VKcJsHawF9d3XBnC1XVkubOhYSrpoy0uZJ6zsGZ_KGQF1VlMqw
-       Tist-enp2xbU8X4MtzDQVqeBAsiBPXKJliUl41_GoD6edChaYkMQZL0psQOuS
-       Vp3fO--zAPVqfpE08qwnVVcBprKlBftW9EcRe1VNoO8_HASHKGmlgdIzzdPlm
-       h4gxoE0JJ1QyP3cNfzGFVTvXEYb0uZGzJB_wPdP73aNAuQuZlDmOqELzG0KUU
-       fpZ8sc2XorA-2gIZDdL_ZBZnCDH82CNpFz_5l_FSkJH3JBWbsWgt6FX6WWHWw
-       mS6-T3pu1ZYupudqvmqI6UzP60JHvUxZjeBqhmFtlLBfdsmS2_Im-wAw14Yo5
-       iO4n6aFOw1qZFqC-Jr5oz91Cuyg2fhj9uEl-NFnFD0JP-b3EX5FYPqJ2B6kVS
-       ICmkXCmRcuEMcBPocUdg11j0ZMvII3KP2fjlmeo0ZM1JTPd9F72pXCiTRqbtI
-       DtI1Hm9_002wAVEcCgh5GSX1tbOfUqcEuo4rRuKdpHqOFvYgYNIdD06zd_Cjd
-       g8laeI2j9jl9Qq_2hUM76oWoiFMeFEI2Z7PIEe2US4wUKpzLPvMlo6hsLJTcM
-       N8rXrXsVMX5vB1LbGhvnni6H_iULaXpaHtWyHwo2HNtsqNYNy3-FLtgFpElGl
-       gwUVz-Byk6ZURFFcDpfGkm6VXm1VMnLY_JNXuAJi5y1LCVpHeWy_HZ2vRVj8O
-       poPD4beVHzdQnQPEkkcpwcv0MPmFPCmNjhPdMfBE0rCuvSfmj-aYZyVLBcieR
-       sJdoxBXx45swlD-bCS2jN7FHnFfjzoM4U7-PKXSeCuiowlwyWIpncrDyJoPX_
-       WbKgesKDXqF3q78hASKic25Fdhom1uNULfFduo09WBkKdYq50vxY7SI88jbah
-       Gob9JElz3iIrmpAZG4v7sy9Y4ZMCG_bi06iVDRU239Ip8ZLlrg74BhGEtxJH2
-       EeUrBIPbINATLzG6Fe5c3YmohXEQQtyHUSyBPEfqN8OPsSMoAdTLJp7s0xnrF
-       2hCqU_n-Nky7MQS0Sy1pQ7fgAPSOl8gj9iRL9PNpM86xCDDWpHmuYp_uvnB-5
-       pnHo7w0fvBCsV24pPAUICThovbafd5LEBJ85ESiQIs_RBPNVpai2v_9eaIz06
-       LGKK4-GzOEsd2s6DoNDo23H0XhvOM1sl7qPACEpnqrB-dN3jALauGA1iSEQk4
-       FKh67W_-oV7oJx5ZbF29npYr0m79mhtOqlGPmwvL_jNdDrCHDciixpUqOEShv
-       Cf77Zi423ED3QHwPWpReU-DkipffmPKO4M9k8rH3_V3KNPLQ6Pek20XExrZ87
-       ENAQNLOwTXxmCn8eJV8f1QZTb0L8HqpzLQYhXAQIh_YHyK-QyW4Gec5jwJhnV
-       _z3MvYQMiHWWEqxbe1N3urIjfZ90QaOrWCYfwCBRt5in6Try7XNVH9ZzYjDjq
-       bxjLQMFnBUNmL8wRpDUUdY2VJeqZYfN3i7JzJ_uzNO1GEmmLERea24SOXmBVt
-       rukI6rUph3-xXvndo4gZJLsgc74xFBSSHIFylGlzs7aVJoQTKXsTa0Yr6-yr6
-       93BEeMCT8-Znol7uLdFInoaHyYRgr6aqH5es7H7ywZJ4ZSoOGR5fw6diRa6Wp
-       apzo3pSFu-teoVqknHT7ImKjv81o2V_AvdeYaUKamlgMD3T9Y77nrmgtY6kfj
-       jJ04nHG6hqImeyuAOuq107tTXOGjEPMqne2jBSmP1y5iuxj3G9BYQcup2WIGS
-       WSt_i8ZCM_ojAh3fx_feJvLB0awvR5-LJ3g-pUHjNJffdqaQj6N1tAdwlzh_i
-       0fuvjjm5ZFjXMji6MveyVmHt-kCzU9J0lMoVvg-daPxITJeQ5wUzVgNHfylH1
-       h-sUPgJr0fE4r7pPEJce2SrMPeJlp-rZA-TRjju29_z38dZT5FczGNBtccmWJ
-       PPDqVRpV2lr-KVM5sKSWIvTU6Man-UiVF3JXUqRBJlw1ngh-kCc1LOpJwq_bZ
-       2tqonm0J0MF4rV0og1gd3shVOqPmyH23sYmFYBJ4lSCozfEpUTZK4HaYpJLgT
-       hr8cK0fSV2haSOHiabNeOxZT8n446OFNumYMwW-CYCd5u5CL870Js3gbmzOFK
-       44qhyD6v8SsGPD0C4S3SM4my22bHMFCNkcnzBLdRBR_09SRNREL3l07GIg2sX
-       6SMwTDrafU2nzRvKv5gJ9CAyLg7YXyW6h1femtdFG_vOiSSrvLausKJKNaMww
-       LRD-zpMAb5SG2Y3BDZZEoEBpOcuJ9TomJRiss4xgAunG_50xtWjQP1BDBzi6b
-       RTDnbOa94muc8nN4-ndWqVeMtxeBKTPAe8NOwMrKwOSk_vw-OfjSR-mURxg_T
-       -aj_MrpXZC1X5lgrW71tRgFGV4w5sJH5goEfuI-u9QweH-xj-vqIHhTkZScNT
-       kiUoVBRZBekSVwimAF4RH_L7oMNcR7SHXB_LNlmjLqlDFtfIY9EL92BUugXBD
-       GVLugxWtnfTl-CSCUaKNAVKrcU2xahYXzhZ2GEbINibptWL2jyGwmv_SzJZjo
-       7NmM6oKrecpS0z6lq_uBnQkvfXd5U5zcHgjB__LVfMFcXDpR39MlUnZfYmFTZ
-       5mOhKVe6Xyh5tPlPwrfSXSA-ykkoqysB1XfSDRcA0oMdYTMYqKUGawTSOSfyn
-       HQ0BRKT4-B47EA2NsANh756dT_EtBXs6wqsp9EgPf2aurHPecYx_zbXXCrjfC
-       wWalnvp_3KR4yujKYfGoQTNVn3XzcvcbO4Wo51gRozjrPaoMKbocNn6STh5xI
-       SiUMxViseqVOWFd2SljgnQHvHWn16i3vxQIvev0WAdiLNnEiRMY-0D8kw-33u
-       9i1-cK45Pb3nE-1F0XLHkJ_k-ocejvudOrDSt8pOgXKEgni-PMbeYDf1CcW-G
-       DiI-JOM2X2sNZl3XE4D_VL5YsrG4i3K2OdFD1y5XaG8ts6sAl2vp_B1DS-_Ld
-       ehg31in3whMc11eSCHA_-cUkWIf9JNowvX5euI8ogJoYaAhIZaO1mdgCK57g_
-       RS5iWRclcJSLMR3koOCh0Is0q-Yc1YK4lJ2DVLjkQXIRXz1DJhxaIuSE4pwZP
-       R9dbI4qsE8jfYZzdnVfKPHl0y4-WJmTk3eu1kiY7lk8OSvQQNUQDoCJCdK0yW
-       WgnybTNUKxisfwLUKmb1retkx8mnBegdMkgrqOw02qGlwTCYxUX_XM6uJSFyu
-       jO2R03TzCfkpGmn3jTYpTGXvPJNlt1cDYryc5FOW2tKoBqWmXPKiVlNhgRt5A
-       HSdre4ONxsqgnby7aFMrm9eHHv1oDgyDdVagaOokEingADEa7VRKUilIDNP0w
-       PECxFSR65nuLj9kGGrVL4SPHzZSjDcysIcutdYCMqlwtP84qhOgoNjBNtSpJR
-       NZN8RHGnTxfiyXVNqozo3nJjQjsNl6dgvzvVl17cExKl3w72Yi_kMlqX4IrUR
-       gGYY3TEV9NfHxi4lHaEK0UaZxewOxMO6VyPqnkhVy4QPhiwtDmJsd76P-qKeD
-       rMK8yyFOqD0u8BM2j9tnELpUb3ikptYWPAuT9hSSpJscTQrX02KiLNHepfHe2
-       TRsisxYeKhUCFnrjNQMR6q0xaSdjEIYdq5J6UAnXPl9MPSVJa-ZrNS2cO6SWd
-       sMXfdfCCCM3SCQQM2gAs2krY3wx1nrQeQwinii-MROTsKT3cMeaL_wq1oFMlg
-       Qd7d9Eg0MgOU3J4YrdH4hccwuDTVI6AZ5ch8fenHkzYs1ruIy6Z7hFalIW1cO
-       CrQHxRuXXF5zgZShR-TZ4UhcLGdHPFKBCq0OfJ8Zmn831slgEt1EAlF7on4Is
-       HqPoHSLF4cBku-T_ZTEdfyhH0Jj-nTkvarSWcorhAB1HCHnLE_u2myUggj0q_
-       6TTlcWC7umESpZ7eYPcIArQ0FtXukmjo12AMqOPHYSem7grN-Qu9RDJ9ILimA
-       YmFY1ODC7n3rkbeVH8stbSJ0luTlkfZbX6-CCSVBuJgtfzTA-pFa3rP_od8MK
-       odrraV59aVDg1H867MW64pJXZMb8NmSQs7PzcLO1KBiB_P6Nt60MAkmEKDgRD
-       H4W8xKYQFl_bKZ__zoPqyDB-JNMqbTJWI2ZlL0h4B6qAlTSMZcLG-3o67HcBz
-       dqJwXf5-KZVbtsiqhzQzCRr-0RG7W8bH_BvfSlfoxQneGIiIQS5ZWGdPHc-x1
-       B63rTWxYMRzQE7ufBOvwUFvcV7o03mkkgNnSZezyoSsi6HlLZEydoXkqcKxiz
-       qa3OjAaWBXoG3E_AOiQI113GAV4GDc61pbQQhrhgkcP8l_4-PrHgTy_jjnk9I
-       Dk8blRMztN-v8Bsazl2fgTwKzvObyq4hfJSedDXOJY-lXttsGV34Lzh7WHa4V
-       G3d9995Cxa4McW_854ZhUmK3jVH7mhrGjrHWsMUuUjkmdfvWTifosI7s9L-jm
-       bWj7n0jvmXRBb57kbvl2YYGFIryN699cTObslJ4o2J5qoVAznYrxSOVXWQE_K
-       q9vpnQBzu3QcvcRSLBowAT-OwDlW9STP8TMgGjtMHD1uAC12NGCj7Com2FZto
-       C_t_W3b-4HyAs8JvBOnR83XSknvaqx1c56F6GB8BnWuK77yIDQce65bMNCELx
-       AEswOPzUA7HHsjZm2N85M7B8sqfYsWo0q0xvavrcPVxQYlBgatUq0hruvA6KS
-       uFRmXtb329SmWQd1Kf3kxkhRNgDeTxgnMoSgx69kiqem1bedvJcAUajBd8vCM
-       6lyF0XeCgcMZ3cvVQS8ECuaozxt5Il3MOLhsL75Z59k2hkyIfVM6tzJDjb17G
-       1lZLOCo7dFUZSJcRIBPpE2NVf5DRlifu8KmateGNeDgdsl3_Ctwfb7trrEdEG
-       ELhYgbMo_aKeGHiUiNapNj0qe4FWbxafwzvFYjnpi0oJtmdBao02_r6I5bGTc
-       djAl9KHuD05W-Yz3zP1f41NQ8ZDRWPf2W5qU_phnPDV6ooxskPC3i60cfS6GH
-       WG8r_yMGRR0-Gv6-m0waX1-hf-Ys1qvw2vSwUmkjV4vmWu0v8Ih-MfeQx_in1
-       RIgZ-jtYRKe-ejUAEOk55Fek8zO9y_NWRQsffU6Kogh9Keu8p9ccnJgX5rEii
-       2KNMw44uqgwAJlSAAUhEEtnsIAgGKu8JLxZinyaIwfxX7TusHR-UKz5v4TYuO
-       OOh34vwLLoTXVMnNjvQ6WjLBNRuWnDvdvJPXMcIZdjdbcdq58M569x0noc4PM
-       XWJUhAWIq1s8khdDgRy8qEgi56GhP_ncDd2ZzaIErJO0lMd5SfmLgecYHFlBL
-       a2Pb2_nSlmQ3HT-UFyFjAh2yltv33MJ95FvKX-cz_apt0vXG3L70th-Pl7mCm
-       3-Nu88c96uTRgt5mmFu0-1zt7NFmSf2J860Oe4oMUG5N0srYwQsgnoEGXCRit
-       eV-2LnWGUMlEkp3UWvmK-gbK2CAEzeWZ5gwTZwn6VGA2FyrxxHmirpB3cs7mk
-       yFq7iU_UP5RC5Y4Vboq7d03kpKUAJcoBNXvamlO-AloCIZakxAWFKTKmhKouq
-       DOsZJb0pci0bmH96g2OifH0xQIewNQAmD7vzicR1eBhXdMgGurdAjmanpWHQj
-       yP_Ud0O_Z-zsOqwdF9iG3hKQdBPt7fOmByEBe0MM58qnOYsLGMeSJNfeM3sBf
-       _z6T8MenZuq-lIIu4OUOwkGLnDpV82Je_iOwXSe02y9sZWB0rWFeT32ea8xja
-       T6oKqN2fpzIrH5LMMzu78OEx2lDTgR8Wy8MVH_ToV1n1Kv3Q333Hx5yquydOt
-       NBGqf9ncmUuLNJMVJ8jDx3WzZCwU87DCBm8L_uMRV0gPvxITu5lMNdVDqST0Q
-       o-4We8NktoYxgDJ2WyUSBLceiLFqhyQXULtc248SXYEkeDSswSNAZA487in9m
-       5RM4kTRu1hxEAqiqQ2Gk9IQtsQgAORxToZtkxHK3j5o5rgZcFT0Z92OJCR9VW
-       rRzsPstqcJpuCoBLd4nPDM3HMfiRXjSYBObxJlV9hsSKzj_M4pi1VOJ627S2B
-       4FNqa5FKsGMgMdSYq5WUBO2YbGeGdD1ksdKFZ9oC1y1IAcYAg6hpTbdLESYL_
-       3PUSat39AdiMVo9gB8xL0gZT7QmDGeCqdlnBdWvER7VZBfmlV1hU5NpFsFYyB
-       4wUB3QUdgLe61YWE2vIXs1G33i28RWJywSjrwqM0Y5xwp2hJ9WKsdlonU_kuF
-       mxYf2OjOr7vXgFAjGz8hlC5nhZcRnG8vz2bKtu5zG7WI3Ab2k221U4zjDsqzM
-       gtcjyEky1Lh9GfzMHwhza2cfl7j4RrnuKe5mRZYDFctiEHDU115nJz_5vpwEM
-       vNPQJo-JOCsyupGMx27S3Wzs0QV9GkWVIpTn05K9CFXNvt3bWuuRyAgtgIVlJ
-       fba6U0aBrVRC7E8kdxUKXvHf9RxjEIX0pqLyRDvv9m4088Djib6g5F1jAY5iW
-       OwTLNbCmNkRkH8BiuI8QwpBA-JVSJ2s5LFcGpNT7EM0HObRzpmV3TDrYWRWA2
-       0pP_kQ8FsEu9ZCKctTdRiUvou4wMlx6INXp3OPQZneU66Hs9IcUOLBUEtwmju
-       hwxpTRPOGnqlioDdLZRHP-hLKvYFGjkqDr1qM0P1m9ff53RIBUYFts6AnKVq5
-       1byqX6yX_fij_HinmTW_7O9ObtaQLibSRvuB7n6tpq6neSw9M8-T8qTZFgcO1
-       vmAUri5Qa84KnHFg6I0CpDrBSiAGP43jT0wWqExGBn62lX5aNjpc2YkptPARc
-       bkxP-u5ycDUBoxSi55Gil0nv848Y5IW-LsIZps78D70066Px3aZAGnu1bYjnB
-       cOBjy0qrd5RmOdHUII38ObXrxwp01TDUoESeJC3gxBgpz4-ogMPos1GvQplYd
-       _vstQNd5SP-_3jsKGoWvQ1Vm1t1odmFPYb87hAyYWcTxoQKrNwD85zdp8qDfM
-       0DVXgm7OZCyqG3Kw-0SHqOVWwRlhmfBI01RIMEM88L427QpkVHV1qTQZdtQ9N
-       5dWSz68xh40oC_sEDKuORnQlE9cDGWcLVJN4cSwH0b0pKN2aC-6sheBP_kKP2
-       McMjM1i9KzJ63UlKkeekGHw_dJM8Fg1X-AfUPkScqZPkVXQIKurjwdf0J1agI
-       q_oIkcBpvoq8lll2yUtfFOdS2bIx61RIUVdJWI_RXF-7-SwCGP0iKp2vO5SvG
-       H3hMAGbWwr7lLwZCV5uX-BCom-ci_fBRN-1GInRzpt1262WJnhSY6qK7PptdE
-       raVIbfOUbJUvVKA48xNLU_DSaEPBH-rTNaDZS202Xc35vDincrUlGqhDUsMB0
-       i6VHoAJE3qRharKmgzNUEzGo9ZDBvCGvGMDJ2kq8JBIq-ty4JBmsH1Fww1x83
-       DB4_qR_J3ESP7bavNiyZt-gKImURXBTjB1tFBNvoAygrls9ak_0hp9MhkTQuC
-       -bzGC3ao9W7i2Fp8jDpjhhK1llgI0boea00JIM2ihblmAyfipRZHmBZCeVIkT
-       Y8uWFvOUVTatdXRUBQ5UvIqX0qXG6flhakz83ZFVv_56L228jxtr4XlRDksqE
-       D9rjSEXP3XlNSVq2VOD_GZufvZvFVVpnPvB9-AI86ixQPv4MKLOm9ZtguKmdJ
-       ZT3vUUtoBHVMaOSXFSKYXNZsgyuDNY6bXvxXIjn8OCFqgO9R0P8u5Rw7JZ0Nu
-       QjYEbWD-F53gRikMix2kdTLH2v_7Qo6dCzS8kyj_GXlwRrNDlfy96CpYewqfy
-       kI56d8dVCodE3yKhpenbb2JkmlfzngMsjsvYBPnUBYppaOlnyRoWE67Z5IlnJ
-       JRKtq4rDJ_urR1eVwTrga_J4c4Jjy5ZyObc_bLYHqzs1F3_ocowgKpMe0OaPO
-       y1rsoFmnlkYrGePcDRvUv16gaEVfBvRuYuJ1Pq1TJ4y2maW6XtvYIc6cZUHTm
-       fZ7fwkfNs7awJ6pOgF-XIBhz4qGdRXnNabOatcbolubblmWjoUrI5BrI6ITl1
-       U6x9e2Y_rY1rKaMmYKy2jDxHKuc53STeNqKlNK1NVawBjWSANEJZk_PbJ6Gvz
-       ioQ7bY31UMYBBH-rddKxNZdaX02Z5WPvyTTA8Xhl7UPa05XQ0CMGHz8HWjhaF
-       yvj3XKLkUXXenoqUqxzquc6pOFKSQMAfV0xPqwLuitr7ScG8VogAH7ARtDdvm
-       monhN9Ehq9XqC67jPwjVIGynBQ58xYUre0l5GVgTf_FrBXLtR5tn85_GRRG9l
-       88djL-TWZQ_XNQMxPaFeL6K5RThc4gnRr_zrljU0LAPmZsd86dlFhzHoqcmWx
-       BEO1n6zKf4E3ARMcDODHvwGueTYooUU6Lg9nTFYDmd14vJn20ebwmmtn0MzqC
-       94HlOf_PbYgLdAG8EWZjQuNrSOix_d4g3fdHl3LjHnOoCysvXs2f63sbEIi7v
-       J-4y5w1jTgY6P4y26yA5YXQw-LA_H-sLuH8pgcvCD9FzvoxrAbnaXyOpQojpr
-       cKS4peMz7iXsxvDIVnrySmi1EClqpg9foc-xaptN3C7G7RyXuQ4fWT0LZzUxr
-       BQFzOCQqbbn3TOa33Z3HrXH0g-2QFfFAxJH4uFn97dgsE20Ompq5Q4ZhHlOj6
-       jn7rGR2EaldThf1iYKnrTuNLEyQsMWndWYITZRZ1AyboeKIpf7v3wEavl0-pi
-       KB3A0aq26fMk7lSbjHzPnWepZE6IB9CVIAqZDYGTKqjeeuM4rdfXhKJIMOxGP
-       OLXr-_pX1DaW62xqSlNZRDqodJETnEHBWJi9kxogk2xINW17SbkZNQxg3TuaD
-       QNyrZlQ0QowXCJQ6rt5tIsotRyfkTL-r5Rwdf8lcPTkMbrkjA1DGJH18H9x0U
-       h4YdMbXp548vFdHZpoATIBhVGgl3NX_n5fkL1PvtRH6N97ZXTxEKVS5l4Bkat
-       qc8rWgCpa1vYwTQSipEISm4m1r13Ar_s2xxANPSWJgSRg1RfvAuzfkXtFSrfK
-       Cq-MdKQXhWig22pInKOstIldIerQUdH3rFN-YfUp-UgeiYARfQNa2WpQFIpPH
-       Varm5WMkjr-z6-ZYox231A2JIAwaNHKQUvUrgQKRs30jcOYyXCQ_VScMhNx7H
-       RV6ptQCovr4hkfSJ6s6VX04XYbUbmk2C3TgOUhM15cx4r8odzhzYNVkzN7hg3
-       XL9yat5nnczMD9xiqXeBw5cxxV2gDGu6e4v4TN0sTfey_cXa3UH2Rt6pMfRjO
-       EN4j10LgoTnJ6bEmrmu3FV6yDEPckphmjbgUzgZZG3K8TwZeONy2GldNVJiXN
-       tPL7sLL409e6B-QxzFBe-LrDQXLBg0rk8Nu8YtDf45mjpTTGpOvyfSk-G_A9S
-       3m_o3tnGqMeuZIPvpr9SiAckapqXpGZV5sHcTxYRGyDhNLxxg7haFeEVaFMCO
-       0g-K2Cggui2I8UKXz5DoXZ_vwBANjcbdIkRSpYgYSRMlBkIE7dhMBBEKf97ef
-       yTtdD6ZGDkYIbkj-iLwq0szXOIpnQaEo-9R2ivdg0UN1Ijswv74xSIpmpPOrp
-       3C_IZp1akf0X8njo7RFBrP2R-ni3OAQKFTbN1IzJlWn4MAim6vsD0UGjtdHrq
-       98Bgah89q4i-eRocVtk30OSxLKSk1GOLQQZ__ELUf6G2Cg9o2l85k7bodrh4I
-       iISGY60JnkXtez3g46hw8syN7Kz4osW8QZpOK2tRLEJLYOWkuB4TnOcYnNWME
-       _DftaJi2QY3KXebfJmdGxNOaXena5hV5D_zU4uDXlvXwXoYNEqb0-xPkdD_ui
-       hiUHXddKom55V49IayS6slcNdtpVLlo2F878LxL04XdSgj3eIkJExsTGNx84i
-       GhjLn2wALklwkIXJz-nhEa1HgBfwOi1OJm7KuvgpdUiyjeld9RSITWZn-r7km
-       V6ZkrGiOtnPLTluCkFr0KSvtpJKocD9j8UVH5UnQznVRoQ-tqSVzr-eVefjkp
-       y_GNfyMdz2mAQ6jgFS1cJ-TvmWDiKbORQilsmTSktXHYDEwxIreb-PTai0JBz
-       P8KYDYFBhkzSK1my1cUfwBZdg1lKK5yNlHea3XEjndZSHEnh8nCeXXFhG56ZB
-       cAKUObjn-seqA-u_WZIVKNtbFqC5A8YQBOKvKbifrgYZH72Xf_LB_EllfJrn0
-       vrpyumQV5AUjhIKp3pLCmkTrm1UArkxqBAe349tMnegR5rlg0q1CbCEAGp4FY
-       gXd7hratrLgccN6ArM79OR__nWNTImj3cf3n82qM8UNCDfH415rBRyn4TsQbi
-       vUgHfJEymDGhJaDKoHEa51ttZka3jzMMoiGFK6H7QbhJ0fUcDKpbIvf34EQnG
-       2jjIVYMzmXZjjUDONoOD-NlwpCBbCT0IsxMo2OUra8Jux5nI8romnC4QUf96G
-       HeTTsfgE_aTqgIC_0HOSGUWyl87lvh9ZxXyPcNvv68LgQUlmqHzox6XyInsdx
-       Coy5ys-EOlxmj8U4CwbeimnQu5TooYIlYKsv_nnm_F6o5ViR4WBa9PoNMKffU
-       wPNfwTsTbL8jrLpNqOnxICxbe9TgDn7b3F3Gne42DOZzTy7GaiPTV3ece8PrK
-       kGch8478UpRnq7CynildYeEFkXmUupMrxU-7VU6uMLtw7y4E_u94mKTnKVzq6
-       PdUa0S_JNVLfEsyHPU2FJ-6N_6Cfz3l1fGPOqDWpVHZcjey1cDp8EAEqZXFvr
-       8Dwzx4ior_UpBB1nWxmRT2V8Dajb_u5gAkN2KO3CSXxzV9cswiefvSeo7PJ3r
-       H-VzPNkO-qSfQRlGhlHFWyK-joADaYtcfURyAXTWIVpw6pQbx0588M_A0FAyl
-       vwMmmv9xWCil-az5926bzBQmLytp4-vSF_tIm81uhHYwswzt8sETwq2JTP9yI
-       McdiYz4MzP1QUbzpME9cMfONgwU3g2y90KrWyYg-U16PYUkcW2Muctxorak9i
-       ZClpXMM4ls9apw4wwqvJsdm5jzxcUfmrCPvbsHokKdyNbbt0BNkZhLLEhhRHB
-       WF5ovhYJhW1cDmcROvaCYlB-mz9iwXBFp7OyrLsvQgeksoTXvAEBLUi-NZArO
-       6HCpiu316d0EoVuyENjWFhSNODoVKY8vzEKRV8QA4KZXJN2EpEFCnr21y0ee-
-       Gh0uKec_11_eoQ7o5tYa5Z4nZgq6m8KX_bzJiZturOUhI2af8tPUzlaLgqKdZ
-       R_60_dZZ9Rs59GLuCjnzjDu6yzCur7eJRCKyNI0kPdZGkIWt2tYWpqW3K05M9
-       K4rMT40cGTTBKcyclqnmDtoASKT--CogAer4A-NC-8KyE-5SB-nmmY4Lelr3Y
-       qf_JpUzF13zt7Wg113pog6NR_AXqLJMs0baGiA70mgpM1WKjmhsBz18kYV4uh
-       lZbRQtOqC1pLuzizr4Y-r8vLKvs2I_K8XEhB3Og544qRJFeIHltCCyCXUnP8Z
-       jPNtuQ_ruxn9vR2DxbmoWPYrGd-kgDtPn_v12Ix1zZXtd3dbpgB8Lc0X_xqZA
-       WgJB3-sDdTow4K5hItjMt6bYTGgNtUJJ_jHvvfd6Sj0zu4X-IuoJPI0n8nf9g
-       8P3Hxx6bbOftbe1IoJLgJkvxo9SfGRi_G5zPbLqGc4DmWHOT-Qx6K4zM9qdez
-       Hhwpf6DBY6J0HTZiXni7JnU0CsAIziGLhdmQQOBg1R-lQKtoQvimKTNTc97t0
-       iNTOR4MOQ97zQZhd4EHeIPO4kbV-fnFQP3SfSLLE2aT7ZhnWQkAaxtafThvqD
-       XTSwud2WoF98tM0I7m0hBKtE8YO35C7-jJ3MeKj0vkPvO1orUAEYf8gca3-Tl
-       uG4m2XGJHqb7sPRIrgaKx_IdI4qnBQeu7vpnfalGkS6rEBhhEVIpRRmjekVBw
-       O2pa3dm_X5JNCoR5-fgVaKTGAo1cORYMO7zYdLO_XvOL1ha8DClGdDuk6kSti
-       XRdd45o3sDmxEOqWCQEsZEsTPNzBrRrmnR21N9SlNkZciTN6UNsZL1800qTLH
-       kbeDzix4C6H81aiFA6lIClBccqmoYSdawjduHqIYfdZ_XNWSg7lhpTfoa9s4V
-       obEbFi9_FUghPEAMB2F4eGVN4FtY23edNQBWFUyc1BEDBUuzoaQU-G22bmioJ
-       yFHUDxrXhrzhgQd0DKad9Q5VomhLFkfyBFtp1nsehD4DYl8kP5O5R032HuMEk
-       o4buCqb68Kc2v6vs6DVXPEk0KIzTHA4tP1i3h7S54_Au8Z30Gz0cY0OgF7qWa
-       ljTSfNl5WmqSwl1Fs01mI3ftWlfWEE5KvNXw_AidhZMrM_VR1nljRozkmZHub
-       Mw6RUweJX4AIH3sO482apLTj-rmHAh15MLxzJ7pJzgnZQmERKPrv2zV12U3N1
-       wZ9z3EfA4zoQx9yq698kG9chTdUmdsi3vVetchoWNM86ONBrelpJ3x2Zscuqe
-       B-CD7eg5m-2qlQmMvANBCBV7-gb64l341yDidnFUuL3lKvfBJl7AIHFRQbA9O
-       k-xzsRwKXgRGVVlJoYa0HUYZWc3_14gUyQGqF8m-aZLvkN1QUbwvgAVUlbWDD
-       iSW78PQrCTzIXPYUxrOjA24g2-LXHoItArKL70MJJfstiRD3XXF73ISRjOhBN
-       dq7r74ajJN-e7jl_fAUcwKgeCbkO0wMcagPwSXR4hZtC_HSdT_wmtEiossj_T
-       4VheVn-AkhxakMjTHlb6CmgohUV-zU4OVoHEcPQZ_ztPzVT6U_Wb8O4i5ZoaI
-       lf597GgZzYKqZmaLpt_rlg5jYLZuCrfOSJOW1yOKU91Ny3JdVxF3ijynRzD9j
-       ZUR_HnHler2R2sm8hCKiGRivRW0HuaHnxADAGN8HOfrwggF2PsskgC3mF9UoF
-       _YL3nJ1_Ig9imUs294lJOxz9aPUZ-DRBEKoZQlXGdVww0OwzaCHI1p9y2Y7Hf
-       64ZFJmO8Slk3TSrAWLI5QKCDJzFYxtWov_ovpe9qnhW3pIbDogy0zFnaWIxhg
-       ZxD9MKz_BGufYOdPA6aKi4CaKdi2cA9p-eYAKoQqIONHndwBbQOg3JNovnPLs
-       lKyFK54VBVWKoLF4BhWaX-gnF-l-inRpl9i1EO2PdfpzyFuG_aGpzdfR2Gs--
-       TfB40hmDOaKrY8xwZieLgihOPznTK_amur9lucVJ7HMi5XcQPqRQ5CQPCOWna
-       WS7NHJOw_38OQIyhBXZ5YqA8WbJrEbAsTY4-oIbGvqm53WU28Us7dPxUppUeQ
-       gik6P2uB18o-Ka6gNIB1pFBMN23-CNXG6FPIrw_oceIUTg7RiSPxfPwpny24M
-       pRqzVbhlwd7qkAkjUMM_jdQLPnKhBzWs5t5-WGr1TFsocmz4b8c-cMNAeGb8R
-       N3J2Uk0XBNpO0wpYshJx95KMg2Ilzxq5XZft59kc7uedvmj9SQiRSIb4lz4Q0
-       k8UaHB0KbuI6s45poBR4uh8xT-RCoAOt1TU2D3RNt0pXlmHg-rvtZ-yjA_zEy
-       3b6iQl-ir-P_S2fKSbfsaVrfdWUCAqt-ai0qIKH7QHyUc25hGKQQVYd4nqhqd
-       tTspiHlIl_wRg8qo25k7APssM-hvdAw0ohvNofSEOeHMPJJIgZVfv7uMa24c4
-       UbdZJ0z2bHwGnhT-968wqcWEYPD1ap7m5LwQElQyfhLUk56eekNPwo83n-JB8
-       FKPDkLtZoY4SGRxfDqtT_ZVDcXj_67WgRDhoQyEFJmnps0kLLtBcvxLE_ovRM
-       RCdfXS3-7dCxAlURm3y267OnU1WG6yuExrVasn5g4mhRq6PJd0h_d5CaVufJ7
-       vvmdVotbBIWzgOC0kE8ndxsuGjPsKmElH5H1MMVxA61R86fokAalLtC6BgB4B
-       ExIkwATu9O761hhO_M6c9t1Dw-QYI6lxiuHNJyfg9v6_92hUufu0WSboA-GsK
-       U7IF6Kw5R218wgCiCzp2fRWDa2w5wNywg23MkPlgylzlqKhyDu3DHlSu-VaX8
-       gZng8XZdV3ycFsSSRTQBgyTfOp79gKEOPAU7UwmVNKupKaFjId_-lycI6XhJP
-       ZOB5vPc2QfKLj-KMWAuG3DdXMlOifDyX9111pIA2Pj3vpKYjWLYld-ZeMU2gd
-       61wiwlK1O0n9JpXIq03MkftuM15lnwMA56Gzdfp4rBy_UdNjVg3HNDVMOGBaa
-       7YQEruspbeqw9p5Eg1wr5lIQTK6H4T-hfBduV1-mAE",
-     "tag": "XaPjTWohDPGfCkaO2OKwaONEbi9DF59PXEsxbZlmj4w",
+     "iv": "KKIKWbVbB27V0cQCenwbIg",
+     "ciphertext": "P0B2TYhcy8G-gOoD-498biJyIqAfJJz124AJ0wyK2eGYhP4Y
+       29pZfvuSO7O7xO331qCZrA12U2UQHbsTC2vGOs5nVej1ysIAkQH-pAzNgWdDV
+       siVr5MCgkij4Jc6YLGRjRfm7XUpx9SfpSkQMkdFsOefMiSW4N8uDE7QvBSI6-
+       S06l7O0qPhLuMXbdLQFsgMMXlvI40pax1ytUwQc1hH8lBVably_x8KmEtSkCO
+       rKy5CsSbgCyIS-NrK4LI3o-m4jLHD5WKDxXn-YOVXSWD1rJA6un5PbweRb6rr
+       0EKTpGs_MKb5ibsona9qVLr8JU5KV-dp2uHVqOa_migRhIfo6DxlhRaZHE2RC
+       5bo7BW-jyufkm1YV4c2nbLfConBnimdgrkpoZsVqSsvv8xWZJCfy1bFhL0hUk
+       7IDeO_d18OAMcnJ3QnwJzZro0MfUgXi0enlasRgO2TAUN0Zw0uxXPA9fs8KL8
+       Ixf2Z3pYr0FexUAPUdsuaoQfrbWIJ1p4c2waRILZoOlMW63946GIVa09swYxW
+       s1vXiusDOQI15QIfE7U1W7OWEKd16wyTyCZb6kDMTaitxXaiz6Yzwg344F1Xv
+       h7MLntAQhmvK5OMIhdvlU86hP-ezUbxCb3F1ciRcgHVCwA-RYZxqfWE2Y3nN4
+       cU31xGW2TwDt3R-NI1ca4MFifEbDMUyMEL1aZl6yR23SHgaMS3_zePBpiQEQI
+       9GqDQVqnsD5flnW9-Pa0CDoF5r6awWPotJ3XR5dGTvM9BgO3rZNWcRdBFV5E-
+       TbaRfMKBB-xTgSe6AfL500mQ6Zq0qbXOtM044qCTcBAyPE8H3nE689DhE4zvB
+       DRwIMy9wA4mfKu1Z7tr0Pg7WgWnYECar5dh1wfHDjVjf_agbc854OhEE7exVZ
+       VQHnVAbrnXWihuyEUj5lSz22WEju9xEAMjlnfdJYCEoSexdV_ZixHunMJIZQ_
+       qBhntppgFXW9JWuY44goMfTzOigO-nNcNu6vkf7aPD9-DzQwCJ5ZFiKbslzgX
+       bJH_CP3LFn6T8YbzkDPf07qEK1wKhtfQLUbLeIkH3Gdi6-8TqPiZBSPQ3p5hE
+       wrkYQDLdejlpTt8DMEKRVQYBMPkZ2Zjivt8nOFmawrT7B5AvGrrlVewMlPwKZ
+       cfWek-k13-jYuxlfcc2oTKdQ-cqBfKnTbR8kjVKyyyEVZYfSNV7hWJQ0OPCuw
+       prxW5FHJ-tjoqJ_jkABbfqmikQNvstgq6XSkCbdMihKDMFp7EqAr66rjVHANr
+       RmHnUUAR7T7OFCJK0HKL1UHBduyrFWVTWq3OzQS_QCOb5lzBwLsEZmSeiJ8SF
+       vYqpUJ_X-6u3McsyPE_xKfi-rlG8eBKa0bZ6v-39C-x94oprfaAi7c_oZKzsv
+       wc4k0P0LRXXiRPRC2QDCuHy7q5D9dmj6t_ce4sIR20VcSKbIejD-H24yCnWcI
+       f3JUcUiwpUA3CkStcVWKMrIEkBSSKwaIbGS1oIz26cmU8NysjMPO8yGNGN2VP
+       YRdDogP2FUmNmqG7FnCkN0AmQE0ey2Jrt6wFrPgByaKtsv-acIvrF-sq_BRyj
+       6O_foQ6WQog_56XE7-CNc2J67x7IXQ8sZlK4md5Qj3ublBWz5jfuJN4j6cD4p
+       bx-Xj8rEMigpfqP9L2KUFwcMOPHc8C0EsJqGHiL7u8aPTYKG58KWGyjOEZKk2
+       v2xUT_Esi2Bn34FZYmgaCIEpk3mLTCVyRkxaH2BkiyG08KACp8FePeztgG7YO
+       xRRAoD11Dpw3mwoo1kVsLvOQrVQBfUDpB2U2L9B1OU5p3NAQzTP6XQtwh1yfh
+       4FAIskRvBCSRMXSVIXjJ73XiPuJeXvwSNtajkrSF7kDQrChv8DX95rpnmdehb
+       0oEgeSwSH3a7vLIBrhp-xHabeaUd37wbrTO1Ie_dhKTSW1tvKJAP-LZ-XyL7Q
+       a26O886s5Whz9eI_1wNZZVZjMe8_SJ0zufOGgKSxoIkPy7Zc3ecwQxfasMelM
+       eUdNFNTm6MdbwGk6N4h-kZ8_f_4URxUf-WO0ArCgM_nWNZjDER_FWenM1Ffwe
+       27QVmmX9s-nlxLl3KjiaGOFbzhxtWIElWd1awT8IIIeJC35-GtFkyr2eWHMHC
+       zpf3yU5DIsNGhvAnd7nymxSSq73xgVtanzkPXQCHbfRupOyvEQLD3oPSOkHBi
+       aMcRWg37I4Ir_-BpIMHvfU--BrY6ohrHvzt69Smql38_lKUnjOBQyzAh1-ZGF
+       SZVgBf2Js2xdhhsxZ6TJOYVA4s2okO7pAwrffh9okwHd5noN4JMMh52Dz_Ey-
+       mHi25vKOJD-5WYFbteO7OKgAdf7-lvruXwUGZcDGuLoM5KAaBK0PJJ0-DVbDd
+       VHWJOqxzIUJSzTOaLHg9V9I4GxQYIpcUKUpvc1PAejuyri02rdJMG8G_9YLRe
+       J34Z1xKKM7K-qPp8HC_6DlP5R6bQyQQAP9Z6dVWgiAHcZ1t9IMcfIcf8MKwxi
+       kpcZCREWVZHqvSCbdu7oUjp3TpT-H9z5rl0m3kY0nsJMJMLVh7JykNYudyiqu
+       O0sXHU-zVsykeEn45chQRByvkDgXLHy03OVH4ZmGAsJlnwwrHsVc5IlVZQ-20
+       K005fAeEHrOicD_x5oyWdXIx6x6UbEgE8Ru28newWRaaDvSkocXqgvRvbRtgg
+       L8DSHnPmeJ7EECJyXjmZYNSc0W1T-RMNaKe6U2vAwL775fW95OaJf4L0VyEsH
+       LTAjFA-RA2iYXtwKFNBZwwekrZddaHDAmDY8OYg2WL63Fxg96oVqXWKtBSzRR
+       X34dAaqyhOnjaPihQqREhXjr5kuj-Nyn7V03Ux1unDABK_5gpXIO6Jf4O-EBG
+       E5PMVgLtK8Bw99Hxa6Taj_kIQpFqNXijz_wZElETpbQZ00j9MfxT5IYH_A3Yx
+       QA77Ps4Nln_l9SGa0hwzIr8sHFlKvx7FF5Df0wXVEMxD8d8OS7oxDqy5AZG0L
+       YbUp4fhrMZjumgr5iUfFTMJhFp0x_qYW0vNJK3QH0V0cWsq3FS_pSm8SsJ1Ie
+       yAWiwhDKYaAmWiPQQXr0eGqVy46HqUxD_tDRdqZTOgXscVTcHMYXBRoOf0vdx
+       pOmD2dUfPXODcavMqzC6OqJAcrBFOzsdiYI8ZtkmBkt8D-KeypSeXqdb3oYEA
+       stStL0tdqKYvz6MEqknZlMNve4sKx3nmYgNyjHhyfPy57xp3tvQ46BtjZwOGj
+       b8ZtDjiRwl05dL4NIlDWCT5l-bzIYs2nQGGRLH9Ldzr2NdHIAR3iu_QJnz9_i
+       cP-RsBwhTl4c-Q-uwR5Mw9etg6Y8SD0_I0rFXeiFJnrEfRnAlyS-pWuRid613
+       k3PNFSHJgTSeu0XAxNm5h0UxCScRSzksfHauNAInfOwM6tiStfTO3Nzvr8VXX
+       wkx28Pav3BaZs-JjQ1d1ovEJpInWjR3WLCv51MunYZcydTlVT2C-qGpK4wzdX
+       PyXyKDMlM7pE7iIBLTIRq7JKj3-wcJzefito3saaegPYG1BnnhimFhccDLjrR
+       hEdb6zamEEJqoAVeWgjWmUlutJjvldMVyb6lL3O_q5QWC5H51lyVWQo6wzAtX
+       qUK0bYm-XQUOqaE84CCO7XENp1wHPQCTsYeT7cOxCe8fhfCzwVqJDcaVzVW5M
+       IfTdRG0HhEK4BS6-KI25Wy6vdMzRJLwX6tKOiw4fTQpSjVf-h64CCsmdSYoNw
+       ztEOdXD86KLcu4ITgTo4WGZT4ouDJ5bDQFaxNRX7lEUUXb1pueRcNg_bnuXrg
+       g60U1zCuq5xsL3IUK3Kq8eZOJ1nIUICoE6srgmMSoL7Pru1fzqIc2d_K6cdsI
+       o3jo_O9R37dMWRhvx992I6CZqFDitP0A1RLOHnz8EfLuqJoU0kOXh7eRSKGEf
+       VyWG-ixuG_QPIftMm9rKJzrPK3fsJd1yMFFMyEg8Kzi7EEp4cZKpZbHjQKHy-
+       ifz7mWX2wW2we53oU3tjLpzxN_AcY15MjVUpYJyMBM2d9BORQelP28OOAHhJb
+       6Dth5z-LBv7JdXTpx-iMvxL9zuzBieq9em-5OA9Ho8I3cZJ4R1e-Inq_K_Q0i
+       QpiXwFRrkNwC8552hStAAbxJuaoKpGZzQ8dP9yN6MuApGN2vrGMeppftBKVko
+       AZsJyHO20baWaNtgeb-RkPkXUZaiH0DwEF45L3gwGj7Vz575V0veuB4aIFwtP
+       f7dNac3iu6eKGcYD8KAklg3h38sciHQA0-OhPMYrBj5NmI0CQttUJYG4n4lZG
+       c7jXm0rShakXDvm6OshxYDgGza_KXQ2y01-kxobt8xM_s_uJGyIkH0Z0n_rVO
+       8oBHDe33xdWyep0Xwa3npJDZzB7--9XTgiX3-AHOYfTCG8fSCSETkSg5OBgn2
+       aCoJQAgxf6MMxE3DYBb-4t6NJcwCh_wNrqxv0I9l4LNbhjW5FRpp4UQnFAqhe
+       8v7CKtU8vajXPQpSA_0bfSW0XxHYXulmxJd6P4g72Nv7-p_LcJkBAEmMwuiQg
+       CNySPXy6ore6VESOuFYKHW5fq75JySmUCgcICu-gii8Mgx3hTGshl9IRwTUbj
+       -jGProLHbs7a3KwSQyof8FfSDTQbgsqALVAgYeNsFdYAnqqjIr_nqwYLg6WKW
+       Uccr4ionp4IVrIiP6gjQwwusKBPUnEPpI2w9DFjYy472oIECBdTyWxOw4fINQ
+       G-k_po7j0HFmrVDrf9Qe42qwQJaZRZ0FQXlTUQqx8toz40R9IdUy0TJMBs7Lo
+       vf0wXmhzlvPLGNnTv1Itn8UbMtBVbr1pComEv5XZ7Z4z9us_e7kISCQSa3GKn
+       2_2QjoPUOWSt6ZEbrzIOYlMGZClXVBq3aFpV9Us94VjbL5siveWf93ZjY4Q6u
+       uNVsWlmN7UJBE6tBCMSuFvCPZfWFo4h15915lSUB8mYyzqxUwIfpfLXB8fEPg
+       Tj037vBmzKknvnRwMgrGyJKN7lYpcsei_KL7i3yU65k_ftZ8YBdkyGpL35gfo
+       Hr1i0YXDcYvFEgjsKo7jOSoEiBJYpy_U0zj_pjTG--VNalxRL4-AxJwpq6Nfj
+       pwUcp-gwq5QyG0xbN9tt7p0h-CpA0Ew9tBlG753pfQrYZpwRPnvYafLf8XN5l
+       8gOMMfvMv8Vosvr6Pt99_-agJFDv8-Z4iYETW0Py85tkiIzZ3geODwVFygrtd
+       PYvNbyfL7TeoI-B9U9Lbr8Gv1ApAsPk8E2AenKqIfhv1oT2l830Jm9OsSoSvo
+       RhfZra6owQzxW1YibjSdh3aA8wv9CW96NGuGN8_SbBpKyJ9u53h5QPBXbz4P8
+       Taos1-CqC9_Dx79VcEr7qQpvErvw64mYeQknnMMabyuujY4cpXeMqJbZQQK10
+       n8pRdNK4ExqF1kGjh2e_TVkm4xCwtwk3Sby8EuUPucAWQnMqBNooQxXvTFFsW
+       ssQvYs8suBoJk8Psxo9L4ThJYGdaiKM22qWcHFuakA-gavfYD_a53zi1vHYiz
+       cHDhALtVR9yUPkPwNeaGIHrrd2TzLSVAm-9yGSSDbfYcvdhz_VLj4l_Ty-qNS
+       2dGFgySHAftxj29fRwZw2WbArs_7CAK6-SHINYjCIhP9caYcQl-YchMmLdOjM
+       jN_kH90GDDbzdhahTlNXnuWAnGa11dtiATVxyMy-ohGhpBo53ZDQsae5wik_Y
+       ufM_v7-DxYBdy2i2Jdih_M4-RRb6cPMFS8b9VsKjsKAh8eBpaKaBw3-9Du2v-
+       yYYPitNzu0rapCm41vNFi4QZrFroc6rE-4QluuQbSlHe5i_ymn3wBlz4QYxE8
+       NEsBMMEhdNGWpdiIPeZ3103hVeIC3Dvq2SKzvW4weuCnEBQ2ulm0EuHFWbjjF
+       ejchvxUiQjIjlY59574wxg1GRCp7X43WwV8Wt2DvlKaW7G00pOantSSVcMRvB
+       RRALcDAPba6ESlX-HNKeTXn0xy8n5a5c1AoKnf_MURrQuw1PZ6uk7p65Le0cp
+       _pZ9cNzbbfwwH06eHPfQ_yjdBtOO_7Nsv6yzw_eKXAKRwgylf1JzVNjYoj-of
+       aQjjghQdOAI2SUYre4wZp6n4nMY_KYp4rYzT8EKbjKYw4gKIKlx7lR2BS4xhD
+       zA4A60_JeKPBvWeCGkxqN346rqL7qA2ozAKWqGIUR0JkEzlJKDr59fRTvVfe6
+       BakmU_Vmqf9v4OwnsyE6zw0vFuMnuZZiEYOILAWn7I1smkVZtwghOXqFgRh19
+       ayuBROv0Ohjmpx-KKQ4i65XbXNcdQnDwXkVQXTnwEmtBjVmwb9f4tMNZTm6TM
+       rIXvnpDGt-K-8PTnBkWEiK22V1Ips8aR7NKl0PpC9y3ub0kXXGHMA2krxPm5W
+       9nqY0iCqpfewNPQzigfHb86XfXCWCRiZsuhvl8gYBPtj8I6-X5dvI3HzqXDA3
+       Lv7omQimdD0W3cMlpr39Qh8jlK0GBNQjeCejvq-MXeQdsMzagalfjnRGqL_sd
+       je_Ihu7dzwvtQ7Zn9J5Mf8Qw7QAhny-Sa6DOEvDrJ7fJFIdUBimjxfmNu8WNB
+       e4UunXZSHQg9d4-HvoMPty73SPjOKyCimeCeOQfS_VC9uExwZ7waNHtsgl7JA
+       TvQN1XYCieJrXvp7_fLIwzIkd8CtByeXfMDSfxnlmuLhg5SD79m7A0fVlEYRh
+       E_2vi_cevRO2fkyg09VNJFE8-C0mp3PHCcmmEMyqHm1ohTvLUx7L2f3GhAD2q
+       XjLIDxk68956cjuLI3jsVUV_aQrqb0Vm8N5zk5CzxUw9L_g3prqnFOdka69H4
+       t0yWtEC1f5ZoEtd-D3_YsBFb4_8KI-SCgRQRxUqgdY-Z9EbIUQNgEwMDYp2ip
+       n7-mhI5VOEt6dgU7i_L4VCsdSw8GWnnU_6Tu-CI8tXVD1DlxGz4eEG1vLQ6A8
+       bozkaqFVc_7B0maB9Bu5LFu3oNN26xMeSq9TStYjERZQUVsz3jMTlOHqwJeZh
+       Lu4hR3PgOTfTVQszBzHrRwFLcR31HLB4TDs3r-G0C1sfnb9PvpR1DCr2UcJ56
+       rZ9WIynNjKNmr5RQAhwFKXacvAheLhAXtwND13GnxsovMZurakiQuYE1WX7vC
+       R7iEm8zYhibNxqMzgWeFipBoyBnvgZyheIlL1qtgMrIF-6JicR__Ses2CFys2
+       K8fAUfJzH0sXOu_kYJy-RVUNK25vGUQGCYDqrRoWgIe88RuA7pU9xpbKqosoM
+       hrZnRM7uydCV2tKnMdntP0zFXxbShp0DnHpqbJQXcFFVJrXBJ-uCUzPKqmfLr
+       NIpo4Wj1J8nIwsocWw9VIs8JPOYZrufBppydO2uYULgXSulf4KbOtc8mpxW5a
+       IUiKSh3EAw0_b26eDOYirEpDjJTKKeCGuiHjG46vMC69tAv14Ypn4u73rm4Ta
+       3yN2GmRntmaD05IOcVKZEMz9c3TscV0QLChc3C2NoFxGOpuTUt2PC9JeWatz0
+       HyiXn4v-xOz3w1Ge7jU7lwDVuDTlQEA0iPoDyoF33F9zF_zTlvkLq8Zvb1c0L
+       tcODYBNyUYbwrX1EdyWY1VusbRxqUGQ1zaq3JZ0lPhUb2qBCbIHVhEJWDd4lG
+       BQ-0TCdRNL-Gd8-AaUuJ3Afd24S3CVuRvc8OteFQx6kcYPt4XdOn2Pg8SMiGS
+       XFH-xO-Iqu9g9K6OsMLqPs_EWtZF_j98Hp5elWEjgf5x2oat_FEURnQ92SrVC
+       ZvsJmNqoLwbixX_4ZRMoO6VA8VbjkJHYCRzw967er1Dy70ZBsGXKaG1VtgKWY
+       WForf2PvqMwi8Rc91LJVG9lSrobcvGOQ97fTyxjsv-y7xxnVjbOsghlmxzaoK
+       Wq25muDy94aigx5KkQleAiXDAN0APywVwOUAB1Acm5wezkpXslzn_g2hQaBqZ
+       z8UDc_ZqW347A9uwJOnDIjdo2Lsk1w8gD6GaQw3-wWQopWI4x5v6BWBGDlDML
+       ZQn2N_e2OnWrcdsjH_0M5F83OamWRQzqosBZR4mq7X13VBrTCSUKqUcoXvR_1
+       EjuY68-6p12bONMF-l44R5TJlXexvRzlrqJxHUVFUORhg1vj3da34uf-f3RuK
+       dMZ7fHOWyCxcSX406hKu5Bzsh-cbIKdHpL-FAQjpOfhRZvws56ZXGkVN-4Eef
+       sN61HynrXUJ57wGEdlddJjedIfR_3fAj-43SB_YaZGm6yy58O6DKh01Yz6R5m
+       yAqyo0loEeSwSzc0bBa9Sl-sqm4O2zKdSYhbYD2wHkTVVcMxjfDx1vu6Y22wM
+       kIU10SsK9IQLVMwINLaCWemFN81Jn6QaICGSHDAYqbk1q4hRuc1H2g1S5gyOC
+       2JCgEkbN87AlF495R2a9YJkwOMPgX5YkI6w7XyHOHb5lNXOyw6Xly2gkZcrzS
+       aasDDA1vXFRWz9EAMQVGjnQXInEbwj1fyoGkBp4FMxyN7FvqSjtAUvQSfNj4B
+       1Ymsumg3GYBn1MqNEB32WwU0dLdlMArGYNtcgvLqdjYx6IkrPsniHllUyjHCe
+       Ut23HBlJ1Ytyfzpujd1aqXNQwrYjIP6dX5A3aFA1SFZIpv5QiE8KjGu5deG7U
+       DKqiuTW_fbHhRW-qqZFwF5OpHj-KGkLFY3NRHesKiT0ogY-ycTt3qTjxJMXTp
+       FFTzq7h24AXWOMwHmLakrsgQ23UaOELPuREsvvdLMMOJNfsw9rD0vAp2ZpfjQ
+       RO61Q1Mwfw5sEedu3vEGcxFteTA8A12NxwW5LHbffCO9agknA7bMxoxZPbV5N
+       9hAI2m6NDHMtwtd6Wbn8qrYVIohtudB0fuf8eFiD5CUFCYFT7oAfQO0XI39As
+       66n0OUKJq6dM_Sn8YatOnjtb1mANDWy3jUUwtkR9noTNWx3F0_fKyJBtSWPrs
+       QRLCBnrmuhsbIaeELGUt9DVU3MipEJYjiKSsemSX0Q_BLOH5WMrHkk9_DBCMG
+       IO0D2iyUcgD2qj6tHHEc75MzBqVGJUIYgqkO7uiCB7ywVYR8ZSWT9PP84bl9l
+       GTI_fbyl40xu0z0oHQCeRbl0yfEeG8JVlmNOtKx4rQ8z2wYXJoLhCh40wmErw
+       LbFcYAnLi6VH29pDk8KiHvwbj4hyPgwYfbWCtbdaeZyZNYs7IKIeHiQ-tEhbh
+       -utDU_uTzUjHm2enj_CS5QJ5alr3w08oWG3WL2xp1Mj6EVsrULg5KnJwwEbjY
+       gg1vMV6NLMp8y_hfIPPT4mTHYPlYSSH-4MooLssWzJpf2F8NMkjghteb76hha
+       -s4VYiAsLToKNedJwHeVFRVocSWmSDghIu2BFJrdteVvab9W3pXUbsM8WPnWG
+       2k5T0BZpTS8z2thtZKpDBHueAEIif_h-0etrsrOH7QlvrN_AWqCo9pGq3OQC0
+       OQlUweDc281Np_Bpurstk5q2TxPiJwAv5VXSCiSUf9pMN7Xpk7tr2s-jLcy1o
+       H3PNKNQthvrXwoK1DKELarBX56e6UiHJTJDuECTrOTJC6a_XZDJVQu56GPejZ
+       Gi70vc-FkLNfhfy0tSo6Dt1BdqpYoycgp-3dA04fSdssrzyobb9564zLCDHaf
+       S5jkEtA6Eu09lwtJ-jpy-b2zPwFEKOzEhjINHU8xgxOJ8-iy2XMtIcgtp-p_R
+       N7qdNiyB2Ql_n2HqYrfEyGO_rlk8uVpuzgI1mR-ghwUsaej_eBmaKcbvMNtXi
+       Xv5ejNA17QsnP2DKFXDg7HZD_5nRK-giEdXooyYzFmgjPdOP0S0epnSfKA83g
+       oSkJq357SfNzz8J3oQVOhoTsk-IUCOgCJ2tP4uUrz0Re3xNiYjyEBSEEoOY0z
+       h4nmUffcBR49xC_aVlMmsNfygrguJERZZigxt5vfZRfYM2k8qDmJ7UW5-ABlr
+       SqJGZgeEaVrZkKqjVxsIpUwwMV48CKkxVuMjA61koHcB3p8g7dc-CmQV72JFQ
+       VnTvE67LyeWOiq1VxrUyfo96YYGnAdn4K96nsbjtT6gQDU-9PtPu95ReJpXAi
+       oqt88u6MS2MhOooHPLMWG7BYt6W_VHoszPdaKNczSv29vn1l_E_cXNcxp-SRF
+       csbashMiamiv4XHVyvOkGFz_mFL29v2higpY270IN4-vaogJGk-KZzAW7QwoZ
+       tBhDRyD182w3NHBBezLEPSE_HQ4Y0ayeUC1e4dgZUPiG9BUYbC1-WVB0oJ3SP
+       owOFN-J_duPFrhFXSGf_t1EKMT1gCH-nJpTJI2_0XAgEW-9geAPUtlub_dHAm
+       kd1a7VHlhlBg-i2Iri_0o_-0lJl0mOS6z_C9IAX--6YdsmyQ4OxtCKtbKCUEG
+       86Em-wvQj8fP7sbfx7p6OyWAdEQ5UwVTwMT_PlpgMYtZwzrJs6yiO9C-1Ar9k
+       7KQUYa1WYlu3klxIliempahCeBq-7eSTauhqa-z4s7E7ELDeEdglrbmYaKxB8
+       023pezLNY_kAmIS7KzBUQW5_qLvzFRfXSh8HrWRL3sYD_18wisIERYfqCge2U
+       kmTwQkR0CVmq0nt388gUMRVlab6JW4dgIyDE1Ggv26FE_AYmDf_2HA0yRYxKJ
+       -cZErG6qKGzH5_u_1rxwzZlcgd2VVW0nPfQFAHKkfJpcJhscd-nl0NwFtzx4K
+       XlUWoXwOEdDMhnAlrA2Ju6HQIjWlGYU-HA_NJnAjKEKpiUrfS6XpdlRbdxob2
+       _cN2lvlT_1w5HWD5ADkit4he_KsmK-88sO_DXWp9eCUACbA_dRBNeAyp4n_Re
+       2lZ8B1misPgltWJiGye3ajb_LqBLTefTBbBxohtJnYaZcVHfo-cjVmD3ifMbZ
+       6xnUwOGovEB0Oqatc-PF67A5TnAboUMXLbJUXt7AXvharAvcbieYD_a180Gdu
+       eD_et2Oy8Wu40LiexLp7c5ffkbi8NhEceyiAna-h03yIQn3y0FW4E58OiXpT9
+       vnzQnOw-fCYv9PoiUl4fZznQ__vhLEfVD506dD9_gOP83YOgRvoW5pVhLV3cp
+       tcUP9BXouOJ_1rwJGZZf061aA6R3vGH8lCxMtCYYJn_WNy2gV2x3Uk28CSrLy
+       cJ0K8PxGUgRz1qPAaGl_crZj_n9jKMyrOjZeo5u_HimLkMNAEJM76_9cBoT7v
+       _Wc1Tlf-k6-R1V8izxCANkrIU3vCFy-9TYBGgYSOGzF7fO0LDl6j9eOzwLbVa
+       ojJFTpUD0VzmfIejCBkXUCkIM20kGUvZw4ZyQF59RAfYUCNeQ_Qce6FCmMBWV
+       q0X3TA8HFhbWPScS0gnEt4nMDe7NudxA9220EjoapVNGrKjMS6ssbd5lzFIfv
+       yd15l2Vd3q6MDogluNRLlfvWw5ufK5tOYp6zXGhJAi67UaLoENaMZh00oWiXj
+       CDUVbU3L1HmQlXYRZ6MqhC4P_PWo7LTPhKV1cupog1vcKYNLbzR0pn9T57sIA
+       odVG0nFQ8_XG_25AggPynzjCh0pHP_ePqxWeCJaHECVuxgIgK_RJs_ixU5GA3
+       vo-qCeltinN7bvq48Ffez1itrkIF7oNQOPugXU-wUYoJ3y8ZKmMW5e-zQr1B6
+       A9m2yUcalgT7F3JRggVLOIUpI93HU0MhxFIS5ZMrHZ3Qn0wcGPfYnXgUUaJEM
+       8gc6ylLu3sM5fbik33xScegCKmhwO-dZXpBEmTjo_rixggjnfyp_q2w9w5OV9
+       lXuSgVXr0PtKMPC9q9tZHvS6FliLRlATLTgYBXmNRpz_SABZcLRe0p-waH7nl
+       UAV1lOnrDxTV9WlyUQ3OflgsGMkncIKO-779n4DuaR2y6SBdLMl3O7LVBqB9r
+       z0BflOViLlWB-z4oj8GHLCKArvMg7Ad_K2DF1Ma_Yv9WkRx3zKc66wJF0ebyY
+       VAyGTf3pZREAbijrsA2yvv_RxvgVMCstB37W2Tj3bD5ZKZOdGOKP6D7fKVCyo
+       y_hs-sikqMvAHXzyvbk30nsGZ0LUPHA6N6hZHGpdemVX8n_wbuZgaxiN_kCcz
+       vUOITtS3B-E3NE6_bmqcGlRO1bF4-aya75Z-eaK1ZZ3g6HeAd_AnBf2e-k4aw
+       Z_obTU7hFZwFhycUrCxe1lKo67c6BFjt8sopFoE9DoC8lwZOzu6G7tVmzdfB8
+       xmamJ9KJzVwCUVVLPREMv33mIqjpA_Vm6TWG-Gbg-bnh3oFhF3WIOsLIvk8L0
+       C1xeT0w2WSD1IXkTNuSxm7YpKxjKrq6OMUzmc3m1JdJvghSRd7QNSumKSnJnd
+       emSh74z6W1tYqTTK1HCjX6y-b68WAfVRGwb797IyovUOrI1rFAynYqOQJPrc3
+       8QNOsPZoarWiHUtLHLCr-VeVeRI-bn4R0dT-HAegzhofdnMgJn7ZBOBcwGhXX
+       TCtepXncu27UzPFmpHhkEctoWf5QrCylo8-Khk8Y3HSuGeOlx6_a0DHbd1PQQ
+       Dq7bIrcpxD0QPOUUUEuXqA27BowQvrQtq8gx0dYirw-qkIcRBG-kd7RgO8i47
+       dFJkTFX8wIivrgeEXn94_zZUbWxL3voRcVwuOwDTidG0RQTyLFb1xCdwRgyWy
+       pE1qF8AIvi4umv-b9qpByUBIWpTy2adplD0G8bn1nB0yI98opEU6pao-_DO7n
+       ZjBOq8p3-KR3rnXaM-66mDMmSD9BOHHVUhiczqxsAiNLO7vZugxu-Dp138oRQ
+       nfWxP8jH7jyXNTTLrqBTQBUTWlq7W2BGQuUJaoVYMHM7IzCG8TUlxUEN9r5BX
+       -EgxbLoCBw-goTs2PmNI9gRghDmU_z-wgwRqGFExivlHyzZhVxBncWoUA6bzz
+       2qTn70KwcTnZ_tKBXcHSUX8YPHvZktfwCwzbrV0BKAlRJtiCpdeyuyqJ5KyHZ
+       fvNuLdVtcvfFpBpWYtqkeU2emSCyVDy_95gOZBghZ4XrXq6mL-WxC0YimSchr
+       8TkS92Zmn7ZPZB9UZVlTSXGvP72Id39-Kya5etOW_DbzMFYC6aR2s_FISgd2R
+       wsBnxn9A_wlY2y14-_fSvBCMkjaRUFwrzvfUndu0S9op43uKw5bY4_2vL8m9K
+       45K0zHjOCEk0bxSTkMRcBbjC8T8TiPW_2zJJLk3v_ZxRtAa7EcqUDmqupZHSq
+       FNaIRIt6XIC_Bm2TV_6zSCazAB7iGYBbXEMUzdgwzb87O5VRPiJuCuMeUGVW_
+       80cji1VTgZTxp1pls4JZAZG4XlIe_m6OFW0kVleRcW9oowAma5ZBYHsIN_sR7
+       unX0rRPi97wzk9wh9WTl44iTZmAkSetJIKf2Psutbn7Z1X14fjywkfsTFd7WD
+       EoU0uqGygWgcp0agFEf9_soAnvWvjNBaoitx0nat4cjlvRuMrn_w7vC0Qfpgp
+       OKXWGZcUZLqO5XT_Fr5589QfOW2O5EnDmZufqPiS8gLiX7PEBAL9v6budwG4t
+       SvQo6WpZUhDCzIKBLTOQNmL-YInlUN85pnNxjKTs7KV-tfjBSxaq0cPM92zUB
+       8e3x1sGBiJt6fJoCG8QrMYSWHvReTqhwLp-yW7kOqYKiKfI7PG8230ki7_11E
+       2SaU0_YYe4nHntggIlEV6PpDRhO2Pn_FkSvdQLfeVdjBstYDssPgRQ2iuICEc
+       gCgLsXAttbvSiiBss9oEaTeVUC0Q_fgemry26obPif37Joug9vUtofNCz0R0M
+       FZzfVpAvn3zO4GFmeC2L2ryXf-7_ZD_TtKsyEloNV4QSMO4ZfbVWW3cxmsf9x
+       wPtQLrzn9eO6xKVaVQGhwbjvD6wRZvVp5yqaIL8Yjz9Klzf8sQGQvvcSti9cR
+       Ucdjna4bK5gqkDVrxh46JKK_Wz6XkYXkRbeB08WtolFdgMvep7pa7Bv7NIwuS
+       L6TRpkdjA17T75vXxkgq1at0-vPlCX_B0uews8csvmYGPcqyN2oxFaDOoFzce
+       L6u6NQb_u152wbA4n1fioHApEd3zmHzhHWTG3Htzbv8Vmlg6uR5LlSRjod7-M
+       LIuPNcQ2Y30LI4uq-1YFoCjcP5DJk3ixbmeZLoBjvIMhEGREm2xc0zZraQaVK
+       0-kyah5cpRLZl6SSQobyWh_gqTpyhUqM2Gjy2s3GZL0TP2aJyFBOBNJC6OEdy
+       TU3GQVz3zlouuvF38jx1HLCkh6MKlhCyMLgE7QJI5nVK1_DJZ31Na7Jg1bS1O
+       mmpCyJBBxqXovc-yhBM0fizAjsxxyOA-40Lr4NRc7hoi3EJpb84OPdO6wytEf
+       msqBYSgzztGNAOuDH73ck175UOBGn_2QB5a19ysgKs8fYWAOEsOFARKcVeRz_
+       eLpynumMLWbsB7G8d2_KwvIW86yD14efkZtsi1PZ6_JN7ATsYiDTWTs-L-wTB
+       ZYi_uKEt8ZeEGDgj2MPqrDjftfhWBIwRjTpp5lTSX04zVv3-4zE4uw0nDpgGF
+       9uTgcSJyX6Tuwuge5DZSfabNrQb6hL6vJ2_WGHXj5c8eq6pdHB4zFt0jbCqS0
+       n6QK8iGolA2Q1lNMrLSX7A8E1WxTg7TWi7PKqdCStXCuTe_3mMoexvmUQ7jhe
+       4kc0oxAxrJhTVHFWaNaT30ULosgTizmB6iMmTtzJCzIJHfjvGmw_4Td08bZgy
+       Y83WHCvzEOQ7PXpe8yITNWJE2R3WBjXercvr5fDm52jE3LORuSnWVJlFmpl0n
+       tpQEPhRBE7cL5nHL_2e10cKva46bSoL-O8dBgb0DyLx7NOqiqZIQCLEXlA47X
+       _wts_S9pcWZzqeGxBFX_wYQPRGc_emJo5UPVJKxDbCwcev3FqFzbWABuK0hf7
+       tzK8qMJgos7VNPdeQZohAb1Av6zBTnepqof1NzIHCWiSKk329QRl5e3A5TPY_
+       S8LJjhaD_tdATrKQIxiTwKU89K-Z00uHJ9Lphz9pJizeZjRhwbiJ0TtYwWONk
+       Dgb7z9-MmD6m5xEZm1JtGrYU--Bsc-Vci2EUNWJCm9jA31MOiggrqG-v9VLV3
+       GIT6C-akbSddcMQCZwBOtfMKeAaro4an6KVvjAENBy_oSqCCVCT7OoKfO-7VG
+       0i3d1m-SSYSPa0XZuPZBoHVylNg2X6pEAvuHkJ6m6OuhqnbJlejz1E6lPRql5
+       SQcwQonOPCBD392enomIDzZ-sTz96LL9Dzuhao47QhZd8SqHmaoNUGo9HhEbe
+       _9we0syZzmtHfGfLBCxnv4ZLGnB62LK42KSV5VEcDs9hambgvqRonmPpH9Klu
+       PS7EAMxHOg4AbdNmtRUxbVh21Knu5u-1WOw0AxmEymL7xX5ao13WVLw2D5iIf
+       kFYbDjgF8IT0LSr566JqKOMFmWOUDpRLQ_4MB9fcgB9wWUUkeR6jLOo5kPBeb
+       DllEkPQliGqLa5ls0spHbZGz0Dsb57AvWycuHQ4LZ3blPS8FSl9ySqcmZpZu5
+       CDcfQczWBnJZCVMqDoEveC1klrWI1iT1_y8H2hOrbcSrPZ8hlCq34XyUP8MPF
+       6j8PHPaOpjFXt8OobR64xeuNVXlxagbLd2dhsSo9Qbq3_avRJNMduufowd675
+       GP6QWPiY9i4iT_ZP9kz7gNDOQrQj5ddK6gMKJU134rG-leHB9Qeeva1s1orfB
+       WpThmQddGxN-KdcPcRYKoewHH2WB1XeSFCaHupXbM0JLNHI5m6HNsc0PR78bH
+       fxsngKxULC68-IiiHASUcv7ePYIZ8LKYfQp_b1ASAALfepSD5q7apz2Io8kcx
+       9AWLZBaqmo9cM5CmiRf1HnVdpL5aJ5vc4omUd6zP9yHPaalbOhCwFJ8drdxal
+       DjEl8cjjNJwtdpJqWZ7ofuZtWdmiM09FGr5ooOrLh7x-SUwFzmksnm48JV16q
+       NzKBftXYeLTNvrby1Nxk3u7Ro8EfIbE5GwGMD7ErFfrdOD5bPuAyvvldqLZla
+       0jDnQkXfeWDiPn4bPvZeWYx2N5vV0IiEgmnW2jOGfbj-JgUdpPrQjmjZeUdw_
+       PKMKD3b_n4kUtEOWziDqGcO8khROWsCyNaM-LclLSTPdtxbMAO973NFbE6Yul
+       Kk71sfFjoHRkNmJWdVvBABx4cLJEeleCSBKMNBYz8L88Nj-Vh6VFcr_KpORDH
+       L63Biyqccef65JgTAMeF2PWZRGRqx7Zo2fKl_TXlnTAAouq5dfO9I1O7Fqnz_
+       l1tPNP1TqIWBL-ClzJelYusAgfizxBcgtddj1j_m7X5_HxhirRqDbeLhzvn6o
+       -7iqiFICQiF1W_4HCKog2l7MbKoxWgSesTa2gAib90h-ynBUX3pAJSacmNfCT
+       bc-PGtUsmPRhNtHX36kutDPzOq89-i6wmZG7ZzATk_Qa7_pIvJGJjLt0_9n7V
+       95dDNTGZvVVNEt2sdbWVyB4yWbjZ4qZaL0R__qUBLZzSFc2qsfagN5Fnr_fn0
+       JSbBISO-7oaROW4pzp0HQB2miLcqMCRDbeLAfMoxFPl0CNv-JghkR69q4Bw0m
+       28UJ_f8VBjnyZElDX9xbSFO-xHljqvx26T1k5nlNIn61ac3M120POSSGhM3Ts
+       zxA2chgsF6pVNdQdA8yPvkKuldef_MFEdrR0-_e3Aw8aPlwZCd7WPrD6sq9ra
+       0WNTA_WyVYn8QhOP7nBguCJgQL0T3uYue8-je4mXDwUFfUNcWsroQx2rZWYPe
+       W-wXAneHISBxq45B63OqfSX6JGeYwCQ61xAVKTzF9G7keV-cGyRyCABlUhTpn
+       Oj_1AoSBMVq8hU6CS47ue6aKROzbK_m6ZzmayPIAlw3rsPZOUxPHgDDhk0Vqn
+       EVijZ_bD6_HLEh-8DrAyphqY6mj_uHpPL_yZsbv2CENNKhRqbeiVs5jz65pA-
+       JVc1Yh6q0JgXOP7lKjIMpQf3FbJboPqzIUAB6KUVZGTlRN6o8Nva1QAdqaaD1
+       sGbNI5g6PLlfCw4D8yrybK4ZvyBTmMsr_0DjtSF5-wY2IwQmg2EwbHCg8BCef
+       vqUKtt32nl_fNVBbRAjqov-tyx0SbkqSkn9T55t06hLYZa_fs7MSXd8sJF8ko
+       PG53MuwXgL52YZkgtDZkxooAFwp8TDcqrQFTXHnb1ob1Qp9GgTM82ZVTxLr1v
+       vCweM2coiOgVKIFva3Ve6bnphkzn6uQZ2lwN6qt5iw2-DGtojqHC-rW0p9wEf
+       mZJHD1YyJKoGt40oJeG1njTGL2_OB63zyOUipXoCN4trRy4hMwmuWqWILtP4r
+       ooqYOGyt8lCBdzMYzkYulIE5yPint_QnmDJrDXQeCtHxvIidCGQs9h7xoXNOY
+       wdr_3bjQBOF1WA6T-2SvBcMmXDp6zEf_mPJ0EjPMMtOmDTLXd_KwBYQpDkBhy
+       PVFvGC6Rz9wmsHAJ2X8QZ9Arm4oAFiKa2WNZdrFDTqx_jz8tgsSIqaDCd30IC
+       AZyfxf65msybcQPUkrMl_vFOH--XVLXtle9hc5Cip2oKTWEYkB3sTf2q2dx4v
+       2zus5xajPe7bwRQy7a9MjdCMO5NdiBgX9AyYD93RPRyKTfB-BluNNe4nxB3eh
+       1iVFH6zXAO2BSLA_OviD8nH7_Hyk_sujC__sLrgP95SreLgTeYpk-k6QSnnEF
+       HqNtyJphIf_SCZvvty9MKCc5vpDKp1cdcY7CX31CE95DOKiqRwqO00aq2HSSh
+       2dfYl3e2c1erX8HARstTqHVFIqguezWO4GMCk6MEg7GWCnh4kNvxJc6FpJF8Q
+       ",
+     "tag": "hHOLREOYhFDWFmxf6VUGylAX6mn46n5KhLdiW5YSI6o",
      "recipients": [
        {
          "header": {
            "enc": "A256CBC-HS512"
          },
-         "encrypted_key": "auU5-pz75ZkIRxnVef7wBJSnhMIIPPyVKO8XCYHcJ
-           lpyj4yC8BONX8NUVMLSgUhPlVAeDgirvWEGvIU5YmwBE0fQkmwXyhBRgo
-           q3fkTR_5__7y1UkcsDxXpO5WHmyG8xeMeJDuBkv0Cf0JNyJSGhgB0XL8-
-           VmikI3x2ZSAZuCaxUZlRofBMQy4v9WvKEV9oEY-qu0RygffndDH550gQV
-           MeePyRpDdBnDbB2VmSAGL8lRde21IfyxPpH6h0RkerBAkU4TN2cxlQmcZ
-           0kXdrhd1_pevI1QU9aeO2N-JrB296yIIn33NHyHQewJR0btC7Z1Z9oX3w
-           k_KnOvabU7tgip-g"
+         "encrypted_key": "eYPoGY6w_Lw_Hk_fN9oP09A4aLopNf1XDmU0QgbCl
+           _6PQihDLbTQLjmOQzyZc7nOkyhLYlWVrJIl3QXe8XW_6oxmr8iuezjnkf
+           CSYjvNBYfJoh0MgsfYPPQsMDpWCYpKviqpFJ8_cMjsj5DAgwzkD3W0jXK
+           GzlrWiAl5dTZ9MwvcRB7PEmzbKpBFJpH45OwW4amC26edINT7XVZj789P
+           kG8MWXDbVZSZlbLIFMBWP2dZPdYzXpwow9gJB6Fk6ApU45mmEKmyNLC_l
+           zsFhxBafdooWoX2Hjo0l06ka5JNixdMsrWHfCcwqvS1mUlB0ix8aJ8iwR
+           efa0IXFHbbpGuJlA"
        }
      ],
      "unprotected": {
-       "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46",
+       "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46",
        "cty": "application/vcon+json",
        "enc": "A256CBC-HS512"
      }
@@ -5108,7 +5093,6 @@ A.8.  Redacted vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
 
    {
-     "vcon": "0.0.2",
      "parties": [
        {
          "name": "Alice"
@@ -5140,32 +5124,112 @@ A.8.  Redacted vCon
            {
              "parties": 0,
              "start": "2022-06-21T17:53:27.200000+00:00",
-             "duration": 5.1199998,
-             "text": "Hello.  This is {{URL}}.  My name is Bob.  How
-                can I help you?  Hi."
+             "duration": 0.5600001000000001,
+             "text": "Hello."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:27.760000+00:00",
+             "duration": 1.6799997999999998,
+             "text": "This is {{URL}}."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:29.440000+00:00",
+             "duration": 0.8799999000000005,
+             "text": "My name is Bob."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:30.320000+00:00",
+             "duration": 1.2000002999999992,
+             "text": "How can I help you?"
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:31.600000+00:00",
+             "duration": 0.7199997000000007,
+             "text": "Hi."
            },
            {
              "parties": 0,
              "start": "2022-06-21T17:53:32.320000+00:00",
-             "duration": 15.3349993,
-             "text": "I'd like to add Fu to my service.  Okay.  Can
-               you give me your name and phone number so I can look
-               up your account?  My name is Alice, and my number is
-               {{INTEGER}} {{SSN}}.  Thank you."
+             "duration": 2.4799992999999994,
+             "text": "I'd like to add Fu to my service."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:35.200000+00:00",
+             "duration": 0.6399990000000013,
+             "text": "{{US_STATE}}."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:36.160000+00:00",
+             "duration": 2.959999999999999,
+             "text": "Can you give me your name and phone number so
+               I can look up your account?"
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:39.735000+00:00",
+             "duration": 6.879999999999999,
+             "text": "My name is Alice, and my number is {{BAN}}."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:46.775000+00:00",
+             "duration": 0.8799990000000015,
+             "text": "Thank you."
            },
            {
              "parties": 0,
              "start": "2022-06-21T17:53:48.935000+00:00",
-             "duration": 6.399873000000003,
-             "text": "{{US_STATE}}.  I've added two to your service.
-                 Is there anything else that I can help you with?  N
-               o.  Thank you."
+             "duration": 0.40000000000000213,
+             "text": "{{US_STATE}}."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:50.134874+00:00",
+             "duration": 1.600000999999999,
+             "text": "I've added two to your service."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:51.734875+00:00",
+             "duration": 2,
+             "text": "Is there anything else that I can help you wit
+               h?"
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:54.054874+00:00",
+             "duration": 0.4799999999999969,
+             "text": "No."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:54.534874+00:00",
+             "duration": 0.7999990000000032,
+             "text": "Thank you."
            },
            {
              "parties": 0,
              "start": "2022-06-21T17:53:55.334875+00:00",
-             "duration": 2.6399989999999995,
-             "text": "Goodbye.  Goodbye.  Have a nice day."
+             "duration": 0.6399989999999995,
+             "text": "Goodbye."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:56.374874+00:00",
+             "duration": 0.6400000000000006,
+             "text": "Goodbye."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:57.014874+00:00",
+             "duration": 0.880001,
+             "text": "Have a nice day."
            }
          ],
          "encoding": "json",
@@ -5177,7 +5241,7 @@ A.8.  Redacted vCon
      "attachments": [],
      "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
      "redacted": {
-       "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46",
+       "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46",
        "type": "PII Redaction"
      }
    }
@@ -5194,7 +5258,6 @@ A.9.  Amended Signed vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
 
    {
-     "vcon": "0.0.2",
      "parties": [
        {
          "tel": "+12345678901",
@@ -5215,7 +5278,7 @@ A.9.  Amended Signed vCon
            1
          ],
          "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vco
-           n-container/raw/refs/heads/main/examples/ab_call.mp3",
+           n-core/raw/refs/heads/main/examples/ab_call.mp3",
          "mediatype": "audio/x-mp3",
          "filename": "ab_call.mp3",
          "content_hash": "sha512-GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iC
@@ -5235,9 +5298,9 @@ A.9.  Amended Signed vCon
      ],
      "analysis": [],
      "attachments": [],
-     "uuid": "0199e054-f029-8e87-a20f-d188127fad29",
+     "uuid": "019f15a6-aa72-8dbd-a20f-d188127fad29",
      "amended": {
-       "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
+       "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46"
      }
    }
 
@@ -5262,50 +5325,50 @@ Appendix B.  vCon JSON Schema
      "$schema": "http://json-schema.org/draft-07/schema#",
      "$id": "https://ietf.org/vcon/schemas/unsigned-vcon.json",
      "title": "vCon - Unsigned Form",
-     "description": "JSON schema for the unsigned form of vCon (Con
-       versational Data Container) as defined in RFCXXXX",
+     "description": "JSON schema for the unsigned form of vCon (Conv
+       ersational Data Container) as defined in RFCXXXX",
      "type": "object",
      "required": ["uuid", "created_at"],
      "properties": {
        "vcon": {
          "type": "string",
-         "description": "DEPRECATED: Syntactic version of the JSON
-           format. This was used to indicate schema changes in the I
-           nternet-Draft versions",
+         "description": "DEPRECATED: Syntactic version of the JSON f
+           ormat. This was used to indicate schema changes in the In
+           ternet-Draft versions",
          "const": "0.4.0"
        },
        "uuid": {
          "type": "string",
-         "description": "Globally unique identifier for the vCon. S
-           HOULD be a version 8 UUID",
+         "description": "Globally unique identifier for the vCon. SH
+           OULD be a version 8 UUID",
          "format": "uuid"
        },
        "extensions": {
          "type": "array",
-         "description": "List of names of all vCon extensions used
-           by this vCon",
+         "description": "List of names of all vCon extensions used b
+           y this vCon",
          "items": {
            "type": "string"
          }
        },
        "critical": {
          "type": "array",
-         "description": "List of extension names that a consumer MU
-           ST support to safely process this vCon",
+         "description": "List of extension names that a consumer MUS
+           T support to safely process this vCon",
          "items": {
            "type": "string"
          }
        },
        "created_at": {
          "type": "string",
-         "description": "Creation time of this vCon in RFC3339 form
-           at",
+         "description": "Creation time of this vCon in RFC3339 forma
+           t",
          "format": "date-time"
        },
        "updated_at": {
          "type": "string",
          "description": "Last modified time of this vCon in RFC3339
-            format",
+           format",
          "format": "date-time"
        },
        "subject": {
@@ -5314,14 +5377,14 @@ Appendix B.  vCon JSON Schema
        },
        "redacted": {
          "type": "object",
-         "description": "Reference to the unredacted or less redact
-           ed vCon prior instance",
+         "description": "Reference to the unredacted or less redacte
+           d vCon prior instance",
          "required": ["type"],
          "properties": {
            "uuid": {
              "type": "string",
-             "description": "UUID of the unredacted or less redacte
-               d vCon prior instance",
+             "description": "UUID of the unredacted or less redacted
+                vCon prior instance",
              "format": "uuid"
            },
            "type": {
@@ -5331,7 +5394,7 @@ Appendix B.  vCon JSON Schema
            "url": {
              "type": "string",
              "description": "HTTPS URL where the referenced vCon is
-                stored",
+               stored",
              "format": "uri"
            },
            "content_hash": {
@@ -5340,25 +5403,25 @@ Appendix B.  vCon JSON Schema
                {"type": "array", "items": {"type": "string"}}
              ],
              "description": "Hash(es) of the external content using
-                format: algorithm-base64url_encoded_hash"
+               format: algorithm-base64url_encoded_hash"
            }
          }
        },
        "amended": {
          "type": "object",
-         "description": "Reference to the prior vCon instance versi
-           on that this vCon amends",
+         "description": "Reference to the prior vCon instance versio
+           n that this vCon amends",
          "properties": {
            "uuid": {
              "type": "string",
-             "description": "UUID of the prior vCon instance versio
-               n",
+             "description": "UUID of the prior vCon instance version
+               ",
              "format": "uuid"
            },
            "url": {
              "type": "string",
              "description": "HTTPS URL where the referenced vCon is
-                stored",
+               stored",
              "format": "uri"
            },
            "content_hash": {
@@ -5366,39 +5429,39 @@ Appendix B.  vCon JSON Schema
                {"type": "string"},
                {"type": "array", "items": {"type": "string"}}
              ],
-             "description": "Hash(es) of the external content (requ
-               ired if url is provided)"
+             "description": "Hash(es) of the external content (requi
+               red if url is provided)"
            }
          }
        },
        "parties": {
          "type": "array",
-         "description": "Array of Party Objects representing all pa
-           rties involved in the conversation",
+         "description": "Array of Party Objects representing all par
+           ties involved in the conversation",
          "items": {
            "$ref": "#/definitions/Party"
          }
        },
        "dialog": {
          "type": "array",
-         "description": "Array of Dialog Objects containing the cap
-           tured conversation content",
+         "description": "Array of Dialog Objects containing the capt
+           ured conversation content",
          "items": {
            "$ref": "#/definitions/Dialog"
          }
        },
        "analysis": {
          "type": "array",
-         "description": "Array of Analysis Objects containing analy
-           sis performed on the conversational data",
+         "description": "Array of Analysis Objects containing analys
+           is performed on the conversational data",
          "items": {
            "$ref": "#/definitions/Analysis"
          }
        },
        "attachments": {
          "type": "array",
-         "description": "Array of Attachment Objects for ancillary
-           documents related to the conversation",
+         "description": "Array of Attachment Objects for ancillary d
+           ocuments related to the conversation",
          "items": {
            "$ref": "#/definitions/Attachment"
          }
@@ -5407,8 +5470,8 @@ Appendix B.  vCon JSON Schema
      "definitions": {
        "Party": {
          "type": "object",
-         "description": "Represents a party involved in the convers
-           ation",
+         "description": "Represents a party involved in the conversa
+           tion",
          "properties": {
            "tel": {
              "type": "string",
@@ -5420,8 +5483,8 @@ Appendix B.  vCon JSON Schema
            },
            "stir": {
              "type": "string",
-             "description": "STIR PASSporT in JWS Compact Serializa
-               tion form"
+             "description": "STIR PASSporT in JWS Compact Serializat
+               ion form"
            },
            "mailto": {
              "type": "string",
@@ -5434,17 +5497,17 @@ Appendix B.  vCon JSON Schema
            "did": {
              "type": "string",
              "description": "Decentralized Identifier (DID) URI for
-                the party"
+               the party"
            },
            "validation": {
              "type": "string",
-             "description": "Label or token identifying the method
-               of identity validation used"
+             "description": "Label or token identifying the method o
+               f identity validation used"
            },
            "gmlpos": {
              "type": "string",
-             "description": "Geographic location in GML pos format
-               (latitude longitude)"
+             "description": "Geographic location in GML pos format (
+               latitude longitude)"
            },
            "civicaddress": {
              "$ref": "#/definitions/Civicaddress"
@@ -5459,8 +5522,8 @@ Appendix B.  vCon JSON Schema
            },
            "org": {
              "type": "string",
-             "description": "Organization to which the party belong
-               s"
+             "description": "Organization to which the party belongs
+               "
            },
            "dept": {
              "type": "string",
@@ -5470,55 +5533,55 @@ Appendix B.  vCon JSON Schema
        },
        "Civicaddress": {
          "type": "object",
-         "description": "Civic address information for a party's lo
-           cation",
+         "description": "Civic address information for a party's loc
+           ation",
          "properties": {
            "country": {"type": "string"},
-           "a1": {"type": "string", "description": "National subdiv
-             ision (state/province)"},
-           "a2": {"type": "string", "description": "County/parish/d
-             istrict"},
+           "a1": {"type": "string", "description": "National subdivi
+             sion (state/province)"},
+           "a2": {"type": "string", "description": "County/parish/di
+             strict"},
            "a3": {"type": "string", "description": "City/township"},
-           "a4": {"type": "string", "description": "City division/b
-             orough"},
-           "a5": {"type": "string", "description": "Neighborhood/bl
-             ock"},
+           "a4": {"type": "string", "description": "City division/bo
+             rough"},
+           "a5": {"type": "string", "description": "Neighborhood/blo
+             ck"},
            "a6": {"type": "string", "description": "Street"},
            "prd": {"type": "string", "description": "Leading street
-              direction"},
-           "pod": {"type": "string", "description": "Trailing stree
-             t suffix"},
-           "sts": {"type": "string", "description": "Street suffix"
-             },
+             direction"},
+           "pod": {"type": "string", "description": "Trailing street
+              suffix"},
+           "sts": {"type": "string", "description": "Street suffix"}
+             ,
            "hno": {"type": "string", "description": "House number"},
-           "hns": {"type": "string", "description": "House number s
-             uffix"},
+           "hns": {"type": "string", "description": "House number su
+             ffix"},
            "lmk": {"type": "string", "description": "Landmark"},
-           "loc": {"type": "string", "description": "Additional loc
-             ation info"},
+           "loc": {"type": "string", "description": "Additional loca
+             tion info"},
            "flr": {"type": "string", "description": "Floor"},
-           "nam": {"type": "string", "description": "Name/occupant"
-             },
+           "nam": {"type": "string", "description": "Name/occupant"}
+             ,
            "pc": {"type": "string", "description": "Postal code"}
          }
        },
        "Dialog": {
          "type": "object",
-         "description": "Represents a segment of captured conversat
-           ion",
+         "description": "Represents a segment of captured conversati
+           on",
          "required": ["type", "start"],
          "properties": {
            "type": {
              "type": "string",
-             "enum": ["recording", "text", "transfer", "incomplete"
-               , "recording-set"],
+             "enum": ["recording", "text", "transfer", "incomplete",
+                "recording-set"],
              "description": "Type of dialog"
            },
            "start": {
              "type": "string",
              "format": "date-time",
-             "description": "Start time of the dialog in RFC3339 fo
-               rmat"
+             "description": "Start time of the dialog in RFC3339 for
+               mat"
            },
            "duration": {
              "anyOf": [
@@ -5530,40 +5593,40 @@ Appendix B.  vCon JSON Schema
            "parties": {
              "anyOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}},
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}},
                {
                  "type": "array",
                  "items": {
                    "anyOf": [
                      {"type": "integer", "minimum": 0},
                      {"type": "array", "items": {"type": "integer",
-                        "minimum": 0}},
+                       "minimum": 0}},
                      {"type": "null"}
                    ]
                  }
                }
              ],
-             "description": "Index/indices of parties in the partie
-               s array"
+             "description": "Index/indices of parties in the parties
+                array"
            },
            "originator": {
              "type": "integer",
              "minimum": 0,
-             "description": "Index of the originating party if firs
-               t party is not the originator"
+             "description": "Index of the originating party if first
+                party is not the originator"
            },
            "recordings": {
-             "type": "array", "items": {"type": "integer", "minimum
-               ": 0},
-             "description": "recording-set reference to list of ind
-               ices to recording Dialog Objects"
+             "type": "array", "items": {"type": "integer", "minimum"
+               : 0},
+             "description": "recording-set reference to list of indi
+               ces to recording Dialog Objects"
            },
            "recording_set": {
              "type": "integer",
              "minimum": 0,
-             "description": "Index of the recording-set Dialog Obje
-               ct that this recording is a part of"
+             "description": "Index of the recording-set Dialog Objec
+               t that this recording is a part of"
            },
            "mediatype": {
              "type": "string",
@@ -5571,13 +5634,13 @@ Appendix B.  vCon JSON Schema
            },
            "filename": {
              "type": "string",
-             "description": "Original filename of the dialog conten
-               t"
+             "description": "Original filename of the dialog content
+               "
            },
            "body": {
              "type": "string",
-             "description": "Inline content of the dialog (for inli
-               ne files)"
+             "description": "Inline content of the dialog (for inlin
+               e files)"
            },
            "encoding": {
              "type": "string",
@@ -5587,8 +5650,8 @@ Appendix B.  vCon JSON Schema
            "url": {
              "type": "string",
              "format": "uri",
-             "description": "HTTPS URL for externally referenced co
-               ntent"
+             "description": "HTTPS URL for externally referenced con
+               tent"
            },
            "content_hash": {
              "oneOf": [
@@ -5599,23 +5662,23 @@ Appendix B.  vCon JSON Schema
            },
            "disposition": {
              "type": "string",
-             "enum": ["no-answer", "congestion", "failed", "busy",
-               "hung-up", "voicemail-no-message"],
+             "enum": ["no-answer", "congestion", "failed", "busy", "
+               hung-up", "voicemail-no-message"],
              "description": "Reason for incomplete dialog (required
-                for incomplete type)"
+               for incomplete type)"
            },
            "session_id": {
              "anyOf": [
                {"$ref": "#/definitions/SessionId"},
-               {"type": "array", "items": {"$ref": "#/definitions/S
-                 essionId"}},
+               {"type": "array", "items": {"$ref": "#/definitions/Se
+                 ssionId"}},
                {
                  "type": "array",
                  "items": {
                    "oneOf": [
                      {"$ref": "#/definitions/SessionId"},
-                     {"type": "array", "items": {"$ref": "#/definit
-                       ions/SessionId"}}
+                     {"type": "array", "items": {"$ref": "#/definiti
+                       ons/SessionId"}}
                    ]
                  }
                }
@@ -5625,73 +5688,73 @@ Appendix B.  vCon JSON Schema
            "party_history": {
              "type": "array",
              "items": {"$ref": "#/definitions/PartyHistory"},
-             "description": "History of party join/drop/hold/mute e
-               vents"
+             "description": "History of party join/drop/hold/mute ev
+               ents"
            },
            "transferee": {
              "type": "integer",
              "minimum": 0,
-             "description": "Party index of the transferee (for tra
-               nsfer type)"
+             "description": "Party index of the transferee (for tran
+               sfer type)"
            },
            "transferor": {
              "type": "integer",
              "minimum": 0,
-             "description": "Party index of the transferor (for tra
-               nsfer type)"
+             "description": "Party index of the transferor (for tran
+               sfer type)"
            },
            "transfer_target": {
              "oneOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}}
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}}
              ],
-             "description": "Party index/indices of the transfer ta
-               rget (for transfer type)"
+             "description": "Party index/indices of the transfer tar
+               get (for transfer type)"
            },
            "original": {
              "oneOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}}
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}}
              ],
-             "description": "Dialog index/indices of original conve
-               rsation (for transfer type)"
+             "description": "Dialog index/indices of original conver
+               sation (for transfer type)"
            },
            "consultation": {
              "oneOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}}
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}}
              ],
-             "description": "Dialog index/indices of consultation (
-               for transfer type)"
+             "description": "Dialog index/indices of consultation (f
+               or transfer type)"
            },
            "target_dialog": {
              "oneOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}}
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}}
              ],
-             "description": "Dialog index/indices of target dialog
-               (for transfer type)"
+             "description": "Dialog index/indices of target dialog (
+               for transfer type)"
            },
            "application": {
              "type": "string",
-             "description": "Application, communication channel or
-               context of the conversation"
+             "description": "Application, communication channel or c
+               ontext of the conversation"
            },
            "message_id": {
              "type": "string",
-             "description": "Unique message identifier from the mes
-               saging system"
+             "description": "Unique message identifier from the mess
+               aging system"
            }
          }
        },
        "SessionId": {
          "type": "object",
-         "description": "Session identifier with local and remote U
-           UIDs",
+         "description": "Session identifier with local and remote UU
+           IDs",
          "properties": {
            "local": {
              "type": "string",
@@ -5720,45 +5783,45 @@ Appendix B.  vCon JSON Schema
            },
            "event": {
              "type": "string",
-             "enum": ["join", "drop", "hold", "unhold", "mute", "un
-               mute", "keydown", "keyup"],
+             "enum": ["join", "drop", "hold", "unhold", "mute", "unm
+               ute", "keydown", "keyup"],
              "description": "Type of event"
            },
            "button": {
              "type": "string",
-             "description": "DTMF digit, character or string (requi
-               red for keydown/keyup events)"
+             "description": "DTMF digit, character or string (requir
+               ed for keydown/keyup events)"
            }
          }
        },
        "Attachment": {
          "type": "object",
-         "description": "Represents an ancillary document related t
-           o the conversation",
+         "description": "Represents an ancillary document related to
+            the conversation",
          "required": ["start", "party", "dialog"],
          "properties": {
            "purpose": {
              "type": "string",
-             "description": "text description of what the attachmen
-               t is for"
+             "description": "text description of what the attachment
+                is for"
            },
            "start": {
              "type": "string",
              "format": "date-time",
              "description": "Time the attachment was sent/exchanged
-                in RFC3339 format"
+               in RFC3339 format"
            },
            "party": {
              "type": "integer",
              "minimum": 0,
-             "description": "Index of the party that contributed th
-               e attachment"
+             "description": "Index of the party that contributed the
+                attachment"
            },
            "dialog": {
              "type": "integer",
              "minimum": 0,
              "description": "Index of the dialog this attachment is
-                part of"
+               part of"
            },
            "mediatype": {
              "type": "string",
@@ -5770,8 +5833,8 @@ Appendix B.  vCon JSON Schema
            },
            "body": {
              "type": "string",
-             "description": "Inline content of the attachment (for
-               inline files)"
+             "description": "Inline content of the attachment (for i
+               nline files)"
            },
            "encoding": {
              "type": "string",
@@ -5781,8 +5844,8 @@ Appendix B.  vCon JSON Schema
            "url": {
              "type": "string",
              "format": "uri",
-             "description": "HTTPS URL for externally referenced at
-               tachment"
+             "description": "HTTPS URL for externally referenced att
+               achment"
            },
            "content_hash": {
              "oneOf": [
@@ -5795,32 +5858,32 @@ Appendix B.  vCon JSON Schema
        },
        "Analysis": {
          "type": "object",
-         "description": "Represents analysis performed on the conve
-           rsational data",
+         "description": "Represents analysis performed on the conver
+           sational data",
          "required": ["type", "vendor"],
          "properties": {
            "type": {
              "type": "string",
-             "description": "Semantic type of analysis (e.g., repor
-               t, sentiment, summary, transcript, translation, tts)"
+             "description": "Semantic type of analysis (e.g., report
+               , sentiment, summary, transcript, translation, tts)"
            },
            "dialog": {
              "oneOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}}
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}}
              ],
-             "description": "Index/indices of dialog objects this a
-               nalysis is based on"
+             "description": "Index/indices of dialog objects this an
+               alysis is based on"
            },
            "attachment": {
              "oneOf": [
                {"type": "integer", "minimum": 0},
-               {"type": "array", "items": {"type": "integer", "mini
-                 mum": 0}}
+               {"type": "array", "items": {"type": "integer", "minim
+                 um": 0}}
              ],
-             "description": "Index/indices of attachment objects th
-               is analysis is based on"
+             "description": "Index/indices of attachment objects thi
+               s analysis is based on"
            },
            "mediatype": {
              "type": "string",
@@ -5832,23 +5895,23 @@ Appendix B.  vCon JSON Schema
            },
            "vendor": {
              "type": "string",
-             "description": "Vendor or product name that generated
-               the analysis"
+             "description": "Vendor or product name that generated t
+               he analysis"
            },
            "product": {
              "type": "string",
-             "description": "Product name to differentiate from oth
-               er vendor products"
+             "description": "Product name to differentiate from othe
+               r vendor products"
            },
            "schema": {
              "type": "string",
-             "description": "Token or label for the data format/sch
-               ema of the analysis"
+             "description": "Token or label for the data format/sche
+               ma of the analysis"
            },
            "body": {
              "type": "string",
-             "description": "Inline content of the analysis (for in
-               line files)"
+             "description": "Inline content of the analysis (for inl
+               ine files)"
            },
            "encoding": {
              "type": "string",
@@ -5858,8 +5921,8 @@ Appendix B.  vCon JSON Schema
            "url": {
              "type": "string",
              "format": "uri",
-             "description": "HTTPS URL for externally referenced an
-               alysis"
+             "description": "HTTPS URL for externally referenced ana
+               lysis"
            },
            "content_hash": {
              "oneOf": [
