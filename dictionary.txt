@@ -46,7 +46,6 @@ docname
 ECRIT
 enablement
 enc
-encyrpted
 ext
 flr
 FQHN
