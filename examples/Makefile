@@ -61,19 +61,19 @@ ab_call_ext_rec_amended.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec.vcon
 	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter create_amended | jq '.dialog += [{"type": "text", "start": $(DIALOG_DATE), "parties": [1, 0], "mediatype": "text/plain", "body": "Good day!", "encoding": "none"}]' | jq '.' > ab_call_ext_rec_amended.vcon)
 
 b_email_acct_prob_image.vcon: email_acct_prob_bob_image.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_acct_prob_bob_image.txt | jq '.' > b_email_acct_prob_image.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_acct_prob_bob_image.txt | jq 'del(.vcon)' > b_email_acct_prob_image.vcon)
 
 ab_email_acct_prob_thread.vcon: b_email_acct_prob_image.vcon email_acct_prob_alice_reply.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i b_email_acct_prob_image.vcon add in-email email_acct_prob_alice_reply.txt | jq '.' > ab_email_acct_prob_thread.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i b_email_acct_prob_image.vcon add in-email email_acct_prob_alice_reply.txt | jq 'del(.vcon)' > ab_email_acct_prob_thread.vcon)
 
 ab_email_prob_followup_alice.vcon: email_prob_followup_alice.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_prob_followup_alice.txt | jq '.' > ab_email_prob_followup_alice.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_prob_followup_alice.txt | jq 'del(.vcon)' > ab_email_prob_followup_alice.vcon)
 
 ab_email_prob_followup_bob_reply.vcon: ab_email_prob_followup_alice.vcon email_prob_followup_bob_reply.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_email_prob_followup_alice.vcon add in-email email_prob_followup_bob_reply.txt | jq '.' > ab_email_prob_followup_bob_reply.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_email_prob_followup_alice.vcon add in-email email_prob_followup_bob_reply.txt | jq 'del(.vcon)' > ab_email_prob_followup_bob_reply.vcon)
 
 ab_email_prob_followup_text_thread.vcon: ab_email_prob_followup_bob_reply.vcon email_prob_followup_alice_ack.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_email_prob_followup_bob_reply.vcon add in-email email_prob_followup_alice_ack.txt | jq '.' > ab_email_prob_followup_text_thread.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_email_prob_followup_bob_reply.vcon add in-email email_prob_followup_alice_ack.txt | jq 'del(.vcon)' > ab_email_prob_followup_text_thread.vcon)
 
 ab_call_ext_rec_analysis.vcon: ab_call_ext_rec.vcon
 	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter deepgram | jq '.' > ab_call_ext_rec_analysis.vcon)
