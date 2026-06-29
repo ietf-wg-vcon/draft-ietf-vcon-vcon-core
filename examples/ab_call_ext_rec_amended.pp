@@ -1,5 +1,9 @@
 {
-  "vcon": "0.0.2",
+  "vcon": "0.4.0",
+  "uuid": "0199e054-f029-8e87-a20f-d188127fad29",
+  "amended": {
+    "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
+  },
   "parties": [
     {
       "tel": "+12345678901",
@@ -39,9 +43,5 @@
     }
   ],
   "analysis": [],
-  "attachments": [],
-  "uuid": "0199e054-f029-8e87-a20f-d188127fad29",
-  "amended": {
-    "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
-  }
+  "attachments": []
 }
