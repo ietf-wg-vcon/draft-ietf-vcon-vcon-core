@@ -2,50 +2,50 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://ietf.org/vcon/schemas/unsigned-vcon.json",
   "title": "vCon - Unsigned Form",
-  "description": "JSON schema for the unsigned form of vCon (Con
-    versational Data Container) as defined in RFCXXXX",
+  "description": "JSON schema for the unsigned form of vCon (Conv
+    ersational Data Container) as defined in RFCXXXX",
   "type": "object",
   "required": ["uuid", "created_at"],
   "properties": {
     "vcon": {
       "type": "string",
-      "description": "DEPRECATED: Syntactic version of the JSON 
-        format. This was used to indicate schema changes in the I
-        nternet-Draft versions",
+      "description": "DEPRECATED: Syntactic version of the JSON f
+        ormat. This was used to indicate schema changes in the In
+        ternet-Draft versions",
       "const": "0.4.0"
     },
     "uuid": {
       "type": "string",
-      "description": "Globally unique identifier for the vCon. S
-        HOULD be a version 8 UUID",
+      "description": "Globally unique identifier for the vCon. SH
+        OULD be a version 8 UUID",
       "format": "uuid"
     },
     "extensions": {
       "type": "array",
-      "description": "List of names of all vCon extensions used 
-        by this vCon",
+      "description": "List of names of all vCon extensions used b
+        y this vCon",
       "items": {
         "type": "string"
       }
     },
     "critical": {
       "type": "array",
-      "description": "List of extension names that a consumer MU
-        ST support to safely process this vCon",
+      "description": "List of extension names that a consumer MUS
+        T support to safely process this vCon",
       "items": {
         "type": "string"
       }
     },
     "created_at": {
       "type": "string",
-      "description": "Creation time of this vCon in RFC3339 form
-        at",
+      "description": "Creation time of this vCon in RFC3339 forma
+        t",
       "format": "date-time"
     },
     "updated_at": {
       "type": "string",
-      "description": "Last modified time of this vCon in RFC3339
-         format",
+      "description": "Last modified time of this vCon in RFC3339 
+        format",
       "format": "date-time"
     },
     "subject": {
@@ -54,14 +54,14 @@
     },
     "redacted": {
       "type": "object",
-      "description": "Reference to the unredacted or less redact
-        ed vCon prior instance",
+      "description": "Reference to the unredacted or less redacte
+        d vCon prior instance",
       "required": ["type"],
       "properties": {
         "uuid": {
           "type": "string",
-          "description": "UUID of the unredacted or less redacte
-            d vCon prior instance",
+          "description": "UUID of the unredacted or less redacted
+             vCon prior instance",
           "format": "uuid"
         },
         "type": {
@@ -70,8 +70,8 @@
         },
         "url": {
           "type": "string",
-          "description": "HTTPS URL where the referenced vCon is
-             stored",
+          "description": "HTTPS URL where the referenced vCon is 
+            stored",
           "format": "uri"
         },
         "content_hash": {
@@ -79,26 +79,26 @@
             {"type": "string"},
             {"type": "array", "items": {"type": "string"}}
           ],
-          "description": "Hash(es) of the external content using
-             format: algorithm-base64url_encoded_hash"
+          "description": "Hash(es) of the external content using 
+            format: algorithm-base64url_encoded_hash"
         }
       }
     },
     "amended": {
       "type": "object",
-      "description": "Reference to the prior vCon instance versi
-        on that this vCon amends",
+      "description": "Reference to the prior vCon instance versio
+        n that this vCon amends",
       "properties": {
         "uuid": {
           "type": "string",
-          "description": "UUID of the prior vCon instance versio
-            n",
+          "description": "UUID of the prior vCon instance version
+            ",
           "format": "uuid"
         },
         "url": {
           "type": "string",
-          "description": "HTTPS URL where the referenced vCon is
-             stored",
+          "description": "HTTPS URL where the referenced vCon is 
+            stored",
           "format": "uri"
         },
         "content_hash": {
@@ -106,39 +106,39 @@
             {"type": "string"},
             {"type": "array", "items": {"type": "string"}}
           ],
-          "description": "Hash(es) of the external content (requ
-            ired if url is provided)"
+          "description": "Hash(es) of the external content (requi
+            red if url is provided)"
         }
       }
     },
     "parties": {
       "type": "array",
-      "description": "Array of Party Objects representing all pa
-        rties involved in the conversation",
+      "description": "Array of Party Objects representing all par
+        ties involved in the conversation",
       "items": {
         "$ref": "#/definitions/Party"
       }
     },
     "dialog": {
       "type": "array",
-      "description": "Array of Dialog Objects containing the cap
-        tured conversation content",
+      "description": "Array of Dialog Objects containing the capt
+        ured conversation content",
       "items": {
         "$ref": "#/definitions/Dialog"
       }
     },
     "analysis": {
       "type": "array",
-      "description": "Array of Analysis Objects containing analy
-        sis performed on the conversational data",
+      "description": "Array of Analysis Objects containing analys
+        is performed on the conversational data",
       "items": {
         "$ref": "#/definitions/Analysis"
       }
     },
     "attachments": {
       "type": "array",
-      "description": "Array of Attachment Objects for ancillary 
-        documents related to the conversation",
+      "description": "Array of Attachment Objects for ancillary d
+        ocuments related to the conversation",
       "items": {
         "$ref": "#/definitions/Attachment"
       }
@@ -147,8 +147,8 @@
   "definitions": {
     "Party": {
       "type": "object",
-      "description": "Represents a party involved in the convers
-        ation",
+      "description": "Represents a party involved in the conversa
+        tion",
       "properties": {
         "tel": {
           "type": "string",
@@ -160,8 +160,8 @@
         },
         "stir": {
           "type": "string",
-          "description": "STIR PASSporT in JWS Compact Serializa
-            tion form"
+          "description": "STIR PASSporT in JWS Compact Serializat
+            ion form"
         },
         "mailto": {
           "type": "string",
@@ -173,18 +173,18 @@
         },
         "did": {
           "type": "string",
-          "description": "Decentralized Identifier (DID) URI for
-             the party"
+          "description": "Decentralized Identifier (DID) URI for 
+            the party"
         },
         "validation": {
           "type": "string",
-          "description": "Label or token identifying the method 
-            of identity validation used"
+          "description": "Label or token identifying the method o
+            f identity validation used"
         },
         "gmlpos": {
           "type": "string",
-          "description": "Geographic location in GML pos format 
-            (latitude longitude)"
+          "description": "Geographic location in GML pos format (
+            latitude longitude)"
         },
         "civicaddress": {
           "$ref": "#/definitions/Civicaddress"
@@ -199,8 +199,8 @@
         },
         "org": {
           "type": "string",
-          "description": "Organization to which the party belong
-            s"
+          "description": "Organization to which the party belongs
+            "
         },
         "dept": {
           "type": "string",
@@ -210,55 +210,55 @@
     },
     "Civicaddress": {
       "type": "object",
-      "description": "Civic address information for a party's lo
-        cation",
+      "description": "Civic address information for a party's loc
+        ation",
       "properties": {
         "country": {"type": "string"},
-        "a1": {"type": "string", "description": "National subdiv
-          ision (state/province)"},
-        "a2": {"type": "string", "description": "County/parish/d
-          istrict"},
+        "a1": {"type": "string", "description": "National subdivi
+          sion (state/province)"},
+        "a2": {"type": "string", "description": "County/parish/di
+          strict"},
         "a3": {"type": "string", "description": "City/township"},
-        "a4": {"type": "string", "description": "City division/b
-          orough"},
-        "a5": {"type": "string", "description": "Neighborhood/bl
-          ock"},
+        "a4": {"type": "string", "description": "City division/bo
+          rough"},
+        "a5": {"type": "string", "description": "Neighborhood/blo
+          ck"},
         "a6": {"type": "string", "description": "Street"},
-        "prd": {"type": "string", "description": "Leading street
-           direction"},
-        "pod": {"type": "string", "description": "Trailing stree
-          t suffix"},
-        "sts": {"type": "string", "description": "Street suffix"
-          },
+        "prd": {"type": "string", "description": "Leading street 
+          direction"},
+        "pod": {"type": "string", "description": "Trailing street
+           suffix"},
+        "sts": {"type": "string", "description": "Street suffix"}
+          ,
         "hno": {"type": "string", "description": "House number"},
-        "hns": {"type": "string", "description": "House number s
-          uffix"},
+        "hns": {"type": "string", "description": "House number su
+          ffix"},
         "lmk": {"type": "string", "description": "Landmark"},
-        "loc": {"type": "string", "description": "Additional loc
-          ation info"},
+        "loc": {"type": "string", "description": "Additional loca
+          tion info"},
         "flr": {"type": "string", "description": "Floor"},
-        "nam": {"type": "string", "description": "Name/occupant"
-          },
+        "nam": {"type": "string", "description": "Name/occupant"}
+          ,
         "pc": {"type": "string", "description": "Postal code"}
       }
     },
     "Dialog": {
       "type": "object",
-      "description": "Represents a segment of captured conversat
-        ion",
+      "description": "Represents a segment of captured conversati
+        on",
       "required": ["type", "start"],
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["recording", "text", "transfer", "incomplete"
-            , "recording-set"],
+          "enum": ["recording", "text", "transfer", "incomplete",
+             "recording-set"],
           "description": "Type of dialog"
         },
         "start": {
           "type": "string",
           "format": "date-time",
-          "description": "Start time of the dialog in RFC3339 fo
-            rmat"
+          "description": "Start time of the dialog in RFC3339 for
+            mat"
         },
         "duration": {
           "anyOf": [
@@ -270,40 +270,40 @@
         "parties": {
           "anyOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}},
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}},
             {
               "type": "array",
               "items": {
                 "anyOf": [
                   {"type": "integer", "minimum": 0},
-                  {"type": "array", "items": {"type": "integer",
-                     "minimum": 0}},
+                  {"type": "array", "items": {"type": "integer", 
+                    "minimum": 0}},
                   {"type": "null"}
                 ]
               }
             }
           ],
-          "description": "Index/indices of parties in the partie
-            s array"
+          "description": "Index/indices of parties in the parties
+             array"
         },
         "originator": {
           "type": "integer",
           "minimum": 0,
-          "description": "Index of the originating party if firs
-            t party is not the originator"
+          "description": "Index of the originating party if first
+             party is not the originator"
         },
         "recordings": {
-          "type": "array", "items": {"type": "integer", "minimum
-            ": 0},
-          "description": "recording-set reference to list of ind
-            ices to recording Dialog Objects"
+          "type": "array", "items": {"type": "integer", "minimum"
+            : 0},
+          "description": "recording-set reference to list of indi
+            ces to recording Dialog Objects"
         },
         "recording_set": {
           "type": "integer",
           "minimum": 0,
-          "description": "Index of the recording-set Dialog Obje
-            ct that this recording is a part of"
+          "description": "Index of the recording-set Dialog Objec
+            t that this recording is a part of"
         },
         "mediatype": {
           "type": "string",
@@ -311,13 +311,13 @@
         },
         "filename": {
           "type": "string",
-          "description": "Original filename of the dialog conten
-            t"
+          "description": "Original filename of the dialog content
+            "
         },
         "body": {
           "type": "string",
-          "description": "Inline content of the dialog (for inli
-            ne files)"
+          "description": "Inline content of the dialog (for inlin
+            e files)"
         },
         "encoding": {
           "type": "string",
@@ -327,8 +327,8 @@
         "url": {
           "type": "string",
           "format": "uri",
-          "description": "HTTPS URL for externally referenced co
-            ntent"
+          "description": "HTTPS URL for externally referenced con
+            tent"
         },
         "content_hash": {
           "oneOf": [
@@ -339,23 +339,23 @@
         },
         "disposition": {
           "type": "string",
-          "enum": ["no-answer", "congestion", "failed", "busy", 
-            "hung-up", "voicemail-no-message"],
-          "description": "Reason for incomplete dialog (required
-             for incomplete type)"
+          "enum": ["no-answer", "congestion", "failed", "busy", "
+            hung-up", "voicemail-no-message"],
+          "description": "Reason for incomplete dialog (required 
+            for incomplete type)"
         },
         "session_id": {
           "anyOf": [
             {"$ref": "#/definitions/SessionId"},
-            {"type": "array", "items": {"$ref": "#/definitions/S
-              essionId"}},
+            {"type": "array", "items": {"$ref": "#/definitions/Se
+              ssionId"}},
             {
               "type": "array",
               "items": {
                 "oneOf": [
                   {"$ref": "#/definitions/SessionId"},
-                  {"type": "array", "items": {"$ref": "#/definit
-                    ions/SessionId"}}
+                  {"type": "array", "items": {"$ref": "#/definiti
+                    ons/SessionId"}}
                 ]
               }
             }
@@ -365,73 +365,73 @@
         "party_history": {
           "type": "array",
           "items": {"$ref": "#/definitions/PartyHistory"},
-          "description": "History of party join/drop/hold/mute e
-            vents"
+          "description": "History of party join/drop/hold/mute ev
+            ents"
         },
         "transferee": {
           "type": "integer",
           "minimum": 0,
-          "description": "Party index of the transferee (for tra
-            nsfer type)"
+          "description": "Party index of the transferee (for tran
+            sfer type)"
         },
         "transferor": {
           "type": "integer",
           "minimum": 0,
-          "description": "Party index of the transferor (for tra
-            nsfer type)"
+          "description": "Party index of the transferor (for tran
+            sfer type)"
         },
         "transfer_target": {
           "oneOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}}
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}}
           ],
-          "description": "Party index/indices of the transfer ta
-            rget (for transfer type)"
+          "description": "Party index/indices of the transfer tar
+            get (for transfer type)"
         },
         "original": {
           "oneOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}}
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}}
           ],
-          "description": "Dialog index/indices of original conve
-            rsation (for transfer type)"
+          "description": "Dialog index/indices of original conver
+            sation (for transfer type)"
         },
         "consultation": {
           "oneOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}}
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}}
           ],
-          "description": "Dialog index/indices of consultation (
-            for transfer type)"
+          "description": "Dialog index/indices of consultation (f
+            or transfer type)"
         },
         "target_dialog": {
           "oneOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}}
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}}
           ],
-          "description": "Dialog index/indices of target dialog 
-            (for transfer type)"
+          "description": "Dialog index/indices of target dialog (
+            for transfer type)"
         },
         "application": {
           "type": "string",
-          "description": "Application, communication channel or 
-            context of the conversation"
+          "description": "Application, communication channel or c
+            ontext of the conversation"
         },
         "message_id": {
           "type": "string",
-          "description": "Unique message identifier from the mes
-            saging system"
+          "description": "Unique message identifier from the mess
+            aging system"
         }
       }
     },
     "SessionId": {
       "type": "object",
-      "description": "Session identifier with local and remote U
-        UIDs",
+      "description": "Session identifier with local and remote UU
+        IDs",
       "properties": {
         "local": {
           "type": "string",
@@ -460,45 +460,45 @@
         },
         "event": {
           "type": "string",
-          "enum": ["join", "drop", "hold", "unhold", "mute", "un
-            mute", "keydown", "keyup"],
+          "enum": ["join", "drop", "hold", "unhold", "mute", "unm
+            ute", "keydown", "keyup"],
           "description": "Type of event"
         },
         "button": {
           "type": "string",
-          "description": "DTMF digit, character or string (requi
-            red for keydown/keyup events)"
+          "description": "DTMF digit, character or string (requir
+            ed for keydown/keyup events)"
         }
       }
     },
     "Attachment": {
       "type": "object",
-      "description": "Represents an ancillary document related t
-        o the conversation",
+      "description": "Represents an ancillary document related to
+         the conversation",
       "required": ["start", "party", "dialog"],
       "properties": {
         "purpose": {
           "type": "string",
-          "description": "text description of what the attachmen
-            t is for"
+          "description": "text description of what the attachment
+             is for"
         },
         "start": {
           "type": "string",
           "format": "date-time",
-          "description": "Time the attachment was sent/exchanged
-             in RFC3339 format"
+          "description": "Time the attachment was sent/exchanged 
+            in RFC3339 format"
         },
         "party": {
           "type": "integer",
           "minimum": 0,
-          "description": "Index of the party that contributed th
-            e attachment"
+          "description": "Index of the party that contributed the
+             attachment"
         },
         "dialog": {
           "type": "integer",
           "minimum": 0,
-          "description": "Index of the dialog this attachment is
-             part of"
+          "description": "Index of the dialog this attachment is 
+            part of"
         },
         "mediatype": {
           "type": "string",
@@ -510,8 +510,8 @@
         },
         "body": {
           "type": "string",
-          "description": "Inline content of the attachment (for 
-            inline files)"
+          "description": "Inline content of the attachment (for i
+            nline files)"
         },
         "encoding": {
           "type": "string",
@@ -521,8 +521,8 @@
         "url": {
           "type": "string",
           "format": "uri",
-          "description": "HTTPS URL for externally referenced at
-            tachment"
+          "description": "HTTPS URL for externally referenced att
+            achment"
         },
         "content_hash": {
           "oneOf": [
@@ -535,32 +535,32 @@
     },
     "Analysis": {
       "type": "object",
-      "description": "Represents analysis performed on the conve
-        rsational data",
+      "description": "Represents analysis performed on the conver
+        sational data",
       "required": ["type", "vendor"],
       "properties": {
         "type": {
           "type": "string",
-          "description": "Semantic type of analysis (e.g., repor
-            t, sentiment, summary, transcript, translation, tts)"
+          "description": "Semantic type of analysis (e.g., report
+            , sentiment, summary, transcript, translation, tts)"
         },
         "dialog": {
           "oneOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}}
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}}
           ],
-          "description": "Index/indices of dialog objects this a
-            nalysis is based on"
+          "description": "Index/indices of dialog objects this an
+            alysis is based on"
         },
         "attachment": {
           "oneOf": [
             {"type": "integer", "minimum": 0},
-            {"type": "array", "items": {"type": "integer", "mini
-              mum": 0}}
+            {"type": "array", "items": {"type": "integer", "minim
+              um": 0}}
           ],
-          "description": "Index/indices of attachment objects th
-            is analysis is based on"
+          "description": "Index/indices of attachment objects thi
+            s analysis is based on"
         },
         "mediatype": {
           "type": "string",
@@ -572,23 +572,23 @@
         },
         "vendor": {
           "type": "string",
-          "description": "Vendor or product name that generated 
-            the analysis"
+          "description": "Vendor or product name that generated t
+            he analysis"
         },
         "product": {
           "type": "string",
-          "description": "Product name to differentiate from oth
-            er vendor products"
+          "description": "Product name to differentiate from othe
+            r vendor products"
         },
         "schema": {
           "type": "string",
-          "description": "Token or label for the data format/sch
-            ema of the analysis"
+          "description": "Token or label for the data format/sche
+            ma of the analysis"
         },
         "body": {
           "type": "string",
-          "description": "Inline content of the analysis (for in
-            line files)"
+          "description": "Inline content of the analysis (for inl
+            ine files)"
         },
         "encoding": {
           "type": "string",
@@ -598,8 +598,8 @@
         "url": {
           "type": "string",
           "format": "uri",
-          "description": "HTTPS URL for externally referenced an
-            alysis"
+          "description": "HTTPS URL for externally referenced ana
+            lysis"
         },
         "content_hash": {
           "oneOf": [
