@@ -1,5 +1,4 @@
 {
-  "vcon": "0.0.2",
   "parties": [
     {
       "tel": "+12345678901",
@@ -207,5 +206,5 @@
   ],
   "analysis": [],
   "attachments": [],
-  "uuid": "0199decd-7187-8ef1-b9a2-279e0d16bc46"
+  "uuid": "019f155a-5131-80ec-b9a2-279e0d16bc46"
 }

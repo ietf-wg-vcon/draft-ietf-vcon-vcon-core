@@ -1,5 +1,4 @@
 {
-  "vcon": "0.0.2",
   "parties": [
     {
       "tel": "+12345678901",
@@ -20,7 +19,7 @@
         1
       ],
       "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vco
-        n-container/raw/refs/heads/main/examples/ab_call.mp3",
+        n-core/raw/refs/heads/main/examples/ab_call.mp3",
       "mediatype": "audio/x-mp3",
       "filename": "ab_call.mp3",
       "content_hash": "sha512-GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iC
@@ -40,8 +39,8 @@
   ],
   "analysis": [],
   "attachments": [],
-  "uuid": "0199e054-f029-8e87-a20f-d188127fad29",
+  "uuid": "019f15a6-aa72-8dbd-a20f-d188127fad29",
   "amended": {
-    "uuid": "0199e054-ed10-8035-b9a2-279e0d16bc46"
+    "uuid": "019f15a6-a752-826f-b9a2-279e0d16bc46"
   }
 }
