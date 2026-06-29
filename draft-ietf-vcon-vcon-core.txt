@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                            27 June 2026
-Expires: 29 December 2026
+Intended status: Standards Track                            29 June 2026
+Expires: 31 December 2026
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 December 2026.
+   This Internet-Draft will expire on 31 December 2026.
 
 Copyright Notice
 
@@ -554,7 +554,7 @@ Table of Contents
 
    A vCon may be constructed across several security domains.  When a
    vCon is to be exported from one security domain to another, it SHOULD
-   be signed or encyrpted by the domain that constructed it.  The
+   be signed or encrypted by the domain that constructed it.  The
    subsequent domain may have need to redact or amend data to the vCon.
    Alternatively the originating domain may want to redact the vCon
    before providing it to an other domain.  The second or subsequent
@@ -632,7 +632,7 @@ Table of Contents
 4.1.5.  created_at
 
    The created_at parameter provides the creation time of this vcon,
-   which MUST be present, and should not changed once the vcon object is
+   which MUST be present, and should not change once the vcon object is
    created.
 
    *  created_at: "Date"
@@ -1179,7 +1179,7 @@ Table of Contents
    which is a recording of the video and/or audio of a segment of the
    conversation.  A dialog of type "recording-set" contains metadata
    describing a set of "recording" Dialog Objects that collectively
-   represent a call or session.  A dialog of type "text" had has Dialog
+   represent a call or session.  A dialog of type "text" has Dialog
    Content that either contains a body or refers to via url, which
    contains the text from one of the parties for a segment of the
    conversation.  A dialog of type "transfer" does not capture actual
@@ -1510,7 +1510,7 @@ Table of Contents
 
 4.3.14.  Dialog Transfer
 
-   A dialog of type "transfer" documents the rolls of three parties and
+   A dialog of type "transfer" documents the roles of three parties and
    the relationship between 2 or three dialog segments.  In a transfer
    operation, the roles of the three parties to a transfer are defined
    in [SIP-XFER] as:
@@ -1549,7 +1549,7 @@ Table of Contents
    parties Object array to the party that played the role of the
    Transfer Target.
 
-   The consultation, target_dialog and transfer parameters all refer to
+   The consultation, target_dialog and original parameters all refer to
    the Dialog Objects that correspond to the 2 to 3 calls that are part
    of a transfer.  These calls may end up spread across multiple Dialog
    Objects due to the nature of how the calls are recorded.  For example
@@ -5271,7 +5271,7 @@ Appendix B.  vCon JSON Schema
          "type": "string",
          "description": "DEPRECATED: Syntactic version of the JSON
            format. This was used to indicate schema changes in the I
-           nternet-Draft versions'",
+           nternet-Draft versions",
          "const": "0.4.0"
        },
        "uuid": {
@@ -5316,7 +5316,7 @@ Appendix B.  vCon JSON Schema
          "type": "object",
          "description": "Reference to the unredacted or less redact
            ed vCon prior instance",
-         "required": ["uuid", "type"],
+         "required": ["type"],
          "properties": {
            "uuid": {
              "type": "string",
@@ -5425,8 +5425,7 @@ Appendix B.  vCon JSON Schema
            },
            "mailto": {
              "type": "string",
-             "description": "MAILTO URL (RFC6068) for the party",
-             "format": "email"
+             "description": "email address for the party"
            },
            "name": {
              "type": "string",
@@ -5452,13 +5451,11 @@ Appendix B.  vCon JSON Schema
            },
            "uuid": {
              "type": "string",
-             "description": "Unique identifier for the participant",
-             "format": "uuid"
+             "description": "Unique identifier for the participant"
            },
            "type": {
              "type": "string",
-             "enum": ["person", "bot", "organization"],
-             "description": "Particiant type"
+             "description": "Participant type"
            },
            "org": {
              "type": "string",
@@ -5541,7 +5538,8 @@ Appendix B.  vCon JSON Schema
                    "anyOf": [
                      {"type": "integer", "minimum": 0},
                      {"type": "array", "items": {"type": "integer",
-                        "minimum": 0}}
+                        "minimum": 0}},
+                     {"type": "null"}
                    ]
                  }
                }
@@ -5607,7 +5605,7 @@ Appendix B.  vCon JSON Schema
                 for incomplete type)"
            },
            "session_id": {
-             "oneOf": [
+             "anyOf": [
                {"$ref": "#/definitions/SessionId"},
                {"type": "array", "items": {"$ref": "#/definitions/S
                  essionId"}},
@@ -5653,27 +5651,27 @@ Appendix B.  vCon JSON Schema
            },
            "original": {
              "oneOf": [
-               {"type": "integer", "minimum": -1},
+               {"type": "integer", "minimum": 0},
                {"type": "array", "items": {"type": "integer", "mini
-                 mum": -1}}
+                 mum": 0}}
              ],
              "description": "Dialog index/indices of original conve
                rsation (for transfer type)"
            },
            "consultation": {
              "oneOf": [
-               {"type": "integer", "minimum": -1},
+               {"type": "integer", "minimum": 0},
                {"type": "array", "items": {"type": "integer", "mini
-                 mum": -1}}
+                 mum": 0}}
              ],
              "description": "Dialog index/indices of consultation (
                for transfer type)"
            },
            "target_dialog": {
              "oneOf": [
-               {"type": "integer", "minimum": -1},
+               {"type": "integer", "minimum": 0},
                {"type": "array", "items": {"type": "integer", "mini
-                 mum": -1}}
+                 mum": 0}}
              ],
              "description": "Dialog index/indices of target dialog
                (for transfer type)"
@@ -5694,7 +5692,6 @@ Appendix B.  vCon JSON Schema
          "type": "object",
          "description": "Session identifier with local and remote U
            UIDs",
-         "required": ["local", "remote"],
          "properties": {
            "local": {
              "type": "string",
