@@ -666,8 +666,8 @@ If the mailto URL is known for the party, it can be included in the mailto param
 
 * mailto: "String" (optional)
 
-The value of the mailto parameter is a string of the format of a valid [MAILTO] URL.  The URL scheme
-prefix (i.e. "mailto:") is optional.
+The value of the mailto parameter is a string containing an email address for the party.
+It MAY be provided in any common form, such as a bare address or a [MAILTO] URL; when a [MAILTO] URL is used, the "mailto:" scheme prefix is optional.
 
 ### name
 

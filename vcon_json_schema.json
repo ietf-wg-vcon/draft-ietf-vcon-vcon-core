@@ -149,7 +149,7 @@
         },
         "mailto": {
           "type": "string",
-          "description": "email address for the party"
+          "description": "Email address for the party in any common form, including a bare address or a MAILTO URL"
         },
         "name": {
           "type": "string",
