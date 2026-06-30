@@ -267,8 +267,7 @@
           "description": "Original filename of the dialog content"
         },
         "body": {
-          "type": "string",
-          "description": "Inline content of the dialog (for inline files)"
+          "description": "Inline content of the dialog (for inline files).  Any type for encoding=json, otherwise it must be a string."
         },
         "encoding": {
           "type": "string",
@@ -434,8 +433,7 @@
           "description": "Original filename of the attachment"
         },
         "body": {
-          "type": "string",
-          "description": "Inline content of the attachment (for inline files)"
+          "description": "Inline content of the attachment (for inline files).  Any type for encoding=json, otherwise it must be a string."
         },
         "encoding": {
           "type": "string",
@@ -500,8 +498,7 @@
           "description": "Token or label for the data format/schema of the analysis"
         },
         "body": {
-          "type": "string",
-          "description": "Inline content of the analysis (for inline files)"
+          "description": "Inline content of the analysis (for inline files).  Any type for encoding=json, otherwise it must be a string."
         },
         "encoding": {
           "type": "string",

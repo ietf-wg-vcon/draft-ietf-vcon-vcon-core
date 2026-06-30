@@ -246,7 +246,9 @@ For the ease of documentation, the convention for [JSON] notation used in this d
 
 * Date - A string that MUST have the form of an [RFC3339] date string as defined for the Date type in section 1.4 of [JMAP].
 
-* "String" - a JSON string type
+* "*" - The type is undefined; the value can be any JSON type, although permitted values may be constrained by the context of the value, as defined in section 1.1 of [JMAP].
+
+* "String" - a JSON string type.
 
 * "UnsignedInt" - a positive JSON integer as defined in section 1.3 of [JMAP].
 
@@ -296,7 +298,7 @@ For this reason inline files MUST be Base64url (see Section 2 [JWS]) encoded to 
 The body parameter contains the payload of the file to be included inline.
 Depending upon the data in the file, it may require encoding to be used as a valid JSON string value.
 
-* body: "String"
+* body: "*"
 
 ### encoding
 
@@ -310,7 +312,7 @@ This MUST be one of the following strings:
 
 * "base64url": The payload of the file has been Base64Url encoded and provided as the string value of the body parameter.
 
-* "json": The value of the body string is a JSON object.
+* "json": The value of the body parameter is a JSON value (object, array, number, string, or one of the literals true, false, or null) as defined in [JSON].
 
 * "none": The payload of the file is a valid JSON string and can be included without modification as the string value to the body parameter.
 
@@ -960,7 +962,7 @@ The exception to this is that the body or url MAY be absent if it is redacted.
 
 For inline included dialog:
 
-* body: "String" (optional in an a redacted vCon)
+* body: "*" (optional in an a redacted vCon)
 * encoding: "String"
 
 Alternatively, for externally referenced dialog:
@@ -1189,7 +1191,7 @@ The exception to this is that the body or url MAY be absent if it is redacted.
 
 For inline included attachments:
 
-* body: "String"
+* body: "*"
 * encoding: "String"
 
 Alternatively, for externally referenced attachments:
@@ -1293,7 +1295,7 @@ The exception to this is that the body or url MAY be absent if it is redacted.
 
 For inline included analysis:
 
-* body: "String"
+* body: "*"
 * encoding: "String"
 
 Alternatively, for externally referenced analysis:

@@ -315,9 +315,9 @@
             "
         },
         "body": {
-          "type": "string",
           "description": "Inline content of the dialog (for inlin
-            e files)"
+            e files).  Any type for encoding=json, otherwise it m
+            ust be a string."
         },
         "encoding": {
           "type": "string",
@@ -509,9 +509,9 @@
           "description": "Original filename of the attachment"
         },
         "body": {
-          "type": "string",
           "description": "Inline content of the attachment (for i
-            nline files)"
+            nline files).  Any type for encoding=json, otherwise 
+            it must be a string."
         },
         "encoding": {
           "type": "string",
@@ -586,9 +586,9 @@
             ma of the analysis"
         },
         "body": {
-          "type": "string",
           "description": "Inline content of the analysis (for inl
-            ine files)"
+            ine files).  Any type for encoding=json, otherwise it
+             must be a string."
         },
         "encoding": {
           "type": "string",
