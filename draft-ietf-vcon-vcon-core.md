@@ -296,13 +296,13 @@ For this reason inline files MUST be Base64url (see Section 2 [JWS]) encoded to 
 ### body
 
 The body parameter contains the payload of the file to be included inline.
-Depending upon the data in the file, it may require encoding to be used as a valid JSON string value.
+Depending upon the data in the file, it may require encoding to be represented as a valid JSON value.
 
 * body: "*"
 
 ### encoding
 
-The encoding parameter describes the type of encoding that was performed on the string value of the body parameter.
+The encoding parameter describes the type of encoding, if any, that was performed to represent the file payload as the value of the body parameter.
 If the body parameter is provided and is not an empty string, the encoding parameter MUST be provided.
 In the interest of being tolerant for interoperability, if the encoding value is not provided, applications can attempt to derive the encoding token value based upon the mediatype parameter or filename extension if either is provided.
 
