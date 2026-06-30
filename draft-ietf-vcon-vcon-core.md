@@ -352,12 +352,34 @@ The algorithm used for signing the externally referenced file is defined in sect
 vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
 It can also redefine the semantics of or deprecate existing parameters.
-To do so, a new extension definition MUST do the following:
-* Define a new [extensions](#extensions) token value and register it with IANA [(see examples)](#vcon-json-registry))
-* Define the new parameter(s), their meaning, value types and register them with IANA
-* Define the new semantics and values for change parameters
-* List deprecated parameters, what should be used in its stead and migration approaches
-* Use snake case naming convention for parameter names (as opposed to camel case)
+A vCon extension is defined in its own document.
+In addition to the standard sections of an Internet-Draft, a vCon extension document MUST also contain the following sections.
+
+* **Extension Name**:
+State the registered extensions token name for the extension.
+State whether and under what conditions the name appears in the [`extensions`](#extensions) parameter, the [`critical`](#critical) parameter, or both.
+This is the name registered in the [vCon Extensions Names Registry](#vcon-extensions-names-registry) and the name against which implementations determine whether they support the extension.
+
+* **Parameter Definitions**:
+Define each new parameter, the level of the schema at which it appears, its value type, and its semantics.
+For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
+For any deprecated parameter, state what is to be used in its stead and the migration approach.
+Use the snake case naming convention for all parameter names, as opposed to camel case.
+Register each new parameter in the appropriate Object registry with IANA.
+
+* **Compatibility Considerations**:
+Describe how the extension behaves in the presence of implementations that do not support it.
+Identify the parameters and semantics the extension introduces or changes, and explain for each why an implementation that does not recognize the extension can continue to process the vCon correctly by ignoring the additions, or state the conditions under which that holds.
+An extension that is **Compatible** under all conditions states so explicitly and justifies that claim.
+
+* **Incompatibility Considerations**:
+Demonstrate either that the extension introduces no incompatibilities, or enumerate each incompatibility that it does introduce.
+For each incompatibility, state the processing that is affected, for example redaction versus transcription, whether the extension name is therefore required in the [`critical`](#critical) parameter, and the behavior required of implementations that do not support the extension.
+An extension that claims to be **Compatible** uses this section to show why no incompatibility exists.
+
+* **Privacy and Integrity Considerations**:
+Describe how the extension's parameters interact with redaction and de-identification, including whether any of them can carry party-identifying data or PII and how a redactor is expected to handle them.
+State whether the extension introduces any new external content references, and if so, the integrity mechanism that protects them, such as [content_hash](#content_hash).
 
 Extensions to the vCon schema can be classified into two categories:
 
