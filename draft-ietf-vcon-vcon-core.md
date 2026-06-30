@@ -508,7 +508,7 @@ Data which is to be completely removed from the redacted version, that is contai
 the unredacted vCon, SHOULD create an empty placeholder such that object array indices do not change for
 the rest of the elements of the array.
 
-* redacted: "Redacted" (optional, mutually exclusive with amended and group parameters)
+* redacted: "Redacted" (optional, mutually exclusive with amended parameter)
 
 #### Redacted Object
 
@@ -558,7 +558,7 @@ That is to say that the newer version of the vCon is a deep copy of the prior ve
 
 The prior vCon instance version SHOULD be referenced via the uuid of the prior vCon instance version, and MAY include the url and content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
 
-* amended: "Amended" (optional, mutually exclusive with redacted and group parameters)
+* amended: "Amended" (optional, mutually exclusive with redacted parameter)
 
 #### Amended Object
 
