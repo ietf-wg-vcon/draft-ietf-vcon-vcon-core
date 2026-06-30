@@ -1864,7 +1864,7 @@ HTTPS <span class="bcp14">MUST</span> be used for retrieval to protect the priva
           </ul>
 </section>
 </div>
-<div id="contenthash">
+<div id="content_hash">
 <section id="section-2.4.2">
           <h4 id="name-content_hash">
 <a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-content_hash" class="section-name selfRef">content_hash</a>
@@ -1893,29 +1893,58 @@ The algorithm used for signing the externally referenced file is defined in sect
 <p id="section-2.5-1">vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
 It can also redefine the semantics of or deprecate existing parameters.
-To do so, a new extension definition <span class="bcp14">MUST</span> do the following:
-* Define a new <a href="#extensions" class="auto internal xref">Section 4.1.3</a> token value and register it with IANA <span><a href="#vcon-json-registry" class="internal xref">(see examples)</a> (<a href="#vcon-json-registry" class="auto internal xref">Section 6.3</a>)</span>)
-* Define the new parameter(s), their meaning, value types and register them with IANA
-* Define the new semantics and values for change parameters
-* List deprecated parameters, what should be used in its stead and migration approaches
-* Use snake case naming convention for parameter names (as opposed to camel case)<a href="#section-2.5-1" class="pilcrow">¶</a></p>
-<p id="section-2.5-2">Extensions to the vCon schema can be classified into two categories:<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+A vCon extension is defined in its own document.
+In addition to the standard sections of an Internet-Draft, a vCon extension document <span class="bcp14">MUST</span> also contain the following sections.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.5-3.1">
-            <p id="section-2.5-3.1.1"><strong>Compatible</strong>: These extensions introduce additional data or fields without altering the meaning or structure of existing elements. Implementations that do not recognize these extensions can safely ignore them while maintaining valid processing of the vCon.<a href="#section-2.5-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.5-2.1">
+            <p id="section-2.5-2.1.1"><strong>Extension Name</strong>:
+State the registered extensions token name for the extension.
+State whether and under what conditions the name appears in the <span><a href="#extensions" class="internal xref"><code>extensions</code></a> (<a href="#extensions" class="auto internal xref">Section 4.1.3</a>)</span> parameter, the <span><a href="#critical" class="internal xref"><code>critical</code></a> (<a href="#critical" class="auto internal xref">Section 4.1.4</a>)</span> parameter, or both.
+This is the name registered in the <span><a href="#vcon-extensions-names-registry" class="internal xref">vCon Extensions Names Registry</a> (<a href="#vcon-extensions-names-registry" class="auto internal xref">Section 6.4</a>)</span> and the name against which implementations determine whether they support the extension.<a href="#section-2.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.5-3.2">
-            <p id="section-2.5-3.2.1"><strong>Incompatible</strong>: These extensions modify existing semantics or schema definitions in ways that render a vCon incompatible with implementations that do not support the extension. Interpreting such a vCon correctly requires explicit awareness of the extension.<a href="#section-2.5-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-2.5-2.2">
+            <p id="section-2.5-2.2.1"><strong>Parameter Definitions</strong>:
+Define each new parameter, the level of the schema at which it appears, its value type, and its semantics.
+For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
+For any deprecated parameter, state what is to be used in its stead and the migration approach.
+Use the snake case naming convention for all parameter names, as opposed to camel case.
+Register each new parameter in the appropriate Object registry with IANA.<a href="#section-2.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.5-2.3">
+            <p id="section-2.5-2.3.1"><strong>Compatibility Considerations</strong>:
+Describe how the extension behaves in the presence of implementations that do not support it.
+Identify the parameters and semantics the extension introduces or changes, and explain for each why an implementation that does not recognize the extension can continue to process the vCon correctly by ignoring the additions, or state the conditions under which that holds.
+An extension that is <strong>Compatible</strong> under all conditions states so explicitly and justifies that claim.<a href="#section-2.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.5-2.4">
+            <p id="section-2.5-2.4.1"><strong>Incompatibility Considerations</strong>:
+Demonstrate either that the extension introduces no incompatibilities, or enumerate each incompatibility that it does introduce.
+For each incompatibility, state the processing that is affected, for example redaction versus transcription, whether the extension name is therefore required in the <span><a href="#critical" class="internal xref"><code>critical</code></a> (<a href="#critical" class="auto internal xref">Section 4.1.4</a>)</span> parameter, and the behavior required of implementations that do not support the extension.
+An extension that claims to be <strong>Compatible</strong> uses this section to show why no incompatibility exists.<a href="#section-2.5-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.5-2.5">
+            <p id="section-2.5-2.5.1"><strong>Privacy and Integrity Considerations</strong>:
+Describe how the extension's parameters interact with redaction and de-identification, including whether any of them can carry party-identifying data or PII and how a redactor is expected to handle them.
+State whether the extension introduces any new external content references, and if so, the integrity mechanism that protects them, such as <a href="#content_hash" class="auto internal xref">Section 2.4.2</a>.<a href="#section-2.5-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.5-4">Wherever feasible, extensions <strong><span class="bcp14">SHOULD</span></strong> be designed as <strong>Compatible</strong> to preserve compatibility with existing implementations.
+<p id="section-2.5-3">Extensions to the vCon schema can be classified into two categories:<a href="#section-2.5-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.5-4.1">
+            <p id="section-2.5-4.1.1"><strong>Compatible</strong>: These extensions introduce additional data or fields without altering the meaning or structure of existing elements. Implementations that do not recognize these extensions can safely ignore them while maintaining valid processing of the vCon.<a href="#section-2.5-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.5-4.2">
+            <p id="section-2.5-4.2.1"><strong>Incompatible</strong>: These extensions modify existing semantics or schema definitions in ways that render a vCon incompatible with implementations that do not support the extension. Interpreting such a vCon correctly requires explicit awareness of the extension.<a href="#section-2.5-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.5-5">Wherever feasible, extensions <strong><span class="bcp14">SHOULD</span></strong> be designed as <strong>Compatible</strong> to preserve compatibility with existing implementations.
 The question of Compatible vs Incompatible is a little subjective.
 A transcriber for vCon can be fairly tolerant of changes adding new parameters or objects to a vCon.
 On the other hand, a redactor must be aware of the implications of all parameters in the vCon to be sure to redact all of the objective information.
 In these cases a transcriber will likely only need to look at the critical extensions.
-However the redactor perhaps should reject vCons with any extension that it does not support.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
-<p id="section-2.5-5">However, when disruptive extensions are necessary, the names of all such extensions <strong><span class="bcp14">MUST</span></strong> be listed in the <span><a href="#critical" class="internal xref"><code>critical</code></a> (<a href="#critical" class="auto internal xref">Section 4.1.4</a>)</span> parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
-<p id="section-2.5-6">Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, <strong><span class="bcp14">MUST NOT</span></strong> process the vCon except to reject it or notify the user.<a href="#section-2.5-6" class="pilcrow">¶</a></p>
+However the redactor perhaps should reject vCons with any extension that it does not support.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
+<p id="section-2.5-6">However, when disruptive extensions are necessary, the names of all such extensions <strong><span class="bcp14">MUST</span></strong> be listed in the <span><a href="#critical" class="internal xref"><code>critical</code></a> (<a href="#critical" class="auto internal xref">Section 4.1.4</a>)</span> parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.<a href="#section-2.5-6" class="pilcrow">¶</a></p>
+<p id="section-2.5-7">Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, <strong><span class="bcp14">MUST NOT</span></strong> process the vCon except to reject it or notify the user.<a href="#section-2.5-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
