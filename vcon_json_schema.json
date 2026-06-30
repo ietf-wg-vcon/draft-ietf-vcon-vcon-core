@@ -70,6 +70,9 @@
           ],
           "description": "Hash(es) of the external content using format: algorithm-base64url_encoded_hash"
         }
+      },
+      "dependencies": {
+        "url": ["content_hash"]
       }
     },
     "amended": {
@@ -93,6 +96,9 @@
           ],
           "description": "Hash(es) of the external content (required if url is provided)"
         }
+      },
+      "dependencies": {
+        "url": ["content_hash"]
       }
     },
     "parties": {
