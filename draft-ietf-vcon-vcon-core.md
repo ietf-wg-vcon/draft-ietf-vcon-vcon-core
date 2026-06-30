@@ -334,7 +334,7 @@ HTTPS MUST be used for retrieval to protect the privacy of the contents of the f
 * url: "String"
 
 
-### content_hash
+### content_hash {#content_hash}
 
 The integrity of externally referenced files are protected using a hash of the external content.
 The algorithm and hash value are contained in the content_hash parameter.
