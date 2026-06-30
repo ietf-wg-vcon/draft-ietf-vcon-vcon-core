@@ -414,19 +414,20 @@ Table of Contents
 
    The body parameter contains the payload of the file to be included
    inline.  Depending upon the data in the file, it may require encoding
-   to be used as a valid JSON string value.
+   to be represented as a valid JSON value.
 
    *  body: "*"
 
 2.3.2.  encoding
 
-   The encoding parameter describes the type of encoding that was
-   performed on the string value of the body parameter.  If the body
-   parameter is provided and is not an empty string, the encoding
-   parameter MUST be provided.  In the interest of being tolerant for
-   interoperability, if the encoding value is not provided, applications
-   can attempt to derive the encoding token value based upon the
-   mediatype parameter or filename extension if either is provided.
+   The encoding parameter describes the type of encoding, if any, that
+   was performed to represent the file payload as the value of the body
+   parameter.  If the body parameter is provided and is not an empty
+   string, the encoding parameter MUST be provided.  In the interest of
+   being tolerant for interoperability, if the encoding value is not
+   provided, applications can attempt to derive the encoding token value
+   based upon the mediatype parameter or filename extension if either is
+   provided.
 
    *  encoding: "String"
 
@@ -705,7 +706,7 @@ Table of Contents
    change for the rest of the elements of the array.
 
    *  redacted: "Redacted" (optional, mutually exclusive with amended
-      and group parameters)
+      parameter)
 
 4.1.8.1.  Redacted Object
 
@@ -796,8 +797,8 @@ Table of Contents
    content_hash parameters (see Externally Referenced Files
    (Section 2.4)).
 
-   *  amended: "Amended" (optional, mutually exclusive with redacted and
-      group parameters)
+   *  amended: "Amended" (optional, mutually exclusive with redacted
+      parameter)
 
 4.1.9.1.  Amended Object
 
@@ -955,9 +956,10 @@ Table of Contents
 
    *  mailto: "String" (optional)
 
-   The value of the mailto parameter is a string of the format of a
-   valid [MAILTO] URL.  The URL scheme prefix (i.e. "mailto:") is
-   optional.
+   The value of the mailto parameter is a string containing an email
+   address for the party.  It MAY be provided in any common form, such
+   as a bare address or a [MAILTO] URL; when a [MAILTO] URL is used, the
+   "mailto:" scheme prefix is optional.
 
 4.2.5.  name
 
@@ -1564,14 +1566,14 @@ Table of Contents
    is stopped and back off again resulting where recording is started
    again in a separate recording file, resulting in multiple Dialog
    Objects.  For this reason, the values for the consultation,
-   target_dialog and transfer parameters MAY have a single UnsignedInt
+   target_dialog and original parameters MAY have a single UnsignedInt
    or an array of UnsignedInt.
 
    There are scenarios where we know that a transfer has occurred, but
    we have no Dialog Object information for one or two of the
    consultation, target or transfer calls.  In this case an empty Dialog
    Object is created and its index is used for the consultation,
-   target_dialog or transfer parameter.  A unique Dialog Object SHOULD
+   target_dialog or original parameter.  A unique Dialog Object SHOULD
    be referenced for each role in the transfer.  However a Dialog Object
    may be referenced in more than one transfer dialogs when multiple
    transfers occur.
