@@ -1074,10 +1074,10 @@ The consultation, target_dialog and original parameters all refer to the Dialog 
 These calls may end up spread across multiple Dialog Objects due to the nature of how the calls are recorded.
 For example each party may be recorded in a separate file which will result in a dialog for each.
 Alternatively a call may go on hold where recording is stopped and back off again resulting where recording is started again in a separate recording file, resulting in multiple Dialog Objects.
-For this reason, the values for the consultation, target_dialog and transfer parameters MAY have a single UnsignedInt or an array of UnsignedInt.
+For this reason, the values for the consultation, target_dialog and original parameters MAY have a single UnsignedInt or an array of UnsignedInt.
 
 There are scenarios where we know that a transfer has occurred, but we have no Dialog Object information for one or two of the consultation, target or transfer calls.
-In this case an empty Dialog Object is created and its index is used for the consultation, target_dialog or transfer parameter.
+In this case an empty Dialog Object is created and its index is used for the consultation, target_dialog or original parameter.
 A unique Dialog Object SHOULD be referenced for each role in the transfer.
 However a Dialog Object may be referenced in more than one transfer dialogs when multiple transfers occur.
 
