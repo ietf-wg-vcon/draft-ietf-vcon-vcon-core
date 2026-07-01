@@ -1,33 +1,31 @@
-
 ## Contact Center Use case Meta-Data Gap Analysis
 
-The following table maps meta-data requirements defined in draft-rosenberg-vcon-cc-usecases to parameters defined in draft-ietf-vcon-vcon-core:
+The following table maps meta-data requirements defined in draft-rosenberg-vcon-cc-usecases to parameters defined in draft-ietf-vcon-vcon-core and draft-ietf-vcon-cc-extension:
 
-|draft-rosenberg-vcon-cc-usecases | draft-ietf-vcon-vcon-core || Note: section numbers  out of date as draft-ietf-vcon-vcon-container I-D was split 3 ways.||
+|draft-rosenberg-vcon-cc-usecases | draft-ietf-vcon-vcon-core and draft-ietf-vcon-cc-extension || Note: the Section column links to the editor's copy of the core and cc-extension drafts. ||
 | ------------ | --------- | ------- | -------- | ----- |
 | **CC Meta-Data** | **Parameter** | **Section** | **Action** | **I-D** |
-|Interaction Type |Dialog Object: type and mediatype?? ||Perhaps more needed?  Currently no differentiation between email, SMS and web chat; or video and screen recording. added interaction_type 4.3.13 | CC |
-|||| added application 4.3.16 | Core |
-|Interaction ID | | |Add interaction_id parameter to Dialog Object.  Added 4.3.14 | CC |
-|File Type |Dialog Object: type and mediatype |4.3.1 and 4.3.6 || Core |
-|Media meta-data |Dialog Object and Dialog Content |4.3 || Core |
-|Start Time |Dialog Object: start |4.3.2 || Core |
-|Duration |Dialog Object: duration |4.3.3 || Core |
-|Direction of call |Dialog Object: originator |4.3.5 || Core |
-|Participant UUID| | |Add uuid parameter to Party Object.  Added 4.2.10 | ? |
-|First Name |Party Object: name |4.3.4 || Core |
-|Last Name |Party Object: name |4.3.4 || Core |
-|Participant Type | | |Add role parameter to Party Object.  Added some defined tokens for role types. Added 4.2.11 | CC |
-|Participant Info |Party Object: tel, stir, mailto, jCard, etc | 4.3.1, 4.2.2, 4.2.3, 4.2.6 and 4.2.X || Core |
-|PII and PCI Information | | |Add type parameter to Redacted Object. Added to 4.1.6 | Core |
-|Skill | | |Add skills parameter to dialog Object.  Added to 4.3.14 | CC |
-|Campaign | | |Add campaign parameter to Dialog Object. Added 4.3.12 | CC |
-|Transfer Bit Flag |Dialog Object: Dialog Transfer |4.3.11 || Core |
-|Conference Bit Flag |Dialog Object: parties |4.3.4 || Core |
-|Number of Conferences |Dialog Object: parties |4.3.4 || Core |
-|Number of Transfers |Dialog Object: Dialog Transfer |4.3.11 || Core |
-|Number of holds | | |Add party_history array parameter to Dialog Object.  Added 4.3.10 | Core |
-|Hangup Party | | |Add party_history array parameter to Dialog Object.  Added 4.3.10 | Core |
-|Disposition |Dialog Object: disposition |4.3.9 || Core |
-|Dialing List | | |Add contact_list parameter to Party Object. Added 4.2.12 | CC |
-
+|Interaction Type |Dialog Object: interaction_type |[Dialog Object: interaction_type](https://ietf-wg-vcon.github.io/draft-ietf-vcon-cc-extension/draft-ietf-vcon-cc-extension.html#name-interaction_type) |Perhaps more needed? Currently no differentiation between email, SMS and web chat; or video and screen recording. | CC |
+|| Dialog Object: application |[Dialog Object: application](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-application) |added application | Core |
+|Interaction ID |Dialog Object: interaction_id |[Dialog Object: interaction_id](https://ietf-wg-vcon.github.io/draft-ietf-vcon-cc-extension/draft-ietf-vcon-cc-extension.html#name-interaction_id) |Add interaction_id parameter to Dialog Object. | CC |
+|File Type |Dialog Object: type and mediatype |[Dialog Object: type](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-type-2), [Dialog Object: mediatype](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-mediatype) || Core |
+|Media meta-data |Dialog Object and Dialog Content |[Dialog Object](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-dialog-object), [Dialog Content](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-dialog-content) || Core |
+|Start Time |Dialog Object: start |[Dialog Object: start](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-start) || Core |
+|Duration |Dialog Object: duration |[Dialog Object: duration](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-duration) || Core |
+|Direction of call |Dialog Object: originator |[Dialog Object: originator](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-originator) || Core |
+|Participant UUID |Party Object: uuid |[Party Object: uuid](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-uuid-2) |Add uuid parameter to Party Object. | Core |
+|First Name |Party Object: name |[Party Object: name](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-name) || Core |
+|Last Name |Party Object: name |[Party Object: name](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-name) || Core |
+|Participant Type |Party Object: role |[Party Object: role](https://ietf-wg-vcon.github.io/draft-ietf-vcon-cc-extension/draft-ietf-vcon-cc-extension.html#name-role) |Add role parameter to Party Object with defined role tokens. Distinct from the core Party Object type parameter. | CC |
+|Participant Info |Party Object: tel, sip, stir, mailto, did |[Party Object: tel](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-tel), [sip](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-sip), [stir](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-stir), [mailto](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-mailto), [did](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-did) || Core |
+|PII and PCI Information |Redacted Object: type |[Redacted Object](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-redacted-object) |Add type parameter to Redacted Object. | Core |
+|Skill |Dialog Object: skill |[Dialog Object: skill](https://ietf-wg-vcon.github.io/draft-ietf-vcon-cc-extension/draft-ietf-vcon-cc-extension.html#name-skill) |Add skill parameter to Dialog Object. | CC |
+|Campaign |Dialog Object: campaign |[Dialog Object: campaign](https://ietf-wg-vcon.github.io/draft-ietf-vcon-cc-extension/draft-ietf-vcon-cc-extension.html#name-campaign) |Add campaign parameter to Dialog Object. | CC |
+|Transfer Bit Flag |Dialog Object: Dialog Transfer |[Dialog Object: Dialog Transfer](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-dialog-transfer) || Core |
+|Conference Bit Flag |Dialog Object: parties |[Dialog Object: parties](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-parties) || Core |
+|Number of Conferences |Dialog Object: parties |[Dialog Object: parties](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-parties) || Core |
+|Number of Transfers |Dialog Object: Dialog Transfer |[Dialog Object: Dialog Transfer](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-dialog-transfer) || Core |
+|Number of holds |Dialog Object: party_history |[Dialog Object: party_history](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-party_history-objects-array) |Add party_history array parameter to Dialog Object. | Core |
+|Hangup Party |Dialog Object: party_history |[Dialog Object: party_history](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-party_history-objects-array) |Add party_history array parameter to Dialog Object. | Core |
+|Disposition |Dialog Object: disposition |[Dialog Object: disposition](https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-ietf-vcon-vcon-core.html#name-disposition) || Core |
+|Dialing List |Party Object: contact_list |[Party Object: contact_list](https://ietf-wg-vcon.github.io/draft-ietf-vcon-cc-extension/draft-ietf-vcon-cc-extension.html#name-contact_list) |Add contact_list parameter to Party Object. | CC |
