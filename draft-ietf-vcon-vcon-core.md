@@ -860,6 +860,7 @@ For audio and video recordings, it is the time which corresponds to the beginnin
 For a recording-set Dialog Object, it is the time corresponding to the beginning of the call or session.
 It should be noted that Dialog Objects may not be ordered by the value of the start parameter.
 Dialog Objects in the dialog array are in order that they were added to the vCon and cannot be reordered with out correcting the dialog indices which occur in other Objects in the vCon.
+The start parameter is optional for the "transfer" type Dialog Object as it may not always be known.
 
 * start: "Date"
 
@@ -1087,9 +1088,10 @@ The value of the transferee parameter is the index into the parties Object array
 
 The value of the transferor parameter is the index into the parties Object array to the party that played the role of the Transferor.
 
-* transfer_target: "UnsignedInt" \| "UnsignedInt\[\]"
+* transfer_target: "UnsignedInt" (optional)
 
 The value of the transfer_target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
+The transfer_target is optional in the case where the transfer is abandoned before the target was identified.
 
 
 The consultation, target_dialog and original parameters all refer to the Dialog Objects that correspond to the 2 to 3 calls that are part of a transfer.
@@ -1103,11 +1105,11 @@ In this case an empty Dialog Object is created and its index is used for the con
 A unique Dialog Object SHOULD be referenced for each role in the transfer.
 However a Dialog Object may be referenced in more than one transfer dialogs when multiple transfers occur.
 
-* original: "UnsignedInt" \| "UnsignedInt\[\]"
+* original: "UnsignedInt"
 
 The value of the original parameter is the index/indices into the dialog Object array to the "recording" or "text" type Dialog Object for the original dialog between the Transferee and the Transferor.
 
-* consultation: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
+* consultation: "UnsignedInt" (optional)
 
 The value of the consultation parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type Dialog Object for the consultative dialog between the Transferor and the Transfer Target.
 It is also possible for there to be more than one consultation.
@@ -1115,7 +1117,7 @@ This may occur for a number of reasons.
 Call attempts may fail.
 The caller may decide the consultation with a party is not the desired transfer target.
 
-* target_dialog: "UnsignedInt" \| "UnsignedInt\[\]"
+* target_dialog: "UnsignedInt"
 
 The value of the target_dialog parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
 
