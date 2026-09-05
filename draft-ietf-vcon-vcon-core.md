@@ -172,7 +172,7 @@ The **vCon** standard enables the abstraction of conversation data, making it ea
 By defining a consistent data format, **vCon** ensures interoperability across various platforms, regardless of the communication mode - whether text, audio, video, or other formats.
 
 The **vCon** format captures the essential components of a conversation, including metadata, media content, related documents, and post-conversation analysis.
-This abstraction simplifies data exchange, apply AI-driven analysis, as well as model training and testing.
+This abstraction simplifies data exchange, enables AI-driven analysis, and supports model training and testing.
 
 ## Extending the vCon Schema
 
@@ -889,7 +889,7 @@ The party(s) which generated the text or recording for this piece of dialog are 
 
 * parties: "UnsignedInt" \| "UnsignedInt\[\]" \| ("UnsignedInt" \| "UnsignedInt\[\]")\[\]
 
-Single channel recordings should have a parties value of the form: "UnisignedInt" or "UnsignedInt\[\]" where the integer value or array of integer values are the indices to the Party Object(s) in the parties array that contributed to the mix for the single channel recording.
+Single channel recordings should have a parties value of the form: "UnsignedInt" or "UnsignedInt\[\]" where the integer value or array of integer values are the indices to the Party Object(s) in the parties array that contributed to the mix for the single channel recording.
 The index for the Party Object SHOULD be included even if the indicated party was silent the entire piece of dialog.
 
 Multi-channel recordings MUST have a parties value that is an array of the same size as the number of channels in the recording.
@@ -1066,7 +1066,7 @@ The Party_History Object contains the following parameters:
     * "keydown" - when a DTMF or application key/button was pressed
     * "keyup" - when a DTMF or application key/button was released
 
-* button: "String" - (opional, required for keydown and keyup events)
+* button: "String" - (optional, required for keydown and keyup events)
 
 The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.
 
@@ -1152,7 +1152,7 @@ In the SMTP case a message may exist in multiple mailboxes or tags.
 When exporting these SMTP messages, the message_id parameter may be used to avoid adding the same message,
 to the vCon containing the email thread, more than once.
 
-* message_id: "string" (optional)
+* message_id: "String" (optional)
 
 ## Attachment Object
 
