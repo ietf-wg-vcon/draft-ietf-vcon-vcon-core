@@ -448,7 +448,9 @@ For syntax defined in this document, the string MUST have the value: "0.4.0"
 
 The [UUID] for the vCon is used to refer to it when privacy or security may not allow for inclusion or URL
 reference to a vCon.
-The UUID MUST be globally unique.
+The UUID value MUST be globally unique.
+All vCon documents MUST have the uuid parameter and value set.
+
 
 * uuid: "String"
 
@@ -613,7 +615,7 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 The name, identity or contact information of all of the parties involved with the conversation are included in the parties object array.
 Whether the parties were observers, passive or active participants in the conversation, they each are included as a Party Object in the parties array.
 
-* parties: "Party\[\]"
+* parties: "Party\[\]" (optional)
 
 The value of the parties parameter is an array of [Party Objects](#party-object).
 
@@ -1718,6 +1720,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | type | participant type | IESG | [](#party-type) RFC XXXX |
 | org | participant organization | IESG | [](#party-org) RFC XXXX |
 | dept | participant department | IESG | [](#party-dept) RFC XXXX |
+| did |  decentralized identifier | IESG | [](#party-did) RFC XXXX |
+
 
 
 ### Dialog Object Parameter Names Registry
@@ -1804,6 +1808,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | party | event party index | IESG | [](#party_history-object) RFC XXXX |
 | time | time event occurred | IESG | [](#party_history-object) RFC XXXX |
 | event | event type | IESG | [](#party_history-object) RFC XXXX |
+| button | button label character or string | IESG | [](#party_history-object) RFC XXXX |
 
 #### party_event Event Name Registry
 
@@ -2131,6 +2136,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 * Thank you to Rob Sliwa for helping to review and test the JSON Schema.
 * Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrity for long term storage of signed vCons.
 * Thank you to Scott Godin for the idea and help on designing the multi-segment recording metadata concept for recording-set.
+* Thank you to Henk Birkholz for identifying a few ambiguities in the syntax and a few missing IANA entries.
 
 
 
