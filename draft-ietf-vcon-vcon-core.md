@@ -773,6 +773,9 @@ Note that the parameter names MUST be in lower case when contained in the Civica
 
 The uuid is a unique identifier for the participant.
 In a contact center, this is particularly important for the call agent participant, and must be static across interactions to allow correlation with the actual agent configuration provisioned into the systems.
+The value of the uuid parameter is a free form unique identifier string for the participant.
+The value is not constrained to the syntax defined in [UUID].
+Operators often have existing methods of generating unique participant identifiers and MAY use any unique string value.
 
 * uuid: "String" (optional)
 
@@ -831,10 +834,11 @@ It may not always be known at the time of vCon construction whether an image or 
 This distinction is important for interoperability.
 If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Object, interoperability cannot be achieved, as vCon constructors will not be able to consistently determine where content should be placed and users of vCons will not know where content can be found within the vCon.
 
-There are situations when no information is available for a dialog either initially or over the entire life of the vCon and yet it is known that the dialog occurred.
+There are situations when little or no information is available for a dialog either initially or over the entire life of the vCon and yet it is known that the dialog occurred.
 For example this may occur in some call transfer cases where there is nothing known about the consultative call.
-In such situations, it is possible to have a Dialog Object with no parameters in it.
-There may even be more than one empty Dialog Object.
+In such situations, it is possible to have a placeholder Dialog Object which contains only the type parameter.
+As the consultative call is a call, a placeholder Dialog Object for it MUST be of type "recording" if the call was set up, or of type "incomplete" if it was not.
+There may be more than one placeholder Dialog Object in the vCon.
 They are distinct by the order or index in the Dialog Object array.
 
 ### type {#dialog-type}
@@ -857,6 +861,7 @@ The recording-set parameters are used to identify the set of "recording" Dialog 
 ### start {#dialog-start}
 
 The start parameter contains the date and time for the beginning of the captured piece of dialog.
+The start parameter SHOULD be present unless it is not known.
 For text it is the time that the party started typing or if not available, then it is the time the text was sent.
 For audio and video recordings, it is the time which corresponds to the beginning of the recording.
 For a recording-set Dialog Object, it is the time corresponding to the beginning of the call or session.
@@ -1061,7 +1066,7 @@ The Party_History Object contains the following parameters:
     * "keydown" - when a DTMF or application key/button was pressed
     * "keyup" - when a DTMF or application key/button was released
 
-* button: "String" - (required for keydown and keyup events)
+* button: "String" - (opional, required for keydown and keyup events)
 
 The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.
 
