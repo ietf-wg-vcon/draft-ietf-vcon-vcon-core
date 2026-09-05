@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                             1 July 2026
-Expires: 2 January 2027
+Intended status: Standards Track                        5 September 2026
+Expires: 9 March 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2027.
+   This Internet-Draft will expire on 9 March 2027.
 
 Copyright Notice
 
@@ -200,6 +200,7 @@ Table of Contents
      A.8.  Redacted vCon
      A.9.  Amended Signed vCon
    Appendix B.  vCon JSON Schema
+   Appendix C.  vCon CDDL
    Acknowledgments
    Author's Address
 
@@ -634,7 +635,8 @@ Table of Contents
 
    The [UUID] for the vCon is used to refer to it when privacy or
    security may not allow for inclusion or URL reference to a vCon.  The
-   UUID MUST be globally unique.
+   UUID value MUST be globally unique.  All vCon documents MUST have the
+   uuid parameter and value set.
 
    *  uuid: "String"
 
@@ -907,7 +909,7 @@ Table of Contents
    participants in the conversation, they each are included as a Party
    Object in the parties array.
 
-   *  parties: "Party[]"
+   *  parties: "Party[]" (optional)
 
    The value of the parties parameter is an array of Party Objects
    (Section 4.2).
@@ -1125,7 +1127,11 @@ Table of Contents
    center, this is particularly important for the call agent
    participant, and must be static across interactions to allow
    correlation with the actual agent configuration provisioned into the
-   systems.
+   systems.  The value of the uuid parameter is a free form unique
+   identifier string for the participant.  The value is not constrained
+   to the syntax defined in [UUID].  Operators often have existing
+   methods of generating unique participant identifiers and MAY use any
+   unique string value.
 
    *  uuid: "String" (optional)
 
@@ -1207,14 +1213,17 @@ Table of Contents
    placed and users of vCons will not know where content can be found
    within the vCon.
 
-   There are situations when no information is available for a dialog
-   either initially or over the entire life of the vCon and yet it is
-   known that the dialog occurred.  For example this may occur in some
-   call transfer cases where there is nothing known about the
+   There are situations when little or no information is available for a
+   dialog either initially or over the entire life of the vCon and yet
+   it is known that the dialog occurred.  For example this may occur in
+   some call transfer cases where there is nothing known about the
    consultative call.  In such situations, it is possible to have a
-   Dialog Object with no parameters in it.  There may even be more than
-   one empty Dialog Object.  They are distinct by the order or index in
-   the Dialog Object array.
+   placeholder Dialog Object which contains only the type parameter.  As
+   the consultative call is a call, a placeholder Dialog Object for it
+   MUST be of type "recording" if the call was set up, or of type
+   "incomplete" if it was not.  There may be more than one placeholder
+   Dialog Object in the vCon.  They are distinct by the order or index
+   in the Dialog Object array.
 
 4.3.1.  type
 
@@ -1248,7 +1257,8 @@ Table of Contents
 4.3.2.  start
 
    The start parameter contains the date and time for the beginning of
-   the captured piece of dialog.  For text it is the time that the party
+   the captured piece of dialog.  The start parameter SHOULD be present
+   unless it is not known.  For text it is the time that the party
    started typing or if not available, then it is the time the text was
    sent.  For audio and video recordings, it is the time which
    corresponds to the beginning of the recording.  For a recording-set
@@ -1257,7 +1267,8 @@ Table of Contents
    ordered by the value of the start parameter.  Dialog Objects in the
    dialog array are in order that they were added to the vCon and cannot
    be reordered with out correcting the dialog indices which occur in
-   other Objects in the vCon.
+   other Objects in the vCon.  The start parameter is optional for the
+   "transfer" type Dialog Object as it may not always be known.
 
    *  start: "Date"
 
@@ -1549,7 +1560,8 @@ Table of Contents
 
       -  "keyup" - when a DTMF or application key/button was released
 
-   *  button: "String" - (required for keydown and keyup events)
+   *  button: "String" - (opional, required for keydown and keyup
+      events)
 
    The button parameter value is the String value of the DTMF digit,
    character or string label for the button that was pressed or
@@ -1590,11 +1602,12 @@ Table of Contents
    The value of the transferor parameter is the index into the parties
    Object array to the party that played the role of the Transferor.
 
-   *  transfer_target: "UnsignedInt" | "UnsignedInt[]"
+   *  transfer_target: "UnsignedInt" (optional)
 
    The value of the transfer_target parameter is the index into the
    parties Object array to the party that played the role of the
-   Transfer Target.
+   Transfer Target.  The transfer_target is optional in the case where
+   the transfer is abandoned before the target was identified.
 
    The consultation, target_dialog and original parameters all refer to
    the Dialog Objects that correspond to the 2 to 3 calls that are part
@@ -1617,13 +1630,13 @@ Table of Contents
    may be referenced in more than one transfer dialogs when multiple
    transfers occur.
 
-   *  original: "UnsignedInt" | "UnsignedInt[]"
+   *  original: "UnsignedInt"
 
    The value of the original parameter is the index/indices into the
    dialog Object array to the "recording" or "text" type Dialog Object
    for the original dialog between the Transferee and the Transferor.
 
-   *  consultation: "UnsignedInt" | "UnsignedInt[]" (optional)
+   *  consultation: "UnsignedInt" (optional)
 
    The value of the consultation parameter is the index/indices into the
    Dialog Object array to the "recording", "text" or "incomplete" type
@@ -1633,7 +1646,7 @@ Table of Contents
    attempts may fail.  The caller may decide the consultation with a
    party is not the desired transfer target.
 
-   *  target_dialog: "UnsignedInt" | "UnsignedInt[]"
+   *  target_dialog: "UnsignedInt"
 
    The value of the target_dialog parameter is the index/indices into
    the Dialog Object array to the "recording", "text" or "incomplete"
@@ -2432,48 +2445,51 @@ Table of Contents
    Template (Section 6.3.1) when registering additional entries to this
    table.
 
-      +================+==============+============+================+
-      | Parameter Name | Parameter    | Change     | Specification  |
-      |                | Description  | Controller | Document(s)    |
-      +================+==============+============+================+
-      | tel            | tel URL      | IESG       | Section 4.2.1  |
-      |                |              |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | sip            | SIP URL      | IESG       | Section 4.2.1  |
-      |                |              |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | stir           | STIR token   | IESG       | Section 4.2.3  |
-      |                |              |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | mailto         | mailto URL   | IESG       | Section 4.2.4  |
-      |                |              |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | name           | participant  | IESG       | Section 4.2.5  |
-      |                | name         |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | validation     | validation   | IESG       | Section 4.2.7  |
-      |                | method       |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | gmlpos         | participant  | IESG       | Section 4.2.8  |
-      |                | geolocation  |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | civicaddress   | civic        | IESG       | Section 4.2.9  |
-      |                | address      |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | uuid           | participant  | IESG       | Section 4.2.10 |
-      |                | UUID         |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | type           | participant  | IESG       | Section 4.2.11 |
-      |                | type         |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | org            | participant  | IESG       | Section 4.2.12 |
-      |                | organization |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
-      | dept           | participant  | IESG       | Section 4.2.13 |
-      |                | department   |            | RFC XXXX       |
-      +----------------+--------------+------------+----------------+
+     +================+===============+============+================+
+     | Parameter Name | Parameter     | Change     | Specification  |
+     |                | Description   | Controller | Document(s)    |
+     +================+===============+============+================+
+     | tel            | tel URL       | IESG       | Section 4.2.1  |
+     |                |               |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | sip            | SIP URL       | IESG       | Section 4.2.1  |
+     |                |               |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | stir           | STIR token    | IESG       | Section 4.2.3  |
+     |                |               |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | mailto         | mailto URL    | IESG       | Section 4.2.4  |
+     |                |               |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | name           | participant   | IESG       | Section 4.2.5  |
+     |                | name          |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | validation     | validation    | IESG       | Section 4.2.7  |
+     |                | method        |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | gmlpos         | participant   | IESG       | Section 4.2.8  |
+     |                | geolocation   |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | civicaddress   | civic address | IESG       | Section 4.2.9  |
+     |                |               |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | uuid           | participant   | IESG       | Section 4.2.10 |
+     |                | UUID          |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | type           | participant   | IESG       | Section 4.2.11 |
+     |                | type          |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | org            | participant   | IESG       | Section 4.2.12 |
+     |                | organization  |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | dept           | participant   | IESG       | Section 4.2.13 |
+     |                | department    |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
+     | did            | decentralized | IESG       | Section 4.2.6  |
+     |                | identifier    |            | RFC XXXX       |
+     +----------------+---------------+------------+----------------+
 
-                                  Table 2
+                                 Table 2
 
 6.3.4.  Dialog Object Parameter Names Registry
 
@@ -2641,21 +2657,24 @@ Table of Contents
    Object Registry Template (Section 6.3.1) when registering additional
    entries to this table.
 
-     +================+=============+============+==================+
-     | Parameter Name | Parameter   | Change     | Specification    |
-     |                | Description | Controller | Document(s)      |
-     +================+=============+============+==================+
-     | party          | event party | IESG       | Section 4.3.13.1 |
-     |                | index       |            | RFC XXXX         |
-     +----------------+-------------+------------+------------------+
-     | time           | time event  | IESG       | Section 4.3.13.1 |
-     |                | occurred    |            | RFC XXXX         |
-     +----------------+-------------+------------+------------------+
-     | event          | event type  | IESG       | Section 4.3.13.1 |
-     |                |             |            | RFC XXXX         |
-     +----------------+-------------+------------+------------------+
+    +===========+=====================+============+==================+
+    | Parameter | Parameter           | Change     | Specification    |
+    | Name      | Description         | Controller | Document(s)      |
+    +===========+=====================+============+==================+
+    | party     | event party index   | IESG       | Section 4.3.13.1 |
+    |           |                     |            | RFC XXXX         |
+    +-----------+---------------------+------------+------------------+
+    | time      | time event occurred | IESG       | Section 4.3.13.1 |
+    |           |                     |            | RFC XXXX         |
+    +-----------+---------------------+------------+------------------+
+    | event     | event type          | IESG       | Section 4.3.13.1 |
+    |           |                     |            | RFC XXXX         |
+    +-----------+---------------------+------------+------------------+
+    | button    | button label        | IESG       | Section 4.3.13.1 |
+    |           | character or string |            | RFC XXXX         |
+    +-----------+---------------------+------------+------------------+
 
-                                 Table 5
+                                  Table 5
 
 6.3.5.1.  party_event Event Name Registry
 
@@ -5983,6 +6002,392 @@ Appendix B.  vCon JSON Schema
      }
    }
 
+Appendix C.  vCon CDDL
+
+   This CDDL for vCon core is provided as informational.  The text in
+   sections 1-6 of this document define the normative definition of the
+   vCon CDDL.  If the CDDL provided below differs or conflicts from that
+   in the text of the above sections, the text should be taken as the
+   definitive definition and the CDDL below should be consider
+   incorrect.
+
+   ; CDDL for the JSON vCon - Conversation Data Container
+   ; Generated from the prose of draft-ietf-vcon-vcon-core
+   ; (syntax version 0.4.0).
+   ; The prose of the draft is normative.
+   ; This CDDL is informative.
+   ; Constraints that cannot be expressed in CDDL are stated in
+   ; comments.
+
+   ; A vCon JSON object is in one of three forms (Section 3):
+   ; unsigned, signed (JWS) or encrypted (JWE).
+
+   vcon = unsigned_vcon_type / signed_vcon_type / encrypted_vcon_type
+
+   ; Unsigned form of vCon Object (Section 4)
+   ;_________________________________________
+
+   unsigned_vcon_type = {
+       ; DEPRECATED (Section 4.1.1)
+       ? "vcon": "0.4.0",
+       uuid: uuid_value_type,                   ; Section 4.1.2
+       ? extensions: [* tstr],                  ; Section 4.1.3
+       ? critical: [* tstr],                    ; Section 4.1.4
+       created_at: date_type,                   ; Section 4.1.5
+       ? updated_at: date_type,                 ; Section 4.1.6
+       ? subject: tstr,                         ; Section 4.1.7
+       ? ( redacted: redacted_object_type //    ; Section 4.1.8
+           amended: amended_object_type ),      ; Section 4.1.9
+       parties: [* party_object_type],          ; Section 4.1.10
+       ? dialog: [* dialog_object_type],        ; Section 4.1.11
+       ? analysis: [* analysis_object_type],    ; Section 4.1.12
+       ? attachments: [* attachment_object_type], ; Section 4.1.13
+       extension_parameters_type
+     }
+
+   ; Object and multi-parameter types
+   ;_________________________________
+
+   ; Redacted Object (Section 4.1.8.1)
+   ; uuid SHOULD be provided.
+   ; content_hash MUST be provided if url is provided.
+   redacted_object_type = {
+       ? uuid: uuid_value_type,
+       type: tstr,
+       ? ( url: url_value_type,
+           content_hash: content_hash_type ),
+       extension_parameters_type
+     }
+
+   ; Amended Object (Section 4.1.9.1)
+   ; uuid is optional only if an external reference is provided.
+   ; content_hash MUST be provided if url is provided.
+   amended_object_type = {
+       ? uuid: uuid_value_type,
+       ? ( url: url_value_type,
+           content_hash: content_hash_type ),
+       extension_parameters_type
+     }
+
+   ; Party Object (Section 4.2)
+   ; A Party Object with no parameters is permitted.
+   party_object_type = {
+       ? tel: tstr,                             ; Section 4.2.1
+       ? sip: tstr,                             ; Section 4.2.2
+       ? stir: tstr,                            ; Section 4.2.3
+       ? mailto: tstr,                          ; Section 4.2.4
+       ? name: tstr,                            ; Section 4.2.5
+       ? did: tstr,                             ; Section 4.2.6
+       ? validation: tstr,                      ; Section 4.2.7
+       ? gmlpos: tstr,                          ; Section 4.2.8
+       ? civicaddress: civicaddress_type,       ; Section 4.2.9
+       ? uuid: uuid_value_type,                 ; Section 4.2.10
+       ; type SHOULD be "person", "bot" or "organization"
+       ? type: tstr,                            ; Section 4.2.11
+       ? org: tstr,                             ; Section 4.2.12
+       ? dept: tstr,                            ; Section 4.2.13
+       extension_parameters_type
+     }
+
+   ; Civicaddress Object (Section 4.2.9)
+   civicaddress_type = {
+       ? country: tstr,
+       ? a1: tstr,
+       ? a2: tstr,
+       ? a3: tstr,
+       ? a4: tstr,
+       ? a5: tstr,
+       ? a6: tstr,
+       ? prd: tstr,
+       ? pod: tstr,
+       ? sts: tstr,
+       ? hno: tstr,
+       ? hns: tstr,
+       ? lmk: tstr,
+       ? loc: tstr,
+       ? flr: tstr,
+       ? nam: tstr,
+       ? pc: tstr,
+       extension_parameters_type
+     }
+
+   ; Dialog Object (Section 4.3)
+   ; A Dialog Object containing only the type parameter is permitted
+   ; (e.g. as a placeholder referenced from a transfer type Dialog
+   ; Object).
+   dialog_object_type = {
+       ( dialog_recording_type //
+         dialog_text_type //
+         dialog_recording_set_type //
+         dialog_transfer_type //
+         dialog_incomplete_type ),
+       extension_parameters_type
+     }
+
+   ; Parameters common to all non-empty Dialog Object types
+   dialog_common_type = (
+       ; start SHOULD be present; MAY be omitted if not known
+       ? start: date_type,                      ; Section 4.3.2
+       ? duration: duration_type,               ; Section 4.3.3
+       ? session_id: session_id_parameter_type, ; Section 4.3.12
+       ? party_history: [* party_history_object_type], ; Section 4.3.13
+       ? application: tstr,                     ; Section 4.3.15
+       ? message_id: tstr                       ; Section 4.3.16
+     )
+
+   dialog_recording_type = (
+       type: "recording",                       ; Section 4.3.1
+       dialog_common_type,
+       parties: dialog_parties_type,            ; Section 4.3.4
+       ? originator: party_index_type,          ; Section 4.3.5
+       ; recording_set SHOULD be present when part of a recording-set
+       ? recording_set: dialog_index_type,      ; Section 4.3.7
+       ; mediatype MUST be present for inline content
+       ? mediatype: media_type_value_type,      ; Section 4.3.8
+       ? filename: tstr,                        ; Section 4.3.9
+       ; Dialog Content (Section 4.3.10) SHOULD be present;
+       ; body or url MAY be absent if redacted
+       ? file_content_type
+     )
+
+   dialog_text_type = (
+       type: "text",                            ; Section 4.3.1
+       dialog_common_type,
+       parties: dialog_parties_type,            ; Section 4.3.4
+       ? originator: party_index_type,          ; Section 4.3.5
+       ; mediatype MUST be present for inline content
+       ? mediatype: media_type_value_type,      ; Section 4.3.8
+       ? filename: tstr,                        ; Section 4.3.9
+       ; Dialog Content (Section 4.3.10) SHOULD be present;
+       ; body or url MAY be absent if redacted
+       ? file_content_type
+     )
+
+   dialog_recording_set_type = (
+       type: "recording-set",                   ; Section 4.3.1
+       dialog_common_type,
+       ; parties SHOULD contain all parties in the call or session
+       ? parties: dialog_parties_type,          ; Section 4.3.4
+       recordings: [* dialog_index_type]        ; Section 4.3.6
+     )
+
+   ; The transfer role and dialog reference parameters SHOULD be present
+   ; (Section 4.3.14) and MUST NOT be present in other dialog types.
+   dialog_transfer_type = (
+       type: "transfer",                        ; Section 4.3.1
+       dialog_common_type,
+       ? transferee: party_index_type,
+       ? transferor: party_index_type,
+       ? transfer_target: party_index_or_list_type,
+       ? original: dialog_index_or_list_type,
+       ? consultation: dialog_index_or_list_type,
+       ? target_dialog: dialog_index_or_list_type
+     )
+
+   dialog_incomplete_type = (
+       type: "incomplete",                      ; Section 4.3.1
+       dialog_common_type,
+       ? parties: dialog_parties_type,          ; Section 4.3.4
+       ? originator: party_index_type,          ; Section 4.3.5
+       disposition: disposition_value_type      ; Section 4.3.11
+     )
+
+   ; Party_History Object (Section 4.3.13.1)
+   ; button is required for keydown and keyup events.
+   party_history_object_type = {
+       party: party_index_type,
+       time: date_type,
+       ( event: "join" / "drop" / "hold" / "unhold" /
+                "mute" / "unmute" //
+         ( event: "keydown" / "keyup",
+           button: tstr ) ),
+       extension_parameters_type
+     }
+
+   ; Attachment Object (Section 4.4)
+   attachment_object_type = {
+       ? purpose: tstr,                         ; Section 4.4.1
+       start: date_type,                        ; Section 4.4.2
+       party: party_index_type,                 ; Section 4.4.3
+       dialog: dialog_index_type,               ; Section 4.4.4
+       ? mediatype: media_type_value_type,      ; Section 4.4.5
+       ? filename: tstr,                        ; Section 4.4.6
+       ; Attachment Content (Section 4.4.7) SHOULD be present;
+       ; body or url MAY be absent if redacted
+       ? file_content_type,
+       extension_parameters_type
+     }
+
+   ; Analysis Object (Section 4.5)
+   analysis_object_type = {
+       ; type SHOULD be one of: "report", "sentiment", "summary",
+       ; "transcript", "translation", "tts"
+       type: tstr,                              ; Section 4.5.1
+       ; dialog is optional only if the analysis was not derived
+       ; from any dialog
+       ? dialog: dialog_index_or_list_type,     ; Section 4.5.2
+       ; attachment is optional only if the analysis was not derived
+       ; from any attachment
+       ? attachment: attachment_index_or_list_type, ; Section 4.5.3
+       ? mediatype: media_type_value_type,      ; Section 4.5.4
+       ? filename: tstr,                        ; Section 4.5.5
+       vendor: tstr,                            ; Section 4.5.6
+       ? product: tstr,                         ; Section 4.5.7
+       ? schema: tstr,                          ; Section 4.5.8
+       ; Analysis Content (Section 4.5.9) SHOULD be present;
+       ; body or url MAY be absent if redacted
+       ? file_content_type,
+       extension_parameters_type
+     }
+
+   ; Inline Files (Section 2.3) and
+   ; Externally Referenced Files (Section 2.4)
+   ;___________________________________________
+
+   file_content_type = ( inline_content_type // external_content_type )
+
+   ; body is any JSON value when encoding is "json";
+   ; otherwise body is a string (Sections 2.3.1 and 2.3.2).
+   inline_content_type = (
+       ( encoding: "json",
+         body: any ) //
+       ( encoding: "none" / "base64url",
+         body: tstr )
+     )
+
+   external_content_type = (
+       url: url_value_type,                     ; Section 2.4.1
+       content_hash: content_hash_type          ; Section 2.4.2
+     )
+
+   ; SessionId (Section 2.2 and Section 4.3.12)
+   ; The empty object is the placeholder for a party with no session id.
+   session_id_object_type = {
+       ? "local": uuid_value_type,
+       ? "remote": uuid_value_type
+     }
+
+   session_id_parameter_type =
+       session_id_object_type /
+       [* ( session_id_object_type / [* session_id_object_type] )]
+
+   ; Basic types and single parameter types
+   ;_______________________________________
+
+   ; RFC3339 date string (Section 2.2)
+   date_type = tstr
+
+   ; String token of the form: hash algorithm, "-", Base64Url encoded
+   ; digest, e.g. "sha512-..." (Section 2.2)
+   content_hash_value_type = tstr
+
+   content_hash_type =
+       content_hash_value_type / [* content_hash_value_type]
+
+   ; Duration in seconds; MUST be non-negative (Section 4.3.3)
+   duration_type = uint / float
+
+   ; "no-answer" etc. (Section 4.3.11)
+   disposition_value_type = "no-answer" / "congestion" / "failed" /
+       "busy" / "hung-up" / "voicemail-no-message"
+
+   ; Media type of the form: type "/" subtype (Section 2.2)
+   media_type_value_type = tstr
+
+   party_index_type = uint
+
+   party_index_or_list_type = party_index_type / [* party_index_type]
+
+   dialog_index_type = uint
+
+   dialog_index_or_list_type = dialog_index_type / [* dialog_index_type]
+
+   attachment_index_type = uint
+
+   attachment_index_or_list_type =
+       attachment_index_type / [* attachment_index_type]
+
+   ; Index or indices of parties; the nested array form is used for
+   ; multi-channel recordings with one entry per channel; null is the
+   ; placeholder for an unused channel (Section 4.3.4).
+   dialog_parties_type = party_index_type /
+       [* ( party_index_type / [* party_index_type] / null )]
+
+   ; Extension parameters MAY appear in any object (Section 2.5)
+   extension_parameters_type = (
+       * tstr => any
+     )
+
+   uuid_value_type = tstr
+
+   ; HTTPS URL (Section 2.4.1)
+   url_value_type = tstr
+
+   ; Signed Form of vCon Object (Section 5.2)
+   ;_________________________________________
+
+   signed_vcon_type = {
+       payload: base64url_value_type,
+       signatures: [* signature_object_type],
+       extension_parameters_type
+     }
+
+   ; Signature Object (Section 5.2.1)
+   signature_object_type = {
+       header: signed_header_object_type,
+       protected: base64url_value_type,
+       signature: base64url_value_type,
+       extension_parameters_type
+     }
+
+   ; Header Object (Section 5.2.2)
+   ; MUST include alg and either x5c or x5u.
+   signed_header_object_type = {
+       alg: tstr,                               ; SHOULD be "RS256"
+       ( x5c: [* tstr] //
+         x5u: url_value_type ),
+       ? uuid: uuid_value_type,                 ; SHOULD be provided
+       extension_parameters_type
+     }
+
+   ; Encrypted Form of vCon Object (Section 5.3)
+   ;____________________________________________
+
+   encrypted_vcon_type = {
+       unprotected: unprotected_object_type,
+       recipients: [* recipient_object_type],
+       iv: base64url_value_type,
+       ciphertext: base64url_value_type,
+       tag: base64url_value_type,
+       extension_parameters_type
+     }
+
+   ; Unprotected Object (Section 5.3.1)
+   unprotected_object_type = {
+       ; cty SHOULD be "application/vcon" or "application/vcon+gzip"
+       cty: tstr,
+       ; enc SHOULD be "A256CBC-HS512"
+       enc: tstr,
+       ? uuid: uuid_value_type,                 ; SHOULD be provided
+       extension_parameters_type
+     }
+
+   ; Recipient Object (Section 5.3.2)
+   recipient_object_type = {
+       header: recipient_header_object_type,
+       encrypted_key: base64url_value_type,
+       extension_parameters_type
+     }
+
+   ; Header Object (Section 5.3.3)
+   recipient_header_object_type = {
+       alg: tstr,                               ; SHOULD be "RSA-OAEP"
+       extension_parameters_type
+     }
+
+   ; Base64Url encoded string
+   base64url_value_type = tstr
+
 Acknowledgments
 
    *  Thank you to Thomas McCarthy-Howe for inventing the concept of a
@@ -6021,6 +6426,9 @@ Acknowledgments
 
    *  Thank you to Scott Godin for the idea and help on designing the
       multi-segment recording metadata concept for recording-set.
+
+   *  Thank you to Henk Birkholz for identifying a few ambiguities in
+      the syntax and a few missing IANA entries.
 
 Author's Address
 
