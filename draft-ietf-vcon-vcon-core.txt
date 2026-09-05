@@ -227,7 +227,7 @@ Table of Contents
    The *vCon* format captures the essential components of a
    conversation, including metadata, media content, related documents,
    and post-conversation analysis.  This abstraction simplifies data
-   exchange, apply AI-driven analysis, as well as model training and
+   exchange, enables AI-driven analysis, and supports model training and
    testing.
 
 1.2.  Extending the vCon Schema
@@ -1180,13 +1180,19 @@ Table of Contents
    *  Metadata for providing relationships between recording Dialog
       Objects in recording-set scenarios
 
-   Media-based Dialog Objects (type text and recording) SHOULD contain
-   only media that is transcribable.  Media that is transcribable can be
-   converted into a textual representation of sequential communication
-   between parties.  While images such as sunsets, cows, photographs of
-   documents, or application forms may be describable, they are not
-   transcribable in a concise manner and SHOULD NOT be included as
-   Dialog Objects.  They SHOULD be included as Attachment Objects.
+   Media captured in a media-based Dialog Object (type text and
+   recording) SHOULD satisfy two constraints: the media is part of the
+   conversation itself, and the media is transcribable.  Media is part
+   of the conversation when it is the communication exchanged between
+   the parties, as opposed to a document or item that is referenced,
+   discussed or presented within the conversation.  Media that is
+   transcribable can be converted into a textual representation of
+   sequential communication between parties.  Text media is already in
+   textual form and is therefore always transcribable.  While images
+   such as sunsets, cows, photographs of documents, or application forms
+   may be describable, they are not transcribable in a concise manner
+   and SHOULD NOT be included as Dialog Objects.  They SHOULD be
+   included as Attachment Objects.
 
    Text and audio may be subject to interpretation, but they are
    transcribable to a precise dialog representation.  Although
@@ -1196,8 +1202,14 @@ Table of Contents
    Media that is not transcribable SHOULD be included in the vCon as
    Attachment Objects rather than Dialog Objects.
 
-   For example, a fax or photograph of a text-based letter is
-   transcribable and MAY be included as a Dialog Object.  Most other
+   Whether a fax or photograph of a text-based letter belongs in a
+   Dialog Object depends upon its role in the conversation.  A letter
+   faxed to the other party as the communication itself, such as a
+   letter faxed to a doctor, is both transcribable and part of the
+   conversation and MAY be included as a Dialog Object.  The same letter
+   shared or discussed within some other conversation is referenced
+   material rather than the conversation itself and SHOULD be included
+   as an Attachment Object, even though it is transcribable.  Most other
    faxes and photographs SHOULD be included as Attachment Objects and
    SHOULD NOT be included as Dialog Objects.  Similarly, a musical
    recording, even if it is in MP3 audio format, SHOULD be included as
@@ -1296,7 +1308,7 @@ Table of Contents
       "UnsignedInt[]")[]
 
    Single channel recordings should have a parties value of the form:
-   "UnisignedInt" or "UnsignedInt[]" where the integer value or array of
+   "UnsignedInt" or "UnsignedInt[]" where the integer value or array of
    integer values are the indices to the Party Object(s) in the parties
    array that contributed to the mix for the single channel recording.
    The index for the Party Object SHOULD be included even if the
@@ -1560,7 +1572,7 @@ Table of Contents
 
       -  "keyup" - when a DTMF or application key/button was released
 
-   *  button: "String" - (opional, required for keydown and keyup
+   *  button: "String" - (optional, required for keydown and keyup
       events)
 
    The button parameter value is the String value of the DTMF digit,
@@ -1686,7 +1698,7 @@ Table of Contents
    to avoid adding the same message, to the vCon containing the email
    thread, more than once.
 
-   *  message_id: "string" (optional)
+   *  message_id: "String" (optional)
 
 4.4.  Attachment Object
 
