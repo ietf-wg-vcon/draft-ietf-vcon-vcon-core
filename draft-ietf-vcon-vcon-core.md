@@ -707,7 +707,7 @@ This is necessary to capture the number of parties and distinction between which
 Hence it is possible to have multiple anonymous Party Objects in the vCon.
 They are distinct by the order or index in the Party Object array.
 
-### did {#party_did}
+### did {#party-did}
 
 If a Decentralized Identifier [DID] is known for the party, it can be included in the did parameter.
 
