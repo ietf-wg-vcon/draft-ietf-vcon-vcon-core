@@ -7,6 +7,7 @@ ans
 app
 Bcc
 bcp
+Birkholz
 bot
 bots
 CBC
@@ -30,6 +31,7 @@ crypto
 dan
 de
 De
+dept
 dev
 DEVOPS
 dgpetrie
@@ -60,6 +62,7 @@ Godin
 grp
 gzip
 gzipped
+Henk
 hno
 hns
 howe
