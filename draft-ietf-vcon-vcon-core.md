@@ -2126,6 +2126,16 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 {::include vcon_json_schema.pp}
 ~~~
 
+# vCon CDDL
+
+This CDDL for vCon core is provided as informational.
+The text in sections 1-6 of this document define the normative definition of the vCon CDDL.
+If the CDDL provided below differs or conflicts from that in the text of the above sections, the text should be taken as the definitive definition and the CDDL below should be consider incorrect.
+
+~~~
+{::include vcon.cddl}
+~~~
+
 
 # Acknowledgments
 {:numbered="false"}
