@@ -814,8 +814,10 @@ Currently five types of dialog objects are defined in this document:
 * Metadata for providing relationships between other Dialog Objects in transfer scenarios
 * Metadata for providing relationships between recording Dialog Objects in recording-set scenarios
 
-Media-based Dialog Objects (type text and recording) SHOULD contain only media that is transcribable.
+Media captured in a media-based Dialog Object (type text and recording) SHOULD satisfy two constraints: the media is part of the conversation itself, and the media is transcribable.
+Media is part of the conversation when it is the communication exchanged between the parties, as opposed to a document or item that is referenced, discussed or presented within the conversation.
 Media that is transcribable can be converted into a textual representation of sequential communication between parties.
+Text media is already in textual form and is therefore always transcribable.
 While images such as sunsets, cows, photographs of documents, or application forms may be describable, they are not transcribable in a concise manner and SHOULD NOT be included as Dialog Objects.
 They SHOULD be included as Attachment Objects.
 
@@ -824,7 +826,9 @@ Although transcriptions may not always be accurate, there exists a single correc
 
 Media that is not transcribable SHOULD be included in the vCon as Attachment Objects rather than Dialog Objects.
 
-For example, a fax or photograph of a text-based letter is transcribable and MAY be included as a Dialog Object.
+Whether a fax or photograph of a text-based letter belongs in a Dialog Object depends upon its role in the conversation.
+A letter faxed to the other party as the communication itself, such as a letter faxed to a doctor, is both transcribable and part of the conversation and MAY be included as a Dialog Object.
+The same letter shared or discussed within some other conversation is referenced material rather than the conversation itself and SHOULD be included as an Attachment Object, even though it is transcribable.
 Most other faxes and photographs SHOULD be included as Attachment Objects and SHOULD NOT be included as Dialog Objects.
 Similarly, a musical recording, even if it is in MP3 audio format, SHOULD be included as an Attachment and SHOULD NOT be included as a Dialog Object.
 
