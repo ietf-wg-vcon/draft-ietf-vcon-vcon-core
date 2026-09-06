@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                        5 September 2026
-Expires: 9 March 2027
+Intended status: Standards Track                        6 September 2026
+Expires: 10 March 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 March 2027.
+   This Internet-Draft will expire on 10 March 2027.
 
 Copyright Notice
 
@@ -1376,10 +1376,19 @@ Table of Contents
 4.3.5.  originator
 
    The originator party for this dialog.  For email and text, this is
-   the sender of the text.  For audio and video, this is the caller or
-   host of the call or conference.  The originator parameter is only
-   provided if the first party of the dialog Object parties list is NOT
-   the originator.
+   the sender of the text.  For audio and video calls, this is the
+   calling party.  For a scheduled meeting or conference, this is the
+   organizer, the party that scheduled or created the meeting.  The
+   organizer may be a party that never joins the conference; such a
+   party may still be included in the parties array.  The organizer is
+   distinct from the party acting as host or controller of the
+   conference at any point during the meeting; identifying the host or
+   controller is out of scope for this document.  If the originator is
+   not known, an empty Party Object (see Party Object (Section 4.2)) may
+   be used as the first party or as the party referenced by the
+   originator parameter.  The originator parameter is only provided if
+   the first party of the dialog Object parties list is NOT the
+   originator.
 
    *  originator: "UnsignedInt" (optional)
 
