@@ -1536,10 +1536,11 @@ The string value of encrypted_key is defined in section 7.2.1 of [JWE].
 
 The string value of alg SHOULD be "RSA-OAEP".
 
-## Differentiation of unsigned, signed and encrypted forms of vCon
+## Differentiation of vCon forms 
 
 vCons in the unsigned, signed and encrypted form are all valid JSON.
-It is necessary to distinguish which form a vCon is in order to properly handle it.
+A vCon in any of these forms may additionally be compressed using [GZIP] as described in [](#gzip-format-vcon-mediatype).
+It is necessary to distinguish which form a vCon is in, and whether it is compressed, in order to properly handle it.
 For example a signed vCon needs to be verified.
 The following is the recommended approaches to identifying which form a particular vCon is in:
 
@@ -1565,6 +1566,11 @@ The following is the recommended approaches to identifying which form a particul
 
   * ciphertext
   * recipients
+
+A gzip compressed vCon is not JSON and is differentiated from the JSON forms before the above parameter based rules can be applied.
+The gzip compressed vCon SHOULD be identified by the media type "application/vcon+gzip" when a media type is available, such as in the [HTTPS] Content-Type header.
+When no media type is available, a gzip compressed vCon can be identified by the gzip member header magic numbers defined in section 2.3.1 of [GZIP].
+Once decompressed, the contained vCon is in one of the JSON forms and is differentiated using the parameter based rules above.
 
 # IANA Considerations
 
