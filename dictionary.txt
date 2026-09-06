@@ -15,6 +15,7 @@ CBOR
 Cc
 cc
 CDDL
+cddl
 CDR
 civicaddress
 Civicaddress
@@ -183,7 +184,6 @@ TMN
 TR
 transcribable
 tts
-UnisignedInt
 unredacted
 UnsignedFloat
 UnsignedInt
