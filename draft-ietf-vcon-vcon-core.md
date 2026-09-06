@@ -932,7 +932,11 @@ Each may have a different set of parties.
 
 The originator party for this dialog.
 For email and text, this is the sender of the text.
-For audio and video, this is the caller or host of the call or conference.
+For audio and video calls, this is the calling party.
+For a scheduled meeting or conference, this is the organizer, the party that scheduled or created the meeting.
+The organizer may be a party that never joins the conference; such a party may still be included in the parties array.
+The organizer is distinct from the party acting as host or controller of the conference at any point during the meeting; identifying the host or controller is out of scope for this document.
+If the originator is not known, an empty Party Object (see [Party Object](#party-object)) may be used as the first party or as the party referenced by the originator parameter.
 The originator parameter is only provided if the first party of the dialog Object parties list is NOT the originator.
 
 * originator: "UnsignedInt" (optional)
