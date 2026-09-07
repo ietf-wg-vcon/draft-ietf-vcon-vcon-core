@@ -1,5 +1,4 @@
 {
-  "group": [],
   "parties": [
     {
       "mailto": "a@example.com",
@@ -53,8 +52,7 @@
   ],
   "analysis": [],
   "attachments": [],
-  "created_at": "2026-06-29T23:11:16.017+00:00",
-  "redacted": {},
+  "created_at": "2026-09-07T22:32:08.133+00:00",
   "subject": "Account issue followup",
-  "uuid": "019f15a6-ba37-8ed3-b9a2-279e0d16bc46"
+  "uuid": "01a07e00-0ecc-81db-b9a2-279e0d16bc46"
 }
