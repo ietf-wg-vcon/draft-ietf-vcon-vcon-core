@@ -1302,6 +1302,8 @@ The dialog is identified by the index to the dialog Object in the dialog objects
 ### mediatype {#attachment-mediatype}
 
 The media type for the included or referenced attachment file is provided in the mediatype parameter.
+The mediatype parameter MUST be provided for inline attachment files and MUST be provided if the Content-Type header in the [HTTPS] response for the externally referenced URL is not provided.
+The mediatype parameter is not required when the Attachment Content is absent, such as when the body and url have been redacted.
 
 * mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
 
@@ -1379,6 +1381,8 @@ The value of the attachment parameter is the index to the attachment or array of
 ### mediatype {#analysis-mediatype}
 
 The media type for the included or referenced analysis file is provided in the mediatype parameter.
+The mediatype parameter MUST be provided for inline analysis files and MUST be provided if the Content-Type header in the [HTTPS] response for the externally referenced URL is not provided.
+The mediatype parameter is not required when the Analysis Content is absent, such as when the body and url have been redacted.
 
 * mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
 
