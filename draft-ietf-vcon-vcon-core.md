@@ -74,8 +74,6 @@ normative:
 
   JWE: RFC7516
 
-  JWK: RFC7517
-
   MAILTO: RFC6068
 
   MEDIATYPE: RFC6838
@@ -840,7 +838,7 @@ If it is ambiguous as to what belongs in a Dialog Object versus an Attachment Ob
 
 There are situations when little or no information is available for a dialog either initially or over the entire life of the vCon and yet it is known that the dialog occurred.
 For example this may occur in some call transfer cases where there is nothing known about the consultative call.
-In such situations, it is possible to have a placeholder Dialog Object which contains only the type parameter.
+In such situations, it is possible to have a placeholder Dialog Object which contains only the type parameter and, for the "incomplete" type, the required disposition parameter.
 As the consultative call is a call, a placeholder Dialog Object for it MUST be of type "recording" if the call was set up, or of type "incomplete" if it was not.
 There may be more than one placeholder Dialog Object in the vCon.
 They are distinct by the order or index in the Dialog Object array.
@@ -885,7 +883,26 @@ An incomplete Dialog Object has a required disposition parameter which indicates
 
 The following table summarizes which Dialog Object parameters apply to each Dialog Object type.
 The parameter definitions in the subsections of this document are definitive; this table is provided as a summary.
-The symbols used in the table are: M the parameter MUST be present, S the parameter SHOULD be present, O the parameter is optional, SN the parameter SHOULD NOT be present, X the parameter MUST NOT be present, - the parameter is not applicable to the type.
+
+The symbols used in the table are defined as follows.
+
+M
+: The parameter MUST be present.
+
+S
+: The parameter SHOULD be present.
+
+O
+: The parameter is optional.
+
+SN
+: The parameter SHOULD NOT be present.
+
+X
+: The parameter MUST NOT be present.
+
+\-
+: the parameter has no defined meaning for this type; it MAY be present but its semantics are undefined.
 
 | Parameter | recording | recording-set | text | transfer | incomplete |
 | --- | --- | --- | --- | --- | --- |
@@ -899,9 +916,9 @@ The symbols used in the table are: M the parameter MUST be present, S the parame
 | mediatype | M (1) | X | M (1) | X | X |
 | filename | O | X | O | X | X |
 | body | S (2) | X | S (2) | X | X |
-| encoding | S | X | S | X | X |
+| encoding | S (3) | X | S (3) | X | X |
 | url | S (2) | X | S (2) | X | X |
-| content_hash | S | X | S | X | X |
+| content_hash | S (4) | X | S (4) | X | X |
 | disposition | SN | SN | SN | SN | M |
 | session_id | O | O | O | X | O |
 | party_history | O | O | O | X | O |
@@ -914,9 +931,13 @@ The symbols used in the table are: M the parameter MUST be present, S the parame
 | application | O | O | O | O | O |
 | message_id | O | X | O | X | X |
 
-(1) MUST be present for inline Dialog Content; optional for externally referenced Dialog Content when the media type is provided in the [HTTPS] Content-Type header.
+(1) MUST be present for inline Dialog Content; optional for externally referenced Dialog Content when the media type is provided in the [HTTPS] Content-Type header; not required when Dialog Content is absent, such as in a placeholder Dialog Object or a redacted vCon.
 
 (2) body or url MAY be absent in a redacted vCon.
+
+(3) MUST be present when the body parameter is present and is not an empty string (see [Inline Files](#inline-files)).
+
+(4) MUST be present when the url parameter is present (see [content_hash](#content_hash)).
 
 ### start {#dialog-start}
 
@@ -1018,7 +1039,7 @@ The recordings parameter MUST NOT be present in other Dialog Object types.
 
 The recording_set parameter identifies the recording-set Dialog Object to which the recording Dialog Object belongs.
 
-* recording_set: "UnsignedInt" (optional if not part of a recording-set)
+* recording_set: "UnsignedInt" (optional; SHOULD be present when the recording is part of a recording-set)
 
 The recording_set parameter SHOULD be present when a recording Dialog Object is part of a recording-set Dialog Object.
 The recording_set parameter MUST NOT be present in other Dialog Object types.
@@ -1027,6 +1048,7 @@ The recording_set parameter MUST NOT be present in other Dialog Object types.
 
 The media type for the piece of dialog included or referenced is provided in the mediatype parameter.
 The mediatype parameter MUST be provided for inline dialog files and MUST be provided if the Content-Type header in the [HTTPS] response for the externally referenced URL is not provided.
+The mediatype parameter is not required when the Dialog Content is absent, such as in a placeholder Dialog Object or when the body and url have been redacted.
 The mediatype parameter MUST NOT be present in "recording-set", "transfer" or "incomplete" type Dialog Objects as they do not have Dialog Content.
 
 * mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
@@ -1073,6 +1095,7 @@ Alternatively, for externally referenced dialog:
 ### disposition
 
 If the dialog type is "incomplete", it MUST have a disposition parameter.
+If the reason that the call or conversation failed is not known, such as in a placeholder Dialog Object, the disposition value "failed" SHOULD be used.
 The value of the disposition parameter provides the reason that the "call control" failed.
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
 This latter definition of call disposition is not dialog, but analysis of the conversation and is not included in the dialog portion.
@@ -1160,7 +1183,8 @@ There are two or three calls in which the parties are connected:
 * consultative call (optional as this call may not get created)
 * target call
 
-To capture the above roles and dialog segments, the following parameters are defined and SHOULD be present in the "transfer" type dialog and MUST NOT be present in other dialog types.
+To capture the above roles and dialog segments, the following parameters are defined for the "transfer" type dialog and MUST NOT be present in other dialog types.
+Each of these parameters SHOULD be present in the "transfer" type Dialog Object unless noted as optional.
 
 * transferee: "UnsignedInt"
 
@@ -1183,17 +1207,17 @@ Alternatively a call may go on hold where recording is stopped and back off agai
 For this reason, the values for the consultation, target_dialog and original parameters MAY have a single UnsignedInt or an array of UnsignedInt.
 
 There are scenarios where we know that a transfer has occurred, but we have no Dialog Object information for one or two of the consultation, target or transfer calls.
-In this case an empty Dialog Object is created and its index is used for the consultation, target_dialog or original parameter.
+In this case a placehoder Dialog Object is created and its index is used for the consultation, target_dialog or original parameter.
 A unique Dialog Object SHOULD be referenced for each role in the transfer.
 However a Dialog Object may be referenced in more than one transfer dialogs when multiple transfers occur.
 
 * original: "UnsignedInt"
 
-The value of the original parameter is the index/indices into the dialog Object array to the "recording" or "text" type Dialog Object for the original dialog between the Transferee and the Transferor.
+The value of the original parameter is the index into the dialog Object array to the "recording" or "text" type Dialog Object for the original dialog between the Transferee and the Transferor.
 
 * consultation: "UnsignedInt" (optional)
 
-The value of the consultation parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type Dialog Object for the consultative dialog between the Transferor and the Transfer Target.
+The value of the consultation parameter is the index into the Dialog Object array to the "recording", "text" or "incomplete" type Dialog Object for the consultative dialog between the Transferor and the Transfer Target.
 It is also possible for there to be more than one consultation.
 This may occur for a number of reasons.
 Call attempts may fail.
@@ -1201,7 +1225,7 @@ The caller may decide the consultation with a party is not the desired transfer 
 
 * target_dialog: "UnsignedInt"
 
-The value of the target_dialog parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
+The value of the target_dialog parameter is the index into the Dialog Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
 
 A number of Dialog Object parameters are prohibited in "transfer" type Dialog Objects; see [](#dialog-object-parameter-applicability-by-type) for a summary and the individual parameter definitions for the normative statements.
 
@@ -1488,7 +1512,7 @@ The vCon General JWS JSON Serialization MUST include x5c or x5u in the unprotect
 * payload: "String"
 
 The value of the payload is the Base64Url Encoded string containing either: the unsigned form of the JSON vCon; or the gzipped [GZIP] unsigned form of the JSON vCon.
-The general construction of the payload string value is described in section 7.2.1 of [JWK]
+The general construction of the payload string value is described in section 7.2.1 of [JWS]
 
 * signatures: "Signature\[\]"
 
@@ -1503,7 +1527,7 @@ The Signature Object MUST contain a header, protected and signature parameter as
 The value of header is defined in [Header Object](#header-object)
 
 * protected: "String"
-* signature" "String"
+* signature: "String"
 
 
 ### Header Object
