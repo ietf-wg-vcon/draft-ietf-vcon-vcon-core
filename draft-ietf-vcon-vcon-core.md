@@ -2262,7 +2262,7 @@ If the CDDL provided below differs or conflicts from that in the text of the abo
 * Thank you to Marc Petit-Huguenin for sorting out session_id.
 * Thank you to Rob Sliwa for helping to review and test the JSON Schema.
 * Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrity for long term storage of signed vCons.
-* Thank you to Scott Godin for the idea and help on designing the multi-segment recording metadata concept for recording-set.
+* Thank you to Scott Godin for several thorough reviews and the idea and help on designing the multi-segment recording metadata concept for recording-set.
 * Thank you to Henk Birkholz for identifying a few ambiguities in the syntax and a few missing IANA entries.
 
 
