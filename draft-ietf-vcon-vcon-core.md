@@ -1604,7 +1604,7 @@ The string value of encrypted_key is defined in section 7.2.1 of [JWE].
 
 The string value of alg SHOULD be "RSA-OAEP".
 
-## Differentiation of vCon forms 
+## Differentiation of vCon forms
 
 vCons in the unsigned, signed and encrypted form are all valid JSON.
 A vCon in any of these forms may additionally be compressed using [GZIP] as described in [](#gzip-format-vcon-mediatype).
