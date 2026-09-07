@@ -1929,7 +1929,12 @@ Table of Contents
 4.4.5.  mediatype
 
    The media type for the included or referenced attachment file is
-   provided in the mediatype parameter.
+   provided in the mediatype parameter.  The mediatype parameter MUST be
+   provided for inline attachment files and MUST be provided if the
+   Content-Type header in the [HTTPS] response for the externally
+   referenced URL is not provided.  The mediatype parameter is not
+   required when the Attachment Content is absent, such as when the body
+   and url have been redacted.
 
    *  mediatype: "Mediatype" (optional for externally referenced files,
       if absent, this is provided in the [HTTPS] Content-Type header)
@@ -2030,7 +2035,12 @@ Table of Contents
 4.5.4.  mediatype
 
    The media type for the included or referenced analysis file is
-   provided in the mediatype parameter.
+   provided in the mediatype parameter.  The mediatype parameter MUST be
+   provided for inline analysis files and MUST be provided if the
+   Content-Type header in the [HTTPS] response for the externally
+   referenced URL is not provided.  The mediatype parameter is not
+   required when the Analysis Content is absent, such as when the body
+   and url have been redacted.
 
    *  mediatype: "Mediatype" (optional for externally referenced files,
       if absent, this is provided in the [HTTPS] Content-Type header)
