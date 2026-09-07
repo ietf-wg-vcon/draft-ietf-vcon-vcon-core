@@ -397,7 +397,7 @@ Table of Contents
 
    *  "A[]" and array of values of type A.
 
-   All parameters are assumed to be mandatory unless other wise noted.
+   All parameters are assumed to be mandatory unless otherwise noted.
 
    Objects or arrays with no or null values MAY be excluded from the
    vCon.
@@ -582,11 +582,11 @@ Table of Contents
    selection of the JSON format enables interchange between application
    and lower layers of the network stack, critical for enablement of
    analysis of conversations.  The signed form of vCon is defined in
-   Section 5.2 using [JWE] to provide integrity and proof of the
+   Section 5.2 using [JWS] to provide integrity and proof of the
    conversation data.  The encrypted form of vCon is defined in
-   Section 5.3 to provide complete privacy of the conversational data.
-   Partial privacy or data minimization can be provide for a vCon using
-   the Section 4.1.8 construct.
+   Section 5.3 using [JWE] to provide complete privacy of the
+   conversational data.  Partial privacy or data minimization can be
+   provide for a vCon using the Section 4.1.8 construct.
 
 4.  Unsigned Form of vCon Object
 
@@ -1289,9 +1289,9 @@ Table of Contents
    A dialog of type "incomplete" captures a call or conversation that
    failed to be setup to the point of exchanging any conversation.  As
    no conversation was exchanged, an incomplete Dialog Object does not
-   have Dialog Content (see Section 4.3.10).  Incomplete Dialog Objects
-   MUST have a disposition parameter which indicates why the call or
-   conversation failed (see Section 4.3.11).
+   have Dialog Content (see Section 4.3.10).  An incomplete Dialog
+   Object has a required disposition parameter which indicates why the
+   call or conversation failed (see Section 4.3.11).
 
 4.3.1.6.  Dialog Object Parameter Applicability by Type
 
@@ -1583,19 +1583,19 @@ Table of Contents
 
    For inline included dialog:
 
-   *  body: "*" (optional in an a redacted vCon)
+   *  body: "*" (optional in a redacted vCon)
 
    *  encoding: "String"
 
    Alternatively, for externally referenced dialog:
 
-   *  url: "String" (optional in an a redacted vCon)
+   *  url: "String" (optional in a redacted vCon)
 
    *  content_hash: "ContentHash" | "ContentHash[]"
 
 4.3.11.  disposition
 
-   If the dialog type is "incomplete", it must have a disposition
+   If the dialog type is "incomplete", it MUST have a disposition
    parameter.  The value of the disposition parameter provides the
    reason that the "call control" failed.  The term: "call control" is
    used in a loose sense, as there in not always a call involved, to
@@ -2202,7 +2202,7 @@ Table of Contents
    unsigned form of the JSON vCon.  The general construction of the
    payload string value is described in section 7.2.1 of [JWK]
 
-   *  signatures "Signature[]"
+   *  signatures: "Signature[]"
 
    The value of signatures is an array of Signature Objects
    (Section 5.2.1)

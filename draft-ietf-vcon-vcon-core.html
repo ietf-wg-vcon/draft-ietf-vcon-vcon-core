@@ -1783,7 +1783,7 @@ This is designed to also work with the H.323 correlated <span>[<a href="#H-460-2
             <p id="section-2.2-2.9.1">"A[]" and array of values of type A.<a href="#section-2.2-2.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.2-3">All parameters are assumed to be mandatory unless other wise noted.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">All parameters are assumed to be mandatory unless otherwise noted.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 <p id="section-2.2-4">Objects or arrays with no or null values <span class="bcp14">MAY</span> be excluded from the vCon.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1969,8 +1969,8 @@ However the redactor perhaps should reject vCons with any extension that it does
 <p id="section-3-3">The unsigned form of the vCon has a single top level object.
 This top level vCon object is also contained as described in the <span><a href="#signed-form-of-vcon-object" class="internal xref">signed</a> (<a href="#signed-form-of-vcon-object" class="auto internal xref">Section 5.2</a>)</span> and <span><a href="#encrypted-form-of-vcon-object" class="internal xref">encrypted</a> (<a href="#encrypted-form-of-vcon-object" class="auto internal xref">Section 5.3</a>)</span> forms of the vCon.
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
-The signed form of vCon is defined in <a href="#signed-form-of-vcon-object" class="auto internal xref">Section 5.2</a> using <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> to provide integrity and proof of the conversation data.
-The encrypted form of vCon is defined in <a href="#encrypted-form-of-vcon-object" class="auto internal xref">Section 5.3</a> to provide complete privacy of the conversational data.
+The signed form of vCon is defined in <a href="#signed-form-of-vcon-object" class="auto internal xref">Section 5.2</a> using <span>[<a href="#JWS" class="cite xref">JWS</a>]</span> to provide integrity and proof of the conversation data.
+The encrypted form of vCon is defined in <a href="#encrypted-form-of-vcon-object" class="auto internal xref">Section 5.3</a> using <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> to provide complete privacy of the conversational data.
 Partial privacy or data minimization can be provide for a vCon using the <a href="#redacted" class="auto internal xref">Section 4.1.8</a> construct.<a href="#section-3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2772,7 +2772,7 @@ The Dialog Transfer parameters are used to show the roles and relationships betw
             </h5>
 <p id="section-4.3.1.5-1">A dialog of type "incomplete" captures a call or conversation that failed to be setup to the point of exchanging any conversation.
 As no conversation was exchanged, an incomplete Dialog Object does not have Dialog Content (see <a href="#dialog-content" class="auto internal xref">Section 4.3.10</a>).
-Incomplete Dialog Objects <span class="bcp14">MUST</span> have a disposition parameter which indicates why the call or conversation failed (see <a href="#disposition" class="auto internal xref">Section 4.3.11</a>).<a href="#section-4.3.1.5-1" class="pilcrow">¶</a></p>
+An incomplete Dialog Object has a required disposition parameter which indicates why the call or conversation failed (see <a href="#disposition" class="auto internal xref">Section 4.3.11</a>).<a href="#section-4.3.1.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dialog-object-parameter-applicability-by-type">
@@ -3206,7 +3206,7 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
 <p id="section-4.3.10-2">For inline included dialog:<a href="#section-4.3.10-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.10-3.1">
-              <p id="section-4.3.10-3.1.1">body: "*" (optional in an a redacted vCon)<a href="#section-4.3.10-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.3.10-3.1.1">body: "*" (optional in a redacted vCon)<a href="#section-4.3.10-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.3.10-3.2">
               <p id="section-4.3.10-3.2.1">encoding: "String"<a href="#section-4.3.10-3.2.1" class="pilcrow">¶</a></p>
@@ -3215,7 +3215,7 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
 <p id="section-4.3.10-4">Alternatively, for externally referenced dialog:<a href="#section-4.3.10-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.10-5.1">
-              <p id="section-4.3.10-5.1.1">url: "String"  (optional in an a redacted vCon)<a href="#section-4.3.10-5.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.3.10-5.1.1">url: "String"  (optional in a redacted vCon)<a href="#section-4.3.10-5.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.3.10-5.2">
               <p id="section-4.3.10-5.2.1">content_hash: "ContentHash" | "ContentHash[]"<a href="#section-4.3.10-5.2.1" class="pilcrow">¶</a></p>
@@ -3228,7 +3228,7 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
           <h4 id="name-disposition">
 <a href="#section-4.3.11" class="section-number selfRef">4.3.11. </a><a href="#name-disposition" class="section-name selfRef">disposition</a>
           </h4>
-<p id="section-4.3.11-1">If the dialog type is "incomplete", it must have a disposition parameter.
+<p id="section-4.3.11-1">If the dialog type is "incomplete", it <span class="bcp14">MUST</span> have a disposition parameter.
 The value of the disposition parameter provides the reason that the "call control" failed.
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
 This latter definition of call disposition is not dialog, but analysis of the conversation and is not included in the dialog portion.<a href="#section-4.3.11-1" class="pilcrow">¶</a></p>
@@ -3885,7 +3885,7 @@ The vCon General JWS JSON Serialization <span class="bcp14">MUST</span> include 
 The general construction of the payload string value is described in section 7.2.1 of <span>[<a href="#JWK" class="cite xref">JWK</a>]</span><a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2-4.1">
-            <p id="section-5.2-4.1.1">signatures "Signature[]"<a href="#section-5.2-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-4.1.1">signatures: "Signature[]"<a href="#section-5.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.2-5">The value of signatures is an array of <span><a href="#signature-object" class="internal xref">Signature Objects</a> (<a href="#signature-object" class="auto internal xref">Section 5.2.1</a>)</span><a href="#section-5.2-5" class="pilcrow">¶</a></p>
