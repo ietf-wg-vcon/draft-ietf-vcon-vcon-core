@@ -1313,7 +1313,7 @@ Table of Contents
 
    X  The parameter MUST NOT be present.
 
-   -  the parameter has no defined meaning for this type; it MAY be
+   -  The parameter has no defined meaning for this type; it MAY be
       present but its semantics are undefined.
 
    +=================+=========+=============+=====+========+==========+
@@ -1429,10 +1429,12 @@ Table of Contents
 
    The party(s) which generated the text or recording for this piece of
    dialog are indicated in the parties parameter.  The parties parameter
-   MUST NOT be present in "transfer" type Dialog Objects (see
-   Section 4.3.14).  The parties parameter is optional for "incomplete"
-   type Dialog Objects, where it indicates the parties between which the
-   call or conversation setup was attempted.
+   SHOULD be present in "recording", "recording-set" and "text" type
+   Dialog Objects.  The parties parameter MUST NOT be present in
+   "transfer" type Dialog Objects (see Section 4.3.14).  The parties
+   parameter is optional for "incomplete" type Dialog Objects, where it
+   indicates the parties between which the call or conversation setup
+   was attempted.
 
    *  parties: "UnsignedInt" | "UnsignedInt[]" | ("UnsignedInt" |
       "UnsignedInt[]")[]
@@ -1789,13 +1791,15 @@ Table of Contents
    dialog for each.  Alternatively a call may go on hold where recording
    is stopped and back off again resulting where recording is started
    again in a separate recording file, resulting in multiple Dialog
-   Objects.  For this reason, the values for the consultation,
-   target_dialog and original parameters MAY have a single UnsignedInt
-   or an array of UnsignedInt.
+   Objects.  The values for the consultation, target_dialog and original
+   parameters each reference a single Dialog Object.  When a call is
+   represented by multiple recording Dialog Objects, a recording-set
+   type Dialog Object which represents that call MAY be referenced (see
+   Section 4.3.1.2).
 
    There are scenarios where we know that a transfer has occurred, but
    we have no Dialog Object information for one or two of the
-   consultation, target or transfer calls.  In this case a placehoder
+   consultation, target or transfer calls.  In this case a placeholder
    Dialog Object is created and its index is used for the consultation,
    target_dialog or original parameter.  A unique Dialog Object SHOULD
    be referenced for each role in the transfer.  However a Dialog Object
@@ -1805,24 +1809,26 @@ Table of Contents
    *  original: "UnsignedInt"
 
    The value of the original parameter is the index into the dialog
-   Object array to the "recording" or "text" type Dialog Object for the
-   original dialog between the Transferee and the Transferor.
+   Object array to the "recording", "recording-set" or "text" type
+   Dialog Object for the original dialog between the Transferee and the
+   Transferor.
 
    *  consultation: "UnsignedInt" (optional)
 
    The value of the consultation parameter is the index into the Dialog
-   Object array to the "recording", "text" or "incomplete" type Dialog
-   Object for the consultative dialog between the Transferor and the
-   Transfer Target.  It is also possible for there to be more than one
-   consultation.  This may occur for a number of reasons.  Call attempts
-   may fail.  The caller may decide the consultation with a party is not
-   the desired transfer target.
+   Object array to the "recording", "recording-set", "text" or
+   "incomplete" type Dialog Object for the consultative dialog between
+   the Transferor and the Transfer Target.  It is also possible for
+   there to be more than one consultation.  This may occur for a number
+   of reasons.  Call attempts may fail.  The caller may decide the
+   consultation with a party is not the desired transfer target.
 
    *  target_dialog: "UnsignedInt"
 
    The value of the target_dialog parameter is the index into the Dialog
-   Object array to the "recording", "text" or "incomplete" type dialog
-   for the target dialog between the Transferee and the Transfer Target.
+   Object array to the "recording", "recording-set", "text" or
+   "incomplete" type Dialog Object for the target dialog between the
+   Transferee and the Transfer Target.
 
    A number of Dialog Object parameters are prohibited in "transfer"
    type Dialog Objects; see Section 4.3.1.6 for a summary and the
