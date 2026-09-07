@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                        6 September 2026
-Expires: 10 March 2027
+Intended status: Standards Track                        7 September 2026
+Expires: 11 March 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 March 2027.
+   This Internet-Draft will expire on 11 March 2027.
 
 Copyright Notice
 
@@ -164,8 +164,7 @@ Table of Contents
        5.3.1.  Unprotected Object
        5.3.2.  Recipient Object
        5.3.3.  Header Object
-     5.4.  Differentiation of unsigned, signed and encrypted forms of
-           vCon
+     5.4.  Differentiation of vCon forms
    6.  IANA Considerations
      6.1.  JSON Format vCon Mediatype
      6.2.  gzip Format vCon Mediatype
@@ -1241,30 +1240,131 @@ Table of Contents
 
    *  type: "String"
 
-   The sting MUST have the value of either "recording", "recording-set",
-   "text", "transfer" or "incomplete".  A dialog of type "recording" has
-   Dialog Content that either contains a body or refers to via url,
-   which is a recording of the video and/or audio of a segment of the
-   conversation.  A dialog of type "recording-set" contains metadata
-   describing a set of "recording" Dialog Objects that collectively
-   represent a call or session.  A dialog of type "text" has Dialog
-   Content that either contains a body or refers to via url, which
-   contains the text from one of the parties for a segment of the
-   conversation.  A dialog of type "transfer" does not capture actual
-   conversation exchange, but rather captures operations, parties and
-   relations between dialog segments.  A dialog of type "incomplete",
-   "transfer" or "recording-set" MUST NOT have Dialog Content.  In the
-   "incomplete" case the call or conversation failed to be setup to the
-   point of exchanging any conversation.  Incomplete Dialog Objects MUST
-   have a disposition parameter which indicates why the call or
-   conversations failed.  In the "transfer" case, the conversation is
-   recorded in other Dialog Objects.  In the "recording-set" case, the
-   conversation is recorded in one or more "recording" Dialog Objects.
-   The Dialog Transfer parameters are used to show the roles and
-   relationships between the parties and other Dialog Objects as the
-   transfer process occurred.  The recording-set parameters are used to
-   identify the set of "recording" Dialog Objects that collectively
-   represent a call or session.
+   The string MUST have the value of either "recording", "recording-
+   set", "text", "transfer" or "incomplete".  The semantics of each
+   Dialog Object type are described in the following subsections.  The
+   applicability of each of the Dialog Object parameters to each of the
+   types is summarized in Section 4.3.1.6.
+
+4.3.1.1.  recording
+
+   A dialog of type "recording" has Dialog Content that either contains
+   a body or refers to via url, which is a recording of the video and/or
+   audio of a segment of the conversation.  A recording Dialog Object
+   that is part of a set of recordings which collectively represent a
+   call or session, may reference the associated recording-set Dialog
+   Object via the recording_set parameter (see Section 4.3.7).
+
+4.3.1.2.  recording-set
+
+   A dialog of type "recording-set" contains metadata describing a set
+   of "recording" Dialog Objects that collectively represent a call or
+   session.  The conversation itself is captured in the referenced
+   "recording" Dialog Objects; a recording-set Dialog Object does not
+   have Dialog Content (see Section 4.3.10).  The recordings parameter
+   identifies the "recording" Dialog Objects in the set (see
+   Section 4.3.6).  The start, duration, parties and session_id
+   parameters of a recording-set Dialog Object describe the call or
+   session as a whole (see Section 4.3.2, Section 4.3.3, Section 4.3.4
+   and Section 4.3.12).
+
+4.3.1.3.  text
+
+   A dialog of type "text" has Dialog Content that either contains a
+   body or refers to via url, which contains the text from one of the
+   parties for a segment of the conversation.
+
+4.3.1.4.  transfer
+
+   A dialog of type "transfer" does not capture actual conversation
+   exchange, but rather captures operations, parties and relations
+   between dialog segments.  The conversation is captured in other
+   Dialog Objects; a transfer Dialog Object does not have Dialog Content
+   (see Section 4.3.10).  The Dialog Transfer parameters are used to
+   show the roles and relationships between the parties and other Dialog
+   Objects as the transfer process occurred (see Section 4.3.14).
+
+4.3.1.5.  incomplete
+
+   A dialog of type "incomplete" captures a call or conversation that
+   failed to be setup to the point of exchanging any conversation.  As
+   no conversation was exchanged, an incomplete Dialog Object does not
+   have Dialog Content (see Section 4.3.10).  Incomplete Dialog Objects
+   MUST have a disposition parameter which indicates why the call or
+   conversation failed (see Section 4.3.11).
+
+4.3.1.6.  Dialog Object Parameter Applicability by Type
+
+   The following table summarizes which Dialog Object parameters apply
+   to each Dialog Object type.  The parameter definitions in the
+   subsections of this document are definitive; this table is provided
+   as a summary.  The symbols used in the table are: M the parameter
+   MUST be present, S the parameter SHOULD be present, O the parameter
+   is optional, SN the parameter SHOULD NOT be present, X the parameter
+   MUST NOT be present, - the parameter is not applicable to the type.
+
+   +=================+=========+=============+=====+========+==========+
+   | Parameter       |recording|recording-set|text |transfer|incomplete|
+   +=================+=========+=============+=====+========+==========+
+   | type            |M        |M            |M    |M       |M         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | start           |S        |S            |S    |O       |S         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | duration        |O        |O            |O    |-       |O         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | parties         |S        |S            |S    |X       |O         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | originator      |O        |O            |O    |X       |O         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | recordings      |X        |M            |X    |X       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | recording_set   |O        |X            |X    |X       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | mediatype       |M (1)    |X            |M    |X       |X         |
+   |                 |         |             |(1)  |        |          |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | filename        |O        |X            |O    |X       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | body            |S (2)    |X            |S    |X       |X         |
+   |                 |         |             |(2)  |        |          |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | encoding        |S        |X            |S    |X       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | url             |S (2)    |X            |S    |X       |X         |
+   |                 |         |             |(2)  |        |          |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | content_hash    |S        |X            |S    |X       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | disposition     |SN       |SN           |SN   |SN      |M         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | session_id      |O        |O            |O    |X       |O         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | party_history   |O        |O            |O    |X       |O         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | transferee      |X        |X            |X    |S       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | transferor      |X        |X            |X    |S       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | transfer_target |X        |X            |X    |O       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | original        |X        |X            |X    |S       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | consultation    |X        |X            |X    |O       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | target_dialog   |X        |X            |X    |S       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | application     |O        |O            |O    |O       |O         |
+   +-----------------+---------+-------------+-----+--------+----------+
+   | message_id      |O        |X            |O    |X       |X         |
+   +-----------------+---------+-------------+-----+--------+----------+
+
+                                  Table 1
+
+   (1) MUST be present for inline Dialog Content; optional for
+   externally referenced Dialog Content when the media type is provided
+   in the [HTTPS] Content-Type header.
+
+   (2) body or url MAY be absent in a redacted vCon.
 
 4.3.2.  start
 
@@ -1294,6 +1394,10 @@ Table of Contents
    the duration of the call or session.  The start and duration
    parameters of a recording-set Dialog Object identify the complete
    time interval represented by the associated recording Dialog Objects.
+   The duration parameter is not applicable to the "transfer" type
+   Dialog Object.  For an "incomplete" type Dialog Object, the duration
+   parameter may capture the time from the attempt to setup the call or
+   conversation until it failed.
 
    *  duration: "UnsignedInt" | "UnsignedFloat" (optional)
 
@@ -1302,7 +1406,11 @@ Table of Contents
 4.3.4.  parties
 
    The party(s) which generated the text or recording for this piece of
-   dialog are indicated in the parties parameter.
+   dialog are indicated in the parties parameter.  The parties parameter
+   MUST NOT be present in "transfer" type Dialog Objects (see
+   Section 4.3.14).  The parties parameter is optional for "incomplete"
+   type Dialog Objects, where it indicates the parties between which the
+   call or conversation setup was attempted.
 
    *  parties: "UnsignedInt" | "UnsignedInt[]" | ("UnsignedInt" |
       "UnsignedInt[]")[]
@@ -1388,7 +1496,8 @@ Table of Contents
    be used as the first party or as the party referenced by the
    originator parameter.  The originator parameter is only provided if
    the first party of the dialog Object parties list is NOT the
-   originator.
+   originator.  The originator parameter MUST NOT be present in
+   "transfer" type Dialog Objects (see Section 4.3.14).
 
    *  originator: "UnsignedInt" (optional)
 
@@ -1425,7 +1534,9 @@ Table of Contents
    provided in the mediatype parameter.  The mediatype parameter MUST be
    provided for inline dialog files and MUST be provided if the Content-
    Type header in the [HTTPS] response for the externally referenced URL
-   is not provided.
+   is not provided.  The mediatype parameter MUST NOT be present in
+   "recording-set", "transfer" or "incomplete" type Dialog Objects as
+   they do not have Dialog Content.
 
    *  mediatype: "Mediatype" (optional for externally referenced files,
       if absent, this is provided in the [HTTPS] Content-Type header)
@@ -1454,7 +1565,9 @@ Table of Contents
 
    It is sometimes useful to preserve the name of the file which
    originally contained this piece of dialog.  This can be done in the
-   filename parameter.
+   filename parameter.  The filename parameter MUST NOT be present in
+   "recording-set", "transfer" or "incomplete" type Dialog Objects as
+   they do not have Dialog Content.
 
    *  filename: "String" (optional)
 
@@ -1534,8 +1647,17 @@ Table of Contents
    It is also possible that the SessionId Object will not have values
    for both the local and remote parameters in some conferencing
    situations (See [SESSION-ID]).  In the case that one end of the
-   [SESSION-ID} does not have a UUID, the "nil UUID" String value SHOULD
-   be used as defined in section 7 of [SESSION-ID].
+   [SESSION-ID] does not have a UUID, the "nil UUID" String value SHOULD
+   be used as defined in section 7 of [SESSION-ID].  For a recording-set
+   Dialog Object, a single SessionId Object value applies to the whole
+   call or session represented by the set.  The individual recording
+   Dialog Objects in the set may each capture only a leg or subset of
+   the parties of the call or session; the session_id values on those
+   recording Dialog Objects follow the party correlation rules above.
+   The recording-set Dialog Object is the appropriate place to capture a
+   session identifier that applies to the call or session as a whole.
+   The session_id parameter MUST NOT be present in "transfer" type
+   Dialog Objects.
 
    *  session_id: "SessionId" | "SessionId[]" | ("SessionId" |
       "SessionId[]")[] (optional)
@@ -1545,7 +1667,8 @@ Table of Contents
    Participants in a dialog may not all join and leave at the same time.
    To support the capturing of the information when parties join, drop,
    go on hold or mute and unmute, the party_history array may be added
-   to the Dialog Object.
+   to the Dialog Object.  The party_history parameter MUST NOT be
+   present in "transfer" type Dialog Objects.
 
    *  party_history: "Party_History[]" (optional)
 
@@ -1674,8 +1797,9 @@ Table of Contents
    type dialog for the target dialog between the Transferee and the
    Transfer Target.
 
-   A "transfer" type dialog MUST NOT contain the parties, originator,
-   mediatype, filename or Dialog Content parameters.
+   A number of Dialog Object parameters are prohibited in "transfer"
+   type Dialog Objects; see Section 4.3.1.6 for a summary and the
+   individual parameter definitions for the normative statements.
 
    The "transfer" type dialog only captures the roles, operations and
    events of the parties and the dialog setup.  It does not capture the
@@ -1698,14 +1822,17 @@ Table of Contents
 4.3.16.  message_id
 
    Some messaging systems assign a unique message identifier to each
-   message.  The message_id parameter may be used to label the message
-   for either cross referencing back to the messaging system or to
-   prevent the addition of duplicate messages to the vCon.  For example
-   SMTP [SMTP] messages have a message-id in the SMTP header.  In the
-   SMTP case a message may exist in multiple mailboxes or tags.  When
-   exporting these SMTP messages, the message_id parameter may be used
-   to avoid adding the same message, to the vCon containing the email
-   thread, more than once.
+   message.  The message_id parameter is applicable to "recording" and
+   "text" type Dialog Objects and MUST NOT be present in "recording-
+   set", "transfer" or "incomplete" type Dialog Objects.  The message_id
+   parameter may be used to label the message for either cross
+   referencing back to the messaging system or to prevent the addition
+   of duplicate messages to the vCon.  For example SMTP [SMTP] messages
+   have a message-id in the SMTP header.  In the SMTP case a message may
+   exist in multiple mailboxes or tags.  When exporting these SMTP
+   messages, the message_id parameter may be used to avoid adding the
+   same message, to the vCon containing the email thread, more than
+   once.
 
    *  message_id: "String" (optional)
 
@@ -2228,10 +2355,12 @@ Table of Contents
 
    The string value of alg SHOULD be "RSA-OAEP".
 
-5.4.  Differentiation of unsigned, signed and encrypted forms of vCon
+5.4.  Differentiation of vCon forms
 
    vCons in the unsigned, signed and encrypted form are all valid JSON.
-   It is necessary to distinguish which form a vCon is in order to
+   A vCon in any of these forms may additionally be compressed using
+   [GZIP] as described in Section 6.2.  It is necessary to distinguish
+   which form a vCon is in, and whether it is compressed, in order to
    properly handle it.  For example a signed vCon needs to be verified.
    The following is the recommended approaches to identifying which form
    a particular vCon is in:
@@ -2266,6 +2395,16 @@ Table of Contents
       -  ciphertext
 
       -  recipients
+
+   A gzip compressed vCon is not JSON and is differentiated from the
+   JSON forms before the above parameter based rules can be applied.
+   The gzip compressed vCon SHOULD be identified by the media type
+   "application/vcon+gzip" when a media type is available, such as in
+   the [HTTPS] Content-Type header.  When no media type is available, a
+   gzip compressed vCon can be identified by the gzip member header
+   magic numbers defined in section 2.3.1 of [GZIP].  Once decompressed,
+   the contained vCon is in one of the JSON forms and is differentiated
+   using the parameter based rules above.
 
 6.  IANA Considerations
 
@@ -2457,7 +2596,7 @@ Table of Contents
    |             | array                |            | RFC XXXX       |
    +-------------+----------------------+------------+----------------+
 
-                                 Table 1
+                                 Table 2
 
 6.3.3.  Party Object Parameter Names Registry
 
@@ -2510,7 +2649,7 @@ Table of Contents
      |                | identifier    |            | RFC XXXX       |
      +----------------+---------------+------------+----------------+
 
-                                 Table 2
+                                 Table 3
 
 6.3.4.  Dialog Object Parameter Names Registry
 
@@ -2611,7 +2750,7 @@ Table of Contents
    |                 | reference             |          |RFC XXXX      |
    +-----------------+-----------------------+----------+--------------+
 
-                                  Table 3
+                                  Table 4
 
 6.3.4.1.  Dialog Type Name Registry
 
@@ -2669,7 +2808,7 @@ Table of Contents
     |                  | dialog          |            | RFC XXXX      |
     +------------------+-----------------+------------+---------------+
 
-                                  Table 4
+                                  Table 5
 
 6.3.5.  party_history Object Parameter Names Registry
 
@@ -2695,7 +2834,7 @@ Table of Contents
     |           | character or string |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
 
-                                  Table 5
+                                  Table 6
 
 6.3.5.1.  party_event Event Name Registry
 
@@ -2764,7 +2903,7 @@ Table of Contents
    |             | event               |            |                  |
    +-------------+---------------------+------------+------------------+
 
-                                  Table 6
+                                  Table 7
 
 6.3.6.  Attachment Object Parameter Names Registry
 
@@ -2809,7 +2948,7 @@ Table of Contents
    |              | hash                  |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
 
-                                  Table 7
+                                  Table 8
 
 6.3.7.  Analysis Object Parameter Names Registry
 
@@ -2859,7 +2998,7 @@ Table of Contents
    |                | hash                |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
 
-                                  Table 8
+                                  Table 9
 
 6.3.8.  Redacted Object Parameter Names Registry
 
@@ -2885,7 +3024,7 @@ Table of Contents
    |                | vCon hash         |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
 
-                                  Table 9
+                                  Table 10
 
 6.3.9.  Amended Object Parameter Names Registry
 
@@ -2908,7 +3047,7 @@ Table of Contents
    |                | vCon hash        |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
 
-                                 Table 10
+                                 Table 11
 
 6.4.  vCon Extensions Names Registry
 

@@ -1059,7 +1059,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Petrie</td>
-<td class="center">Expires 10 March 2027</td>
+<td class="center">Expires 11 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg {
 <dd class="internet-draft">draft-ietf-vcon-vcon-core-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-09-06" class="published">6 September 2026</time>
+<time datetime="2026-09-07" class="published">7 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-03-10">10 March 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-11">11 March 2027</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1455,7 +1455,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-differentiation-of-unsigned" class="internal xref">Differentiation of unsigned, signed and encrypted forms of vCon</a></p>
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-differentiation-of-vcon-for" class="internal xref">Differentiation of vCon forms</a></p>
 </li>
             </ul>
 </li>
@@ -2724,18 +2724,276 @@ They are distinct by the order or index in the Dialog Object array.<a href="#sec
               <p id="section-4.3.1-1.1.1">type: "String"<a href="#section-4.3.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.3.1-2">The sting <span class="bcp14">MUST</span> have the value of either "recording", "recording-set", "text", "transfer" or "incomplete".
-A dialog of type "recording" has Dialog Content that either contains a body or refers to via url, which is a recording of the video and/or audio of a segment of the conversation.
-A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
-A dialog of type "text" has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.
-A dialog of type "transfer" does not capture actual conversation exchange, but rather captures operations, parties and relations between dialog segments.
-A dialog of type "incomplete", "transfer" or "recording-set" <span class="bcp14">MUST NOT</span> have Dialog Content.
-In the "incomplete" case the call or conversation failed to be setup to the point of exchanging any conversation.
-Incomplete Dialog Objects <span class="bcp14">MUST</span> have a disposition parameter which indicates why the call or conversations failed.
-In the "transfer" case, the conversation is recorded in other Dialog Objects.
-In the "recording-set" case, the conversation is recorded in one or more "recording" Dialog Objects.
-The Dialog Transfer parameters are used to show the roles and relationships between the parties and other Dialog Objects as the transfer process occurred.
-The recording-set parameters are used to identify the set of "recording" Dialog Objects that collectively represent a call or session.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-2">The string <span class="bcp14">MUST</span> have the value of either "recording", "recording-set", "text", "transfer" or "incomplete".
+The semantics of each Dialog Object type are described in the following subsections.
+The applicability of each of the Dialog Object parameters to each of the types is summarized in <a href="#dialog-object-parameter-applicability-by-type" class="auto internal xref">Section 4.3.1.6</a>.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
+<div id="dialog-type-recording">
+<section id="section-4.3.1.1">
+            <h5 id="name-recording">
+<a href="#section-4.3.1.1" class="section-number selfRef">4.3.1.1. </a><a href="#name-recording" class="section-name selfRef">recording</a>
+            </h5>
+<p id="section-4.3.1.1-1">A dialog of type "recording" has Dialog Content that either contains a body or refers to via url, which is a recording of the video and/or audio of a segment of the conversation.
+A recording Dialog Object that is part of a set of recordings which collectively represent a call or session, may reference the associated recording-set Dialog Object via the recording_set parameter (see <a href="#dialog-recording-set" class="auto internal xref">Section 4.3.7</a>).<a href="#section-4.3.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dialog-type-recording-set">
+<section id="section-4.3.1.2">
+            <h5 id="name-recording-set">
+<a href="#section-4.3.1.2" class="section-number selfRef">4.3.1.2. </a><a href="#name-recording-set" class="section-name selfRef">recording-set</a>
+            </h5>
+<p id="section-4.3.1.2-1">A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
+The conversation itself is captured in the referenced "recording" Dialog Objects; a recording-set Dialog Object does not have Dialog Content (see <a href="#dialog-content" class="auto internal xref">Section 4.3.10</a>).
+The recordings parameter identifies the "recording" Dialog Objects in the set (see <a href="#dialog-recordings" class="auto internal xref">Section 4.3.6</a>).
+The start, duration, parties and session_id parameters of a recording-set Dialog Object describe the call or session as a whole (see <a href="#dialog-start" class="auto internal xref">Section 4.3.2</a>, <a href="#duration" class="auto internal xref">Section 4.3.3</a>, <a href="#parties" class="auto internal xref">Section 4.3.4</a> and <a href="#session_id" class="auto internal xref">Section 4.3.12</a>).<a href="#section-4.3.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dialog-type-text">
+<section id="section-4.3.1.3">
+            <h5 id="name-text">
+<a href="#section-4.3.1.3" class="section-number selfRef">4.3.1.3. </a><a href="#name-text" class="section-name selfRef">text</a>
+            </h5>
+<p id="section-4.3.1.3-1">A dialog of type "text" has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.<a href="#section-4.3.1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dialog-type-transfer">
+<section id="section-4.3.1.4">
+            <h5 id="name-transfer">
+<a href="#section-4.3.1.4" class="section-number selfRef">4.3.1.4. </a><a href="#name-transfer" class="section-name selfRef">transfer</a>
+            </h5>
+<p id="section-4.3.1.4-1">A dialog of type "transfer" does not capture actual conversation exchange, but rather captures operations, parties and relations between dialog segments.
+The conversation is captured in other Dialog Objects; a transfer Dialog Object does not have Dialog Content (see <a href="#dialog-content" class="auto internal xref">Section 4.3.10</a>).
+The Dialog Transfer parameters are used to show the roles and relationships between the parties and other Dialog Objects as the transfer process occurred (see <a href="#dialog-transfer" class="auto internal xref">Section 4.3.14</a>).<a href="#section-4.3.1.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dialog-type-incomplete">
+<section id="section-4.3.1.5">
+            <h5 id="name-incomplete">
+<a href="#section-4.3.1.5" class="section-number selfRef">4.3.1.5. </a><a href="#name-incomplete" class="section-name selfRef">incomplete</a>
+            </h5>
+<p id="section-4.3.1.5-1">A dialog of type "incomplete" captures a call or conversation that failed to be setup to the point of exchanging any conversation.
+As no conversation was exchanged, an incomplete Dialog Object does not have Dialog Content (see <a href="#dialog-content" class="auto internal xref">Section 4.3.10</a>).
+Incomplete Dialog Objects <span class="bcp14">MUST</span> have a disposition parameter which indicates why the call or conversation failed (see <a href="#disposition" class="auto internal xref">Section 4.3.11</a>).<a href="#section-4.3.1.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dialog-object-parameter-applicability-by-type">
+<section id="section-4.3.1.6">
+            <h5 id="name-dialog-object-parameter-app">
+<a href="#section-4.3.1.6" class="section-number selfRef">4.3.1.6. </a><a href="#name-dialog-object-parameter-app" class="section-name selfRef">Dialog Object Parameter Applicability by Type</a>
+            </h5>
+<p id="section-4.3.1.6-1">The following table summarizes which Dialog Object parameters apply to each Dialog Object type.
+The parameter definitions in the subsections of this document are definitive; this table is provided as a summary.
+The symbols used in the table are: M the parameter <span class="bcp14">MUST</span> be present, S the parameter <span class="bcp14">SHOULD</span> be present, O the parameter is optional, SN the parameter <span class="bcp14">SHOULD NOT</span> be present, X the parameter <span class="bcp14">MUST NOT</span> be present, - the parameter is not applicable to the type.<a href="#section-4.3.1.6-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+              <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+                <tr>
+                  <th class="text-left" rowspan="1" colspan="1">Parameter</th>
+                  <th class="text-left" rowspan="1" colspan="1">recording</th>
+                  <th class="text-left" rowspan="1" colspan="1">recording-set</th>
+                  <th class="text-left" rowspan="1" colspan="1">text</th>
+                  <th class="text-left" rowspan="1" colspan="1">transfer</th>
+                  <th class="text-left" rowspan="1" colspan="1">incomplete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">type</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">start</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">duration</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">-</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">parties</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">originator</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">recordings</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">recording_set</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">mediatype</td>
+                  <td class="text-left" rowspan="1" colspan="1">M (1)</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">M (1)</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">filename</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">body</td>
+                  <td class="text-left" rowspan="1" colspan="1">S (2)</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S (2)</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">encoding</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">url</td>
+                  <td class="text-left" rowspan="1" colspan="1">S (2)</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S (2)</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">content_hash</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">disposition</td>
+                  <td class="text-left" rowspan="1" colspan="1">SN</td>
+                  <td class="text-left" rowspan="1" colspan="1">SN</td>
+                  <td class="text-left" rowspan="1" colspan="1">SN</td>
+                  <td class="text-left" rowspan="1" colspan="1">SN</td>
+                  <td class="text-left" rowspan="1" colspan="1">M</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">session_id</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">party_history</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">transferee</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">transferor</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">transfer_target</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">original</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">consultation</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">target_dialog</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">S</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">application</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">message_id</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">O</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                  <td class="text-left" rowspan="1" colspan="1">X</td>
+                </tr>
+              </tbody>
+            </table>
+<p id="section-4.3.1.6-3">(1) <span class="bcp14">MUST</span> be present for inline Dialog Content; optional for externally referenced Dialog Content when the media type is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header.<a href="#section-4.3.1.6-3" class="pilcrow">¶</a></p>
+<p id="section-4.3.1.6-4">(2) body or url <span class="bcp14">MAY</span> be absent in a redacted vCon.<a href="#section-4.3.1.6-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="dialog-start">
@@ -2767,7 +3025,9 @@ The start parameter is optional for the "transfer" type Dialog Object as it may 
 For text, if known, it is the time duration from when the party started typing to when they completed typing and the text was sent.
 For recordings, it is the duration of the recording.
 For a recording-set Dialog Object, it is the duration of the call or session.
-The start and duration parameters of a recording-set Dialog Object identify the complete time interval represented by the associated recording Dialog Objects.<a href="#section-4.3.3-1" class="pilcrow">¶</a></p>
+The start and duration parameters of a recording-set Dialog Object identify the complete time interval represented by the associated recording Dialog Objects.
+The duration parameter is not applicable to the "transfer" type Dialog Object.
+For an "incomplete" type Dialog Object, the duration parameter may capture the time from the attempt to setup the call or conversation until it failed.<a href="#section-4.3.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.3-2.1">
               <p id="section-4.3.3-2.1.1">duration: "UnsignedInt" | "UnsignedFloat" (optional)<a href="#section-4.3.3-2.1.1" class="pilcrow">¶</a></p>
@@ -2781,7 +3041,9 @@ The start and duration parameters of a recording-set Dialog Object identify the 
           <h4 id="name-parties">
 <a href="#section-4.3.4" class="section-number selfRef">4.3.4. </a><a href="#name-parties" class="section-name selfRef">parties</a>
           </h4>
-<p id="section-4.3.4-1">The party(s) which generated the text or recording for this piece of dialog are indicated in the parties parameter.<a href="#section-4.3.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.3.4-1">The party(s) which generated the text or recording for this piece of dialog are indicated in the parties parameter.
+The parties parameter <span class="bcp14">MUST NOT</span> be present in "transfer" type Dialog Objects (see <a href="#dialog-transfer" class="auto internal xref">Section 4.3.14</a>).
+The parties parameter is optional for "incomplete" type Dialog Objects, where it indicates the parties between which the call or conversation setup was attempted.<a href="#section-4.3.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.4-2.1">
               <p id="section-4.3.4-2.1.1">parties: "UnsignedInt" | "UnsignedInt[]" | ("UnsignedInt" | "UnsignedInt[]")[]<a href="#section-4.3.4-2.1.1" class="pilcrow">¶</a></p>
@@ -2831,7 +3093,8 @@ For a scheduled meeting or conference, this is the organizer, the party that sch
 The organizer may be a party that never joins the conference; such a party may still be included in the parties array.
 The organizer is distinct from the party acting as host or controller of the conference at any point during the meeting; identifying the host or controller is out of scope for this document.
 If the originator is not known, an empty Party Object (see <span><a href="#party-object" class="internal xref">Party Object</a> (<a href="#party-object" class="auto internal xref">Section 4.2</a>)</span>) may be used as the first party or as the party referenced by the originator parameter.
-The originator parameter is only provided if the first party of the dialog Object parties list is NOT the originator.<a href="#section-4.3.5-1" class="pilcrow">¶</a></p>
+The originator parameter is only provided if the first party of the dialog Object parties list is NOT the originator.
+The originator parameter <span class="bcp14">MUST NOT</span> be present in "transfer" type Dialog Objects (see <a href="#dialog-transfer" class="auto internal xref">Section 4.3.14</a>).<a href="#section-4.3.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.5-2.1">
               <p id="section-4.3.5-2.1.1">originator: "UnsignedInt" (optional)<a href="#section-4.3.5-2.1.1" class="pilcrow">¶</a></p>
@@ -2877,7 +3140,8 @@ The recording_set parameter <span class="bcp14">MUST NOT</span> be present in ot
 <a href="#section-4.3.8" class="section-number selfRef">4.3.8. </a><a href="#name-mediatype" class="section-name selfRef">mediatype</a>
           </h4>
 <p id="section-4.3.8-1">The media type for the piece of dialog included or referenced is provided in the mediatype parameter.
-The mediatype parameter <span class="bcp14">MUST</span> be provided for inline dialog files and <span class="bcp14">MUST</span> be provided if the Content-Type header in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> response for the externally referenced URL is not provided.<a href="#section-4.3.8-1" class="pilcrow">¶</a></p>
+The mediatype parameter <span class="bcp14">MUST</span> be provided for inline dialog files and <span class="bcp14">MUST</span> be provided if the Content-Type header in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> response for the externally referenced URL is not provided.
+The mediatype parameter <span class="bcp14">MUST NOT</span> be present in "recording-set", "transfer" or "incomplete" type Dialog Objects as they do not have Dialog Content.<a href="#section-4.3.8-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.8-2.1">
               <p id="section-4.3.8-2.1.1">mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header)<a href="#section-4.3.8-2.1.1" class="pilcrow">¶</a></p>
@@ -2920,7 +3184,8 @@ Note: multi-part will also likely include the boundary parameter<a href="#sectio
 <a href="#section-4.3.9" class="section-number selfRef">4.3.9. </a><a href="#name-filename" class="section-name selfRef">filename</a>
           </h4>
 <p id="section-4.3.9-1">It is sometimes useful to preserve the name of the file which originally contained this piece of dialog.
-This can be done in the filename parameter.<a href="#section-4.3.9-1" class="pilcrow">¶</a></p>
+This can be done in the filename parameter.
+The filename parameter <span class="bcp14">MUST NOT</span> be present in "recording-set", "transfer" or "incomplete" type Dialog Objects as they do not have Dialog Content.<a href="#section-4.3.9-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.9-2.1">
               <p id="section-4.3.9-2.1.1">filename: "String" (optional)<a href="#section-4.3.9-2.1.1" class="pilcrow">¶</a></p>
@@ -3009,7 +3274,11 @@ If some parties have a different or no associated <span>[<a href="#SESSION-ID" c
 Parties which do not have a <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> associated with this dialog, <span class="bcp14">MUST</span> have an empty object ({}) for the SessionId Object.
 That an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
 It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>).
-In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID" String value <span class="bcp14">SHOULD</span> be used as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.<a href="#section-4.3.12-1" class="pilcrow">¶</a></p>
+In the case that one end of the <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span> does not have a UUID, the "nil UUID" String value <span class="bcp14">SHOULD</span> be used as defined in section 7 of <span>[<a href="#SESSION-ID" class="cite xref">SESSION-ID</a>]</span>.
+For a recording-set Dialog Object, a single SessionId Object value applies to the whole call or session represented by the set.
+The individual recording Dialog Objects in the set may each capture only a leg or subset of the parties of the call or session; the session_id values on those recording Dialog Objects follow the party correlation rules above.
+The recording-set Dialog Object is the appropriate place to capture a session identifier that applies to the call or session as a whole.
+The session_id parameter <span class="bcp14">MUST NOT</span> be present in "transfer" type Dialog Objects.<a href="#section-4.3.12-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.12-2.1">
               <p id="section-4.3.12-2.1.1">session_id: "SessionId" | "SessionId[]" | ("SessionId" | "SessionId[]")[] (optional)<a href="#section-4.3.12-2.1.1" class="pilcrow">¶</a></p>
@@ -3023,7 +3292,8 @@ In the case that one end of the [SESSION-ID} does not have a UUID, the "nil UUID
 <a href="#section-4.3.13" class="section-number selfRef">4.3.13. </a><a href="#name-party_history-objects-array" class="section-name selfRef">party_history Objects Array</a>
           </h4>
 <p id="section-4.3.13-1">Participants in a dialog may not all join and leave at the same time.
-To support the capturing of the information when parties join, drop, go on hold or mute and unmute, the party_history array may be added to the Dialog Object.<a href="#section-4.3.13-1" class="pilcrow">¶</a></p>
+To support the capturing of the information when parties join, drop, go on hold or mute and unmute, the party_history array may be added to the Dialog Object.
+The party_history parameter <span class="bcp14">MUST NOT</span> be present in "transfer" type Dialog Objects.<a href="#section-4.3.13-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.13-2.1">
               <p id="section-4.3.13-2.1.1">party_history: "Party_History[]" (optional)<a href="#section-4.3.13-2.1.1" class="pilcrow">¶</a></p>
@@ -3167,7 +3437,7 @@ The caller may decide the consultation with a party is not the desired transfer 
 </li>
           </ul>
 <p id="section-4.3.14-19">The value of the target_dialog parameter is the index/indices into the Dialog Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.<a href="#section-4.3.14-19" class="pilcrow">¶</a></p>
-<p id="section-4.3.14-20">A "transfer" type dialog <span class="bcp14">MUST NOT</span> contain the parties, originator, mediatype, filename or Dialog Content parameters.<a href="#section-4.3.14-20" class="pilcrow">¶</a></p>
+<p id="section-4.3.14-20">A number of Dialog Object parameters are prohibited in "transfer" type Dialog Objects; see <a href="#dialog-object-parameter-applicability-by-type" class="auto internal xref">Section 4.3.1.6</a> for a summary and the individual parameter definitions for the normative statements.<a href="#section-4.3.14-20" class="pilcrow">¶</a></p>
 <p id="section-4.3.14-21">The "transfer" type dialog only captures the roles, operations and events of the parties and the dialog setup.
 It does not capture the purpose or reason for the transfer as that is analysis to be captures in the analysis section of the Vcon after the conversation has occurred.<a href="#section-4.3.14-21" class="pilcrow">¶</a></p>
 </section>
@@ -3194,6 +3464,7 @@ For example, the application parameter can be used to identify the web conferenc
 <a href="#section-4.3.16" class="section-number selfRef">4.3.16. </a><a href="#name-message_id" class="section-name selfRef">message_id</a>
           </h4>
 <p id="section-4.3.16-1">Some messaging systems assign a unique message identifier to each message.
+The message_id parameter is applicable to "recording" and "text" type Dialog Objects and <span class="bcp14">MUST NOT</span> be present in "recording-set", "transfer" or "incomplete" type Dialog Objects.
 The message_id parameter may be used to label the message for either cross referencing back to the messaging
 system or to prevent the addition of duplicate messages to the vCon.
 For example SMTP <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> messages have a message-id in the SMTP header.
@@ -3804,13 +4075,14 @@ The value of this uuid parameter <span class="bcp14">SHOULD</span> be verified w
 </div>
 </section>
 </div>
-<div id="differentiation-of-unsigned-signed-and-encrypted-forms-of-vcon">
+<div id="differentiation-of-vcon-forms">
 <section id="section-5.4">
-        <h3 id="name-differentiation-of-unsigned">
-<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-differentiation-of-unsigned" class="section-name selfRef">Differentiation of unsigned, signed and encrypted forms of vCon</a>
+        <h3 id="name-differentiation-of-vcon-for">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-differentiation-of-vcon-for" class="section-name selfRef">Differentiation of vCon forms</a>
         </h3>
 <p id="section-5.4-1">vCons in the unsigned, signed and encrypted form are all valid JSON.
-It is necessary to distinguish which form a vCon is in order to properly handle it.
+A vCon in any of these forms may additionally be compressed using <span>[<a href="#GZIP" class="cite xref">GZIP</a>]</span> as described in <a href="#gzip-format-vcon-mediatype" class="auto internal xref">Section 6.2</a>.
+It is necessary to distinguish which form a vCon is in, and whether it is compressed, in order to properly handle it.
 For example a signed vCon needs to be verified.
 The following is the recommended approaches to identifying which form a particular vCon is in:<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -3860,6 +4132,10 @@ The presence of both of the following parameters indicates that the vCon is in t
             </ul>
 </li>
         </ul>
+<p id="section-5.4-3">A gzip compressed vCon is not JSON and is differentiated from the JSON forms before the above parameter based rules can be applied.
+The gzip compressed vCon <span class="bcp14">SHOULD</span> be identified by the media type "application/vcon+gzip" when a media type is available, such as in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header.
+When no media type is available, a gzip compressed vCon can be identified by the gzip member header magic numbers defined in section 2.3.1 of <span>[<a href="#GZIP" class="cite xref">GZIP</a>]</span>.
+Once decompressed, the contained vCon is in one of the JSON forms and is differentiated using the parameter based rules above.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4051,8 +4327,8 @@ When registering new entries, the following template should be used.<a href="#se
           </h4>
 <p id="section-6.3.2-1">The following defines the initial values for the vCon Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.2-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-            <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<table class="center" id="table-2">
+            <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4170,8 +4446,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.3-1">The following defines the initial values for the Party Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.3-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-            <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<table class="center" id="table-3">
+            <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4283,8 +4559,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.4-1">The following defines the initial values for the Dialog Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.4-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-3">
-            <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<table class="center" id="table-4">
+            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4498,8 +4774,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.4.1.2" class="section-number selfRef">6.3.4.1.2. </a><a href="#name-dialog-type-name-registratio" class="section-name selfRef">Dialog Type Name Registration Initial Values</a>
               </h6>
 <p id="section-6.3.4.1.2-1">The following table defines the initial values for the Dialog Object Types Registry.<a href="#section-6.3.4.1.2-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-4">
-                <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<table class="center" id="table-5">
+                <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
 <thead>
                   <tr>
                     <th class="text-left" rowspan="1" colspan="1">Dialog Type Name</th>
@@ -4559,8 +4835,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.5-1">This initial values for the party_history Object Parameter Names Registry are listed in the following table.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.5-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-5">
-            <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
+<table class="center" id="table-6">
+            <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4634,8 +4910,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 <a href="#section-6.3.5.1.2" class="section-number selfRef">6.3.5.1.2. </a><a href="#name-party_event-type-name-regis" class="section-name selfRef">party_event Type Name Registration Initial Values</a>
               </h6>
 <p id="section-6.3.5.1.2-1">The following table defines the initial values for the Dialog Object Types Registry.<a href="#section-6.3.5.1.2-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-6">
-                <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
+<table class="center" id="table-7">
+                <caption><a href="#table-7" class="selfRef">Table 7</a></caption>
 <thead>
                   <tr>
                     <th class="text-left" rowspan="1" colspan="1">party_event Event Name</th>
@@ -4716,8 +4992,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.6-1">The following defines the initial values for the Attachment Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.6-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-7">
-            <caption><a href="#table-7" class="selfRef">Table 7</a></caption>
+<table class="center" id="table-8">
+            <caption><a href="#table-8" class="selfRef">Table 8</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4808,8 +5084,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.7-1">The following defines the initial values for the Analysis Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.7-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-8">
-            <caption><a href="#table-8" class="selfRef">Table 8</a></caption>
+<table class="center" id="table-9">
+            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4914,8 +5190,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.8-1">The following defines the initial values for the Redacted Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.8-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-9">
-            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
+<table class="center" id="table-10">
+            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
@@ -4964,8 +5240,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
           </h4>
 <p id="section-6.3.9-1">The following defines the initial values for the Amended Object Parameter Names Registry.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.9-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-10">
-            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
+<table class="center" id="table-11">
+            <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Parameter Name</th>
