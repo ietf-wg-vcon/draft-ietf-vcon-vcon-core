@@ -417,6 +417,7 @@ The unsigned form of the top level vCon object is necessary as in many cases, a 
 This may change while the conversation is in progress or on-going.
 The vCon may start with only meta data and party information, then progress to contain dialog information.
 It may then get analysis added or it could be passed to another security domain for analysis.
+A vCon in the unsigned form SHOULD contain at least one of the parties, dialog, analysis or attachments parameters.
 
 A vCon may be constructed across several security domains.
 When a vCon is to be exported from one security domain to another, it SHOULD be signed or encrypted by the domain that constructed it.
@@ -559,8 +560,7 @@ The top level object is a JWS signed vCon which contains a vCon in the unsigned 
 parameter.
 The second level object is the redacted vcon which refers to the encrypted unredacted vCon in it's
 redacted parameter.
-Note that the redacted vCon references the JWE encrypted vCon by UUID and may reference it by URL or
-direct inclusion.
+Note that the redacted vCon references the JWE encrypted vCon by UUID and may reference it by URL.
 The JWE encrypted unredacted vCon contains the signed version of the unredacted vCon in the ciphertext
 parameter.
 The signed unredacted vCon contains the unredacted vCon in the unsigned form in it's payload parameter.
@@ -586,7 +586,7 @@ The prior vCon instance version SHOULD be referenced via the uuid of the prior v
 
 The Amended Object contains the following parameters:
 
-* uuid: "String" (optional if inline or external reference provided)
+* uuid: "String" (optional if external reference provided)
 
 The value contains the [uuid string value](#uuid) of the unredacted/original vCon instance version.
 
@@ -1829,7 +1829,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | validation | validation method | IESG | [](#validation) RFC XXXX |
 | gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
 | civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
-| uuid | participant UUID | IESG | [](#party-uuid) RFC XXXX |
+| uuid | participant unique identifier | IESG | [](#party-uuid) RFC XXXX |
 | type | participant type | IESG | [](#party-type) RFC XXXX |
 | org | participant organization | IESG | [](#party-org) RFC XXXX |
 | dept | participant department | IESG | [](#party-dept) RFC XXXX |
