@@ -3734,11 +3734,11 @@ The attachment parameter is used to indicate which Attachment Objects this analy
 <a href="#section-4.5.4" class="section-number selfRef">4.5.4. </a><a href="#name-mediatype-3" class="section-name selfRef">mediatype</a>
           </h4>
 <p id="section-4.5.4-1">The media type for the included or referenced analysis file is provided in the mediatype parameter.
-The mediatype parameter <span class="bcp14">MUST</span> be provided for inline analysis files and <span class="bcp14">MUST</span> be provided if the Content-Type header in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> response for the externally referenced URL is not provided.
-The mediatype parameter is not required when the Analysis Content is absent, such as when the body and url have been redacted.<a href="#section-4.5.4-1" class="pilcrow">¶</a></p>
+The mediatype parameter <span class="bcp14">SHOULD</span> be provided for inline analysis files and for externally referenced analysis files when the Content-Type header in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> response is not provided.
+A media type may not be defined for the format of the analysis data; in this case the vendor, product and schema parameters <span class="bcp14">SHOULD</span> be used to identify the data format instead.<a href="#section-4.5.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5.4-2.1">
-              <p id="section-4.5.4-2.1.1">mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header)<a href="#section-4.5.4-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.4-2.1.1">mediatype: "Mediatype" (optional)<a href="#section-4.5.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-4.5.4-3">The mediatype string contains the media type or <span>[<a href="#MIME" class="cite xref">MIME</a>]</span> type of the analysis file.<a href="#section-4.5.4-3" class="pilcrow">¶</a></p>
