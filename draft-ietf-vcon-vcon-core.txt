@@ -3580,7 +3580,6 @@ A.2.  Email Thread Multipart vCon
    vcon-core/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
 
    {
-     "group": [],
      "parties": [
        {
          "mailto": "b@example.com",
@@ -3701,10 +3700,9 @@ A.2.  Email Thread Multipart vCon
      ],
      "analysis": [],
      "attachments": [],
-     "created_at": "2026-06-29T23:03:01.095+00:00",
-     "redacted": {},
+     "created_at": "2026-09-07T22:27:41.697+00:00",
      "subject": "Account problem",
-     "uuid": "019f159f-2cfb-8d95-b9a2-279e0d16bc46"
+     "uuid": "01a07dfb-fe0b-89ee-b9a2-279e0d16bc46"
    }
 
 A.3.  Email Thread Text vCon
@@ -3719,7 +3717,6 @@ A.3.  Email Thread Text vCon
    ab_email_prob_followup_text_thread.vcon
 
    {
-     "group": [],
      "parties": [
        {
          "mailto": "a@example.com",
@@ -3787,10 +3784,9 @@ A.3.  Email Thread Text vCon
      ],
      "analysis": [],
      "attachments": [],
-     "created_at": "2026-06-29T23:11:16.017+00:00",
-     "redacted": {},
+     "created_at": "2026-09-07T22:32:08.133+00:00",
      "subject": "Account issue followup",
-     "uuid": "019f15a6-ba37-8ed3-b9a2-279e0d16bc46"
+     "uuid": "01a07e00-0ecc-81db-b9a2-279e0d16bc46"
    }
 
 A.4.  Two Party Call vCon With Externally Referenced Recording
