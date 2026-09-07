@@ -283,7 +283,7 @@ This is designed to also work with the H.323 correlated [H-460-27] which refers 
 
 * "A\[\]" and array of values of type A.
 
-All parameters are assumed to be mandatory unless other wise noted.
+All parameters are assumed to be mandatory unless otherwise noted.
 
 Objects or arrays with no or null values MAY be excluded from the vCon.
 
@@ -879,7 +879,7 @@ The Dialog Transfer parameters are used to show the roles and relationships betw
 
 A dialog of type "incomplete" captures a call or conversation that failed to be setup to the point of exchanging any conversation.
 As no conversation was exchanged, an incomplete Dialog Object does not have Dialog Content (see [](#dialog-content)).
-Incomplete Dialog Objects MUST have a disposition parameter which indicates why the call or conversation failed (see [](#disposition)).
+An incomplete Dialog Object has a required disposition parameter which indicates why the call or conversation failed (see [](#disposition)).
 
 #### Dialog Object Parameter Applicability by Type {#dialog-object-parameter-applicability-by-type}
 
@@ -1062,17 +1062,17 @@ The exception to this is that the body or url MAY be absent if it is redacted.
 
 For inline included dialog:
 
-* body: "*" (optional in an a redacted vCon)
+* body: "*" (optional in a redacted vCon)
 * encoding: "String"
 
 Alternatively, for externally referenced dialog:
 
-* url: "String"  (optional in an a redacted vCon)
+* url: "String"  (optional in a redacted vCon)
 * content_hash: "ContentHash" \| "ContentHash\[\]"
 
 ### disposition
 
-If the dialog type is "incomplete", it must have a disposition parameter.
+If the dialog type is "incomplete", it MUST have a disposition parameter.
 The value of the disposition parameter provides the reason that the "call control" failed.
 The term: "call control" is used in a loose sense, as there in not always a call involved, to differentiate from a call disposition that an agent may assign to a call to indicate the reason, issue addressed or outcome of a conversation.
 This latter definition of call disposition is not dialog, but analysis of the conversation and is not included in the dialog portion.
@@ -1490,7 +1490,7 @@ The vCon General JWS JSON Serialization MUST include x5c or x5u in the unprotect
 The value of the payload is the Base64Url Encoded string containing either: the unsigned form of the JSON vCon; or the gzipped [GZIP] unsigned form of the JSON vCon.
 The general construction of the payload string value is described in section 7.2.1 of [JWK]
 
-* signatures "Signature\[\]"
+* signatures: "Signature\[\]"
 
 The value of signatures is an array of [Signature Objects](#signature-object)
 
