@@ -596,7 +596,9 @@ Table of Contents
    conversation is in progress or on-going.  The vCon may start with
    only meta data and party information, then progress to contain dialog
    information.  It may then get analysis added or it could be passed to
-   another security domain for analysis.
+   another security domain for analysis.  A vCon in the unsigned form
+   SHOULD contain at least one of the parties, dialog, analysis or
+   attachments parameters.
 
    A vCon may be constructed across several security domains.  When a
    vCon is to be exported from one security domain to another, it SHOULD
@@ -780,10 +782,10 @@ Table of Contents
    second level object is the redacted vcon which refers to the
    encrypted unredacted vCon in it's redacted parameter.  Note that the
    redacted vCon references the JWE encrypted vCon by UUID and may
-   reference it by URL or direct inclusion.  The JWE encrypted
-   unredacted vCon contains the signed version of the unredacted vCon in
-   the ciphertext parameter.  The signed unredacted vCon contains the
-   unredacted vCon in the unsigned form in it's payload parameter.
+   reference it by URL.  The JWE encrypted unredacted vCon contains the
+   signed version of the unredacted vCon in the ciphertext parameter.
+   The signed unredacted vCon contains the unredacted vCon in the
+   unsigned form in it's payload parameter.
 
                    --------------
    Signed          | JWS   uuid-|-- redacted vCon uuid in header
@@ -844,7 +846,7 @@ Table of Contents
 
    The Amended Object contains the following parameters:
 
-   *  uuid: "String" (optional if inline or external reference provided)
+   *  uuid: "String" (optional if external reference provided)
 
    The value contains the uuid string value (Section 4.1.2) of the
    unredacted/original vCon instance version.
@@ -2638,49 +2640,49 @@ Table of Contents
    Template (Section 6.3.1) when registering additional entries to this
    table.
 
-     +================+===============+============+================+
-     | Parameter Name | Parameter     | Change     | Specification  |
-     |                | Description   | Controller | Document(s)    |
-     +================+===============+============+================+
-     | tel            | tel URL       | IESG       | Section 4.2.1  |
-     |                |               |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | sip            | SIP URL       | IESG       | Section 4.2.1  |
-     |                |               |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | stir           | STIR token    | IESG       | Section 4.2.3  |
-     |                |               |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | mailto         | mailto URL    | IESG       | Section 4.2.4  |
-     |                |               |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | name           | participant   | IESG       | Section 4.2.5  |
-     |                | name          |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | validation     | validation    | IESG       | Section 4.2.7  |
-     |                | method        |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | gmlpos         | participant   | IESG       | Section 4.2.8  |
-     |                | geolocation   |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | civicaddress   | civic address | IESG       | Section 4.2.9  |
-     |                |               |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | uuid           | participant   | IESG       | Section 4.2.10 |
-     |                | UUID          |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | type           | participant   | IESG       | Section 4.2.11 |
-     |                | type          |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | org            | participant   | IESG       | Section 4.2.12 |
-     |                | organization  |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | dept           | participant   | IESG       | Section 4.2.13 |
-     |                | department    |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
-     | did            | decentralized | IESG       | Section 4.2.6  |
-     |                | identifier    |            | RFC XXXX       |
-     +----------------+---------------+------------+----------------+
+   +================+===================+============+================+
+   | Parameter Name | Parameter         | Change     | Specification  |
+   |                | Description       | Controller | Document(s)    |
+   +================+===================+============+================+
+   | tel            | tel URL           | IESG       | Section 4.2.1  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | sip            | SIP URL           | IESG       | Section 4.2.1  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | stir           | STIR token        | IESG       | Section 4.2.3  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | mailto         | mailto URL        | IESG       | Section 4.2.4  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | name           | participant name  | IESG       | Section 4.2.5  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | validation     | validation method | IESG       | Section 4.2.7  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | gmlpos         | participant       | IESG       | Section 4.2.8  |
+   |                | geolocation       |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | civicaddress   | civic address     | IESG       | Section 4.2.9  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | uuid           | participant       | IESG       | Section 4.2.10 |
+   |                | unique identifier |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | type           | participant type  | IESG       | Section 4.2.11 |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | org            | participant       | IESG       | Section 4.2.12 |
+   |                | organization      |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | dept           | participant       | IESG       | Section 4.2.13 |
+   |                | department        |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | did            | decentralized     | IESG       | Section 4.2.6  |
+   |                | identifier        |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
 
                                  Table 3
 
