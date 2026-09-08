@@ -1403,6 +1403,7 @@ There may not be a IANA registered media type for the file format containing the
 Even if a media type is defined, it is often useful to keep a record of the vendor that produced the software that produced the analysis.
 Different implementations perform differently and knowing the implementation can be useful in interpreting the analysis.
 For this reason, the vendor or product name is provided in the vendor parameter.
+The vendor parameter is provided even when the mediatype parameter fully identifies the data format, as a record of the implementation that generated or provided the analysis.
 
 * vendor: "String"
 
@@ -1429,6 +1430,12 @@ As the vendor name may not be specific enough to identify the format of the anal
 The Analysis Object SHOULD contain the body and encoding parameters or the url and content_hash parameters
 (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
 The exception to this is that the body or url MAY be absent if it is redacted.
+If the Analysis Object contains or references content, sufficient information to interpret the format of that content SHOULD be provided in the Analysis Object.
+The mediatype parameter identifies the syntax of the content.
+Some media types, such as "text/vtt", fully identify the data format.
+Generic media types, such as "application/json" or "text/csv", identify only the syntax and not the schema of the data within it.
+When the mediatype parameter is absent or does not fully identify the data format, the schema parameter, together with the vendor and product parameters, SHOULD identify the data format.
+For externally referenced content, the media type may also be provided by the Content-Type header in the [HTTPS] response (see [](#analysis-mediatype)).
 
 For inline included analysis:
 
