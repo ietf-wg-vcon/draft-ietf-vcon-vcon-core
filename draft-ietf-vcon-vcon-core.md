@@ -819,7 +819,7 @@ The description parameter is an open text String.
 
 TODO: party_history gets morphed to Event Object here
 TODO: event object MUST referencce the Session, MAY reference a Dialog
- 
+
 ## Party Object
 
 A Party Object contains information about a specific party or participant in the conversation.
@@ -2217,7 +2217,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 
 ## vCon Extensions Names Registry
 
-This document defines and new registry for the token name values that are permitted as values to the [extensions]s(#extensions) parameter.
+This document defines and new registry for the token name values that are permitted as values to the [extensions](#extensions) parameter.
 However it does not define any values for this registry.
 Values for this registry are to be defined in subsequent documents which define extensions to the vCon schema.
 
