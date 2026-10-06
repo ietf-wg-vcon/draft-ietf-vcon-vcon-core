@@ -366,6 +366,7 @@ This is the name registered in the [vCon Extensions Names Registry](#vcon-extens
 Define each new parameter, the level of the schema at which it appears, its value type, and its semantics.
 For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
 For any value added to the allowed values of an existing parameter, define the value and its semantics and state which parameters apply when the value is used.
+For each new Object, define the parameters of the Object in the same manner.
 For each new Object, a new parameter names registry SHOULD be requested from IANA with the parameters of the new Object as its initial values (see [](#vcon-json-registry)).
 For any deprecated parameter, state what is to be used in its stead and the migration approach.
 Use the snake case naming convention for all parameter names, as opposed to camel case.
@@ -765,7 +766,11 @@ The start and duration SHOULD contain the time period for the start and duration
 
 * duration: "UnsignedInt" \| "UnsignedFloat" (optional)
 
+The value MUST be the session duration in seconds.
+
 ### parties {#session-parties}
+
+The value of the parties parameter is an array of the indices into the parties Object array to the Party Objects that were part of the session.
 
 The Session Object parties parameter references all of the Party Objects from the parties Array that were part of the session.
 The parties parameter SHOULD be present.
@@ -776,6 +781,15 @@ The [Dialog Object parties parameter](#dialog-parties) indicates which party(s) 
 To determine what part(s) of the dialog that a party potentially heard or received, the Event Objects may provide data as to when a party joined, dropped out, went on or off hold.
 
 * parties: "UnsignedInt\[\]"
+
+### session_id {#session-session-id}
+
+The [SESSION-ID] MAY be included for the session if it applies to all of the Dialog Objects in the session.
+
+* session_id: "SessionId" (optional)
+
+The value of the session_id parameter is a single SessionId Object (see [](#session_id)).
+A [SESSION-ID] which applies to only some of the parties or Dialog Objects in the session is captured in the session_id parameter of the Dialog Object.
 
 ### sessions {#session-sessions}
 
@@ -1259,8 +1273,6 @@ Currently five types of dialog objects are defined in this document:
 * Text based media communications
 * Audio or Video recorded media communications
 * Metadata for failed or incompleted communications
-* Metadata for providing relationships between other Dialog Objects in transfer scenarios
-* Metadata for providing relationships between recording Dialog Objects in recording-set scenarios
 
 Media captured in a media-based Dialog Object (type text and recording) SHOULD satisfy two constraints: the media is part of the conversation itself, and the media is transcribable.
 Media is part of the conversation when it is the communication exchanged between the parties, as opposed to a document or item that is referenced, discussed or presented within the conversation.
@@ -1297,7 +1309,7 @@ They are distinct by the order or index in the Dialog Object array.
 
 * type: "String"
 
-The string MUST have the value of either "recording", "recording-set", "text", "transfer" or "incomplete", or a value defined in a vCon extension.
+The string MUST have the value of either "recording", "text" or "incomplete", or a value defined in a vCon extension.
 The handling of a Dialog Object with a type which is not recognized is described in [](#extending-vcon).
 The semantics of each Dialog Object type are described in the following subsections.
 The applicability of each of the Dialog Object parameters to each of the types is summarized in [](#dialog-object-parameter-applicability-by-type).
@@ -1305,24 +1317,11 @@ The applicability of each of the Dialog Object parameters to each of the types i
 #### recording {#dialog-type-recording}
 
 A dialog of type "recording" has Dialog Content that either contains a body or refers to via url, which is a recording of the video and/or audio of a segment of the conversation.
-A recording Dialog Object that is part of a set of recordings which collectively represent a call or session, may reference the associated recording-set Dialog Object via the recording_set parameter (see [](#dialog-recording-set)).
-
-#### recording-set {#dialog-type-recording-set}
-
-A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
-The conversation itself is captured in the referenced "recording" Dialog Objects; a recording-set Dialog Object does not have Dialog Content (see [](#dialog-content)).
-The recordings parameter identifies the "recording" Dialog Objects in the set (see [](#dialog-recordings)).
-The start, duration, parties and session_id parameters of a recording-set Dialog Object describe the call or session as a whole (see [](#dialog-start), [](#dialog-duration), [](#dialog-parties) and [](#session_id)).
+A recording Dialog Object may be one of a set of recordings which collectively represent a call or session, in which case the Dialog Objects in the set are referenced by a Session Object (see [](#session-dialog)).
 
 #### text {#dialog-type-text}
 
 A dialog of type "text" has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.
-
-#### transfer {#dialog-type-transfer}
-
-A dialog of type "transfer" does not capture actual conversation exchange, but rather captures operations, parties and relations between dialog segments.
-The conversation is captured in other Dialog Objects; a transfer Dialog Object does not have Dialog Content (see [](#dialog-content)).
-The Dialog Transfer parameters are used to show the roles and relationships between the parties and other Dialog Objects as the transfer process occurred (see [](#dialog-transfer)).
 
 #### incomplete {#dialog-type-incomplete}
 
@@ -1352,35 +1351,25 @@ SN
 X
 : The parameter MUST NOT be present.
 
-\-
-: The parameter has no defined meaning for this type; it MAY be present but its semantics are undefined.
 
-| Parameter | recording | recording-set | text | transfer | incomplete |
-| --- | --- | --- | --- | --- | --- |
-| type | M | M | M | M | M |
-| start | S | S | S | O | S |
-| duration | O | O | O | - | O |
-| parties | S | S | S | X | O |
-| originator | O | O | O | X | O |
-| recordings | X | M | X | X | X |
-| recording_set | O | X | X | X | X |
-| mediatype | M (1) | X | M (1) | X | X |
-| filename | O | X | O | X | X |
-| body | S (2) | X | S (2) | X | X |
-| encoding | S (3) | X | S (3) | X | X |
-| url | S (2) | X | S (2) | X | X |
-| content_hash | S (4) | X | S (4) | X | X |
-| disposition | SN | SN | SN | SN | M |
-| session_id | O | O | O | X | O |
-| party_history | O | O | O | X | O |
-| transferee | X | X | X | S | X |
-| transferor | X | X | X | S | X |
-| transfer_target | X | X | X | O | X |
-| original | X | X | X | S | X |
-| consultation | X | X | X | O | X |
-| target_dialog | X | X | X | S | X |
-| application | O | O | O | O | O |
-| message_id | O | X | O | X | X |
+| Parameter | recording | text | incomplete |
+| --- | --- | --- | --- |
+| type | M | M | M |
+| start | S | S | S |
+| duration | O | O | O |
+| parties | S | S | O |
+| originator | O | O | O |
+| mediatype | M (1) | M (1) | X |
+| filename | O | O | X |
+| body | S (2) | S (2) | X |
+| encoding | S (3) | S (3) | X |
+| url | S (2) | S (2) | X |
+| content_hash | S (4) | S (4) | X |
+| disposition | SN | SN | M |
+| session_id | O | O | O |
+| party_history | O | O | O |
+| application | O | O | O |
+| message_id | O | O | X |
 
 (1) MUST be present for inline Dialog Content; optional for externally referenced Dialog Content when the media type is provided in the [HTTPS] Content-Type header; not required when Dialog Content is absent, such as in a placeholder Dialog Object or a redacted vCon.
 
@@ -1396,10 +1385,8 @@ The start parameter contains the date and time for the beginning of the captured
 The start parameter SHOULD be present unless it is not known.
 For text it is the time that the party started typing or if not available, then it is the time the text was sent.
 For audio and video recordings, it is the time which corresponds to the beginning of the recording.
-For a recording-set Dialog Object, it is the time corresponding to the beginning of the call or session.
 It should be noted that Dialog Objects may not be ordered by the value of the start parameter.
 Dialog Objects in the dialog array are in order that they were added to the vCon and cannot be reordered with out correcting the dialog indices which occur in other Objects in the vCon.
-The start parameter is optional for the "transfer" type Dialog Object as it may not always be known.
 
 * start: "Date"
 
@@ -1408,9 +1395,6 @@ The start parameter is optional for the "transfer" type Dialog Object as it may 
 The duration parameter contains the duration in seconds of the referenced or included piece of dialog.
 For text, if known, it is the time duration from when the party started typing to when they completed typing and the text was sent.
 For recordings, it is the duration of the recording.
-For a recording-set Dialog Object, it is the duration of the call or session.
-The start and duration parameters of a recording-set Dialog Object identify the complete time interval represented by the associated recording Dialog Objects.
-The duration parameter is not applicable to the "transfer" type Dialog Object.
 For an "incomplete" type Dialog Object, the duration parameter may capture the time from the attempt to setup the call or conversation until it failed.
 
 * duration: "UnsignedInt" \| "UnsignedFloat" (optional)
@@ -1420,8 +1404,7 @@ The value MUST be the dialog duration in seconds.
 ### parties {#dialog-parties}
 
 The party(s) which generated the text or recording for this piece of dialog are indicated in the parties parameter.
-The parties parameter SHOULD be present in "recording", "recording-set" and "text" type Dialog Objects.
-The parties parameter MUST NOT be present in "transfer" type Dialog Objects (see [](#dialog-transfer)).
+The parties parameter SHOULD be present in "recording" and "text" type Dialog Objects.
 The parties parameter is optional for "incomplete" type Dialog Objects, where it indicates the parties between which the call or conversation setup was attempted.
 
 * parties: "UnsignedInt" \| "UnsignedInt\[\]" \| ("UnsignedInt" \| "UnsignedInt\[\]")\[\]
@@ -1439,11 +1422,10 @@ This may occur when recordings are periodically segmented or when separate recor
 In these cases, a single recording Dialog Object identifies only the parties captured, or potentially captured, in that recording.
 Other participants are identified only in the recording Dialog Objects in which they are captured or potentially captured.
 As a result, no single recording Dialog Object necessarily identifies all parties participating in the conversation.
-Similarly, party_events need to be associated with a Dialog Object, but a recording Dialog Object may not exist for the point in time at which the event occurs.
-A recording-set Dialog Object MAY be used to represent the complete call or session.
-The start parameter of a recording-set Dialog Object identifies the beginning of the call or session.
-The duration parameter of a recording-set Dialog Object identifies the duration of the call or session.
-The parties parameter of a recording-set Dialog Object SHOULD contain all parties known to participate in the call or session, regardless of whether they contribute recorded media.
+The parties parameter of a Dialog Object only references the parties that contributed, or potentially contributed, to the Dialog Content of that Dialog Object.
+The complete call or session is represented by a Session Object which references the Dialog Objects that are part of it (see [](#session-object)).
+The parties parameter of the Session Object is the place to find the full set of parties, both those that contributed and those that were passively part of the call or session (see [](#session-parties)).
+The start and duration parameters of the Session Object identify the beginning and the duration of the call or session (see [](#session-start) and [](#session-duration)).
 
 It is implied that the first party in the dialog Object parties list, is the originator of the dialog.
 However, in some situations, it is difficult to impose the constraint that the first channel of a recording is the originator.
@@ -1471,37 +1453,17 @@ The organizer may be a party that never joins the conference; such a party may s
 The organizer is distinct from the party acting as host or controller of the conference at any point during the meeting; identifying the host or controller is out of scope for this document.
 If the originator is not known, an empty Party Object (see [Party Object](#party-object)) may be used as the first party or as the party referenced by the originator parameter.
 The originator parameter is only provided if the first party of the dialog Object parties list is NOT the originator.
-The originator parameter MUST NOT be present in "transfer" type Dialog Objects (see [](#dialog-transfer)).
 
 * originator: "UnsignedInt" (optional)
 
 The originator value is the index into the parties Objects Array, to the party that originated the dialog.
-
-### recordings {#dialog-recordings}
-
-The recordings parameter identifies the recording Dialog Objects that are part of the recording-set Dialog Object.
-
-* recordings: "UnsignedInt[]"
-
-The recordings parameter contains the indices of all recording Dialog Objects that are part of the recording-set.
-The recordings parameter MUST be present in recording-set Dialog Objects.
-The recordings parameter MUST NOT be present in other Dialog Object types.
-
-### recording_set {#dialog-recording-set}
-
-The recording_set parameter identifies the recording-set Dialog Object to which the recording Dialog Object belongs.
-
-* recording_set: "UnsignedInt" (optional; SHOULD be present when the recording is part of a recording-set)
-
-The recording_set parameter SHOULD be present when a recording Dialog Object is part of a recording-set Dialog Object.
-The recording_set parameter MUST NOT be present in other Dialog Object types.
 
 ### mediatype {#dialog-mediatype}
 
 The media type for the piece of dialog included or referenced is provided in the mediatype parameter.
 The mediatype parameter MUST be provided for inline dialog files and MUST be provided if the Content-Type header in the [HTTPS] response for the externally referenced URL is not provided.
 The mediatype parameter is not required when the Dialog Content is absent, such as in a placeholder Dialog Object or when the body and url have been redacted.
-The mediatype parameter MUST NOT be present in "recording-set", "transfer" or "incomplete" type Dialog Objects as they do not have Dialog Content.
+The mediatype parameter MUST NOT be present in "incomplete" type Dialog Objects as they do not have Dialog Content.
 
 * mediatype: "Mediatype" (optional for externally referenced files, if absent, this is provided in the [HTTPS] Content-Type header)
 
@@ -1522,16 +1484,13 @@ The media types SHOULD be one of the following strings:
 
 It is sometimes useful to preserve the name of the file which originally contained this piece of dialog.
 This can be done in the filename parameter.
-The filename parameter MUST NOT be present in "recording-set", "transfer" or "incomplete" type Dialog Objects as they do not have Dialog Content.
+The filename parameter MUST NOT be present in "incomplete" type Dialog Objects as they do not have Dialog Content.
 
 * filename: "String" (optional)
 
 ### Dialog Content
 
-The Dialog Object SHOULD contain the body and encoding parameters or the url and content_hash parameters for
-all dialog types other than "incomplete", "transfer" and "recording-set", these parameters MUST NOT be present for
-"incomplete", "transfer" or "recording-set" dialog types (see [Inline Files](#inline-files) and
-[Externally Referenced Files](#externally-referenced-files)).
+The Dialog Object SHOULD contain the body and encoding parameters or the url and content_hash parameters for all dialog types other than "incomplete", these parameters MUST NOT be present for the "incomplete" dialog type (see [Inline Files](#inline-files) and "incomplete", "transfer" or "recording-set" dialog types (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
 The exception to this is that the body or url MAY be absent if it is redacted.
 
 For inline included dialog:
@@ -1575,10 +1534,8 @@ Parties which do not have a [SESSION-ID] associated with this dialog, MUST have 
 That an empty Object and not an Object with two "nil UUIDs" as defined in section 7 of [SESSION-ID].
 It is also possible that the SessionId Object will not have values for both the local and remote parameters in some conferencing situations (See [SESSION-ID]).
 In the case that one end of the [SESSION-ID] does not have a UUID, the "nil UUID" String value SHOULD be used as defined in section 7 of [SESSION-ID].
-For a recording-set Dialog Object, a single SessionId Object value applies to the whole call or session represented by the set.
-The individual recording Dialog Objects in the set may each capture only a leg or subset of the parties of the call or session; the session_id values on those recording Dialog Objects follow the party correlation rules above.
-The recording-set Dialog Object is the appropriate place to capture a session identifier that applies to the call or session as a whole.
-The session_id parameter MUST NOT be present in "transfer" type Dialog Objects.
+When a call or session is represented by multiple Dialog Objects, each may capture only a leg or subset of the parties of the call or session; the session_id values on those Dialog Objects follow the party correlation rules above.
+The Session Object is the appropriate place to capture a session identifier that applies to the call or session as a whole (see [](#session-session-id)).
 
 * session_id: "SessionId" \| "SessionId\[\]" \| ("SessionId" \| "SessionId\[\]")\[\] (optional)
 
@@ -1587,7 +1544,6 @@ The session_id parameter MUST NOT be present in "transfer" type Dialog Objects.
 
 Participants in a dialog may not all join and leave at the same time.
 To support the capturing of the information when parties join, drop, go on hold or mute and unmute, the party_history array may be added to the Dialog Object.
-The party_history parameter MUST NOT be present in "transfer" type Dialog Objects.
 
 * party_history: "Party_History\[\]" (optional)
 
@@ -1620,71 +1576,6 @@ The Party_History Object contains the following parameters:
 
 The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.
 
-### Dialog Transfer
-
-A dialog of type "transfer" documents the roles of three parties and the relationship between 2 or three dialog segments.
-In a transfer operation, the roles of the three parties to a transfer are defined in [SIP-XFER] as:
-
-* Transferee
-* Transferor
-* Transfer Target
-
-There are two or three calls in which the parties are connected:
-
-* original call
-* consultative call (optional as this call may not get created)
-* target call
-
-To capture the above roles and dialog segments, the following parameters are defined for the "transfer" type dialog and MUST NOT be present in other dialog types.
-Each of these parameters SHOULD be present in the "transfer" type Dialog Object unless noted as optional.
-
-* transferee: "UnsignedInt"
-
-The value of the transferee parameter is the index into the parties Object array to the party that played the role of the Transferee.
-
-* transferor: "UnsignedInt"
-
-The value of the transferor parameter is the index into the parties Object array to the party that played the role of the Transferor.
-
-* transfer_target: "UnsignedInt" (optional)
-
-The value of the transfer_target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
-The transfer_target is optional in the case where the transfer is abandoned before the target was identified.
-
-
-The consultation, target_dialog and original parameters all refer to the Dialog Objects that correspond to the 2 to 3 calls that are part of a transfer.
-These calls may end up spread across multiple Dialog Objects due to the nature of how the calls are recorded.
-For example each party may be recorded in a separate file which will result in a dialog for each.
-Alternatively a call may go on hold where recording is stopped and back off again resulting where recording is started again in a separate recording file, resulting in multiple Dialog Objects.
-The values for the consultation, target_dialog and original parameters each reference a single Dialog Object.
-When a call is represented by multiple recording Dialog Objects, a recording-set type Dialog Object which represents that call MAY be referenced (see [](#dialog-type-recording-set)).
-
-There are scenarios where we know that a transfer has occurred, but we have no Dialog Object information for one or two of the consultation, target or transfer calls.
-In this case a placeholder Dialog Object is created and its index is used for the consultation, target_dialog or original parameter.
-A unique Dialog Object SHOULD be referenced for each role in the transfer.
-However a Dialog Object may be referenced in more than one transfer dialogs when multiple transfers occur.
-
-* original: "UnsignedInt"
-
-The value of the original parameter is the index into the dialog Object array to the "recording", "recording-set" or "text" type Dialog Object for the original dialog between the Transferee and the Transferor.
-
-* consultation: "UnsignedInt" (optional)
-
-The value of the consultation parameter is the index into the Dialog Object array to the "recording", "recording-set", "text" or "incomplete" type Dialog Object for the consultative dialog between the Transferor and the Transfer Target.
-It is also possible for there to be more than one consultation.
-This may occur for a number of reasons.
-Call attempts may fail.
-The caller may decide the consultation with a party is not the desired transfer target.
-
-* target_dialog: "UnsignedInt"
-
-The value of the target_dialog parameter is the index into the Dialog Object array to the "recording", "recording-set", "text" or "incomplete" type Dialog Object for the target dialog between the Transferee and the Transfer Target.
-
-A number of Dialog Object parameters are prohibited in "transfer" type Dialog Objects; see [](#dialog-object-parameter-applicability-by-type) for a summary and the individual parameter definitions for the normative statements.
-
-The "transfer" type dialog only captures the roles, operations and events of the parties and the dialog setup.
-It does not capture the purpose or reason for the transfer as that is analysis to be captures in the analysis section of the Vcon after the conversation has occurred.
-
 ### application
 
 The application parameter is used to capture the application, communication channel or context over which the conversation was held.
@@ -1697,9 +1588,8 @@ For example, the application parameter can be used to identify the web conferenc
 ### message_id {#message_id}
 
 Some messaging systems assign a unique message identifier to each message.
-The message_id parameter is applicable to "recording" and "text" type Dialog Objects and MUST NOT be present in "recording-set", "transfer" or "incomplete" type Dialog Objects.
-The message_id parameter may be used to label the message for either cross referencing back to the messaging
-system or to prevent the addition of duplicate messages to the vCon.
+The message_id parameter is applicable to "recording" and "text" type Dialog Objects and MUST NOT be present in "incomplete" type Dialog Objects.
+The message_id parameter may be used to label the message for either cross referencing back to the messaging system or to prevent the addition of duplicate messages to the vCon.
 For example SMTP [SMTP] messages have a message-id in the SMTP header.
 In the SMTP case a message may exist in multiple mailboxes or tags.
 When exporting these SMTP messages, the message_id parameter may be used to avoid adding the same message,
@@ -2327,16 +2217,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | disposition | dialog disposition | IESG | [](#disposition) RFC XXXX |
 | session_id | RFC7989 session ID  | IESG | [](#session_id) RFC XXXX |
 | party_history | dialog party events history | IESG | [](#party_history-objects-array) RFC XXXX |
-| transferee | transferee party index | IESG | [](#dialog-transfer) RFC XXXX |
-| transferor | transferor party index | IESG | [](#dialog-transfer) RFC XXXX |
-| transfer_target | transfer target party index | IESG | [](#dialog-transfer) RFC XXXX |
-| original | original transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
-| consultation | consultation`transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
-| target_dialog | target_dialog transfer dialog index | IESG | [](#dialog-transfer) RFC XXXX |
 | application | dialog source application | IESG | [](#application) RFC XXXX |
 | message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
-| recordings | multi recording dialog reference | IESG | [](#dialog-recordings) RFC XXXX |
-| recording_set | recording_set dialog reference | IESG | [](#dialog-recording-set) RFC XXXX |
 
 #### Dialog Type Name Registry
 
