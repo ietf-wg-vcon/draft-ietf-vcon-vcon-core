@@ -111,10 +111,11 @@ Table of Contents
        4.2.1.  start
        4.2.2.  duration
        4.2.3.  parties
-       4.2.4.  session_id
-       4.2.5.  sessions
-       4.2.6.  dialog
-       4.2.7.  Session_Reference Object
+       4.2.4.  originator
+       4.2.5.  session_id
+       4.2.6.  sessions
+       4.2.7.  dialog
+       4.2.8.  Session_Reference Object
      4.3.  Event Object
        4.3.1.  type
        4.3.2.  time
@@ -145,15 +146,14 @@ Table of Contents
        4.5.2.  start
        4.5.3.  duration
        4.5.4.  parties
-       4.5.5.  originator
-       4.5.6.  mediatype
-       4.5.7.  filename
-       4.5.8.  Dialog Content
-       4.5.9.  disposition
-       4.5.10. session_id
-       4.5.11. party_history Objects Array
-       4.5.12. application
-       4.5.13. message_id
+       4.5.5.  mediatype
+       4.5.6.  filename
+       4.5.7.  Dialog Content
+       4.5.8.  disposition
+       4.5.9.  session_id
+       4.5.10. party_history Objects Array
+       4.5.11. application
+       4.5.12. message_id
      4.6.  Attachment Object
        4.6.1.  purpose
        4.6.2.  start
@@ -1143,10 +1143,6 @@ Table of Contents
 
 4.2.3.  parties
 
-   The value of the parties parameter is an array of the indices into
-   the parties Object array to the Party Objects that were part of the
-   session.
-
    The Session Object parties parameter references all of the Party
    Objects from the parties Array that were part of the session.  The
    parties parameter SHOULD be present.  This SHOULD include all of the
@@ -1164,7 +1160,34 @@ Table of Contents
 
    *  parties: "UnsignedInt[]"
 
-4.2.4.  session_id
+   The value of the parties parameter is an array of the indices into
+   the parties Object array to the Party Objects that were part of the
+   session.
+
+4.2.4.  originator
+
+   The originator party for this session.  For email and text, this is
+   the sender of the first message.  For audio and video calls, this is
+   the calling party.  For a scheduled meeting or conference, this is
+   the organizer, the party that scheduled or created the meeting.  The
+   organizer may be a party that never joins the conference; such a
+   party may still be included in the parties array.  The organizer is
+   distinct from the party acting as host or controller of the
+   conference at any point during the meeting; identifying the host or
+   controller is out of scope for this document.  It is implied that the
+   first party in the Session Object parties list is the originator of
+   the session.  If the originator is not known, an empty Party Object
+   (see Party Object (Section 4.4)) may be used as the first party or as
+   the party referenced by the originator parameter.  The originator
+   parameter is only provided if the first party of the Session Object
+   parties list is NOT the originator.
+
+   *  originator: "UnsignedInt" (optional)
+
+   The originator value is the index into the parties Objects Array, to
+   the party that originated the session.
+
+4.2.5.  session_id
 
    The [SESSION-ID] MAY be included for the session if it applies to all
    of the Dialog Objects in the session.
@@ -1172,15 +1195,15 @@ Table of Contents
    *  session_id: "SessionId" (optional)
 
    The value of the session_id parameter is a single SessionId Object
-   (see Section 4.5.10).  A [SESSION-ID] which applies to only some of
+   (see Section 4.5.9).  A [SESSION-ID] which applies to only some of
    the parties or Dialog Objects in the session is captured in the
    session_id parameter of the Dialog Object.
 
-4.2.5.  sessions
+4.2.6.  sessions
 
    A Session Object may refer to other Session Objects in one of several
    different relationships using the Session_Reference Object
-   (Section 4.2.7).
+   (Section 4.2.8).
 
    *  sessions: "Session_Reference[]" (optional)
 
@@ -1189,7 +1212,7 @@ Table of Contents
    A Session Reference Object also labels the relationship between this
    Session Object and the reference one.
 
-4.2.6.  dialog
+4.2.7.  dialog
 
    All Dialog Objects (Section 4.1.13) SHOULD be referenced by at least
    one of the Session Objects in a vCon.  The dialog parameter in the
@@ -1202,12 +1225,12 @@ Table of Contents
    indices to the dialog in the Dialog Object array which are part of
    this session.
 
-4.2.7.  Session_Reference Object
+4.2.8.  Session_Reference Object
 
    A Session Reference Object specifies the relationship from one
    Session Object to another.
 
-4.2.7.1.  session
+4.2.8.1.  session
 
    The session parameter is used to define a relationship from one
    session to another.
@@ -1218,7 +1241,7 @@ Table of Contents
    Array (Section 4.1.10) for the session that is referenced.  The
    session parameter MUST be provided.
 
-4.2.7.2.  type
+4.2.8.2.  type
 
    The type parameter specifies a specific type of relationship to the
    reference session.
@@ -1242,7 +1265,7 @@ Table of Contents
 
    TBD: other types? consult
 
-4.2.7.3.  description
+4.2.8.3.  description
 
    The description parameter is used to better describe the relationship
    to the referenced Session Object.
@@ -2002,7 +2025,7 @@ Table of Contents
    audio of a segment of the conversation.  A recording Dialog Object
    may be one of a set of recordings which collectively represent a call
    or session, in which case the Dialog Objects in the set are
-   referenced by a Session Object (see Section 4.2.6).
+   referenced by a Session Object (see Section 4.2.7).
 
 4.5.1.2.  text
 
@@ -2015,9 +2038,9 @@ Table of Contents
    A dialog of type "incomplete" captures a call or conversation that
    failed to be setup to the point of exchanging any conversation.  As
    no conversation was exchanged, an incomplete Dialog Object does not
-   have Dialog Content (see Section 4.5.8).  An incomplete Dialog Object
+   have Dialog Content (see Section 4.5.7).  An incomplete Dialog Object
    has a required disposition parameter which indicates why the call or
-   conversation failed (see Section 4.5.9).
+   conversation failed (see Section 4.5.8).
 
 4.5.1.4.  Dialog Object Parameter Applicability by Type
 
@@ -2048,8 +2071,6 @@ Table of Contents
             | duration      | O         | O     | O          |
             +---------------+-----------+-------+------------+
             | parties       | S         | S     | O          |
-            +---------------+-----------+-------+------------+
-            | originator    | O         | O     | O          |
             +---------------+-----------+-------+------------+
             | mediatype     | M (1)     | M (1) | X          |
             +---------------+-----------+-------+------------+
@@ -2168,17 +2189,10 @@ Table of Contents
    Session Object identify the beginning and the duration of the call or
    session (see Section 4.2.1 and Section 4.2.2).
 
-   It is implied that the first party in the dialog Object parties list,
-   is the originator of the dialog.  However, in some situations, it is
-   difficult to impose the constraint that the first channel of a
-   recording is the originator.  If ensuring that the first channel and
-   party listed is the originator is not possible, the optional
-   originator parameter indicates the originator party.  In other cases,
-   there may be a separate recording file for each party in a
-   conversation, where only one party is recorded per file.  In this
-   situation, it is necessary to indicate the originator as the dialog
-   Object parties parameter may contain only one party and may not be
-   the originator.  It should be noted that the recordings may be
+   The originator of the call or session is indicated in the Session
+   Object (see Section 4.2.4).  In some cases, there may be a separate
+   recording file for each party in a conversation, where only one party
+   is recorded per file.  It should be noted that the recordings may be
    shorter than the collective conference when there is a separate
    recording per speaker/party.  For example the recording(s) of the
    individual speaker may be trimmed to only the parts where they are
@@ -2187,38 +2201,26 @@ Table of Contents
    In the email context, [SMTP] messages have the headers From, To, Cc
    and Bcc that all correspond to parties to the text Dialog Object.
    The From header should be the first party index in the parties
-   parameter for the text Dialog Object.  They are the implied
-   originator.  The parties listed in the To, Cc and Bcc [SMTP] headers
-   (if present) should all be added in that order to the parties
-   parameter in the text Dialog Object.  The sender SHOULD be allowed to
-   set a policy, through out of band means, as to whether they would
-   like their application or server to include the Bcc parties in the
-   vCon.  A text Dialog Object should only contain a single [SMTP]
-   message.  Each may have a different set of parties.
+   parameter for the text Dialog Object.  They are the sender of the
+   message.  The parties listed in the To, Cc and Bcc [SMTP] headers (if
+   present) should all be added in that order to the parties parameter
+   in the text Dialog Object.  The sender SHOULD be allowed to set a
+   policy, through out of band means, as to whether they would like
+   their application or server to include the Bcc parties in the vCon.
+   A text Dialog Object should only contain a single [SMTP] message.
+   Each may have a different set of parties.
 
-4.5.5.  originator
+   TODO: The following paragraph adds the To, Cc and Bcc recipients to
+   the Dialog Object parties, which conflicts with the Dialog Object
+   parties only referencing the parties that contributed to the Dialog
+   Content.  In an email thread the recipients can change with each
+   message.  Using join and drop Event Objects to add and remove
+   recipients for every message is awkward.  Options include: keeping
+   recipients in the parties of text Dialog Objects, a separate Dialog
+   Object parameter for the parties that the content was sent to, or
+   recipients only in the Session Object parties.
 
-   The originator party for this dialog.  For email and text, this is
-   the sender of the text.  For audio and video calls, this is the
-   calling party.  For a scheduled meeting or conference, this is the
-   organizer, the party that scheduled or created the meeting.  The
-   organizer may be a party that never joins the conference; such a
-   party may still be included in the parties array.  The organizer is
-   distinct from the party acting as host or controller of the
-   conference at any point during the meeting; identifying the host or
-   controller is out of scope for this document.  If the originator is
-   not known, an empty Party Object (see Party Object (Section 4.4)) may
-   be used as the first party or as the party referenced by the
-   originator parameter.  The originator parameter is only provided if
-   the first party of the dialog Object parties list is NOT the
-   originator.
-
-   *  originator: "UnsignedInt" (optional)
-
-   The originator value is the index into the parties Objects Array, to
-   the party that originated the dialog.
-
-4.5.6.  mediatype
+4.5.5.  mediatype
 
    The media type for the piece of dialog included or referenced is
    provided in the mediatype parameter.  The mediatype parameter MUST be
@@ -2253,7 +2255,7 @@ Table of Contents
 
       Note: multi-part will also likely include the boundary parameter
 
-4.5.7.  filename
+4.5.6.  filename
 
    It is sometimes useful to preserve the name of the file which
    originally contained this piece of dialog.  This can be done in the
@@ -2262,16 +2264,14 @@ Table of Contents
 
    *  filename: "String" (optional)
 
-4.5.8.  Dialog Content
+4.5.7.  Dialog Content
 
    The Dialog Object SHOULD contain the body and encoding parameters or
    the url and content_hash parameters for all dialog types other than
-   "incomplete", these parameters MUST NOT be present for the
-   "incomplete" dialog type (see Inline Files (Section 2.3) and
-   "incomplete", "transfer" or "recording-set" dialog types (see Inline
-   Files (Section 2.3) and Externally Referenced Files (Section 2.4)).
-   The exception to this is that the body or url MAY be absent if it is
-   redacted.
+   "incomplete" (see Inline Files (Section 2.3) and Externally
+   Referenced Files (Section 2.4)).  These parameters MUST NOT be
+   present for the "incomplete" dialog type.  The exception to this is
+   that the body or url MAY be absent if it is redacted.
 
    For inline included dialog:
 
@@ -2285,7 +2285,7 @@ Table of Contents
 
    *  content_hash: "ContentHash" | "ContentHash[]"
 
-4.5.9.  disposition
+4.5.8.  disposition
 
    If the dialog type is "incomplete", it MUST have a disposition
    parameter.  If the reason that the call or conversation failed is not
@@ -2326,7 +2326,7 @@ Table of Contents
       longer an "incomplete" type dialog, it is a "recording" type and
       the conversation SHOULD be included in the Dialog Content.
 
-4.5.10.  session_id
+4.5.9.  session_id
 
    The [SESSION-ID] MAY be included for the dialog.  If the same
    [SESSION-ID] applies to all the parties in a dialog, than a single
@@ -2348,12 +2348,12 @@ Table of Contents
    session_id values on those Dialog Objects follow the party
    correlation rules above.  The Session Object is the appropriate place
    to capture a session identifier that applies to the call or session
-   as a whole (see Section 4.2.4).
+   as a whole (see Section 4.2.5).
 
    *  session_id: "SessionId" | "SessionId[]" | ("SessionId" |
       "SessionId[]")[] (optional)
 
-4.5.11.  party_history Objects Array
+4.5.10.  party_history Objects Array
 
    Participants in a dialog may not all join and leave at the same time.
    To support the capturing of the information when parties join, drop,
@@ -2362,7 +2362,7 @@ Table of Contents
 
    *  party_history: "Party_History[]" (optional)
 
-4.5.11.1.  Party_History Object
+4.5.10.1.  Party_History Object
 
    The Party_History Object contains the following parameters:
 
@@ -2401,7 +2401,7 @@ Table of Contents
    character or string label for the button that was pressed or
    released.
 
-4.5.12.  application
+4.5.11.  application
 
    The application parameter is used to capture the application,
    communication channel or context over which the conversation was
@@ -2413,7 +2413,7 @@ Table of Contents
 
    *  application "String" (optional)
 
-4.5.13.  message_id
+4.5.12.  message_id
 
    Some messaging systems assign a unique message identifier to each
    message.  The message_id parameter is applicable to "recording" and
@@ -3308,40 +3308,37 @@ Table of Contents
    | parties        | dialog parties    | IESG       | Section 4.5.4  |
    |                | list              |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | originator     | dialog originator | IESG       | Section 4.5.5  |
-   |                | party             |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | mediatype      | dialog content    | IESG       | Section 4.5.6  |
+   | mediatype      | dialog content    | IESG       | Section 4.5.5  |
    |                | media type        |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | filename       | dialog content    | IESG       | Section 4.5.7  |
+   | filename       | dialog content    | IESG       | Section 4.5.6  |
    |                | filename          |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | body           | dialog inline     | IESG       | Section 4.5.8  |
+   | body           | dialog inline     | IESG       | Section 4.5.7  |
    |                | content           |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | encoding       | dialog inline     | IESG       | Section 4.5.8  |
+   | encoding       | dialog inline     | IESG       | Section 4.5.7  |
    |                | content encoding  |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | url            | dialog referenced | IESG       | Section 4.5.8  |
+   | url            | dialog referenced | IESG       | Section 4.5.7  |
    |                | content URL       |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | content_hash   | dialog content    | IESG       | Section 4.5.8  |
+   | content_hash   | dialog content    | IESG       | Section 4.5.7  |
    |                | hash              |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | disposition    | dialog            | IESG       | Section 4.5.9  |
+   | disposition    | dialog            | IESG       | Section 4.5.8  |
    |                | disposition       |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | session_id     | RFC7989 session   | IESG       | Section 4.5.10 |
+   | session_id     | RFC7989 session   | IESG       | Section 4.5.9  |
    |                | ID                |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | party_history  | dialog party      | IESG       | Section 4.5.11 |
+   | party_history  | dialog party      | IESG       | Section 4.5.10 |
    |                | events history    |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | application    | dialog source     | IESG       | Section 4.5.12 |
+   | application    | dialog source     | IESG       | Section 4.5.11 |
    |                | application       |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | message_id     | dialog message id | IESG       | Section 4.5.13 |
+   | message_id     | dialog message id | IESG       | Section 4.5.12 |
    |                |                   |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
 
@@ -3416,16 +3413,16 @@ Table of Contents
     | Parameter | Parameter           | Change     | Specification    |
     | Name      | Description         | Controller | Document(s)      |
     +===========+=====================+============+==================+
-    | party     | event party index   | IESG       | Section 4.5.11.1 |
+    | party     | event party index   | IESG       | Section 4.5.10.1 |
     |           |                     |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
-    | time      | time event occurred | IESG       | Section 4.5.11.1 |
+    | time      | time event occurred | IESG       | Section 4.5.10.1 |
     |           |                     |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
-    | event     | event type          | IESG       | Section 4.5.11.1 |
+    | event     | event type          | IESG       | Section 4.5.10.1 |
     |           |                     |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
-    | button    | button label        | IESG       | Section 4.5.11.1 |
+    | button    | button label        | IESG       | Section 4.5.10.1 |
     |           | character or string |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
 
@@ -3435,7 +3432,7 @@ Table of Contents
 
    This document defines a new registry for the token name values that
    are permitted as values to the party_event Object event
-   (Section 4.5.11.1) parameter.
+   (Section 4.5.10.1) parameter.
 
 6.3.5.1.1.  party_event Event Name Registration Template
 
@@ -3472,28 +3469,28 @@ Table of Contents
    | party_event | party_event Event   | Change     | Specification    |
    | Event Name  | Description         | Controller | Document(s)      |
    +=============+=====================+============+==================+
-   | join        | party join event    | IESG       | Section 4.5.11.1 |
+   | join        | party join event    | IESG       | Section 4.5.10.1 |
    |             |                     |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | drop        | party drop event    | IESG       | Section 4.5.11.1 |
+   | drop        | party drop event    | IESG       | Section 4.5.10.1 |
    |             |                     |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | hold        | party on hold       | IESG       | Section 4.5.11.1 |
+   | hold        | party on hold       | IESG       | Section 4.5.10.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | unhold      | party off hold      | IESG       | Section 4.5.11.1 |
+   | unhold      | party off hold      | IESG       | Section 4.5.10.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | mute        | party on mute       | IESG       | Section 4.5.11.1 |
+   | mute        | party on mute       | IESG       | Section 4.5.10.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | unmute      | party off mute      | IESG       | Section 4.5.11.1 |
+   | unmute      | party off mute      | IESG       | Section 4.5.10.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | keydown     | DTMF/app key/       | IESG       | Section 4.5.11.1 |
+   | keydown     | DTMF/app key/       | IESG       | Section 4.5.10.1 |
    |             | button press event  |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | keyup       | DTMF/app key/       | IESG       | Section 4.5.11.1 |
+   | keyup       | DTMF/app key/       | IESG       | Section 4.5.10.1 |
    |             | button release      |            | RFC XXXX         |
    |             | event               |            |                  |
    +-------------+---------------------+------------+------------------+
