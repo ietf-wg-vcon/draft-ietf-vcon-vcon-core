@@ -111,9 +111,10 @@ Table of Contents
        4.2.1.  start
        4.2.2.  duration
        4.2.3.  parties
-       4.2.4.  sessions
-       4.2.5.  dialog
-       4.2.6.  Session_Reference Object
+       4.2.4.  session_id
+       4.2.5.  sessions
+       4.2.6.  dialog
+       4.2.7.  Session_Reference Object
      4.3.  Event Object
        4.3.1.  type
        4.3.2.  time
@@ -145,17 +146,14 @@ Table of Contents
        4.5.3.  duration
        4.5.4.  parties
        4.5.5.  originator
-       4.5.6.  recordings
-       4.5.7.  recording_set
-       4.5.8.  mediatype
-       4.5.9.  filename
-       4.5.10. Dialog Content
-       4.5.11. disposition
-       4.5.12. session_id
-       4.5.13. party_history Objects Array
-       4.5.14. Dialog Transfer
-       4.5.15. application
-       4.5.16. message_id
+       4.5.6.  mediatype
+       4.5.7.  filename
+       4.5.8.  Dialog Content
+       4.5.9.  disposition
+       4.5.10. session_id
+       4.5.11. party_history Objects Array
+       4.5.12. application
+       4.5.13. message_id
      4.6.  Attachment Object
        4.6.1.  purpose
        4.6.2.  start
@@ -524,15 +522,16 @@ Table of Contents
       redefined, state the new semantics and values.  For any value
       added to the allowed values of an existing parameter, define the
       value and its semantics and state which parameters apply when the
-      value is used.  For each new Object, a new parameter names
-      registry SHOULD be requested from IANA with the parameters of the
-      new Object as its initial values (see Section 6.3).  For any
-      deprecated parameter, state what is to be used in its stead and
-      the migration approach.  Use the snake case naming convention for
-      all parameter names, as opposed to camel case.  Register each new
-      parameter in the appropriate Object registry with IANA.  Register
-      each new value in the appropriate registry with IANA, where one
-      exists.
+      value is used.  For each new Object, define the parameters of the
+      Object in the same manner.  For each new Object, a new parameter
+      names registry SHOULD be requested from IANA with the parameters
+      of the new Object as its initial values (see Section 6.3).  For
+      any deprecated parameter, state what is to be used in its stead
+      and the migration approach.  Use the snake case naming convention
+      for all parameter names, as opposed to camel case.  Register each
+      new parameter in the appropriate Object registry with IANA.
+      Register each new value in the appropriate registry with IANA,
+      where one exists.
 
    *  *Compatibility Considerations*: Describe how the extension behaves
       in the presence of implementations that do not support it.
@@ -1140,7 +1139,13 @@ Table of Contents
 
    *  duration: "UnsignedInt" | "UnsignedFloat" (optional)
 
+   The value MUST be the session duration in seconds.
+
 4.2.3.  parties
+
+   The value of the parties parameter is an array of the indices into
+   the parties Object array to the Party Objects that were part of the
+   session.
 
    The Session Object parties parameter references all of the Party
    Objects from the parties Array that were part of the session.  The
@@ -1159,11 +1164,23 @@ Table of Contents
 
    *  parties: "UnsignedInt[]"
 
-4.2.4.  sessions
+4.2.4.  session_id
+
+   The [SESSION-ID] MAY be included for the session if it applies to all
+   of the Dialog Objects in the session.
+
+   *  session_id: "SessionId" (optional)
+
+   The value of the session_id parameter is a single SessionId Object
+   (see Section 4.5.10).  A [SESSION-ID] which applies to only some of
+   the parties or Dialog Objects in the session is captured in the
+   session_id parameter of the Dialog Object.
+
+4.2.5.  sessions
 
    A Session Object may refer to other Session Objects in one of several
    different relationships using the Session_Reference Object
-   (Section 4.2.6).
+   (Section 4.2.7).
 
    *  sessions: "Session_Reference[]" (optional)
 
@@ -1172,7 +1189,7 @@ Table of Contents
    A Session Reference Object also labels the relationship between this
    Session Object and the reference one.
 
-4.2.5.  dialog
+4.2.6.  dialog
 
    All Dialog Objects (Section 4.1.13) SHOULD be referenced by at least
    one of the Session Objects in a vCon.  The dialog parameter in the
@@ -1185,12 +1202,12 @@ Table of Contents
    indices to the dialog in the Dialog Object array which are part of
    this session.
 
-4.2.6.  Session_Reference Object
+4.2.7.  Session_Reference Object
 
    A Session Reference Object specifies the relationship from one
    Session Object to another.
 
-4.2.6.1.  session
+4.2.7.1.  session
 
    The session parameter is used to define a relationship from one
    session to another.
@@ -1201,7 +1218,7 @@ Table of Contents
    Array (Section 4.1.10) for the session that is referenced.  The
    session parameter MUST be provided.
 
-4.2.6.2.  type
+4.2.7.2.  type
 
    The type parameter specifies a specific type of relationship to the
    reference session.
@@ -1225,7 +1242,7 @@ Table of Contents
 
    TBD: other types? consult
 
-4.2.6.3.  description
+4.2.7.3.  description
 
    The description parameter is used to better describe the relationship
    to the referenced Session Object.
@@ -1908,12 +1925,6 @@ Table of Contents
 
    *  Metadata for failed or incompleted communications
 
-   *  Metadata for providing relationships between other Dialog Objects
-      in transfer scenarios
-
-   *  Metadata for providing relationships between recording Dialog
-      Objects in recording-set scenarios
-
    Media captured in a media-based Dialog Object (type text and
    recording) SHOULD satisfy two constraints: the media is part of the
    conversation itself, and the media is transcribable.  Media is part
@@ -1976,62 +1987,39 @@ Table of Contents
 
    *  type: "String"
 
-   The string MUST have the value of either "recording", "recording-
-   set", "text", "transfer" or "incomplete", or a value defined in a
-   vCon extension.  The handling of a Dialog Object with a type which is
-   not recognized is described in Section 2.5.  The semantics of each
-   Dialog Object type are described in the following subsections.  The
-   applicability of each of the Dialog Object parameters to each of the
-   types is summarized in Section 4.5.1.6.
+   The string MUST have the value of either "recording", "text" or
+   "incomplete", or a value defined in a vCon extension.  The handling
+   of a Dialog Object with a type which is not recognized is described
+   in Section 2.5.  The semantics of each Dialog Object type are
+   described in the following subsections.  The applicability of each of
+   the Dialog Object parameters to each of the types is summarized in
+   Section 4.5.1.4.
 
 4.5.1.1.  recording
 
    A dialog of type "recording" has Dialog Content that either contains
    a body or refers to via url, which is a recording of the video and/or
    audio of a segment of the conversation.  A recording Dialog Object
-   that is part of a set of recordings which collectively represent a
-   call or session, may reference the associated recording-set Dialog
-   Object via the recording_set parameter (see Section 4.5.7).
+   may be one of a set of recordings which collectively represent a call
+   or session, in which case the Dialog Objects in the set are
+   referenced by a Session Object (see Section 4.2.6).
 
-4.5.1.2.  recording-set
-
-   A dialog of type "recording-set" contains metadata describing a set
-   of "recording" Dialog Objects that collectively represent a call or
-   session.  The conversation itself is captured in the referenced
-   "recording" Dialog Objects; a recording-set Dialog Object does not
-   have Dialog Content (see Section 4.5.10).  The recordings parameter
-   identifies the "recording" Dialog Objects in the set (see
-   Section 4.5.6).  The start, duration, parties and session_id
-   parameters of a recording-set Dialog Object describe the call or
-   session as a whole (see Section 4.5.2, Section 4.5.3, Section 4.5.4
-   and Section 4.5.12).
-
-4.5.1.3.  text
+4.5.1.2.  text
 
    A dialog of type "text" has Dialog Content that either contains a
    body or refers to via url, which contains the text from one of the
    parties for a segment of the conversation.
 
-4.5.1.4.  transfer
-
-   A dialog of type "transfer" does not capture actual conversation
-   exchange, but rather captures operations, parties and relations
-   between dialog segments.  The conversation is captured in other
-   Dialog Objects; a transfer Dialog Object does not have Dialog Content
-   (see Section 4.5.10).  The Dialog Transfer parameters are used to
-   show the roles and relationships between the parties and other Dialog
-   Objects as the transfer process occurred (see Section 4.5.14).
-
-4.5.1.5.  incomplete
+4.5.1.3.  incomplete
 
    A dialog of type "incomplete" captures a call or conversation that
    failed to be setup to the point of exchanging any conversation.  As
    no conversation was exchanged, an incomplete Dialog Object does not
-   have Dialog Content (see Section 4.5.10).  An incomplete Dialog
-   Object has a required disposition parameter which indicates why the
-   call or conversation failed (see Section 4.5.11).
+   have Dialog Content (see Section 4.5.8).  An incomplete Dialog Object
+   has a required disposition parameter which indicates why the call or
+   conversation failed (see Section 4.5.9).
 
-4.5.1.6.  Dialog Object Parameter Applicability by Type
+4.5.1.4.  Dialog Object Parameter Applicability by Type
 
    The following table summarizes which Dialog Object parameters apply
    to each Dialog Object type.  The parameter definitions in the
@@ -2050,67 +2038,43 @@ Table of Contents
 
    X  The parameter MUST NOT be present.
 
-   -  The parameter has no defined meaning for this type; it MAY be
-      present but its semantics are undefined.
+            +===============+===========+=======+============+
+            | Parameter     | recording | text  | incomplete |
+            +===============+===========+=======+============+
+            | type          | M         | M     | M          |
+            +---------------+-----------+-------+------------+
+            | start         | S         | S     | S          |
+            +---------------+-----------+-------+------------+
+            | duration      | O         | O     | O          |
+            +---------------+-----------+-------+------------+
+            | parties       | S         | S     | O          |
+            +---------------+-----------+-------+------------+
+            | originator    | O         | O     | O          |
+            +---------------+-----------+-------+------------+
+            | mediatype     | M (1)     | M (1) | X          |
+            +---------------+-----------+-------+------------+
+            | filename      | O         | O     | X          |
+            +---------------+-----------+-------+------------+
+            | body          | S (2)     | S (2) | X          |
+            +---------------+-----------+-------+------------+
+            | encoding      | S (3)     | S (3) | X          |
+            +---------------+-----------+-------+------------+
+            | url           | S (2)     | S (2) | X          |
+            +---------------+-----------+-------+------------+
+            | content_hash  | S (4)     | S (4) | X          |
+            +---------------+-----------+-------+------------+
+            | disposition   | SN        | SN    | M          |
+            +---------------+-----------+-------+------------+
+            | session_id    | O         | O     | O          |
+            +---------------+-----------+-------+------------+
+            | party_history | O         | O     | O          |
+            +---------------+-----------+-------+------------+
+            | application   | O         | O     | O          |
+            +---------------+-----------+-------+------------+
+            | message_id    | O         | O     | X          |
+            +---------------+-----------+-------+------------+
 
-   +=================+=========+=============+=====+========+==========+
-   | Parameter       |recording|recording-set|text |transfer|incomplete|
-   +=================+=========+=============+=====+========+==========+
-   | type            |M        |M            |M    |M       |M         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | start           |S        |S            |S    |O       |S         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | duration        |O        |O            |O    |-       |O         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | parties         |S        |S            |S    |X       |O         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | originator      |O        |O            |O    |X       |O         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | recordings      |X        |M            |X    |X       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | recording_set   |O        |X            |X    |X       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | mediatype       |M (1)    |X            |M    |X       |X         |
-   |                 |         |             |(1)  |        |          |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | filename        |O        |X            |O    |X       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | body            |S (2)    |X            |S    |X       |X         |
-   |                 |         |             |(2)  |        |          |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | encoding        |S (3)    |X            |S    |X       |X         |
-   |                 |         |             |(3)  |        |          |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | url             |S (2)    |X            |S    |X       |X         |
-   |                 |         |             |(2)  |        |          |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | content_hash    |S (4)    |X            |S    |X       |X         |
-   |                 |         |             |(4)  |        |          |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | disposition     |SN       |SN           |SN   |SN      |M         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | session_id      |O        |O            |O    |X       |O         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | party_history   |O        |O            |O    |X       |O         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | transferee      |X        |X            |X    |S       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | transferor      |X        |X            |X    |S       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | transfer_target |X        |X            |X    |O       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | original        |X        |X            |X    |S       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | consultation    |X        |X            |X    |O       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | target_dialog   |X        |X            |X    |S       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | application     |O        |O            |O    |O       |O         |
-   +-----------------+---------+-------------+-----+--------+----------+
-   | message_id      |O        |X            |O    |X       |X         |
-   +-----------------+---------+-------------+-----+--------+----------+
-
-                                  Table 4
+                                 Table 4
 
    (1) MUST be present for inline Dialog Content; optional for
    externally referenced Dialog Content when the media type is provided
@@ -2132,14 +2096,11 @@ Table of Contents
    unless it is not known.  For text it is the time that the party
    started typing or if not available, then it is the time the text was
    sent.  For audio and video recordings, it is the time which
-   corresponds to the beginning of the recording.  For a recording-set
-   Dialog Object, it is the time corresponding to the beginning of the
-   call or session.  It should be noted that Dialog Objects may not be
-   ordered by the value of the start parameter.  Dialog Objects in the
-   dialog array are in order that they were added to the vCon and cannot
-   be reordered with out correcting the dialog indices which occur in
-   other Objects in the vCon.  The start parameter is optional for the
-   "transfer" type Dialog Object as it may not always be known.
+   corresponds to the beginning of the recording.  It should be noted
+   that Dialog Objects may not be ordered by the value of the start
+   parameter.  Dialog Objects in the dialog array are in order that they
+   were added to the vCon and cannot be reordered with out correcting
+   the dialog indices which occur in other Objects in the vCon.
 
    *  start: "Date"
 
@@ -2149,14 +2110,9 @@ Table of Contents
    referenced or included piece of dialog.  For text, if known, it is
    the time duration from when the party started typing to when they
    completed typing and the text was sent.  For recordings, it is the
-   duration of the recording.  For a recording-set Dialog Object, it is
-   the duration of the call or session.  The start and duration
-   parameters of a recording-set Dialog Object identify the complete
-   time interval represented by the associated recording Dialog Objects.
-   The duration parameter is not applicable to the "transfer" type
-   Dialog Object.  For an "incomplete" type Dialog Object, the duration
-   parameter may capture the time from the attempt to setup the call or
-   conversation until it failed.
+   duration of the recording.  For an "incomplete" type Dialog Object,
+   the duration parameter may capture the time from the attempt to setup
+   the call or conversation until it failed.
 
    *  duration: "UnsignedInt" | "UnsignedFloat" (optional)
 
@@ -2166,12 +2122,10 @@ Table of Contents
 
    The party(s) which generated the text or recording for this piece of
    dialog are indicated in the parties parameter.  The parties parameter
-   SHOULD be present in "recording", "recording-set" and "text" type
-   Dialog Objects.  The parties parameter MUST NOT be present in
-   "transfer" type Dialog Objects (see Section 4.5.14).  The parties
-   parameter is optional for "incomplete" type Dialog Objects, where it
-   indicates the parties between which the call or conversation setup
-   was attempted.
+   SHOULD be present in "recording" and "text" type Dialog Objects.  The
+   parties parameter is optional for "incomplete" type Dialog Objects,
+   where it indicates the parties between which the call or conversation
+   setup was attempted.
 
    *  parties: "UnsignedInt" | "UnsignedInt[]" | ("UnsignedInt" |
       "UnsignedInt[]")[]
@@ -2203,16 +2157,16 @@ Table of Contents
    in the recording Dialog Objects in which they are captured or
    potentially captured.  As a result, no single recording Dialog Object
    necessarily identifies all parties participating in the conversation.
-   Similarly, party_events need to be associated with a Dialog Object,
-   but a recording Dialog Object may not exist for the point in time at
-   which the event occurs.  A recording-set Dialog Object MAY be used to
-   represent the complete call or session.  The start parameter of a
-   recording-set Dialog Object identifies the beginning of the call or
-   session.  The duration parameter of a recording-set Dialog Object
-   identifies the duration of the call or session.  The parties
-   parameter of a recording-set Dialog Object SHOULD contain all parties
-   known to participate in the call or session, regardless of whether
-   they contribute recorded media.
+   The parties parameter of a Dialog Object only references the parties
+   that contributed, or potentially contributed, to the Dialog Content
+   of that Dialog Object.  The complete call or session is represented
+   by a Session Object which references the Dialog Objects that are part
+   of it (see Section 4.2).  The parties parameter of the Session Object
+   is the place to find the full set of parties, both those that
+   contributed and those that were passively part of the call or session
+   (see Section 4.2.3).  The start and duration parameters of the
+   Session Object identify the beginning and the duration of the call or
+   session (see Section 4.2.1 and Section 4.2.2).
 
    It is implied that the first party in the dialog Object parties list,
    is the originator of the dialog.  However, in some situations, it is
@@ -2257,39 +2211,14 @@ Table of Contents
    be used as the first party or as the party referenced by the
    originator parameter.  The originator parameter is only provided if
    the first party of the dialog Object parties list is NOT the
-   originator.  The originator parameter MUST NOT be present in
-   "transfer" type Dialog Objects (see Section 4.5.14).
+   originator.
 
    *  originator: "UnsignedInt" (optional)
 
    The originator value is the index into the parties Objects Array, to
    the party that originated the dialog.
 
-4.5.6.  recordings
-
-   The recordings parameter identifies the recording Dialog Objects that
-   are part of the recording-set Dialog Object.
-
-   *  recordings: "UnsignedInt[]"
-
-   The recordings parameter contains the indices of all recording Dialog
-   Objects that are part of the recording-set.  The recordings parameter
-   MUST be present in recording-set Dialog Objects.  The recordings
-   parameter MUST NOT be present in other Dialog Object types.
-
-4.5.7.  recording_set
-
-   The recording_set parameter identifies the recording-set Dialog
-   Object to which the recording Dialog Object belongs.
-
-   *  recording_set: "UnsignedInt" (optional; SHOULD be present when the
-      recording is part of a recording-set)
-
-   The recording_set parameter SHOULD be present when a recording Dialog
-   Object is part of a recording-set Dialog Object.  The recording_set
-   parameter MUST NOT be present in other Dialog Object types.
-
-4.5.8.  mediatype
+4.5.6.  mediatype
 
    The media type for the piece of dialog included or referenced is
    provided in the mediatype parameter.  The mediatype parameter MUST be
@@ -2298,8 +2227,8 @@ Table of Contents
    is not provided.  The mediatype parameter is not required when the
    Dialog Content is absent, such as in a placeholder Dialog Object or
    when the body and url have been redacted.  The mediatype parameter
-   MUST NOT be present in "recording-set", "transfer" or "incomplete"
-   type Dialog Objects as they do not have Dialog Content.
+   MUST NOT be present in "incomplete" type Dialog Objects as they do
+   not have Dialog Content.
 
    *  mediatype: "Mediatype" (optional for externally referenced files,
       if absent, this is provided in the [HTTPS] Content-Type header)
@@ -2324,25 +2253,25 @@ Table of Contents
 
       Note: multi-part will also likely include the boundary parameter
 
-4.5.9.  filename
+4.5.7.  filename
 
    It is sometimes useful to preserve the name of the file which
    originally contained this piece of dialog.  This can be done in the
    filename parameter.  The filename parameter MUST NOT be present in
-   "recording-set", "transfer" or "incomplete" type Dialog Objects as
-   they do not have Dialog Content.
+   "incomplete" type Dialog Objects as they do not have Dialog Content.
 
    *  filename: "String" (optional)
 
-4.5.10.  Dialog Content
+4.5.8.  Dialog Content
 
    The Dialog Object SHOULD contain the body and encoding parameters or
    the url and content_hash parameters for all dialog types other than
-   "incomplete", "transfer" and "recording-set", these parameters MUST
-   NOT be present for "incomplete", "transfer" or "recording-set" dialog
-   types (see Inline Files (Section 2.3) and Externally Referenced Files
-   (Section 2.4)).  The exception to this is that the body or url MAY be
-   absent if it is redacted.
+   "incomplete", these parameters MUST NOT be present for the
+   "incomplete" dialog type (see Inline Files (Section 2.3) and
+   "incomplete", "transfer" or "recording-set" dialog types (see Inline
+   Files (Section 2.3) and Externally Referenced Files (Section 2.4)).
+   The exception to this is that the body or url MAY be absent if it is
+   redacted.
 
    For inline included dialog:
 
@@ -2356,7 +2285,7 @@ Table of Contents
 
    *  content_hash: "ContentHash" | "ContentHash[]"
 
-4.5.11.  disposition
+4.5.9.  disposition
 
    If the dialog type is "incomplete", it MUST have a disposition
    parameter.  If the reason that the call or conversation failed is not
@@ -2397,7 +2326,7 @@ Table of Contents
       longer an "incomplete" type dialog, it is a "recording" type and
       the conversation SHOULD be included in the Dialog Content.
 
-4.5.12.  session_id
+4.5.10.  session_id
 
    The [SESSION-ID] MAY be included for the dialog.  If the same
    [SESSION-ID] applies to all the parties in a dialog, than a single
@@ -2413,31 +2342,27 @@ Table of Contents
    for both the local and remote parameters in some conferencing
    situations (See [SESSION-ID]).  In the case that one end of the
    [SESSION-ID] does not have a UUID, the "nil UUID" String value SHOULD
-   be used as defined in section 7 of [SESSION-ID].  For a recording-set
-   Dialog Object, a single SessionId Object value applies to the whole
-   call or session represented by the set.  The individual recording
-   Dialog Objects in the set may each capture only a leg or subset of
-   the parties of the call or session; the session_id values on those
-   recording Dialog Objects follow the party correlation rules above.
-   The recording-set Dialog Object is the appropriate place to capture a
-   session identifier that applies to the call or session as a whole.
-   The session_id parameter MUST NOT be present in "transfer" type
-   Dialog Objects.
+   be used as defined in section 7 of [SESSION-ID].  When a call or
+   session is represented by multiple Dialog Objects, each may capture
+   only a leg or subset of the parties of the call or session; the
+   session_id values on those Dialog Objects follow the party
+   correlation rules above.  The Session Object is the appropriate place
+   to capture a session identifier that applies to the call or session
+   as a whole (see Section 4.2.4).
 
    *  session_id: "SessionId" | "SessionId[]" | ("SessionId" |
       "SessionId[]")[] (optional)
 
-4.5.13.  party_history Objects Array
+4.5.11.  party_history Objects Array
 
    Participants in a dialog may not all join and leave at the same time.
    To support the capturing of the information when parties join, drop,
    go on hold or mute and unmute, the party_history array may be added
-   to the Dialog Object.  The party_history parameter MUST NOT be
-   present in "transfer" type Dialog Objects.
+   to the Dialog Object.
 
    *  party_history: "Party_History[]" (optional)
 
-4.5.13.1.  Party_History Object
+4.5.11.1.  Party_History Object
 
    The Party_History Object contains the following parameters:
 
@@ -2476,108 +2401,7 @@ Table of Contents
    character or string label for the button that was pressed or
    released.
 
-4.5.14.  Dialog Transfer
-
-   A dialog of type "transfer" documents the roles of three parties and
-   the relationship between 2 or three dialog segments.  In a transfer
-   operation, the roles of the three parties to a transfer are defined
-   in [SIP-XFER] as:
-
-   *  Transferee
-
-   *  Transferor
-
-   *  Transfer Target
-
-   There are two or three calls in which the parties are connected:
-
-   *  original call
-
-   *  consultative call (optional as this call may not get created)
-
-   *  target call
-
-   To capture the above roles and dialog segments, the following
-   parameters are defined for the "transfer" type dialog and MUST NOT be
-   present in other dialog types.  Each of these parameters SHOULD be
-   present in the "transfer" type Dialog Object unless noted as
-   optional.
-
-   *  transferee: "UnsignedInt"
-
-   The value of the transferee parameter is the index into the parties
-   Object array to the party that played the role of the Transferee.
-
-   *  transferor: "UnsignedInt"
-
-   The value of the transferor parameter is the index into the parties
-   Object array to the party that played the role of the Transferor.
-
-   *  transfer_target: "UnsignedInt" (optional)
-
-   The value of the transfer_target parameter is the index into the
-   parties Object array to the party that played the role of the
-   Transfer Target.  The transfer_target is optional in the case where
-   the transfer is abandoned before the target was identified.
-
-   The consultation, target_dialog and original parameters all refer to
-   the Dialog Objects that correspond to the 2 to 3 calls that are part
-   of a transfer.  These calls may end up spread across multiple Dialog
-   Objects due to the nature of how the calls are recorded.  For example
-   each party may be recorded in a separate file which will result in a
-   dialog for each.  Alternatively a call may go on hold where recording
-   is stopped and back off again resulting where recording is started
-   again in a separate recording file, resulting in multiple Dialog
-   Objects.  The values for the consultation, target_dialog and original
-   parameters each reference a single Dialog Object.  When a call is
-   represented by multiple recording Dialog Objects, a recording-set
-   type Dialog Object which represents that call MAY be referenced (see
-   Section 4.5.1.2).
-
-   There are scenarios where we know that a transfer has occurred, but
-   we have no Dialog Object information for one or two of the
-   consultation, target or transfer calls.  In this case a placeholder
-   Dialog Object is created and its index is used for the consultation,
-   target_dialog or original parameter.  A unique Dialog Object SHOULD
-   be referenced for each role in the transfer.  However a Dialog Object
-   may be referenced in more than one transfer dialogs when multiple
-   transfers occur.
-
-   *  original: "UnsignedInt"
-
-   The value of the original parameter is the index into the dialog
-   Object array to the "recording", "recording-set" or "text" type
-   Dialog Object for the original dialog between the Transferee and the
-   Transferor.
-
-   *  consultation: "UnsignedInt" (optional)
-
-   The value of the consultation parameter is the index into the Dialog
-   Object array to the "recording", "recording-set", "text" or
-   "incomplete" type Dialog Object for the consultative dialog between
-   the Transferor and the Transfer Target.  It is also possible for
-   there to be more than one consultation.  This may occur for a number
-   of reasons.  Call attempts may fail.  The caller may decide the
-   consultation with a party is not the desired transfer target.
-
-   *  target_dialog: "UnsignedInt"
-
-   The value of the target_dialog parameter is the index into the Dialog
-   Object array to the "recording", "recording-set", "text" or
-   "incomplete" type Dialog Object for the target dialog between the
-   Transferee and the Transfer Target.
-
-   A number of Dialog Object parameters are prohibited in "transfer"
-   type Dialog Objects; see Section 4.5.1.6 for a summary and the
-   individual parameter definitions for the normative statements.
-
-   The "transfer" type dialog only captures the roles, operations and
-   events of the parties and the dialog setup.  It does not capture the
-   purpose or reason for the transfer as that is analysis to be captures
-   in the analysis section of the Vcon after the conversation has
-   occurred.
-
-4.5.15.  application
+4.5.12.  application
 
    The application parameter is used to capture the application,
    communication channel or context over which the conversation was
@@ -2589,20 +2413,19 @@ Table of Contents
 
    *  application "String" (optional)
 
-4.5.16.  message_id
+4.5.13.  message_id
 
    Some messaging systems assign a unique message identifier to each
    message.  The message_id parameter is applicable to "recording" and
-   "text" type Dialog Objects and MUST NOT be present in "recording-
-   set", "transfer" or "incomplete" type Dialog Objects.  The message_id
-   parameter may be used to label the message for either cross
-   referencing back to the messaging system or to prevent the addition
-   of duplicate messages to the vCon.  For example SMTP [SMTP] messages
-   have a message-id in the SMTP header.  In the SMTP case a message may
-   exist in multiple mailboxes or tags.  When exporting these SMTP
-   messages, the message_id parameter may be used to avoid adding the
-   same message, to the vCon containing the email thread, more than
-   once.
+   "text" type Dialog Objects and MUST NOT be present in "incomplete"
+   type Dialog Objects.  The message_id parameter may be used to label
+   the message for either cross referencing back to the messaging system
+   or to prevent the addition of duplicate messages to the vCon.  For
+   example SMTP [SMTP] messages have a message-id in the SMTP header.
+   In the SMTP case a message may exist in multiple mailboxes or tags.
+   When exporting these SMTP messages, the message_id parameter may be
+   used to avoid adding the same message, to the vCon containing the
+   email thread, more than once.
 
    *  message_id: "String" (optional)
 
@@ -3469,99 +3292,60 @@ Table of Contents
    Template (Section 6.3.1) when registering additional entries to this
    table.
 
-   +=================+=======================+==========+==============+
-   | Parameter Name  | Parameter Description |Change    |Specification |
-   |                 |                       |Controller|Document(s)   |
-   +=================+=======================+==========+==============+
-   | type            | dialog type name      |IESG      |Section 4.5.1 |
-   |                 |                       |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | start           | dialog start time     |IESG      |Section 4.5.2 |
-   |                 |                       |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | duration        | dialog duration       |IESG      |Section 4.5.3 |
-   |                 | period                |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | parties         | dialog parties list   |IESG      |Section 4.5.4 |
-   |                 |                       |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | originator      | dialog originator     |IESG      |Section 4.5.5 |
-   |                 | party                 |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | mediatype       | dialog content media  |IESG      |Section 4.5.8 |
-   |                 | type                  |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | filename        | dialog content        |IESG      |Section 4.5.9 |
-   |                 | filename              |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | body            | dialog inline content |IESG      |Section       |
-   |                 |                       |          |4.5.10 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | encoding        | dialog inline content |IESG      |Section       |
-   |                 | encoding              |          |4.5.10 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | url             | dialog referenced     |IESG      |Section       |
-   |                 | content URL           |          |4.5.10 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | content_hash    | dialog content hash   |IESG      |Section       |
-   |                 |                       |          |4.5.10 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | disposition     | dialog disposition    |IESG      |Section       |
-   |                 |                       |          |4.5.11 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | session_id      | RFC7989 session ID    |IESG      |Section       |
-   |                 |                       |          |4.5.12 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | party_history   | dialog party events   |IESG      |Section       |
-   |                 | history               |          |4.5.13 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | transferee      | transferee party      |IESG      |Section       |
-   |                 | index                 |          |4.5.14 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | transferor      | transferor party      |IESG      |Section       |
-   |                 | index                 |          |4.5.14 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | transfer_target | transfer target party |IESG      |Section       |
-   |                 | index                 |          |4.5.14 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | original        | original transfer     |IESG      |Section       |
-   |                 | dialog index          |          |4.5.14 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | consultation    | consultation`transfer |IESG      |Section       |
-   |                 | dialog index          |          |4.5.14 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | target_dialog   | target_dialog         |IESG      |Section       |
-   |                 | transfer dialog index |          |4.5.14 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | application     | dialog source         |IESG      |Section       |
-   |                 | application           |          |4.5.15 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | message_id      | dialog message id     |IESG      |Section       |
-   |                 |                       |          |4.5.16 RFC    |
-   |                 |                       |          |XXXX          |
-   +-----------------+-----------------------+----------+--------------+
-   | recordings      | multi recording       |IESG      |Section 4.5.6 |
-   |                 | dialog reference      |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
-   | recording_set   | recording_set dialog  |IESG      |Section 4.5.7 |
-   |                 | reference             |          |RFC XXXX      |
-   +-----------------+-----------------------+----------+--------------+
+   +================+===================+============+================+
+   | Parameter Name | Parameter         | Change     | Specification  |
+   |                | Description       | Controller | Document(s)    |
+   +================+===================+============+================+
+   | type           | dialog type name  | IESG       | Section 4.5.1  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | start          | dialog start time | IESG       | Section 4.5.2  |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | duration       | dialog duration   | IESG       | Section 4.5.3  |
+   |                | period            |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | parties        | dialog parties    | IESG       | Section 4.5.4  |
+   |                | list              |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | originator     | dialog originator | IESG       | Section 4.5.5  |
+   |                | party             |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | mediatype      | dialog content    | IESG       | Section 4.5.6  |
+   |                | media type        |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | filename       | dialog content    | IESG       | Section 4.5.7  |
+   |                | filename          |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | body           | dialog inline     | IESG       | Section 4.5.8  |
+   |                | content           |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | encoding       | dialog inline     | IESG       | Section 4.5.8  |
+   |                | content encoding  |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | url            | dialog referenced | IESG       | Section 4.5.8  |
+   |                | content URL       |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | content_hash   | dialog content    | IESG       | Section 4.5.8  |
+   |                | hash              |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | disposition    | dialog            | IESG       | Section 4.5.9  |
+   |                | disposition       |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | session_id     | RFC7989 session   | IESG       | Section 4.5.10 |
+   |                | ID                |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | party_history  | dialog party      | IESG       | Section 4.5.11 |
+   |                | events history    |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | application    | dialog source     | IESG       | Section 4.5.12 |
+   |                | application       |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
+   | message_id     | dialog message id | IESG       | Section 4.5.13 |
+   |                |                   |            | RFC XXXX       |
+   +----------------+-------------------+------------+----------------+
 
-                                  Table 7
+                                 Table 7
 
 6.3.4.1.  Dialog Type Name Registry
 
@@ -3632,16 +3416,16 @@ Table of Contents
     | Parameter | Parameter           | Change     | Specification    |
     | Name      | Description         | Controller | Document(s)      |
     +===========+=====================+============+==================+
-    | party     | event party index   | IESG       | Section 4.5.13.1 |
+    | party     | event party index   | IESG       | Section 4.5.11.1 |
     |           |                     |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
-    | time      | time event occurred | IESG       | Section 4.5.13.1 |
+    | time      | time event occurred | IESG       | Section 4.5.11.1 |
     |           |                     |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
-    | event     | event type          | IESG       | Section 4.5.13.1 |
+    | event     | event type          | IESG       | Section 4.5.11.1 |
     |           |                     |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
-    | button    | button label        | IESG       | Section 4.5.13.1 |
+    | button    | button label        | IESG       | Section 4.5.11.1 |
     |           | character or string |            | RFC XXXX         |
     +-----------+---------------------+------------+------------------+
 
@@ -3651,7 +3435,7 @@ Table of Contents
 
    This document defines a new registry for the token name values that
    are permitted as values to the party_event Object event
-   (Section 4.5.13.1) parameter.
+   (Section 4.5.11.1) parameter.
 
 6.3.5.1.1.  party_event Event Name Registration Template
 
@@ -3688,28 +3472,28 @@ Table of Contents
    | party_event | party_event Event   | Change     | Specification    |
    | Event Name  | Description         | Controller | Document(s)      |
    +=============+=====================+============+==================+
-   | join        | party join event    | IESG       | Section 4.5.13.1 |
+   | join        | party join event    | IESG       | Section 4.5.11.1 |
    |             |                     |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | drop        | party drop event    | IESG       | Section 4.5.13.1 |
+   | drop        | party drop event    | IESG       | Section 4.5.11.1 |
    |             |                     |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | hold        | party on hold       | IESG       | Section 4.5.13.1 |
+   | hold        | party on hold       | IESG       | Section 4.5.11.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | unhold      | party off hold      | IESG       | Section 4.5.13.1 |
+   | unhold      | party off hold      | IESG       | Section 4.5.11.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | mute        | party on mute       | IESG       | Section 4.5.13.1 |
+   | mute        | party on mute       | IESG       | Section 4.5.11.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | unmute      | party off mute      | IESG       | Section 4.5.13.1 |
+   | unmute      | party off mute      | IESG       | Section 4.5.11.1 |
    |             | event               |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | keydown     | DTMF/app key/       | IESG       | Section 4.5.13.1 |
+   | keydown     | DTMF/app key/       | IESG       | Section 4.5.11.1 |
    |             | button press event  |            | RFC XXXX         |
    +-------------+---------------------+------------+------------------+
-   | keyup       | DTMF/app key/       | IESG       | Section 4.5.13.1 |
+   | keyup       | DTMF/app key/       | IESG       | Section 4.5.11.1 |
    |             | button release      |            | RFC XXXX         |
    |             | event               |            |                  |
    +-------------+---------------------+------------+------------------+
