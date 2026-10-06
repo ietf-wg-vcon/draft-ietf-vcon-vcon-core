@@ -608,6 +608,75 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 {: #diagram2 title="amended vCon object tree"}
 
 
+### session Objects Array
+
+A vCon can contain a single conversation, several conversations, sub-conversations or side bar conversations.
+The Session Object is used to group dialog Objects into sets of dialog to represent those conversations.
+A Session Object can "contain" other Session Objects by reference.
+A simple conversation has only 1 Session Object for all of the Dialogs.
+At least one Session Object MUST exist if the Events array or the Dialog array contain objects.
+
+TODO: Session Object required if Attachments is not empty too?
+
+* sessions: "Session\[\]" (optional)
+
+The value of the session parameter is an array of [Session Objects](#session-object).
+
+Examples of where  multiple Session Objects are used to show the topology of the conversation and dialog include:
+
+#### Call Transfer
+
+A customer calls into a contact center, which results in a call to a bot, that call gets transferred to an agent, the agent has a consultation with a supervisor, the customer gets transferred to the supervisor.
+From the customer's perspective this was one call.
+In reality it was 3 different calls.
+
+This may be represented as Session Object which references 3 other Session Object:
+
+* The original call with the bot
+* the call between the agent and the supervisor
+* The call resulting from the transfer of the customer to the supervisor
+
+#### Dialog per Stream
+
+Some call recorders create a separate single channel recording for each leg or stream in the call, each resulting in a Dialog Object.
+To show that those Dialog Objects are all in the same call or conversation, we create a Session Object which refers to all of the Dialog Objects that were a part of it.
+
+#### Dialog per Talk Spurt
+
+Some call recorders create separate single channel recordings for each contiguous talk spurt for a Party or stream.
+This may result in several Dialogs for some of the parties in the call.
+In this case we need the Session Object to indicate which Dialogs compose the call or conversation.
+We also need the Session Object to declare the start of the call as well as the duration as that is likely different from those in the Dialog Objects which only define the start and duration for that talk spurt.
+
+#### Agent Coaching
+
+In contact centers, an agent talking to a customer may be monitored by a supervisor.
+In this scenario, the customer and the agent can hear each other, the agent and the supervisor can hear each other, but the customer cannot hear the supervisor, the supervisor can hear both the customer and the agent.
+In the simple case, we have 3 Dialog Objects and 2 Session Objects.
+
+Dialog Objects containing:
+
+* The customer talking
+* The agent talking
+* The supervisor talking
+
+Session Objects referencing Session and Dialog Objects:
+
+* The top level Session Object which references the following Session Objects
+* The customer Session which references the customer and agent dialog recordings
+* The supervisor Session which references the customer, the agent and supervisor dialog recordings
+
+#### AI Agent
+
+A conversation may occur between an AI agent and a human.
+That AI agent in turn may converse with other AI agents, to fulfill a response to the human.
+This can recurse such that the second tier AI agents talk to 3rd tier AI agents or even other humans and so on.
+The top level Session object might represent the conversation between the human and the top level AI agent.
+That top level Session Object would refer to other Session Objects for the second tier AI agent conversations.
+Those Session Objects may refer to Session Objects for the 3rd tier AI agent conversations and so on.
+This example describes how both human to AI agent as well as AI agent to AI agent conversations can be captured in a vCon.
+
+
 ### parties Objects Array
 
 The name, identity or contact information of all of the parties involved with the conversation are included in the parties object array.
@@ -616,6 +685,15 @@ Whether the parties were observers, passive or active participants in the conver
 * parties: "Party\[\]" (optional)
 
 The value of the parties parameter is an array of [Party Objects](#party-object).
+
+### event Objects Array
+
+All events which occur related to this vCon are included in this array of Event Objects.
+Event Objects are used to identify when in time that events related to the conversation occurred and to which dialog and/or session they relate to.
+
+* events: "Event\[\]" (optional)
+
+The value of the events parameter is an array of Event Objects.
 
 ### dialog Objects Array
 
@@ -645,6 +723,101 @@ They are in the order that they were added.
 * attachments: "Attachment\[\]" (optional)
 
 The value of the attachments parameter is an array of [Attachment Objects](#attachment-object).
+
+## Session Object
+
+The Session Object is used to show the scope for conversational dialog and events.
+It provides the ability to group dialog and events into sub-conversation.
+A Session Object and contain by reference other Session Objects to create a nesting or tree relationship with child session(s).
+It can also support peer relationships to group in logical sequences of evolution of a conversation.
+For example a conference may split into break out sessions and then merge back together as one conference again.
+
+### start {#session-start}
+
+The start parameter indicates when this session was started.
+This SHOULD be the chronological first start parameter for all of the Event and Dialog Objects which are part of this session.
+
+* start: "Date"
+
+### duration {#session-duration}
+
+The duration parameter contains the duration in seconds of the session.
+This includes all of the Dialog and Event Objects that are part of that session.
+The start and duration SHOULD contain the time period for the start and duration of all the Dialog and Event Objects that are part of this session.
+
+* duration: "UnsignedInt" \| "UnsignedFloat" (optional)
+
+### parties {#session-parties}
+
+The Session Object parties parameter references all of the Party Objects from the parties Array that were part of the session.
+This SHOULD include all of the parties that actively contributed as well as those that were passively part of the conversation.
+A party is a passive participant if they potentially received any part of the dialog that was exchanged in this session.
+This is not a guarantee that they received any part of the dialog, only that some part of any dialog in this session was sent to them.
+The [Dialog Object parties parameter](#dialog-parties) indicates which party(s) were potentially active in specific dialog segments.
+To determine what part(s) of the dialog that a party potentially heard or received, the Event Objects may provide data as to when a party joined, dropped out, went on or off hold.
+
+* parties: "UnsignedInt\[\]"
+
+### sessions {#session-sessions}
+
+A Session Object may refer to other Session Objects in one of several different relationships using the [Session_Reference Object](#session-reference-object).
+
+* sessions: "Session_Reference\[\]" (optional)
+
+The sessions parameter is an array of Session Reference Objects.
+The sessions parameter can be used to create a tree or graph of session.
+A Session Reference Object also labels the relationship between this Session Object and the reference one.
+
+### dialog {#session-dialog}
+
+All [Dialog Objects](#dialog-objects-array) and [Event Objects](#event-objects-array) SHOULD be referenced by at least one of the Session Objects in a vCon.
+The dialog parameter in the Session Object is an array of Dialog Object indices to the [dialog Object array](#dialog-objects-array).
+
+* dialog: "UnsignedInt\[\]" (optional)
+
+The value of the Session Object dialog parameter is an array of indices to the dialog in the Dialog Object array which are part of this session.
+
+### Session_Reference Object {#session-reference-object}
+
+A Session Reference Object specifies the relationship from one Session Object to another.
+
+#### session {#session-reference-session}
+
+The session parameter is used to define a relationship from one session to another.
+
+* session: UnsignedInt
+
+The session parameter value is an index into the session Object array for the session that is referenced.
+The session parameter MUST be provided.
+
+#### type {#session-reference-type}
+
+The type parameter specifies a specific type of relationship to the reference session.
+
+* type: String
+
+The type parameter is a string that SHOULD contain one of the following values:
+
+* "child" - a session contained within this session
+* "peer" - a session that occurred in parallel or overlapping this session
+* "precursor" - a session that occurred before and leading up to this session
+* "breakout" - a separate session that included some subset of the parties in this session and typically overlapping with this session
+
+TBD: other types? consult
+
+#### description
+
+The description parameter is used to better describe the relationship to the referenced Session Object.
+
+* description: String
+
+TODO: alternative name: relation?
+
+The description parameter is an open text String.
+
+## Event Object
+
+TODO: party_history gets morphed to Event Object here
 
 ## Party Object
 
@@ -954,7 +1127,7 @@ The start parameter is optional for the "transfer" type Dialog Object as it may 
 
 ### duration
 
-The duration parameter contains the duration in seconds of the referenced or included piece of dialog.
+
 For text, if known, it is the time duration from when the party started typing to when they completed typing and the text was sent.
 For recordings, it is the duration of the recording.
 For a recording-set Dialog Object, it is the duration of the call or session.
@@ -966,7 +1139,7 @@ For an "incomplete" type Dialog Object, the duration parameter may capture the t
 
 The value MUST be the dialog duration in seconds.
 
-### parties
+### parties {#dialog-parties}
 
 The party(s) which generated the text or recording for this piece of dialog are indicated in the parties parameter.
 The parties parameter SHOULD be present in "recording", "recording-set" and "text" type Dialog Objects.
@@ -1367,7 +1540,7 @@ The dialog parameter is used to indicate which Dialog Objects this analysis was 
 
 * dialog: "UnsignedInt" \| "UnsignedInt\[\]" (optional only if the analysis was not derived from any of the dialog)
 
-The value of the dialog parameter is the index to the dialog or array of indices to the Dialog Object array to which this analysis object corresponds.
+The value of the dialog parameter is the index to the dialog or array of indices to the Dialog Object array to which this Analysis Object corresponds.
 
 ### attachment {#analysis-attachment}
 
@@ -2260,7 +2433,7 @@ If the CDDL provided below differs or conflicts from that in the text of the abo
 {:numbered="false"}
 
 * Thank you to Thomas McCarthy-Howe for inventing the concept of a vCon and the many discussions that we had while this concept was developed into reality.
-* Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases.
+* Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases and for the data structure ideas to create Session Objects instead of dialog-sets type Dialogs and elevating party_history event Objects into the Event Object array at the top level.
 * Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon and testing out the extension framework with MIME.
 * The examples in this document were generated using the command line interface (CLI) from the py-vcon [PY-VCON] python open source project.
 * Thank you to Steve Lasker for formatting and spelling edits.
