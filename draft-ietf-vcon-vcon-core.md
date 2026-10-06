@@ -770,8 +770,6 @@ The value MUST be the session duration in seconds.
 
 ### parties {#session-parties}
 
-The value of the parties parameter is an array of the indices into the parties Object array to the Party Objects that were part of the session.
-
 The Session Object parties parameter references all of the Party Objects from the parties Array that were part of the session.
 The parties parameter SHOULD be present.
 This SHOULD include all of the parties that actively contributed as well as those that were passively part of the conversation.
@@ -781,6 +779,24 @@ The [Dialog Object parties parameter](#dialog-parties) indicates which party(s) 
 To determine what part(s) of the dialog that a party potentially heard or received, the Event Objects may provide data as to when a party joined, dropped out, went on or off hold.
 
 * parties: "UnsignedInt\[\]"
+
+The value of the parties parameter is an array of the indices into the parties Object array to the Party Objects that were part of the session.
+
+### originator {#session-originator}
+
+The originator party for this session.
+For email and text, this is the sender of the first message.
+For audio and video calls, this is the calling party.
+For a scheduled meeting or conference, this is the organizer, the party that scheduled or created the meeting.
+The organizer may be a party that never joins the conference; such a party may still be included in the parties array.
+The organizer is distinct from the party acting as host or controller of the conference at any point during the meeting; identifying the host or controller is out of scope for this document.
+It is implied that the first party in the Session Object parties list is the originator of the session.
+If the originator is not known, an empty Party Object (see [Party Object](#party-object)) may be used as the first party or as the party referenced by the originator parameter.
+The originator parameter is only provided if the first party of the Session Object parties list is NOT the originator.
+
+* originator: "UnsignedInt" (optional)
+
+The originator value is the index into the parties Objects Array, to the party that originated the session.
 
 ### session_id {#session-session-id}
 
@@ -1358,7 +1374,6 @@ X
 | start | S | S | S |
 | duration | O | O | O |
 | parties | S | S | O |
-| originator | O | O | O |
 | mediatype | M (1) | M (1) | X |
 | filename | O | O | X |
 | body | S (2) | S (2) | X |
@@ -1427,36 +1442,20 @@ The complete call or session is represented by a Session Object which references
 The parties parameter of the Session Object is the place to find the full set of parties, both those that contributed and those that were passively part of the call or session (see [](#session-parties)).
 The start and duration parameters of the Session Object identify the beginning and the duration of the call or session (see [](#session-start) and [](#session-duration)).
 
-It is implied that the first party in the dialog Object parties list, is the originator of the dialog.
-However, in some situations, it is difficult to impose the constraint that the first channel of a recording is the originator.
-If ensuring that the first channel and party listed is the originator is not possible, the optional originator parameter indicates the originator party.
-In other cases, there may be a separate recording file for each party in a conversation, where only one party is recorded per file.
-In this situation, it is necessary to indicate the originator as the dialog Object parties parameter may contain only one party and may not be the originator.
+The originator of the call or session is indicated in the Session Object (see [](#session-originator)).
+In some cases, there may be a separate recording file for each party in a conversation, where only one party is recorded per file.
 It should be noted that the recordings may be shorter than the collective conference when there is a separate recording per speaker/party.
 For example the recording(s) of the individual speaker may be trimmed to only the parts where they are actually speaking.
 
 In the email context, [SMTP] messages have the headers From, To, Cc and Bcc that all correspond to parties to the text Dialog Object.
 The From header should be the first party index in the parties parameter for the text Dialog Object.
-They are the implied originator.
+They are the sender of the message.
 The parties listed in the To, Cc and Bcc [SMTP] headers (if present) should all be added in that order to the parties parameter in the text Dialog Object.
 The sender SHOULD be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
 A text Dialog Object should only contain a single [SMTP] message.
 Each may have a different set of parties.
 
-### originator
-
-The originator party for this dialog.
-For email and text, this is the sender of the text.
-For audio and video calls, this is the calling party.
-For a scheduled meeting or conference, this is the organizer, the party that scheduled or created the meeting.
-The organizer may be a party that never joins the conference; such a party may still be included in the parties array.
-The organizer is distinct from the party acting as host or controller of the conference at any point during the meeting; identifying the host or controller is out of scope for this document.
-If the originator is not known, an empty Party Object (see [Party Object](#party-object)) may be used as the first party or as the party referenced by the originator parameter.
-The originator parameter is only provided if the first party of the dialog Object parties list is NOT the originator.
-
-* originator: "UnsignedInt" (optional)
-
-The originator value is the index into the parties Objects Array, to the party that originated the dialog.
+TODO: The following paragraph adds the To, Cc and Bcc recipients to the Dialog Object parties, which conflicts with the Dialog Object parties only referencing the parties that contributed to the Dialog Content. In an email thread the recipients can change with each message. Using join and drop Event Objects to add and remove recipients for every message is awkward. Options include: keeping recipients in the parties of text Dialog Objects, a separate Dialog Object parameter for the parties that the content was sent to, or recipients only in the Session Object parties.
 
 ### mediatype {#dialog-mediatype}
 
@@ -1490,7 +1489,8 @@ The filename parameter MUST NOT be present in "incomplete" type Dialog Objects a
 
 ### Dialog Content
 
-The Dialog Object SHOULD contain the body and encoding parameters or the url and content_hash parameters for all dialog types other than "incomplete", these parameters MUST NOT be present for the "incomplete" dialog type (see [Inline Files](#inline-files) and "incomplete", "transfer" or "recording-set" dialog types (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
+The Dialog Object SHOULD contain the body and encoding parameters or the url and content_hash parameters for all dialog types other than "incomplete" (see [Inline Files](#inline-files) and [Externally Referenced Files](#externally-referenced-files)).
+These parameters MUST NOT be present for the "incomplete" dialog type.
 The exception to this is that the body or url MAY be absent if it is redacted.
 
 For inline included dialog:
@@ -2207,7 +2207,6 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
 | duration | dialog duration period | IESG | [](#dialog-duration) RFC XXXX |
 | parties | dialog parties list | IESG | [](#dialog-parties) RFC XXXX |
-| originator | dialog originator party | IESG | [](#originator) RFC XXXX |
 | mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
 | filename | dialog content filename | IESG | [](#dialog-filename) RFC XXXX |
 | body | dialog inline content | IESG | [](#dialog-content) RFC XXXX |
