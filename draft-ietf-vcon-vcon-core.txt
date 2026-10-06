@@ -101,7 +101,7 @@ Table of Contents
        4.1.7.  subject
        4.1.8.  redacted
        4.1.9.  amended
-       4.1.10. session Objects Array
+       4.1.10. sessions Objects Array
        4.1.11. parties Objects Array
        4.1.12. events Objects Array
        4.1.13. dialog Objects Array
@@ -912,7 +912,7 @@ Table of Contents
 
                      Figure 2: amended vCon object tree
 
-4.1.10.  session Objects Array
+4.1.10.  sessions Objects Array
 
    A vCon can contain a single conversation, several conversations, sub-
    conversations or side bar conversations.  The Session Object is used
@@ -1156,9 +1156,9 @@ Table of Contents
 
    *  session: "UnsignedInt"
 
-   The session parameter value is an index into the session Object array
-   for the session that is referenced.  The session parameter MUST be
-   provided.
+   The session parameter value is an index into the sessions Object
+   Array (Section 4.1.10) for the session that is referenced.  The
+   session parameter MUST be provided.
 
 4.2.6.2.  type
 
@@ -1198,7 +1198,7 @@ Table of Contents
 4.3.  Event Object
 
    TODO: party_history gets morphed to Event Object here TODO: event
-   object MUST referencce the Session, MAY reference a Dialog
+   object MUST reference the Session, MAY reference a Dialog
 
 4.4.  Party Object
 
