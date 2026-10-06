@@ -349,6 +349,7 @@ The algorithm used for signing the externally referenced file is defined in sect
 
 vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
+It can also define additional allowed values for an existing parameter, such as a new token for a type parameter.
 It can also redefine the semantics of or deprecate existing parameters.
 A vCon extension is defined in its own document.
 In addition to the standard sections of an Internet-Draft, a vCon extension document MUST also contain the following sections.
@@ -361,6 +362,8 @@ This is the name registered in the [vCon Extensions Names Registry](#vcon-extens
 * **Parameter Definitions**:
 Define each new parameter, the level of the schema at which it appears, its value type, and its semantics.
 For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
+For any value added to the allowed values of an existing parameter, define the value and its semantics and state which parameters apply when the value is used.
+Register each new value in the appropriate registry with IANA, where one exists.
 For any deprecated parameter, state what is to be used in its stead and the migration approach.
 Use the snake case naming convention for all parameter names, as opposed to camel case.
 Register each new parameter in the appropriate Object registry with IANA.
@@ -368,6 +371,8 @@ Register each new parameter in the appropriate Object registry with IANA.
 * **Compatibility Considerations**:
 Describe how the extension behaves in the presence of implementations that do not support it.
 Identify the parameters and semantics the extension introduces or changes, and explain for each why an implementation that does not recognize the extension can continue to process the vCon correctly by ignoring the additions, or state the conditions under which that holds.
+A value added to the allowed values of an existing parameter is not recognized by an implementation that does not support the extension, and by default the Object which contains it is ignored.
+For any such value, describe the effect of the Object being ignored and state whether this makes the extension Incompatible.
 An extension that is **Compatible** under all conditions states so explicitly and justifies that claim.
 
 * **Incompatibility Considerations**:
@@ -395,6 +400,10 @@ However the redactor perhaps should reject vCons with any extension that it does
 However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
 
 Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
+A parameter may contain a token value which an implementation does not recognize, such as a type defined in an extension which the implementation does not support.
+If an unsupported extension is listed in the critical parameter, the vCon is not processed as described above.
+Otherwise, the implementation SHOULD ignore the Object which contains the unrecognized value and continue to process the rest of the vCon.
+An ignored Object remains in its array so that the indexes which reference Objects in that array are not changed.
 
 # vCon JSON Object
 
@@ -689,7 +698,6 @@ The value of the parties parameter is an array of [Party Objects](#party-object)
 ### events Objects Array
 
 All events which occur related to this vCon are included in this array of Event Objects.
-Event Objects are used to identify when in time that events related to the conversation occurred and to which dialog and/or session they relate to.
 Event Objects MAY appear in any order in the events array and are not required to be in chronological order.
 Events may be in non-chronological order because of network or consolidation delays.
 The time parameter of each Event Object is used to determine the sequence in which the events occurred.
@@ -823,9 +831,21 @@ The description parameter is an open text String.
 
 ## Event Object
 
-Participants in a session may not all join and leave at the same time.
-To support the capturing of the information when parties join, drop, go on hold or mute and unmute, Event Objects may be added to the events array.
+Events occur during a conversation which are important to capture in a vCon, but which are not part of the content of the conversation.
+An Event Object captures one such occurrence.
+An event is a point in time occurrence, unlike a Dialog Object which captures the actual conversation over some duration.
+A period of time, such as the time that a party was on hold, is captured by a pair of Event Objects and not by a duration.
+
+Every Event Object has a type, the time at which the event occurred, the session in which it occurred and the party to which it relates.
 Each Event Object occurs within the scope of a Session Object.
+
+The following types of events are defined in this document:
+
+* party event types - a change in the participation of a party in a session (see [](#event-type-party))
+* key event types - a key or button was pressed or released (see [](#event-type-key))
+* transfer event types - a transfer operation and the relationship between the sessions involved (see [](#event-type-transfer))
+
+Additional event types may be defined in a vCon extension (see [](#extending-vcon)).
 
 The parameters which are present in an Event Object depend upon the type of the event.
 The event types are described first in the subsections of the type parameter (see [](#event-type)).
@@ -838,11 +858,14 @@ The type parameter indicates the type of event that occurred.
 
 * type: "String"
 
-The string token for the event MUST be one of the tokens defined in the following subsections.
+The string token for the event MUST be one of the tokens defined in the following subsections or in a vCon extension.
+The handling of an Event Object with a type which is not recognized is described in [](#extending-vcon).
 
 #### Party Event Types {#event-type-party}
 
-The party event types capture a change in the participation of a party in a session.
+Participants in a session may not all join and leave at the same time.
+The party event types support the capturing of the information when parties join, drop, go on hold or mute and unmute.
+Party events may also be used to determine which parties were present or potentially received dialog from other parties in the conversation.
 The party parameter references the party that joined, dropped, was put on or taken off hold or was muted or unmuted.
 
 The following party event types are defined:
@@ -1269,7 +1292,8 @@ They are distinct by the order or index in the Dialog Object array.
 
 * type: "String"
 
-The string MUST have the value of either "recording", "recording-set", "text", "transfer" or "incomplete".
+The string MUST have the value of either "recording", "recording-set", "text", "transfer" or "incomplete", or a value defined in a vCon extension.
+The handling of a Dialog Object with a type which is not recognized is described in [](#extending-vcon).
 The semantics of each Dialog Object type are described in the following subsections.
 The applicability of each of the Dialog Object parameters to each of the types is summarized in [](#dialog-object-parameter-applicability-by-type).
 
