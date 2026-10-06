@@ -503,10 +503,12 @@ Table of Contents
    A vCon extension can define new parameters at any level of the
    schema.  It can also define additional allowed values for an existing
    parameter, such as a new token for a type parameter.  It can also
-   redefine the semantics of or deprecate existing parameters.  A vCon
-   extension is defined in its own document.  In addition to the
-   standard sections of an Internet-Draft, a vCon extension document
-   MUST also contain the following sections.
+   define new Objects, which appear as the value of a new parameter or
+   as the elements of a new array parameter.  It can also redefine the
+   semantics of or deprecate existing parameters.  A vCon extension is
+   defined in its own document.  In addition to the standard sections of
+   an Internet-Draft, a vCon extension document MUST also contain the
+   following sections.
 
    *  *Extension Name*: State the registered extensions token name for
       the extension.  State whether and under what conditions the name
@@ -522,12 +524,15 @@ Table of Contents
       redefined, state the new semantics and values.  For any value
       added to the allowed values of an existing parameter, define the
       value and its semantics and state which parameters apply when the
-      value is used.  Register each new value in the appropriate
-      registry with IANA, where one exists.  For any deprecated
-      parameter, state what is to be used in its stead and the migration
-      approach.  Use the snake case naming convention for all parameter
-      names, as opposed to camel case.  Register each new parameter in
-      the appropriate Object registry with IANA.
+      value is used.  For each new Object, a new parameter names
+      registry SHOULD be requested from IANA with the parameters of the
+      new Object as its initial values (see Section 6.3).  For any
+      deprecated parameter, state what is to be used in its stead and
+      the migration approach.  Use the snake case naming convention for
+      all parameter names, as opposed to camel case.  Register each new
+      parameter in the appropriate Object registry with IANA.  Register
+      each new value in the appropriate registry with IANA, where one
+      exists.
 
    *  *Compatibility Considerations*: Describe how the extension behaves
       in the presence of implementations that do not support it.
@@ -594,15 +599,16 @@ Table of Contents
    Implementations that encounter a vCon containing a disruptive
    extension listed in the critical parameter, but do not support that
    extension, *MUST NOT* process the vCon except to reject it or notify
-   the user.  A parameter may contain a token value which an
-   implementation does not recognize, such as a type defined in an
-   extension which the implementation does not support.  If an
-   unsupported extension is listed in the critical parameter, the vCon
-   is not processed as described above.  Otherwise, the implementation
-   SHOULD ignore the Object which contains the unrecognized value and
-   continue to process the rest of the vCon.  An ignored Object remains
-   in its array so that the indexes which reference Objects in that
-   array are not changed.
+   the user.
+
+   A parameter may contain a token value which an implementation does
+   not recognize, such as a type defined in an extension which the
+   implementation does not support.  If an unsupported extension is
+   listed in the critical parameter, the vCon is not processed as
+   described above.  Otherwise, the implementation SHOULD ignore the
+   Object which contains the unrecognized value and continue to process
+   the rest of the vCon.  An ignored Object remains in its array so that
+   the indexes which reference Objects in that array are not changed.
 
 3.  vCon JSON Object
 
@@ -3301,7 +3307,19 @@ Table of Contents
    vCon schema.  Each Object (i.e. dict, map, dictionary) has its own
    registry of parameter names.  All of those registries have the same
    registry template which is defined in the following subsection.  When
-   registering new entries, the following template should be used.
+   registering new entries, the following template should be used.  The
+   registration policy for these registries is Specification Required as
+   defined in [RFC8126].  The Designated Experts are expected to verify
+   that the specification is publicly available, that the name follows
+   the naming conventions of this document and that the registration
+   does not duplicate the semantics of an existing registered entry.
+
+   A registry created for a new Object defined in a vCon extension (see
+   Section 2.5) is named in the same form as the registries defined in
+   this document, for example "Party Object Parameter Names Registry".
+   It is created within the vCon JSON Registry group and uses the same
+   registry template and registration policy as the registries defined
+   in this document.
 
 6.3.1.  Object Registry Template
 
@@ -3848,7 +3866,8 @@ Table of Contents
    are permitted as values to the Section 4.1.3 parameter.  However it
    does not define any values for this registry.  Values for this
    registry are to be defined in subsequent documents which define
-   extensions to the vCon schema.
+   extensions to the vCon schema.  The registration policy for this
+   registry is Specification Required as defined in [RFC8126].
 
 6.4.1.  Extensions Registration Template
 
@@ -4052,6 +4071,11 @@ Table of Contents
    [PY-VCON]  "Python open source vCon command line interface, library
               and workflow server", n.d.,
               <https://github.com/py-vcon/py-vcon>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/rfc/rfc8126>.
 
    [SHA-512]  Eastlake 3rd, D. and T. Hansen, "US Secure Hash Algorithms
               (SHA and SHA-based HMAC and HKDF)", RFC 6234,

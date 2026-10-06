@@ -1957,6 +1957,7 @@ The algorithm used for signing the externally referenced file is defined in sect
 <p id="section-2.5-1">vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
 It can also define additional allowed values for an existing parameter, such as a new token for a type parameter.
+It can also define new Objects, which appear as the value of a new parameter or as the elements of a new array parameter.
 It can also redefine the semantics of or deprecate existing parameters.
 A vCon extension is defined in its own document.
 In addition to the standard sections of an Internet-Draft, a vCon extension document <span class="bcp14">MUST</span> also contain the following sections.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
@@ -1972,10 +1973,11 @@ This is the name registered in the <span><a href="#vcon-extensions-names-registr
 Define each new parameter, the level of the schema at which it appears, its value type, and its semantics.
 For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
 For any value added to the allowed values of an existing parameter, define the value and its semantics and state which parameters apply when the value is used.
-Register each new value in the appropriate registry with IANA, where one exists.
+For each new Object, a new parameter names registry <span class="bcp14">SHOULD</span> be requested from IANA with the parameters of the new Object as its initial values (see <a href="#vcon-json-registry" class="auto internal xref">Section 6.3</a>).
 For any deprecated parameter, state what is to be used in its stead and the migration approach.
 Use the snake case naming convention for all parameter names, as opposed to camel case.
-Register each new parameter in the appropriate Object registry with IANA.<a href="#section-2.5-2.2.1" class="pilcrow">¶</a></p>
+Register each new parameter in the appropriate Object registry with IANA.
+Register each new value in the appropriate registry with IANA, where one exists.<a href="#section-2.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.5-2.3">
             <p id="section-2.5-2.3.1"><strong>Compatibility Considerations</strong>:
@@ -2013,11 +2015,11 @@ On the other hand, a redactor must be aware of the implications of all parameter
 In these cases a transcriber will likely only need to look at the critical extensions.
 However the redactor perhaps should reject vCons with any extension that it does not support.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
 <p id="section-2.5-6">However, when disruptive extensions are necessary, the names of all such extensions <strong><span class="bcp14">MUST</span></strong> be listed in the <span><a href="#critical" class="internal xref"><code>critical</code></a> (<a href="#critical" class="auto internal xref">Section 4.1.4</a>)</span> parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.<a href="#section-2.5-6" class="pilcrow">¶</a></p>
-<p id="section-2.5-7">Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, <strong><span class="bcp14">MUST NOT</span></strong> process the vCon except to reject it or notify the user.
-A parameter may contain a token value which an implementation does not recognize, such as a type defined in an extension which the implementation does not support.
+<p id="section-2.5-7">Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, <strong><span class="bcp14">MUST NOT</span></strong> process the vCon except to reject it or notify the user.<a href="#section-2.5-7" class="pilcrow">¶</a></p>
+<p id="section-2.5-8">A parameter may contain a token value which an implementation does not recognize, such as a type defined in an extension which the implementation does not support.
 If an unsupported extension is listed in the critical parameter, the vCon is not processed as described above.
 Otherwise, the implementation <span class="bcp14">SHOULD</span> ignore the Object which contains the unrecognized value and continue to process the rest of the vCon.
-An ignored Object remains in its array so that the indexes which reference Objects in that array are not changed.<a href="#section-2.5-7" class="pilcrow">¶</a></p>
+An ignored Object remains in its array so that the indexes which reference Objects in that array are not changed.<a href="#section-2.5-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -5266,7 +5268,11 @@ when sending.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.3-1">This document defines a number of new IANA registries for the JSON vCon schema.
 Each Object (i.e. dict, map, dictionary) has its own registry of parameter names.
 All of those registries have the same registry template which is defined in the following subsection.
-When registering new entries, the following template should be used.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+When registering new entries, the following template should be used.
+The registration policy for these registries is Specification Required as defined in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.
+The Designated Experts are expected to verify that the specification is publicly available, that the name follows the naming conventions of this document and that the registration does not duplicate the semantics of an existing registered entry.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">A registry created for a new Object defined in a vCon extension (see <a href="#extending-vcon" class="auto internal xref">Section 2.5</a>) is named in the same form as the registries defined in this document, for example "Party Object Parameter Names Registry".
+It is created within the vCon JSON Registry group and uses the same registry template and registration policy as the registries defined in this document.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <div id="object-registry-template">
 <section id="section-6.3.1">
           <h4 id="name-object-registry-template">
@@ -6268,7 +6274,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
         </h3>
 <p id="section-6.4-1">This document defines and new registry for the token name values that are permitted as values to the <a href="#extensions" class="auto internal xref">Section 4.1.3</a> parameter.
 However it does not define any values for this registry.
-Values for this registry are to be defined in subsequent documents which define extensions to the vCon schema.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+Values for this registry are to be defined in subsequent documents which define extensions to the vCon schema.
+The registration policy for this registry is Specification Required as defined in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <div id="extensions-registration-template">
 <section id="section-6.4.1">
           <h4 id="name-extensions-registration-tem">
@@ -6506,6 +6513,10 @@ Values for this registry are to be defined in subsequent documents which define 
 <dt id="PY-VCON">[PY-VCON]</dt>
         <dd>
 <span class="refTitle">"Python open source vCon command line interface, library and workflow server"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/py-vcon/py-vcon">https://github.com/py-vcon/py-vcon</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SHA-512">[SHA-512]</dt>
         <dd>
