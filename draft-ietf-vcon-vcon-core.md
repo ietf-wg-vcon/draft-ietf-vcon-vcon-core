@@ -787,7 +787,7 @@ The session parameter is used to define a relationship from one session to anoth
 
 * session: "UnsignedInt"
 
-The session parameter value is an index into the [sessions Object Array](#sessions-object-array) for the session that is referenced.
+The session parameter value is an index into the [sessions Object Array](#sessions-objects-array) for the session that is referenced.
 The session parameter MUST be provided.
 
 #### type {#session-reference-type}
