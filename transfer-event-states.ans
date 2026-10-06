@@ -1,0 +1,28 @@
+   transfer-abandoned
+      +-------+
+      |       |
+      v       |
++------------------+                          +--------------------+
+|  Original call   |----consultation-start--->|    Consultation    |
+|    (session)     |<---transfer-abandoned----|   (consultation)   |
++------------------+                          +--------------------+
+   ^        |                                   |                ^
+   :        |             consultative-transfer |    target call :
+   :        | blind-transfer                    |    fails       :
+   :        |                                   |                :
+   :        |                                   v                :
+   :        |                                 +--------------------+
+   :        +-------------------------------->|    Target call     |
+   :..........................................|  (target_session)  |
+     target call fails                        +--------------------+
+                                                        :
+                                                        : target
+                                                        : call
+                                                        v succeeds
+                                              +--------------------+
+                                              |    Transferred     |
+                                              +--------------------+
+
+----  Event Object
+....  result determined from the target Session Object
+

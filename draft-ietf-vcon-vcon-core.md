@@ -690,10 +690,13 @@ The value of the parties parameter is an array of [Party Objects](#party-object)
 
 All events which occur related to this vCon are included in this array of Event Objects.
 Event Objects are used to identify when in time that events related to the conversation occurred and to which dialog and/or session they relate to.
+Event Objects MAY appear in any order in the events array and are not required to be in chronological order.
+Events may be in non-chronological order because of network or consolidation delays.
+The time parameter of each Event Object is used to determine the sequence in which the events occurred.
 
 * events: "Event\[\]" (optional)
 
-The value of the events parameter is an array of Event Objects.
+The value of the events parameter is an array of [Event Objects](#event-object).
 
 ### dialog Objects Array
 
@@ -735,7 +738,9 @@ For example a conference may split into break out sessions and then merge back t
 ### start {#session-start}
 
 The start parameter indicates when this session was started.
-This SHOULD be the chronological first start parameter for all of the Dialog and time parameter for all of the Event Objects which are part of this session.
+The start parameter SHOULD be present.
+This SHOULD be equal to or before the chronological first "start" parameter for all of the Dialog and "time" parameter for all of the Event Objects which are part of this session.
+For example it could be the scheduled start time for a conference where everyone shows up late.
 
 * start: "Date"
 
@@ -750,6 +755,7 @@ The start and duration SHOULD contain the time period for the start and duration
 ### parties {#session-parties}
 
 The Session Object parties parameter references all of the Party Objects from the parties Array that were part of the session.
+The parties parameter SHOULD be present.
 This SHOULD include all of the parties that actively contributed as well as those that were passively part of the conversation.
 A party is a passive participant if they potentially received any part of the dialog that was exchanged in this session.
 This is not a guarantee that they received any part of the dialog, only that some part of any dialog in this session was sent to them.
@@ -817,8 +823,250 @@ The description parameter is an open text String.
 
 ## Event Object
 
-TODO: party_history gets morphed to Event Object here
-TODO: event object MUST reference the Session, MAY reference a Dialog
+Participants in a session may not all join and leave at the same time.
+To support the capturing of the information when parties join, drop, go on hold or mute and unmute, Event Objects may be added to the events array.
+Each Event Object occurs within the scope of a Session Object.
+
+The parameters which are present in an Event Object depend upon the type of the event.
+The event types are described first in the subsections of the type parameter (see [](#event-type)).
+The parameters which apply to each event type are summarized in [](#event-object-parameter-applicability-by-type).
+The parameters which are specific to an event type are defined in the subsections which follow.
+
+### type {#event-type}
+
+The type parameter indicates the type of event that occurred.
+
+* type: "String"
+
+The string token for the event MUST be one of the tokens defined in the following subsections.
+
+#### Party Event Types {#event-type-party}
+
+The party event types capture a change in the participation of a party in a session.
+The party parameter references the party that joined, dropped, was put on or taken off hold or was muted or unmuted.
+
+The following party event types are defined:
+
+* "join" - when the party joins the session
+* "drop" - when the party drops out of the session
+* "hold" - when the party is put on hold
+* "unhold" - when the party is taken off hold
+* "mute" - when the party is muted
+* "unmute" - when the party is taken off mute
+
+#### Key Event Types {#event-type-key}
+
+The key event types capture when a party presses or releases a DTMF or application key or button.
+The party parameter references the party that pressed or released the key or button.
+The key or button is identified in the button parameter (see [](#event-button)).
+
+The following key event types are defined:
+
+* "keydown" - when a DTMF or application key/button was pressed
+* "keyup" - when a DTMF or application key/button was released
+
+#### Transfer Event Types {#event-type-transfer}
+
+The transfer event types document the roles of three parties and the relationship between two or three sessions.
+In a transfer operation, the roles of the three parties to a transfer are defined in [SIP-XFER] as:
+
+* Transferee
+* Transferor
+* Transfer Target
+
+There are two or three calls in which the parties are connected:
+
+* original call
+* consultative call (optional as this call may not get created)
+* target call
+
+Each of these calls is represented by a Session Object.
+
+The following transfer event types are defined:
+
+* "consultation-start" - when the Transferor starts a consultative call with the Transfer Target
+* "blind-transfer" - when the Transferor transfers the Transferee to the Transfer Target without a consultative call
+* "consultative-transfer" - when the Transferor transfers the Transferee to the Transfer Target following a consultative call
+* "transfer-abandoned" - when the Transferor abandons an attempt to transfer the Transferee without completing the transfer
+
+The "blind-transfer" and "consultative-transfer" type Event Objects do not indicate that the target call succeeded.
+The following table summarizes the transfer cases, the Event Objects which capture each case and the results.
+
+| Case | Event Objects | Results |
+| --- | --- | --- |
+| Consultative call fails or is not answered | consultation-start, transfer-abandoned | consultation Session Object references an "incomplete" type Dialog Object |
+| Consultative call succeeds, Transferor does not transfer | consultation-start, transfer-abandoned | Transferee is not transferred in this attempt |
+| Consultative call succeeds, Transferor transfers, target call succeeds | consultation-start, consultative-transfer | target Session Object references the Dialog Objects for the target call |
+| Consultative call succeeds, Transferor transfers, target call fails or is not answered | consultation-start, consultative-transfer | target Session Object references an "incomplete" type Dialog Object |
+| Blind transfer, target call succeeds | blind-transfer | target Session Object references the Dialog Objects for the target call |
+| Blind transfer, target call fails or is not answered | blind-transfer | target Session Object references an "incomplete" type Dialog Object |
+| Transferor abandons before a consultative call or transfer | transfer-abandoned | Transferee is not transferred in this attempt |
+
+A "consultative-transfer" or "transfer-abandoned" type Event Object which follows a consultation references the same Session Object in the consultation parameter as the "consultation-start" type Event Object.
+
+It is also possible for there to be more than one consultation.
+This may occur for a number of reasons.
+Call attempts may fail.
+The caller may decide the consultation with a party is not the desired transfer target.
+When a transfer attempt fails or is abandoned, the Transferor may attempt the transfer again.
+Depending upon the system, a subsequent "consultative-transfer" type Event Object may reference the same consultation Session Object if the consultative call still exists.
+Alternatively, the Transferor may start another consultative call, which is captured in a new "consultation-start" type Event Object, or may perform a blind transfer.
+If the target call fails and the Transferor does not attempt the transfer again, no further transfer Event Object is created.
+
+More than one transfer may occur in a vCon.
+After a transfer has completed or failed, additional transfers may be attempted.
+Each transfer is captured in its own transfer Event Objects.
+A Session Object may be referenced in more than one transfer event when multiple transfers occur.
+For example, the Session Object for the target call of one transfer may be the Session Object for the original call of a subsequent transfer.
+
+The following figure illustrates the transfer event types and the calls to which they relate.
+
+~~~
+{::include transfer-event-states.ans}
+~~~
+{: #diagram3 title="transfer event states"}
+
+In the transfer event types, the session parameter references the Session Object for the original call and the party parameter references the Transferor.
+The transferee and transfer_target parameters reference the other two parties to the transfer (see [](#event-transferee) and [](#event-transfer-target)).
+The consultation and target_session parameters reference the Session Objects for the consultative call and the target call (see [](#event-consultation) and [](#event-target-session)).
+
+There are scenarios where we know that a transfer has occurred, but we have no information for one or two of the consultation, target or original calls.
+In this case a placeholder Session Object is created and its index is used for the consultation, target_session or session parameter.
+A placeholder Session Object may contain no parameters or may reference a placeholder Dialog Object.
+A unique Session Object SHOULD be referenced for each role in the transfer.
+
+The transfer event types only capture the roles, operations and events of the parties and the session setup.
+They do not capture the purpose or reason for the transfer as that is analysis to be captured in the analysis section of the vCon after the conversation has occurred.
+
+#### Event Object Parameter Applicability by Type {#event-object-parameter-applicability-by-type}
+
+The following tables summarize which Event Object parameters apply to each Event Object type.
+The parameter definitions in the subsections of this document are definitive; these tables are provided as a summary.
+The symbols used in the tables are: M the parameter MUST be present, O the parameter is optional, X the parameter MUST NOT be present.
+
+The following table applies to the party and key event types.
+
+| Parameter | join, drop, hold, unhold, mute, unmute | keydown, keyup |
+| --- | --- | --- |
+| type | M | M |
+| time | M | M |
+| session | M | M |
+| party | M | M |
+| dialog | O | O |
+| button | X | M |
+| transferee | X | X |
+| transfer_target | X | X |
+| consultation | X | X |
+| target_session | X | X |
+
+The following table applies to the transfer event types.
+
+| Parameter | consultation-start | blind-transfer | consultative-transfer | transfer-abandoned |
+| --- | --- | --- | --- | --- |
+| type | M | M | M | M |
+| time | M | M | M | M |
+| session | M (1) | M (1) | M (1) | M (1) |
+| party | M (2) | M (2) | M (2) | M (2) |
+| dialog | X | X | X | X |
+| button | X | X | X | X |
+| transferee | M | M | M | M |
+| transfer_target | M | M | M | O |
+| consultation | M | X | M | O |
+| target_session | X | M | M | X |
+
+(1) References the Session Object for the original call.
+
+(2) References the Transferor.
+
+### time {#event-time}
+
+The time parameter indicates the time at which this event occurred.
+
+* time: "Date"
+
+The time parameter MUST be provided as it is used to determine the sequence in which events occurred.
+
+### session {#event-session}
+
+The session parameter indicates the session in which this event occurred.
+
+* session: "UnsignedInt"
+
+The value of the session parameter is the index into the sessions Object array to the Session Object in which this event occurred.
+The session parameter MUST be provided.
+For the transfer event types, the session parameter references the Session Object for the original call between the Transferee and the Transferor.
+
+### party {#event-party}
+
+The party parameter indicates the party for this event.
+
+* party: "UnsignedInt"
+
+The value of the party parameter is the index into the parties Object array to the party for this event.
+The party parameter MUST be provided.
+For the transfer event types, the party parameter references the party that played the role of the Transferor.
+
+### dialog {#event-dialog}
+
+TODO: do we need dialog?
+
+An event may relate to a specific piece of dialog.
+
+* dialog: "UnsignedInt" (optional)
+
+The value of the dialog parameter is the index into the dialog Object array to the Dialog Object to which this event relates.
+The dialog parameter MUST NOT be present in the transfer event types.
+
+### button {#event-button}
+
+The button parameter indicates the key or button that was pressed or released.
+
+* button: "String" (required for keydown and keyup events)
+
+The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.
+The button parameter MUST be present in "keydown" and "keyup" type Event Objects and MUST NOT be present in other Event Object types.
+
+### transferee {#event-transferee}
+
+The transferee parameter indicates the Transferee in the transfer event types.
+
+* transferee: "UnsignedInt" (required for transfer event types)
+
+The value of the transferee parameter is the index into the parties Object array to the party that played the role of the Transferee.
+The transferee parameter MUST be present in the transfer event types and MUST NOT be present in other Event Object types.
+If the Transferee is not known, an empty Party Object (see [Party Object](#party-object)) is referenced.
+
+### transfer_target {#event-transfer-target}
+
+The transfer_target parameter indicates the Transfer Target in the transfer event types.
+Other parties may be part of the Session Object for the target call; the transfer_target parameter identifies the party that was the target of the transfer operation.
+
+* transfer_target: "UnsignedInt" (required for consultation-start, blind-transfer and consultative-transfer events, optional for transfer-abandoned events)
+
+The value of the transfer_target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
+The transfer_target parameter MUST be present in "consultation-start", "blind-transfer" and "consultative-transfer" type Event Objects.
+If the Transfer Target is not known, an empty Party Object (see [Party Object](#party-object)) is referenced.
+The transfer_target is optional in "transfer-abandoned" type Event Objects in the case where the transfer is abandoned before the target was identified.
+The transfer_target parameter MUST NOT be present in Event Object types other than the transfer event types.
+
+### consultation {#event-consultation}
+
+The consultation parameter indicates the session for the consultative call in the transfer event types.
+
+* consultation: "UnsignedInt" (required for consultation-start and consultative-transfer events, optional for transfer-abandoned events)
+
+The value of the consultation parameter is the index into the sessions Object array to the Session Object for the consultative call between the Transferor and the Transfer Target.
+The consultation parameter MUST be present in "consultation-start" and "consultative-transfer" type Event Objects.
+The consultation parameter is optional in "transfer-abandoned" type Event Objects in the case where the transfer is abandoned without a consultative call.
+The consultation parameter MUST NOT be present in "blind-transfer" type Event Objects or in Event Object types other than the transfer event types.
+
+### target_session {#event-target-session}
+
+The target_session parameter indicates the session for the target call in the transfer event types.
+
+* target_session: "UnsignedInt" (required for blind-transfer and consultative-transfer events)
+
+The value of the target_session parameter is the index into the sessions Object array to the Session Object
 
 ## Party Object
 
@@ -1994,6 +2242,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | redacted | Redacted Object | IESG | [](#redacted) RFC XXXX |
 | amended | Amended Object | IESG | [](#redacted) RFC XXXX |
 | group | reserved for future extension | IESG | RFC XXXX |
+| sessions | Session Objects array | IESG | [](#sessions-objects-array) RFC XXXX |
+| events | Event Objects array | IESG | [](#events-objects-array) RFC XXXX |
 | parties | Party Objects array | IESG | [](#parties-objects-array) RFC XXXX |
 | dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
 | analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |

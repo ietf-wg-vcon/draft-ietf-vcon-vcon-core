@@ -10,6 +10,7 @@ bcp
 Birkholz
 bot
 bots
+breakout
 CBC
 CBOR
 Cc
@@ -114,6 +115,7 @@ mediatype
 Merkle
 metadata
 mimetype
+morphed
 mms
 MMS
 mp
@@ -189,6 +191,7 @@ UnsignedFloat
 UnsignedInt
 unhold
 unmute
+unmuted
 URI
 URIs
 url
