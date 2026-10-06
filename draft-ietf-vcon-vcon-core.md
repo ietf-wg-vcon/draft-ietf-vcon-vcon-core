@@ -620,7 +620,7 @@ TODO: Session Object required if Attachments is not empty too?
 
 * sessions: "Session\[\]" (optional)
 
-The value of the session parameter is an array of [Session Objects](#session-object).
+The value of the sessions parameter is an array of [Session Objects](#session-object).
 
 Examples of where  multiple Session Objects are used to show the topology of the conversation and dialog include:
 
@@ -686,7 +686,7 @@ Whether the parties were observers, passive or active participants in the conver
 
 The value of the parties parameter is an array of [Party Objects](#party-object).
 
-### event Objects Array
+### events Objects Array
 
 All events which occur related to this vCon are included in this array of Event Objects.
 Event Objects are used to identify when in time that events related to the conversation occurred and to which dialog and/or session they relate to.
@@ -728,14 +728,14 @@ The value of the attachments parameter is an array of [Attachment Objects](#atta
 
 The Session Object is used to show the scope for conversational dialog and events.
 It provides the ability to group dialog and events into sub-conversation.
-A Session Object and contain by reference other Session Objects to create a nesting or tree relationship with child session(s).
+A Session Object can contain by reference other Session Objects to create a nesting or tree relationship with child session(s).
 It can also support peer relationships to group in logical sequences of evolution of a conversation.
 For example a conference may split into break out sessions and then merge back together as one conference again.
 
 ### start {#session-start}
 
 The start parameter indicates when this session was started.
-This SHOULD be the chronological first start parameter for all of the Event and Dialog Objects which are part of this session.
+This SHOULD be the chronological first start parameter for all of the Dialog and time parameter for all of the Event Objects which are part of this session.
 
 * start: "Date"
 
@@ -770,7 +770,7 @@ A Session Reference Object also labels the relationship between this Session Obj
 
 ### dialog {#session-dialog}
 
-All [Dialog Objects](#dialog-objects-array) and [Event Objects](#event-objects-array) SHOULD be referenced by at least one of the Session Objects in a vCon.
+All [Dialog Objects](#dialog-objects-array) SHOULD be referenced by at least one of the Session Objects in a vCon.
 The dialog parameter in the Session Object is an array of Dialog Object indices to the [dialog Object array](#dialog-objects-array).
 
 * dialog: "UnsignedInt\[\]" (optional)
@@ -785,7 +785,7 @@ A Session Reference Object specifies the relationship from one Session Object to
 
 The session parameter is used to define a relationship from one session to another.
 
-* session: UnsignedInt
+* session: "UnsignedInt"
 
 The session parameter value is an index into the session Object array for the session that is referenced.
 The session parameter MUST be provided.
@@ -794,7 +794,7 @@ The session parameter MUST be provided.
 
 The type parameter specifies a specific type of relationship to the reference session.
 
-* type: String
+* type: "String"
 
 The type parameter is a string that SHOULD contain one of the following values:
 
@@ -809,7 +809,7 @@ TBD: other types? consult
 
 The description parameter is used to better describe the relationship to the referenced Session Object.
 
-* description: String
+* description: "String" (optional)
 
 TODO: alternative name: relation?
 
@@ -818,7 +818,8 @@ The description parameter is an open text String.
 ## Event Object
 
 TODO: party_history gets morphed to Event Object here
-
+TODO: event object MUST referencce the Session, MAY reference a Dialog
+ 
 ## Party Object
 
 A Party Object contains information about a specific party or participant in the conversation.
@@ -1034,7 +1035,7 @@ A recording Dialog Object that is part of a set of recordings which collectively
 A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
 The conversation itself is captured in the referenced "recording" Dialog Objects; a recording-set Dialog Object does not have Dialog Content (see [](#dialog-content)).
 The recordings parameter identifies the "recording" Dialog Objects in the set (see [](#dialog-recordings)).
-The start, duration, parties and session_id parameters of a recording-set Dialog Object describe the call or session as a whole (see [](#dialog-start), [](#duration), [](#parties) and [](#session_id)).
+The start, duration, parties and session_id parameters of a recording-set Dialog Object describe the call or session as a whole (see [](#dialog-start), [](#duration), [](#dialog-parties) and [](#session_id)).
 
 #### text {#dialog-type-text}
 
@@ -1127,7 +1128,7 @@ The start parameter is optional for the "transfer" type Dialog Object as it may 
 
 ### duration
 
-
+The duration parameter contains the duration in seconds of the referenced or included piece of dialog.
 For text, if known, it is the time duration from when the party started typing to when they completed typing and the text was sent.
 For recordings, it is the duration of the recording.
 For a recording-set Dialog Object, it is the duration of the call or session.
@@ -2031,7 +2032,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | type | dialog type name | IESG | [](#dialog-type) RFC XXXX |
 | start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
 | duration | dialog duration period | IESG | [](#duration) RFC XXXX |
-| parties | dialog parties list | IESG | [](#parties) RFC XXXX |
+| parties | dialog parties list | IESG | [](#dialog-parties) RFC XXXX |
 | originator | dialog originator party | IESG | [](#originator) RFC XXXX |
 | mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
 | filename | dialog content filename | IESG | [](#dialog-filename) RFC XXXX |
@@ -2433,7 +2434,7 @@ If the CDDL provided below differs or conflicts from that in the text of the abo
 {:numbered="false"}
 
 * Thank you to Thomas McCarthy-Howe for inventing the concept of a vCon and the many discussions that we had while this concept was developed into reality.
-* Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases and for the data structure ideas to create Session Objects instead of dialog-sets type Dialogs and elevating party_history event Objects into the Event Object array at the top level.
+* Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases and for the data structure ideas to create Session Objects instead of recording-sets type Dialogs and elevating party_history event Objects into the Event Object array at the top level.
 * Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon and testing out the extension framework with MIME.
 * The examples in this document were generated using the command line interface (CLI) from the py-vcon [PY-VCON] python open source project.
 * Thank you to Steve Lasker for formatting and spelling edits.
