@@ -107,6 +107,8 @@ informative:
 
   JWT: RFC7519
 
+  RFC8126:
+
   SHA-512: RFC6234
 
   SIP: RFC3261
@@ -350,6 +352,7 @@ The algorithm used for signing the externally referenced file is defined in sect
 vCon provides a means to extend the schema defined in this document.
 A vCon extension can define new parameters at any level of the schema.
 It can also define additional allowed values for an existing parameter, such as a new token for a type parameter.
+It can also define new Objects, which appear as the value of a new parameter or as the elements of a new array parameter.
 It can also redefine the semantics of or deprecate existing parameters.
 A vCon extension is defined in its own document.
 In addition to the standard sections of an Internet-Draft, a vCon extension document MUST also contain the following sections.
@@ -363,10 +366,11 @@ This is the name registered in the [vCon Extensions Names Registry](#vcon-extens
 Define each new parameter, the level of the schema at which it appears, its value type, and its semantics.
 For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
 For any value added to the allowed values of an existing parameter, define the value and its semantics and state which parameters apply when the value is used.
-Register each new value in the appropriate registry with IANA, where one exists.
+For each new Object, a new parameter names registry SHOULD be requested from IANA with the parameters of the new Object as its initial values (see [](#vcon-json-registry)).
 For any deprecated parameter, state what is to be used in its stead and the migration approach.
 Use the snake case naming convention for all parameter names, as opposed to camel case.
 Register each new parameter in the appropriate Object registry with IANA.
+Register each new value in the appropriate registry with IANA, where one exists.
 
 * **Compatibility Considerations**:
 Describe how the extension behaves in the presence of implementations that do not support it.
@@ -400,6 +404,7 @@ However the redactor perhaps should reject vCons with any extension that it does
 However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
 
 Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
+
 A parameter may contain a token value which an implementation does not recognize, such as a type defined in an extension which the implementation does not support.
 If an unsupported extension is listed in the critical parameter, the vCon is not processed as described above.
 Otherwise, the implementation SHOULD ignore the Object which contains the unrecognized value and continue to process the rest of the vCon.
@@ -2223,6 +2228,11 @@ This document defines a number of new IANA registries for the JSON vCon schema.
 Each Object (i.e. dict, map, dictionary) has its own registry of parameter names.
 All of those registries have the same registry template which is defined in the following subsection.
 When registering new entries, the following template should be used.
+The registration policy for these registries is Specification Required as defined in [RFC8126].
+The Designated Experts are expected to verify that the specification is publicly available, that the name follows the naming conventions of this document and that the registration does not duplicate the semantics of an existing registered entry.
+
+A registry created for a new Object defined in a vCon extension (see [](#extending-vcon)) is named in the same form as the registries defined in this document, for example "Party Object Parameter Names Registry".
+It is created within the vCon JSON Registry group and uses the same registry template and registration policy as the registries defined in this document.
 
 ### Object Registry Template
 
@@ -2494,6 +2504,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 This document defines and new registry for the token name values that are permitted as values to the [extensions](#extensions) parameter.
 However it does not define any values for this registry.
 Values for this registry are to be defined in subsequent documents which define extensions to the vCon schema.
+The registration policy for this registry is Specification Required as defined in [RFC8126].
 
 ### Extensions Registration Template
 
