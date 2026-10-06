@@ -608,7 +608,7 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 {: #diagram2 title="amended vCon object tree"}
 
 
-### session Objects Array
+### sessions Objects Array
 
 A vCon can contain a single conversation, several conversations, sub-conversations or side bar conversations.
 The Session Object is used to group dialog Objects into sets of dialog to represent those conversations.
@@ -787,7 +787,7 @@ The session parameter is used to define a relationship from one session to anoth
 
 * session: "UnsignedInt"
 
-The session parameter value is an index into the session Object array for the session that is referenced.
+The session parameter value is an index into the [sessions Object Array](#sessions) for the session that is referenced.
 The session parameter MUST be provided.
 
 #### type {#session-reference-type}
@@ -818,7 +818,7 @@ The description parameter is an open text String.
 ## Event Object
 
 TODO: party_history gets morphed to Event Object here
-TODO: event object MUST referencce the Session, MAY reference a Dialog
+TODO: event object MUST reference the Session, MAY reference a Dialog
 
 ## Party Object
 
@@ -1035,7 +1035,7 @@ A recording Dialog Object that is part of a set of recordings which collectively
 A dialog of type "recording-set" contains metadata describing a set of "recording" Dialog Objects that collectively represent a call or session.
 The conversation itself is captured in the referenced "recording" Dialog Objects; a recording-set Dialog Object does not have Dialog Content (see [](#dialog-content)).
 The recordings parameter identifies the "recording" Dialog Objects in the set (see [](#dialog-recordings)).
-The start, duration, parties and session_id parameters of a recording-set Dialog Object describe the call or session as a whole (see [](#dialog-start), [](#duration), [](#dialog-parties) and [](#session_id)).
+The start, duration, parties and session_id parameters of a recording-set Dialog Object describe the call or session as a whole (see [](#dialog-start), [](#dialog-duration), [](#dialog-parties) and [](#session_id)).
 
 #### text {#dialog-type-text}
 
@@ -1126,7 +1126,7 @@ The start parameter is optional for the "transfer" type Dialog Object as it may 
 
 * start: "Date"
 
-### duration
+### duration {#dialog-duration}
 
 The duration parameter contains the duration in seconds of the referenced or included piece of dialog.
 For text, if known, it is the time duration from when the party started typing to when they completed typing and the text was sent.
@@ -2031,7 +2031,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | --- | --- | --- | --- |
 | type | dialog type name | IESG | [](#dialog-type) RFC XXXX |
 | start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
-| duration | dialog duration period | IESG | [](#duration) RFC XXXX |
+| duration | dialog duration period | IESG | [](#dialog-duration) RFC XXXX |
 | parties | dialog parties list | IESG | [](#dialog-parties) RFC XXXX |
 | originator | dialog originator party | IESG | [](#originator) RFC XXXX |
 | mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
