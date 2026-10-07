@@ -158,19 +158,22 @@ Table of Contents
        4.6.2.  start
        4.6.3.  party
        4.6.4.  dialog
-       4.6.5.  mediatype
-       4.6.6.  filename
-       4.6.7.  Attachment Content
+       4.6.5.  session
+       4.6.6.  mediatype
+       4.6.7.  filename
+       4.6.8.  Attachment Content
      4.7.  Analysis Object
        4.7.1.  type
        4.7.2.  dialog
-       4.7.3.  attachment
-       4.7.4.  mediatype
-       4.7.5.  filename
-       4.7.6.  vendor
-       4.7.7.  product
-       4.7.8.  schema
-       4.7.9.  Analysis Content
+       4.7.3.  session
+       4.7.4.  attachment
+       4.7.5.  analysis
+       4.7.6.  mediatype
+       4.7.7.  filename
+       4.7.8.  vendor
+       4.7.9.  product
+       4.7.10. schema
+       4.7.11. Analysis Content
    5.  Security Considerations
      5.1.  Signing Externally Referenced Files
      5.2.  Signed Form of vCon Object
@@ -190,12 +193,13 @@ Table of Contents
        6.3.2.  vCon Object Parameter Names Registry
        6.3.3.  Party Object Parameter Names Registry
        6.3.4.  Dialog Object Parameter Names Registry
-       6.3.5.  Session_Reference Object Parameter Names Registry
-       6.3.6.  Event Object Parameter Names Registry
-       6.3.7.  Attachment Object Parameter Names Registry
-       6.3.8.  Analysis Object Parameter Names Registry
-       6.3.9.  Redacted Object Parameter Names Registry
-       6.3.10. Amended Object Parameter Names Registry
+       6.3.5.  Session Object Parameter Names Registry
+       6.3.6.  Session_Reference Object Parameter Names Registry
+       6.3.7.  Event Object Parameter Names Registry
+       6.3.8.  Attachment Object Parameter Names Registry
+       6.3.9.  Analysis Object Parameter Names Registry
+       6.3.10. Redacted Object Parameter Names Registry
+       6.3.11. Amended Object Parameter Names Registry
      6.4.  vCon Extensions Names Registry
        6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
@@ -1266,7 +1270,7 @@ Table of Contents
    The handling of a Session_Reference Object with a type which is not
    recognized is described in Section 2.5.
 
-   TBD: other types?
+   TODO: other types?
 
 4.2.8.3.  description
 
@@ -2430,14 +2434,31 @@ Table of Contents
 
 4.6.4.  dialog
 
-   Attachments are added as data related to the dialog.  The dialog
-   parameter is used to identify the dialog that the attachment is part
-   of.  The dialog is identified by the index to the dialog Object in
-   the dialog objects array.
+   Attachments are added as data related to a dialog or a session.  The
+   dialog parameter is used to identify the dialog that the attachment
+   is part of.
 
-   *  dialog: "UnsignedInt"
+   *  dialog: "UnsignedInt" (optional)
 
-4.6.5.  mediatype
+   The value of the dialog parameter is the index into the dialog Object
+   array to the Dialog Object to which this Attachment Object relates.
+   At least one of the dialog or session parameters MUST be present (see
+   Section 4.6.5).
+
+4.6.5.  session
+
+   Attachments may be related to one or more sessions as opposed to a
+   specific dialog.  The session parameter is used to identify the
+   sessions that the attachment is part of.
+
+   *  session: "UnsignedInt" | "UnsignedInt[]" (optional)
+
+   The value of the session parameter is the index to the session or
+   array of indices to the Session Object array to which this Attachment
+   Object relates.  The requirement for the dialog or session parameter
+   to be present is defined in Section 4.6.4.
+
+4.6.6.  mediatype
 
    The media type for the included or referenced attachment file is
    provided in the mediatype parameter.  The mediatype parameter MUST be
@@ -2453,7 +2474,7 @@ Table of Contents
    The mediatype string contains the media type or [MIME] type of the
    attached file.
 
-4.6.6.  filename
+4.6.7.  filename
 
    It is sometimes useful to preserve the name of the file which
    originally contained this attachment file.  This can be done in the
@@ -2464,7 +2485,7 @@ Table of Contents
    The file name string contains an optional name for the attachment
    file referenced in this Attachment Object.
 
-4.6.7.  Attachment Content
+4.6.8.  Attachment Content
 
    The Attachment Object SHOULD contain the body and encoding parameters
    or the url and content_hash parameters (see Inline Files
@@ -2523,27 +2544,55 @@ Table of Contents
    the dialog array.  The dialog parameter is used to indicate which
    Dialog Objects this analysis was based upon.
 
-   *  dialog: "UnsignedInt" | "UnsignedInt[]" (optional only if the
-      analysis was not derived from any of the dialog)
+   *  dialog: "UnsignedInt" | "UnsignedInt[]" (optional)
 
    The value of the dialog parameter is the index to the dialog or array
    of indices to the Dialog Object array to which this Analysis Object
-   corresponds.
+   corresponds.  At least one of the dialog, session, attachment or
+   analysis parameters SHOULD be present to indicate the scope of what
+   was input to the analysis (see Section 4.7.3, Section 4.7.4 and
+   Section 4.7.5).  Analysis may also be based upon data which is not
+   contained in the vCon, in which case none of these parameters may
+   apply.
 
-4.7.3.  attachment
+4.7.3.  session
+
+   Analysis may pertain to one or more sessions as a whole, as opposed
+   to specific Dialog Objects.  The session parameter is used to
+   indicate which Session Objects this analysis was based upon.
+
+   *  session: "UnsignedInt" | "UnsignedInt[]" (optional)
+
+   The value of the session parameter is the index to the session or
+   array of indices to the Session Object array to which this Analysis
+   Object corresponds.
+
+4.7.4.  attachment
 
    The analysis may pertain to one or more of the Attachment Objects in
    the attachment array.  The attachment parameter is used to indicate
    which Attachment Objects this analysis was based upon.
 
-   *  attachment: "UnsignedInt" | "UnsignedInt[]" (optional only if the
-      analysis was not derived from any of the attachments)
+   *  attachment: "UnsignedInt" | "UnsignedInt[]" (optional)
 
    The value of the attachment parameter is the index to the attachment
    or array of indices to the Attachment Object array to which this
    analysis object corresponds.
 
-4.7.4.  mediatype
+4.7.5.  analysis
+
+   The analysis may be derived from one or more of the other Analysis
+   Objects in the analysis array.  The analysis parameter is used to
+   indicate which Analysis Objects this analysis was based upon.
+
+   *  analysis: "UnsignedInt" | "UnsignedInt[]" (optional)
+
+   The value of the analysis parameter is the index to the analysis or
+   array of indices to the Analysis Object array to which this Analysis
+   Object corresponds.  An Analysis Object MUST NOT reference itself in
+   the analysis parameter.
+
+4.7.6.  mediatype
 
    The media type for the included or referenced analysis file is
    provided in the mediatype parameter.  The mediatype parameter SHOULD
@@ -2558,7 +2607,7 @@ Table of Contents
    The mediatype string contains the media type or [MIME] type of the
    analysis file.
 
-4.7.5.  filename
+4.7.7.  filename
 
    It is sometimes useful to preserve the name of the file which
    originally contained this analysis data.  This can be done in the
@@ -2569,7 +2618,7 @@ Table of Contents
    The file name string contains an optional name for the analysis data
    file referenced in this Analysis Object.
 
-4.7.6.  vendor
+4.7.8.  vendor
 
    There may not be a IANA registered media type for the file format
    containing the analysis data.  Even if a media type is defined, it is
@@ -2587,7 +2636,7 @@ Table of Contents
    The vendor string value contains the vendor or product name of the
    software which generated this analysis.
 
-4.7.7.  product
+4.7.9.  product
 
    As the vendor may have more than one product, the product parameter
    may be used to differentiate it from other products which may have
@@ -2595,7 +2644,7 @@ Table of Contents
 
    *  product: "string" (optional)
 
-4.7.8.  schema
+4.7.10.  schema
 
    The same vendor or software product may produce different formats or
    data for the same analysis.  The schema parameter allows the data
@@ -2610,7 +2659,7 @@ Table of Contents
    provide to differentiate from potentially multiple data formats for
    analysis provided by the same vendor or software.
 
-4.7.9.  Analysis Content
+4.7.11.  Analysis Content
 
    The Analysis Object SHOULD contain the body and encoding parameters
    or the url and content_hash parameters (see Inline Files
@@ -2627,7 +2676,7 @@ Table of Contents
    schema parameter, together with the vendor and product parameters,
    SHOULD identify the data format.  For externally referenced content,
    the media type may also be provided by the Content-Type header in the
-   [HTTPS] response (see Section 4.7.4).
+   [HTTPS] response (see Section 4.7.6).
 
    For inline included analysis:
 
@@ -3346,7 +3395,7 @@ Table of Contents
 
                                   Table 8
 
-   ession Object Parameter Names Registry
+6.3.5.  Session Object Parameter Names Registry
 
    The following defines the initial values for the Session Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3381,7 +3430,7 @@ Table of Contents
 
                                   Table 9
 
-6.3.5.  Session_Reference Object Parameter Names Registry
+6.3.6.  Session_Reference Object Parameter Names Registry
 
    The following defines the initial values for the Session_Reference
    Object Parameter Names Registry.  Use the template in Object Registry
@@ -3405,13 +3454,13 @@ Table of Contents
 
                                   Table 10
 
-6.3.5.1.  Session_Reference Type Name Registry
+6.3.6.1.  Session_Reference Type Name Registry
 
    This document defines a new registry for the token name values that
    are permitted as values to the Session_Reference Object type
    (Section 4.2.8.2) parameter.
 
-6.3.5.1.1.  Session_Reference Type Name Registration Template
+6.3.6.1.1.  Session_Reference Type Name Registration Template
 
    Session_Reference Type Name:
 
@@ -3437,7 +3486,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.5.1.2.  Session_Reference Type Name Registration Initial Values
+6.3.6.1.2.  Session_Reference Type Name Registration Initial Values
 
    The following table defines the initial values for the
    Session_Reference Type Name Registry.
@@ -3465,7 +3514,7 @@ Table of Contents
 
                                  Table 11
 
-6.3.6.  Event Object Parameter Names Registry
+6.3.7.  Event Object Parameter Names Registry
 
    The initial values for the Event Object Parameter Names Registry are
    listed in the following table.  Use the template in Object Registry
@@ -3512,13 +3561,13 @@ Table of Contents
 
                                  Table 12
 
-6.3.6.1.  Event Type Name Registry
+6.3.7.1.  Event Type Name Registry
 
    This document defines a new registry for the token name values that
    are permitted as values to the Event Object type (Section 4.3.1)
    parameter.
 
-6.3.6.1.1.  Event Type Name Registration Template
+6.3.7.1.1.  Event Type Name Registration Template
 
    Event Type Name:
 
@@ -3544,7 +3593,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.6.1.2.  Event Type Name Registration Initial Values
+6.3.7.1.2.  Event Type Name Registration Initial Values
 
    The following table defines the initial values for the Event Type
    Name Registry.
@@ -3604,7 +3653,7 @@ Table of Contents
 
                                  Table 13
 
-6.3.7.  Attachment Object Parameter Names Registry
+6.3.8.  Attachment Object Parameter Names Registry
 
    The following defines the initial values for the Attachment Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3627,79 +3676,88 @@ Table of Contents
    | dialog       | associated dialog     | IESG       | Section 4.6.4 |
    |              | index                 |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | mediatype    | attachment body       | IESG       | Section 4.6.5 |
+   | session      | associated session    | IESG       | Section 4.6.5 |
+   |              | index                 |            | RFC XXXX      |
+   +--------------+-----------------------+------------+---------------+
+   | mediatype    | attachment body       | IESG       | Section 4.6.6 |
    |              | media type            |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | filename     | attachment content    | IESG       | Section 4.6.6 |
+   | filename     | attachment content    | IESG       | Section 4.6.7 |
    |              | filename              |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | body         | attachment inline     | IESG       | Section 4.6.7 |
+   | body         | attachment inline     | IESG       | Section 4.6.8 |
    |              | content               |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | encoding     | attachment inline     | IESG       | Section 4.6.7 |
+   | encoding     | attachment inline     | IESG       | Section 4.6.8 |
    |              | content encoding      |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
-   | url          | attachment            | IESG       | Section 4.6.7 |
+   | url          | attachment            | IESG       | Section 4.6.8 |
    |              | referenced content    |            | RFC XXXX      |
    |              | URL                   |            |               |
    +--------------+-----------------------+------------+---------------+
-   | content_hash | attachment content    | IESG       | Section 4.6.7 |
+   | content_hash | attachment content    | IESG       | Section 4.6.8 |
    |              | hash                  |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
 
                                   Table 14
 
-6.3.8.  Analysis Object Parameter Names Registry
+6.3.9.  Analysis Object Parameter Names Registry
 
    The following defines the initial values for the Analysis Object
    Parameter Names Registry.  Use the template in Object Registry
    Template (Section 6.3.1) when registering additional entries to this
    table.
 
-   +================+=====================+============+===============+
-   | Parameter      | Parameter           | Change     | Specification |
-   | Name           | Description         | Controller | Document(s)   |
-   +================+=====================+============+===============+
-   | type           | analysis type       | IESG       | Section 4.7.1 |
-   |                |                     |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | dialog         | associated dialog   | IESG       | Section 4.7.2 |
-   |                | index               |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | attachment     | associated          | IESG       | Section 4.7.3 |
-   |                | attachment index    |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | mediatype      | analysis body media | IESG       | Section 4.7.4 |
-   |                | type                |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | filename       | analysis content    | IESG       | Section 4.7.5 |
-   |                | filename            |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | vendor         | vendor producing    | IESG       | Section 4.7.6 |
-   |                | content             |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | product        | vendor product      | IESG       | Section 4.7.7 |
-   |                | producing content   |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | schema         | product schema of   | IESG       | Section 4.7.8 |
-   |                | content             |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | body           | analysis inline     | IESG       | Section 4.7.9 |
-   |                | content             |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | encoding       | analysis inline     | IESG       | Section 4.7.9 |
-   |                | content encoding    |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | url            | analysis referenced | IESG       | Section 4.7.9 |
-   |                | content URL         |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
-   | content_hash   | analysis content    | IESG       | Section 4.7.9 |
-   |                | hash                |            | RFC XXXX      |
-   +----------------+---------------------+------------+---------------+
+   +==============+=====================+============+================+
+   | Parameter    | Parameter           | Change     | Specification  |
+   | Name         | Description         | Controller | Document(s)    |
+   +==============+=====================+============+================+
+   | type         | analysis type       | IESG       | Section 4.7.1  |
+   |              |                     |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | dialog       | associated dialog   | IESG       | Section 4.7.2  |
+   |              | index               |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | session      | associated session  | IESG       | Section 4.7.3  |
+   |              | index               |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | attachment   | associated          | IESG       | Section 4.7.4  |
+   |              | attachment index    |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | analysis     | associated analysis | IESG       | Section 4.7.5  |
+   |              | index               |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | mediatype    | analysis body media | IESG       | Section 4.7.6  |
+   |              | type                |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | filename     | analysis content    | IESG       | Section 4.7.7  |
+   |              | filename            |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | vendor       | vendor producing    | IESG       | Section 4.7.8  |
+   |              | content             |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | product      | vendor product      | IESG       | Section 4.7.9  |
+   |              | producing content   |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | schema       | product schema of   | IESG       | Section 4.7.10 |
+   |              | content             |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | body         | analysis inline     | IESG       | Section 4.7.11 |
+   |              | content             |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | encoding     | analysis inline     | IESG       | Section 4.7.11 |
+   |              | content encoding    |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | url          | analysis referenced | IESG       | Section 4.7.11 |
+   |              | content URL         |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
+   | content_hash | analysis content    | IESG       | Section 4.7.11 |
+   |              | hash                |            | RFC XXXX       |
+   +--------------+---------------------+------------+----------------+
 
-                                  Table 15
+                                 Table 15
 
-6.3.9.  Redacted Object Parameter Names Registry
+6.3.10.  Redacted Object Parameter Names Registry
 
    The following defines the initial values for the Redacted Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3725,7 +3783,7 @@ Table of Contents
 
                                   Table 16
 
-6.3.10.  Amended Object Parameter Names Registry
+6.3.11.  Amended Object Parameter Names Registry
 
    The following defines the initial values for the Amended Object
    Parameter Names Registry.  Use the template in Object Registry
