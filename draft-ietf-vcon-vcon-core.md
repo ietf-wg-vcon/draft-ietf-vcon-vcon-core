@@ -758,6 +758,8 @@ For example it could be the scheduled start time for a conference where everyone
 
 * start: "Date"
 
+The value of the start parameter is the date and time at which the session started.
+
 ### duration {#session-duration}
 
 The duration parameter contains the duration in seconds of the session.
@@ -861,6 +863,8 @@ TODO: other types?
 The description parameter is used to better describe the relationship to the referenced Session Object.
 
 * description: "String" (optional)
+
+The value of the description parameter is a free form text description of the relationship.
 
 TODO: alternative name: relation?
 
@@ -1548,7 +1552,7 @@ The conversation mode can be identified by looking at the dialog type.
 However that does not different between different communication platform service providers or hosting service.
 For example, the application parameter can be used to identify the web conference hosting service.
 
-* application "String" (optional)
+* application: "String" (optional)
 
 ### message_id {#message_id}
 
@@ -1752,7 +1756,7 @@ The vendor string value contains the vendor or product name of the software whic
 
 As the vendor may have more than one product, the product parameter may be used to differentiate it from other products which may have different schemas of analysis data.
 
-* product: "string" (optional)
+* product: "String" (optional)
 
 ### schema
 
@@ -1876,13 +1880,13 @@ The Signature Object MUST contain a header, protected and signature parameter as
 
 * header: "Header"
 
-The value of header is defined in [Header Object](#header-object)
+The value of header is defined in [Header Object](#jws-header-object)
 
 * protected: "String"
 * signature: "String"
 
 
-### Header Object
+### Header Object {#jws-header-object}
 
 The Header Object and its contents are defined in section 4 of [JWS].
 The Header Object for a signed vCon MUST include the alg and either the x5c or x5u arrays.
@@ -1970,11 +1974,13 @@ The value of this uuid parameter SHOULD be verified when the vCon is decrypted.
 
 * header: "Header"
 
+The value of header is defined in [Header Object](#jwe-header-object).
+
 * encrypted_key: "String"
 
 The string value of encrypted_key is defined in section 7.2.1 of [JWE].
 
-### Header Object
+### Header Object {#jwe-header-object}
 
 * alg: "String"
 
@@ -2493,7 +2499,7 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 * Header Parameter Description: UUID of the signed object
 * Header Parameter Usage Location(s): JWS, JWE
 * Change Controller: IESG
-* Specification Document(s): [Header Object](#header-object), [Header Object](#unprotected-object) of RFC XXXX
+* Specification Document(s): [Header Object](#jws-header-object), [Unprotected Object](#unprotected-object) of RFC XXXX
 
 # Non-Upward Compatible Changes to the vCon Container {#name-non-upward-compatible-changes-to-the-vcon-container}
 
