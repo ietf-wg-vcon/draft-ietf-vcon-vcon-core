@@ -190,11 +190,12 @@ Table of Contents
        6.3.2.  vCon Object Parameter Names Registry
        6.3.3.  Party Object Parameter Names Registry
        6.3.4.  Dialog Object Parameter Names Registry
-       6.3.5.  Event Object Parameter Names Registry
-       6.3.6.  Attachment Object Parameter Names Registry
-       6.3.7.  Analysis Object Parameter Names Registry
-       6.3.8.  Redacted Object Parameter Names Registry
-       6.3.9.  Amended Object Parameter Names Registry
+       6.3.5.  Session_Reference Object Parameter Names Registry
+       6.3.6.  Event Object Parameter Names Registry
+       6.3.7.  Attachment Object Parameter Names Registry
+       6.3.8.  Analysis Object Parameter Names Registry
+       6.3.9.  Redacted Object Parameter Names Registry
+       6.3.10. Amended Object Parameter Names Registry
      6.4.  vCon Extensions Names Registry
        6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
@@ -1247,8 +1248,8 @@ Table of Contents
 
    *  type: "String"
 
-   The type parameter is a string that SHOULD contain one of the
-   following values:
+   The string MUST have the value of one of the following tokens or a
+   value defined in a vCon extension:
 
    *  "child" - a session contained within this session
 
@@ -1262,7 +1263,10 @@ Table of Contents
       parties in this session and typically overlapping with this
       session
 
-   TBD: other types? consult
+   The handling of a Session_Reference Object with a type which is not
+   recognized is described in Section 2.5.
+
+   TBD: other types?
 
 4.2.8.3.  description
 
@@ -2060,41 +2064,39 @@ Table of Contents
 
    X  The parameter MUST NOT be present.
 
-            +===============+===========+=======+============+
-            | Parameter     | recording | text  | incomplete |
-            +===============+===========+=======+============+
-            | type          | M         | M     | M          |
-            +---------------+-----------+-------+------------+
-            | start         | S         | S     | S          |
-            +---------------+-----------+-------+------------+
-            | duration      | O         | O     | O          |
-            +---------------+-----------+-------+------------+
-            | parties       | S         | S     | O          |
-            +---------------+-----------+-------+------------+
-            | mediatype     | M (1)     | M (1) | X          |
-            +---------------+-----------+-------+------------+
-            | filename      | O         | O     | X          |
-            +---------------+-----------+-------+------------+
-            | body          | S (2)     | S (2) | X          |
-            +---------------+-----------+-------+------------+
-            | encoding      | S (3)     | S (3) | X          |
-            +---------------+-----------+-------+------------+
-            | url           | S (2)     | S (2) | X          |
-            +---------------+-----------+-------+------------+
-            | content_hash  | S (4)     | S (4) | X          |
-            +---------------+-----------+-------+------------+
-            | disposition   | SN        | SN    | M          |
-            +---------------+-----------+-------+------------+
-            | session_id    | O         | O     | O          |
-            +---------------+-----------+-------+------------+
-            | party_history | O         | O     | O          |
-            +---------------+-----------+-------+------------+
-            | application   | O         | O     | O          |
-            +---------------+-----------+-------+------------+
-            | message_id    | O         | O     | X          |
-            +---------------+-----------+-------+------------+
+             +==============+===========+=======+============+
+             | Parameter    | recording | text  | incomplete |
+             +==============+===========+=======+============+
+             | type         | M         | M     | M          |
+             +--------------+-----------+-------+------------+
+             | start        | S         | S     | S          |
+             +--------------+-----------+-------+------------+
+             | duration     | O         | O     | O          |
+             +--------------+-----------+-------+------------+
+             | parties      | S         | S     | O          |
+             +--------------+-----------+-------+------------+
+             | mediatype    | M (1)     | M (1) | X          |
+             +--------------+-----------+-------+------------+
+             | filename     | O         | O     | X          |
+             +--------------+-----------+-------+------------+
+             | body         | S (2)     | S (2) | X          |
+             +--------------+-----------+-------+------------+
+             | encoding     | S (3)     | S (3) | X          |
+             +--------------+-----------+-------+------------+
+             | url          | S (2)     | S (2) | X          |
+             +--------------+-----------+-------+------------+
+             | content_hash | S (4)     | S (4) | X          |
+             +--------------+-----------+-------+------------+
+             | disposition  | SN        | SN    | M          |
+             +--------------+-----------+-------+------------+
+             | session_id   | O         | O     | O          |
+             +--------------+-----------+-------+------------+
+             | application  | O         | O     | O          |
+             +--------------+-----------+-------+------------+
+             | message_id   | O         | O     | X          |
+             +--------------+-----------+-------+------------+
 
-                                 Table 4
+                                  Table 4
 
    (1) MUST be present for inline Dialog Content; optional for
    externally referenced Dialog Content when the media type is provided
@@ -3344,7 +3346,126 @@ Table of Contents
 
                                   Table 8
 
-6.3.5.  Event Object Parameter Names Registry
+   ession Object Parameter Names Registry
+
+   The following defines the initial values for the Session Object
+   Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering additional entries to this
+   table.
+
+    +================+===================+============+===============+
+    | Parameter Name | Parameter         | Change     | Specification |
+    |                | Description       | Controller | Document(s)   |
+    +================+===================+============+===============+
+    | start          | session start     | IESG       | Section 4.2.1 |
+    |                | time              |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+    | duration       | session duration  | IESG       | Section 4.2.2 |
+    |                | period            |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+    | parties        | session parties   | IESG       | Section 4.2.3 |
+    |                | list              |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+    | originator     | session           | IESG       | Section 4.2.4 |
+    |                | originator party  |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+    | session_id     | RFC7989 session   | IESG       | Section 4.2.5 |
+    |                | ID                |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+    | sessions       | Session_Reference | IESG       | Section 4.2.6 |
+    |                | Objects array     |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+    | dialog         | session dialog    | IESG       | Section 4.2.7 |
+    |                | index list        |            | RFC XXXX      |
+    +----------------+-------------------+------------+---------------+
+
+                                  Table 9
+
+6.3.5.  Session_Reference Object Parameter Names Registry
+
+   The following defines the initial values for the Session_Reference
+   Object Parameter Names Registry.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering additional entries to this
+   table.
+
+   +=============+======================+============+=================+
+   | Parameter   | Parameter            | Change     | Specification   |
+   | Name        | Description          | Controller | Document(s)     |
+   +=============+======================+============+=================+
+   | session     | referenced           | IESG       | Section 4.2.8.1 |
+   |             | session index        |            | RFC XXXX        |
+   +-------------+----------------------+------------+-----------------+
+   | type        | session              | IESG       | Section 4.2.8.2 |
+   |             | relationship type    |            | RFC XXXX        |
+   +-------------+----------------------+------------+-----------------+
+   | description | session              | IESG       | Section 4.2.8.3 |
+   |             | relationship         |            | RFC XXXX        |
+   |             | description          |            |                 |
+   +-------------+----------------------+------------+-----------------+
+
+                                  Table 10
+
+6.3.5.1.  Session_Reference Type Name Registry
+
+   This document defines a new registry for the token name values that
+   are permitted as values to the Session_Reference Object type
+   (Section 4.2.8.2) parameter.
+
+6.3.5.1.1.  Session_Reference Type Name Registration Template
+
+   Session_Reference Type Name:
+
+   The string token name of a Session_Reference Object type.  The name
+   is case sensitive.  Names may not match other registered names in a
+   case-insensitive manner unless the Designated Experts state that
+   there is a compelling reason to allow an exception.
+
+   Session_Reference Type Description:
+
+   Brief description of the Session_Reference Object type
+
+   Change Controller:
+
+   For Standards Track RFCs, list the "IESG".  For others, give the name
+   of the responsible party.  Other details (e.g., postal address, email
+   address, home page URI) may also be included.
+
+   Specification Document(s):
+
+   Reference to the document or documents that specify the parameter,
+   preferably including URIs that can be used to retrieve copies of the
+   documents.  An indication of the relevant sections may also be
+   included but is not required.
+
+6.3.5.1.2.  Session_Reference Type Name Registration Initial Values
+
+   The following table defines the initial values for the
+   Session_Reference Type Name Registry.
+
+   +===================+===================+==========+===============+
+   | Session_Reference | Session_Reference |Change    | Specification |
+   | Type Name         | Type Description  |Controller| Document(s)   |
+   +===================+===================+==========+===============+
+   | child             | contained session |IESG      | Section       |
+   |                   |                   |          | 4.2.8.2 RFC   |
+   |                   |                   |          | XXXX          |
+   +-------------------+-------------------+----------+---------------+
+   | peer              | parallel or       |IESG      | Section       |
+   |                   | overlapping       |          | 4.2.8.2 RFC   |
+   |                   | session           |          | XXXX          |
+   +-------------------+-------------------+----------+---------------+
+   | precursor         | preceding session |IESG      | Section       |
+   |                   |                   |          | 4.2.8.2 RFC   |
+   |                   |                   |          | XXXX          |
+   +-------------------+-------------------+----------+---------------+
+   | breakout          | breakout session  |IESG      | Section       |
+   |                   | with a subset of  |          | 4.2.8.2 RFC   |
+   |                   | the parties       |          | XXXX          |
+   +-------------------+-------------------+----------+---------------+
+
+                                 Table 11
+
+6.3.6.  Event Object Parameter Names Registry
 
    The initial values for the Event Object Parameter Names Registry are
    listed in the following table.  Use the template in Object Registry
@@ -3389,15 +3510,15 @@ Table of Contents
      |                 |               |            | XXXX          |
      +-----------------+---------------+------------+---------------+
 
-                                 Table 9
+                                 Table 12
 
-6.3.5.1.  Event Type Name Registry
+6.3.6.1.  Event Type Name Registry
 
    This document defines a new registry for the token name values that
    are permitted as values to the Event Object type (Section 4.3.1)
    parameter.
 
-6.3.5.1.1.  Event Type Name Registration Template
+6.3.6.1.1.  Event Type Name Registration Template
 
    Event Type Name:
 
@@ -3423,7 +3544,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.5.1.2.  Event Type Name Registration Initial Values
+6.3.6.1.2.  Event Type Name Registration Initial Values
 
    The following table defines the initial values for the Event Type
    Name Registry.
@@ -3481,9 +3602,9 @@ Table of Contents
    |                       | event         |          | XXXX          |
    +-----------------------+---------------+----------+---------------+
 
-                                 Table 10
+                                 Table 13
 
-6.3.6.  Attachment Object Parameter Names Registry
+6.3.7.  Attachment Object Parameter Names Registry
 
    The following defines the initial values for the Attachment Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3526,9 +3647,9 @@ Table of Contents
    |              | hash                  |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
 
-                                  Table 11
+                                  Table 14
 
-6.3.7.  Analysis Object Parameter Names Registry
+6.3.8.  Analysis Object Parameter Names Registry
 
    The following defines the initial values for the Analysis Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3576,9 +3697,9 @@ Table of Contents
    |                | hash                |            | RFC XXXX      |
    +----------------+---------------------+------------+---------------+
 
-                                  Table 12
+                                  Table 15
 
-6.3.8.  Redacted Object Parameter Names Registry
+6.3.9.  Redacted Object Parameter Names Registry
 
    The following defines the initial values for the Redacted Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3602,9 +3723,9 @@ Table of Contents
    |                | vCon hash         |            | RFC XXXX        |
    +----------------+-------------------+------------+-----------------+
 
-                                  Table 13
+                                  Table 16
 
-6.3.9.  Amended Object Parameter Names Registry
+6.3.10.  Amended Object Parameter Names Registry
 
    The following defines the initial values for the Amended Object
    Parameter Names Registry.  Use the template in Object Registry
@@ -3625,7 +3746,7 @@ Table of Contents
    |                | vCon hash        |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
 
-                                 Table 14
+                                 Table 17
 
 6.4.  vCon Extensions Names Registry
 
