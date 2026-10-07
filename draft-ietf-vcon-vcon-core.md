@@ -1876,13 +1876,14 @@ The value of signatures is an array of [Signature Objects](#signature-object)
 
 ### Signature Object
 
-The Signature Object MUST contain a header, protected and signature parameter as defined in section 7.2.1 of [JWS].
+The Signature Object MUST contain a header and signature parameter as defined in section 7.2.1 of [JWS].
+The protected parameter MUST be present when the JWS Protected Header is not empty and MUST be absent otherwise, as defined in section 7.2.1 of [JWS].
 
 * header: "Header"
 
 The value of header is defined in [Header Object](#jws-header-object).
 
-* protected: "String"
+* protected: "String" (present when the JWS Protected Header is not empty)
 
 The string value of protected is the Base64Url encoded JWS Protected Header as defined in section 7.2.1 of [JWS].
 
@@ -1895,6 +1896,7 @@ The string value of signature is the Base64Url encoded JWS Signature as defined 
 The Header Object and its contents are defined in section 4 of [JWS].
 The Header Object for a signed vCon MUST include at least one of x5c or x5u.
 The alg parameter MUST be present in either the JWS Protected Header or the Header Object.
+The alg parameter SHOULD be present in the JWS Protected Header so that it is integrity protected.
 As defined in section 7.2.1 of [JWS], a header parameter MUST NOT be present in both the JWS Protected Header and the Header Object.
 The x5c or x5u requirement makes the management and use of vCons easier, allowing the certificate chain to be found as the vCon is moved.
 Other header parameters defined for [JWS] MAY be present in the Header Object.
@@ -1983,6 +1985,10 @@ The string value of cty SHOULD be either "application/vcon" or "application/vcon
 
 The string value of enc SHOULD be "A256CBC-HS512"
 
+* alg: "String" (MUST be present here, in the Header Object of each recipient or in the JWE Protected Header)
+
+The string value of alg is defined in section 4.1.1 of [JWE].
+
 * uuid: "String" (SHOULD be provided)
 
 The string value of the UUID for the vCon contained in the ciphertext parameter.
@@ -1997,7 +2003,7 @@ Other header parameters defined for [JWE] MAY be present.
 
 The value of header is defined in [Header Object](#jwe-header-object).
 
-* encrypted_key: "String"
+* encrypted_key: "String" (present when the JWE Encrypted Key is not empty)
 
 The string value of encrypted_key is defined in section 7.2.1 of [JWE].
 
@@ -2541,6 +2547,8 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
     Each "transfer" type Dialog Object becomes one or two Event Objects in which "transferor" becomes "party", and the Dialog Objects referenced by "original", "consultation" and "target_dialog" are each referenced through a Session Object.
   * The "originator" Dialog Object parameter was moved to the Session Object.
   * Dialog Object indices change where "transfer" type Dialog Objects are removed from the dialog array, and references to them are updated.
+  * Some implementations of version 0.4.0 repeated header parameters, with identical values, in more than one header of the signed and encrypted forms.
+    Implementations which read vCons produced by those implementations may choose to accept them.
 
 ## Version 0.3.0 to 0.4.0
 
