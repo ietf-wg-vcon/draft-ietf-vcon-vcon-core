@@ -4611,10 +4611,14 @@ The general construction of the payload string value is described in section 7.2
 <li class="normal" id="section-5.2.1-4.1">
               <p id="section-5.2.1-4.1.1">protected: "String"<a href="#section-5.2.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.2.1-4.2">
-              <p id="section-5.2.1-4.2.1">signature: "String"<a href="#section-5.2.1-4.2.1" class="pilcrow">¶</a></p>
+          </ul>
+<p id="section-5.2.1-5">The string value of protected is the Base64Url encoded JWS Protected Header as defined in section 7.2.1 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2.1-6.1">
+              <p id="section-5.2.1-6.1.1">signature: "String"<a href="#section-5.2.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-5.2.1-7">The string value of signature is the Base64Url encoded JWS Signature as defined in section 7.2.1 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>.<a href="#section-5.2.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="jws-header-object">
@@ -4623,23 +4627,26 @@ The general construction of the payload string value is described in section 7.2
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-header-object" class="section-name selfRef">Header Object</a>
           </h4>
 <p id="section-5.2.2-1">The Header Object and its contents are defined in section 4 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>.
-The Header Object for a signed vCon <span class="bcp14">MUST</span> include the alg and either the x5c or x5u arrays.
-The x5c or x5u requirement makes the management and use of vCons easier, allowing the certificate chain to be found as the vCon is moved.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+The Header Object for a signed vCon <span class="bcp14">MUST</span> include at least one of x5c or x5u.
+The alg parameter <span class="bcp14">MUST</span> be present in either the JWS Protected Header or the Header Object.
+As defined in section 7.2.1 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>, a header parameter <span class="bcp14">MUST NOT</span> be present in both the JWS Protected Header and the Header Object.
+The x5c or x5u requirement makes the management and use of vCons easier, allowing the certificate chain to be found as the vCon is moved.
+Other header parameters defined for <span>[<a href="#JWS" class="cite xref">JWS</a>]</span> <span class="bcp14">MAY</span> be present in the Header Object.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2.2-2.1">
-              <p id="section-5.2.2-2.1.1">alg: "String"<a href="#section-5.2.2-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-2.1.1">alg: "String" (<span class="bcp14">MUST</span> be present here or in the JWS Protected Header)<a href="#section-5.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.2.2-3">The string value of alg is defined in section 4.1.1 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>.  For a signed vCon this value <span class="bcp14">SHOULD</span> be "RS256" to maximize interoperability.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2.2-4.1">
-              <p id="section-5.2.2-4.1.1">x5c: "String[]" (<span class="bcp14">MUST</span> provide x5c or x5u)<a href="#section-5.2.2-4.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-4.1.1">x5c: "String[]" (<span class="bcp14">MUST</span> provide at least one of x5c or x5u)<a href="#section-5.2.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.2.2-5">The array of string values for x5c are defined in section 4.1.6 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>.<a href="#section-5.2.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2.2-6.1">
-              <p id="section-5.2.2-6.1.1">x5u: "String" (<span class="bcp14">MUST</span> provide x5c or x5u)<a href="#section-5.2.2-6.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-6.1.1">x5u: "String" (<span class="bcp14">MUST</span> provide at least one of x5c or x5u)<a href="#section-5.2.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.2.2-7">The string value of x5u <span class="bcp14">MUST</span> contain an <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> URL as defined in section 4.1.5 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>.<a href="#section-5.2.2-7" class="pilcrow">¶</a></p>
@@ -4698,31 +4705,47 @@ The process is continued for the life of the vCon archiving.<a href="#section-5.
 The rationale is that meta data and dialog will typically be collected in one security domain, then may be stored or exported to another.
 The signing is likely for the lifetime of the vCon, where the encryption may be shorter term or domain specific.
 vCons may be stored in unencrypted form, but the signed form <span class="bcp14">MUST</span> be maintained to ensure its integrity.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">A encrypted vCon uses <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> and takes the General JWE JSON Serialization Syntax form as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">An encrypted vCon uses <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> and takes the General JWE JSON Serialization Syntax form as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.
+The alg and enc header parameters <span class="bcp14">MUST</span> each be present in one of the header locations permitted by <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.
+The enc parameter is the same for all recipients and is present in either the JWE Protected Header or the Unprotected Object.
+The alg parameter is present in the JWE Protected Header, the Unprotected Object or the Header Object of each recipient.
+As defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>, a header parameter <span class="bcp14">MUST NOT</span> be present in more than one of these locations.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-3.1">
-            <p id="section-5.3-3.1.1">unprotected: "Unprotected"<a href="#section-5.3-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.3-3.2">
-            <p id="section-5.3-3.2.1">recipients: "Recipient[]"<a href="#section-5.3-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.3-3.3">
-            <p id="section-5.3-3.3.1">iv: "String"<a href="#section-5.3-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-3.1.1">protected: "String" (optional)<a href="#section-5.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.3-4">The string value of iv is the Initialization Vector as constructed as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-4">The string value of protected is the Base64Url encoded JWE Protected Header as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-5.1">
-            <p id="section-5.3-5.1.1">ciphertext: "String"<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-5.1.1">unprotected: "Unprotected"<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-5.2">
+            <p id="section-5.3-5.2.1">recipients: "Recipient[]"<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-5.3">
+            <p id="section-5.3-5.3.1">iv: "String"<a href="#section-5.3-5.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.3-6">The string value of ciphertext is constructed as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> using the signed form of the vCon as the plaintext input for encryption.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.3-6">The string value of iv is the Initialization Vector as constructed as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-7.1">
-            <p id="section-5.3-7.1.1">tag: "String"<a href="#section-5.3-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-7.1.1">ciphertext: "String"<a href="#section-5.3-7.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.3-8">The string value of tag is the the Authentication Tag as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<p id="section-5.3-8">The string value of ciphertext is constructed as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> using the signed form of the vCon as the plaintext input for encryption.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-9.1">
+            <p id="section-5.3-9.1.1">tag: "String"<a href="#section-5.3-9.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.3-10">The string value of tag is the Authentication Tag as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-11.1">
+            <p id="section-5.3-11.1.1">aad: "String" (optional)<a href="#section-5.3-11.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.3-12">The string value of aad is the Base64Url encoded Additional Authenticated Data as defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3-12" class="pilcrow">¶</a></p>
 <div id="unprotected-object">
 <section id="section-5.3.1">
           <h4 id="name-unprotected-object">
@@ -4736,7 +4759,7 @@ vCons may be stored in unencrypted form, but the signed form <span class="bcp14"
 <p id="section-5.3.1-2">The string value of cty <span class="bcp14">SHOULD</span> be either "application/vcon" or "application/vcon+gzip"<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.1-3.1">
-              <p id="section-5.3.1-3.1.1">enc: "String"<a href="#section-5.3.1-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.1-3.1.1">enc: "String" (<span class="bcp14">MUST</span> be present here or in the JWE Protected Header)<a href="#section-5.3.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.3.1-4">The string value of enc <span class="bcp14">SHOULD</span> be "A256CBC-HS512"<a href="#section-5.3.1-4" class="pilcrow">¶</a></p>
@@ -4748,6 +4771,7 @@ vCons may be stored in unencrypted form, but the signed form <span class="bcp14"
 <p id="section-5.3.1-6">The string value of the UUID for the vCon contained in the ciphertext parameter.
 This is provided for identification of the encrypted vCon without the need of the key to decrypt the vCon.
 The value of this uuid parameter <span class="bcp14">SHOULD</span> be verified when the vCon is decrypted.<a href="#section-5.3.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-7">Other header parameters defined for <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> <span class="bcp14">MAY</span> be present.<a href="#section-5.3.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recipient-object">
@@ -4757,7 +4781,7 @@ The value of this uuid parameter <span class="bcp14">SHOULD</span> be verified w
           </h4>
 <ul class="normal">
 <li class="normal" id="section-5.3.2-1.1">
-              <p id="section-5.3.2-1.1.1">header: "Header"<a href="#section-5.3.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.2-1.1.1">header: "Header" (optional)<a href="#section-5.3.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.3.2-2">The value of header is defined in <span><a href="#jwe-header-object" class="internal xref">Header Object</a> (<a href="#jwe-header-object" class="auto internal xref">Section 5.3.3</a>)</span>.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
@@ -4776,10 +4800,11 @@ The value of this uuid parameter <span class="bcp14">SHOULD</span> be verified w
           </h4>
 <ul class="normal">
 <li class="normal" id="section-5.3.3-1.1">
-              <p id="section-5.3.3-1.1.1">alg: "String"<a href="#section-5.3.3-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.3-1.1.1">alg: "String" (<span class="bcp14">MUST</span> be present here, in the Unprotected Object or in the JWE Protected Header)
+The string value of alg <span class="bcp14">SHOULD</span> be "RSA-OAEP".<a href="#section-5.3.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-5.3.3-2">The string value of alg <span class="bcp14">SHOULD</span> be "RSA-OAEP".<a href="#section-5.3.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.3-2">Other header parameters defined for <span>[<a href="#JWE" class="cite xref">JWE</a>]</span> <span class="bcp14">MAY</span> be present.<a href="#section-5.3.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4811,6 +4836,12 @@ The presence of one or more of the following parameters indicates that the vCon 
 </li>
               <li class="normal" id="section-5.4-2.1.3.4">
                 <p id="section-5.4-2.1.3.4.1">attachments<a href="#section-5.4-2.1.3.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.4-2.1.3.5">
+                <p id="section-5.4-2.1.3.5.1">sessions<a href="#section-5.4-2.1.3.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.4-2.1.3.6">
+                <p id="section-5.4-2.1.3.6.1">events<a href="#section-5.4-2.1.3.6.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -6224,7 +6255,7 @@ The registration policy for this registry is Specification Required as defined i
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.<a href="#section-6.4.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.4.1-3">Extension Description:<a href="#section-6.4.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.4.1-4">Brief description of the the vCon extension<a href="#section-6.4.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.4.1-4">Brief description of the vCon extension<a href="#section-6.4.1-4" class="pilcrow">¶</a></p>
 <p id="section-6.4.1-5">Change Controller:<a href="#section-6.4.1-5" class="pilcrow">¶</a></p>
 <p id="section-6.4.1-6">For Standards Track RFCs, list the "IESG".  For others, give the
    name of the responsible party.  Other details (e.g., postal
@@ -8802,7 +8833,8 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
       </h2>
 <p id="appendix-C-1">This JSON schema is provided as informational.
 The text in sections 1-6 of this document define the normative definition of the vCon schema.
-If the JSON schema provided below differs from that in the text of the above sections, the text should be taken as the definitive definition and the JSON Schema below should be consider incorrect.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+If the JSON schema provided below differs from that in the text of the above sections, the text should be taken as the definitive definition and the JSON Schema below should be consider incorrect.
+The JSON Schema is permissive: parameters and type values which are not defined in this document do not cause validation to fail.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">The JSON Schema definition below has been formatted with line breaks to
 print nicely on the page.
 The unformatted version of the JSON schema can be downloaded from:
@@ -10200,7 +10232,9 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
       </h2>
 <p id="appendix-D-1">This CDDL for vCon core is provided as informational.
 The text in sections 1-6 of this document define the normative definition of the vCon CDDL.
-If the CDDL provided below differs or conflicts from that in the text of the above sections, the text should be taken as the definitive definition and the CDDL below should be consider incorrect.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+If the CDDL provided below differs or conflicts from that in the text of the above sections, the text should be taken as the definitive definition and the CDDL below should be consider incorrect.
+The CDDL is strict: parameters and type values which are not defined in this document cause validation to fail unless the CDDL for the vCon extension which defines them is also used.
+Failing validation against this CDDL is not by itself a reason to reject a vCon (see <a href="#extending-vcon" class="auto internal xref">Section 2.5</a>).<a href="#appendix-D-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-D-2">
 <pre>
 ; CDDL for the JSON vCon - Conversation Data Container

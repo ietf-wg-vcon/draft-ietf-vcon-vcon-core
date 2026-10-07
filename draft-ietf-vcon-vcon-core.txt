@@ -2844,28 +2844,39 @@ Table of Contents
 
    *  protected: "String"
 
+   The string value of protected is the Base64Url encoded JWS Protected
+   Header as defined in section 7.2.1 of [JWS].
+
    *  signature: "String"
+
+   The string value of signature is the Base64Url encoded JWS Signature
+   as defined in section 7.2.1 of [JWS].
 
 5.2.2.  Header Object
 
    The Header Object and its contents are defined in section 4 of [JWS].
-   The Header Object for a signed vCon MUST include the alg and either
-   the x5c or x5u arrays.  The x5c or x5u requirement makes the
-   management and use of vCons easier, allowing the certificate chain to
-   be found as the vCon is moved.
+   The Header Object for a signed vCon MUST include at least one of x5c
+   or x5u.  The alg parameter MUST be present in either the JWS
+   Protected Header or the Header Object.  As defined in section 7.2.1
+   of [JWS], a header parameter MUST NOT be present in both the JWS
+   Protected Header and the Header Object.  The x5c or x5u requirement
+   makes the management and use of vCons easier, allowing the
+   certificate chain to be found as the vCon is moved.  Other header
+   parameters defined for [JWS] MAY be present in the Header Object.
 
-   *  alg: "String"
+   *  alg: "String" (MUST be present here or in the JWS Protected
+      Header)
 
    The string value of alg is defined in section 4.1.1 of [JWS].  For a
    signed vCon this value SHOULD be "RS256" to maximize
    interoperability.
 
-   *  x5c: "String[]" (MUST provide x5c or x5u)
+   *  x5c: "String[]" (MUST provide at least one of x5c or x5u)
 
    The array of string values for x5c are defined in section 4.1.6 of
    [JWS].
 
-   *  x5u: "String" (MUST provide x5c or x5u)
+   *  x5u: "String" (MUST provide at least one of x5c or x5u)
 
    The string value of x5u MUST contain an [HTTPS] URL as defined in
    section 4.1.5 of [JWS].
@@ -2925,8 +2936,20 @@ Table of Contents
    domain specific. vCons may be stored in unencrypted form, but the
    signed form MUST be maintained to ensure its integrity.
 
-   A encrypted vCon uses [JWE] and takes the General JWE JSON
-   Serialization Syntax form as defined in section 7.2.1 of [JWE].
+   An encrypted vCon uses [JWE] and takes the General JWE JSON
+   Serialization Syntax form as defined in section 7.2.1 of [JWE].  The
+   alg and enc header parameters MUST each be present in one of the
+   header locations permitted by [JWE].  The enc parameter is the same
+   for all recipients and is present in either the JWE Protected Header
+   or the Unprotected Object.  The alg parameter is present in the JWE
+   Protected Header, the Unprotected Object or the Header Object of each
+   recipient.  As defined in section 7.2.1 of [JWE], a header parameter
+   MUST NOT be present in more than one of these locations.
+
+   *  protected: "String" (optional)
+
+   The string value of protected is the Base64Url encoded JWE Protected
+   Header as defined in section 7.2.1 of [JWE].
 
    *  unprotected: "Unprotected"
 
@@ -2945,8 +2968,13 @@ Table of Contents
 
    *  tag: "String"
 
-   The string value of tag is the the Authentication Tag as defined in
+   The string value of tag is the Authentication Tag as defined in
    section 7.2.1 of [JWE].
+
+   *  aad: "String" (optional)
+
+   The string value of aad is the Base64Url encoded Additional
+   Authenticated Data as defined in section 7.2.1 of [JWE].
 
 5.3.1.  Unprotected Object
 
@@ -2955,7 +2983,8 @@ Table of Contents
    The string value of cty SHOULD be either "application/vcon" or
    "application/vcon+gzip"
 
-   *  enc: "String"
+   *  enc: "String" (MUST be present here or in the JWE Protected
+      Header)
 
    The string value of enc SHOULD be "A256CBC-HS512"
 
@@ -2966,9 +2995,11 @@ Table of Contents
    without the need of the key to decrypt the vCon.  The value of this
    uuid parameter SHOULD be verified when the vCon is decrypted.
 
+   Other header parameters defined for [JWE] MAY be present.
+
 5.3.2.  Recipient Object
 
-   *  header: "Header"
+   *  header: "Header" (optional)
 
    The value of header is defined in Header Object (Section 5.3.3).
 
@@ -2979,9 +3010,11 @@ Table of Contents
 
 5.3.3.  Header Object
 
-   *  alg: "String"
+   *  alg: "String" (MUST be present here, in the Unprotected Object or
+      in the JWE Protected Header) The string value of alg SHOULD be
+      "RSA-OAEP".
 
-   The string value of alg SHOULD be "RSA-OAEP".
+   Other header parameters defined for [JWE] MAY be present.
 
 5.4.  Differentiation of vCon forms
 
@@ -3005,6 +3038,10 @@ Table of Contents
       -  analysis
 
       -  attachments
+
+      -  sessions
+
+      -  events
 
    *  signed (JWS)
 
@@ -3836,7 +3873,7 @@ Table of Contents
 
    Extension Description:
 
-   Brief description of the the vCon extension
+   Brief description of the vCon extension
 
    Change Controller:
 
@@ -6342,7 +6379,9 @@ Appendix C.  vCon JSON Schema
    schema.  If the JSON schema provided below differs from that in the
    text of the above sections, the text should be taken as the
    definitive definition and the JSON Schema below should be consider
-   incorrect.
+   incorrect.  The JSON Schema is permissive: parameters and type values
+   which are not defined in this document do not cause validation to
+   fail.
 
    The JSON Schema definition below has been formatted with line breaks
    to print nicely on the page.  The unformatted version of the JSON
@@ -7737,7 +7776,11 @@ Appendix D.  vCon CDDL
    vCon CDDL.  If the CDDL provided below differs or conflicts from that
    in the text of the above sections, the text should be taken as the
    definitive definition and the CDDL below should be consider
-   incorrect.
+   incorrect.  The CDDL is strict: parameters and type values which are
+   not defined in this document cause validation to fail unless the CDDL
+   for the vCon extension which defines them is also used.  Failing
+   validation against this CDDL is not by itself a reason to reject a
+   vCon (see Section 2.5).
 
    ; CDDL for the JSON vCon - Conversation Data Container
    ; Generated from the prose of draft-ietf-vcon-vcon-core
