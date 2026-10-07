@@ -1133,6 +1133,9 @@ Table of Contents
 
    *  start: "Date"
 
+   The value of the start parameter is the date and time at which the
+   session started.
+
 4.2.2.  duration
 
    The duration parameter contains the duration in seconds of the
@@ -1278,6 +1281,9 @@ Table of Contents
    to the referenced Session Object.
 
    *  description: "String" (optional)
+
+   The value of the description parameter is a free form text
+   description of the relationship.
 
    TODO: alternative name: relation?
 
@@ -2368,7 +2374,7 @@ Table of Contents
    example, the application parameter can be used to identify the web
    conference hosting service.
 
-   *  application "String" (optional)
+   *  application: "String" (optional)
 
 4.5.11.  message_id
 
@@ -2642,7 +2648,7 @@ Table of Contents
    may be used to differentiate it from other products which may have
    different schemas of analysis data.
 
-   *  product: "string" (optional)
+   *  product: "String" (optional)
 
 4.7.10.  schema
 
@@ -2961,6 +2967,8 @@ Table of Contents
 5.3.2.  Recipient Object
 
    *  header: "Header"
+
+   The value of header is defined in Header Object (Section 5.3.3).
 
    *  encrypted_key: "String"
 
@@ -3854,8 +3862,8 @@ Table of Contents
 
    *  Change Controller: IESG
 
-   *  Specification Document(s): Header Object (Section 5.2.2), Header
-      Object (Section 5.3.1) of RFC XXXX
+   *  Specification Document(s): Header Object (Section 5.2.2),
+      Unprotected Object (Section 5.3.1) of RFC XXXX
 
 7.  Non-Upward Compatible Changes to the vCon Container
 

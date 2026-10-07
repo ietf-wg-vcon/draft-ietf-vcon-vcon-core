@@ -2627,6 +2627,7 @@ For example it could be the scheduled start time for a conference where everyone
               <p id="section-4.2.1-2.1.1">start: "Date"<a href="#section-4.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-4.2.1-3">The value of the start parameter is the date and time at which the session started.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="session-duration">
@@ -2795,8 +2796,9 @@ The session parameter <span class="bcp14">MUST</span> be provided.<a href="#sect
                 <p id="section-4.2.8.3-2.1.1">description: "String" (optional)<a href="#section-4.2.8.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-<p id="section-4.2.8.3-3">TODO: alternative name: relation?<a href="#section-4.2.8.3-3" class="pilcrow">¶</a></p>
-<p id="section-4.2.8.3-4">The description parameter is an open text String.<a href="#section-4.2.8.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.2.8.3-3">The value of the description parameter is a free form text description of the relationship.<a href="#section-4.2.8.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.2.8.3-4">TODO: alternative name: relation?<a href="#section-4.2.8.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.2.8.3-5">The description parameter is an open text String.<a href="#section-4.2.8.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4094,7 +4096,7 @@ However that does not different between different communication platform service
 For example, the application parameter can be used to identify the web conference hosting service.<a href="#section-4.5.10-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5.10-2.1">
-              <p id="section-4.5.10-2.1.1">application "String" (optional)<a href="#section-4.5.10-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.10-2.1.1">application: "String" (optional)<a href="#section-4.5.10-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -4436,7 +4438,7 @@ The vendor parameter is provided even when the mediatype parameter fully identif
 <p id="section-4.7.9-1">As the vendor may have more than one product, the product parameter may be used to differentiate it from other products which may have different schemas of analysis data.<a href="#section-4.7.9-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.7.9-2.1">
-              <p id="section-4.7.9-2.1.1">product: "string" (optional)<a href="#section-4.7.9-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.7.9-2.1.1">product: "String" (optional)<a href="#section-4.7.9-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -4601,7 +4603,7 @@ The general construction of the payload string value is described in section 7.2
               <p id="section-5.2.1-2.1.1">header: "Header"<a href="#section-5.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-5.2.1-3">The value of header is defined in <span><a href="#header-object" class="internal xref">Header Object</a> (<a href="#header-object" class="auto internal xref">Section 5.2.2</a>)</span><a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-3">The value of header is defined in <span><a href="#jws-header-object" class="internal xref">Header Object</a> (<a href="#jws-header-object" class="auto internal xref">Section 5.2.2</a>)</span><a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2.1-4.1">
               <p id="section-5.2.1-4.1.1">protected: "String"<a href="#section-5.2.1-4.1.1" class="pilcrow">¶</a></p>
@@ -4612,7 +4614,7 @@ The general construction of the payload string value is described in section 7.2
           </ul>
 </section>
 </div>
-<div id="header-object">
+<div id="jws-header-object">
 <section id="section-5.2.2">
           <h4 id="name-header-object">
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-header-object" class="section-name selfRef">Header Object</a>
@@ -4754,14 +4756,17 @@ The value of this uuid parameter <span class="bcp14">SHOULD</span> be verified w
 <li class="normal" id="section-5.3.2-1.1">
               <p id="section-5.3.2-1.1.1">header: "Header"<a href="#section-5.3.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.3.2-1.2">
-              <p id="section-5.3.2-1.2.1">encrypted_key: "String"<a href="#section-5.3.2-1.2.1" class="pilcrow">¶</a></p>
+          </ul>
+<p id="section-5.3.2-2">The value of header is defined in <span><a href="#jwe-header-object" class="internal xref">Header Object</a> (<a href="#jwe-header-object" class="auto internal xref">Section 5.3.3</a>)</span>.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.2-3.1">
+              <p id="section-5.3.2-3.1.1">encrypted_key: "String"<a href="#section-5.3.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-5.3.2-2">The string value of encrypted_key is defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-4">The string value of encrypted_key is defined in section 7.2.1 of <span>[<a href="#JWE" class="cite xref">JWE</a>]</span>.<a href="#section-5.3.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="header-object-1">
+<div id="jwe-header-object">
 <section id="section-5.3.3">
           <h4 id="name-header-object-2">
 <a href="#section-5.3.3" class="section-number selfRef">5.3.3. </a><a href="#name-header-object-2" class="section-name selfRef">Header Object</a>
@@ -6250,7 +6255,7 @@ The registration policy for this registry is Specification Required as defined i
             <p id="section-6.5-2.4.1">Change Controller: IESG<a href="#section-6.5-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.5-2.5">
-            <p id="section-6.5-2.5.1">Specification Document(s): <span><a href="#header-object" class="internal xref">Header Object</a> (<a href="#header-object" class="auto internal xref">Section 5.2.2</a>)</span>, <span><a href="#unprotected-object" class="internal xref">Header Object</a> (<a href="#unprotected-object" class="auto internal xref">Section 5.3.1</a>)</span> of RFC XXXX<a href="#section-6.5-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-6.5-2.5.1">Specification Document(s): <span><a href="#jws-header-object" class="internal xref">Header Object</a> (<a href="#jws-header-object" class="auto internal xref">Section 5.2.2</a>)</span>, <span><a href="#unprotected-object" class="internal xref">Unprotected Object</a> (<a href="#unprotected-object" class="auto internal xref">Section 5.3.1</a>)</span> of RFC XXXX<a href="#section-6.5-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
