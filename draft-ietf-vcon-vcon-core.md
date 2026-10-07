@@ -308,13 +308,17 @@ In the interest of being tolerant for interoperability, if the encoding value is
 
 * encoding: "String"
 
-This MUST be one of the following strings:
+The string MUST have the value of one of the following tokens or a value defined in a vCon extension:
 
 * "base64url": The payload of the file has been Base64Url encoded and provided as the string value of the body parameter.
 
 * "json": The value of the body parameter is a JSON value (object, array, number, string, or one of the literals true, false, or null) as defined in [JSON].
 
 * "none": The payload of the file is a valid JSON string and can be included without modification as the string value to the body parameter.
+
+A vCon extension which defines an additional encoding value also defines the form of the body parameter value for that encoding, either a string or another JSON value.
+An Object with an encoding which is not recognized cannot be decoded and is handled as described in [](#extending-vcon).
+Such an extension is Incompatible, and its name is listed in the critical parameter, if a vCon cannot be processed correctly when the Object is ignored.
 
 ## Externally Referenced Files
 
@@ -1518,7 +1522,7 @@ This latter definition of call disposition is not dialog, but analysis of the co
 
 * disposition: "String" (required for incomplete type Dialog Objects, SHOULD NOT be present for other dialog types)
 
-The value of the disposition parameter MUST be one of the following string:
+The value of the disposition parameter MUST be one of the following strings or a value defined in a vCon extension:
 
   * "no-answer" - a call or connection was attempted, but no one answered or accepted the connection
   * "congestion" - a call or connection was attempted, but was unable to be completed due to system load
@@ -1528,6 +1532,8 @@ The value of the disposition parameter MUST be one of the following string:
   * "voicemail-no-message" - a call or connection was made, the voicemail system answered, but no message was left
 
     Note: if a message was left with the voicemail system this is no longer an "incomplete" type dialog, it is a "recording" type and the conversation SHOULD be included in the Dialog Content.
+
+The handling of a Dialog Object with a disposition which is not recognized is described in [](#extending-vcon).
 
 ### session_id {#session_id}
 
