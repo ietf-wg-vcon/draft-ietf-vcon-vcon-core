@@ -1059,7 +1059,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Petrie</td>
-<td class="center">Expires 9 April 2027</td>
+<td class="center">Expires 10 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg {
 <dd class="internet-draft">draft-ietf-vcon-vcon-core-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-06" class="published">6 October 2026</time>
+<time datetime="2026-10-07" class="published">7 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-09">9 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-10">10 April 2027</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1408,13 +1408,10 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
                     <p id="section-toc.1-1.4.2.5.2.9.1"><a href="#section-4.5.9" class="auto internal xref">4.5.9</a>.  <a href="#name-session_id-2" class="internal xref">session_id</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.10">
-                    <p id="section-toc.1-1.4.2.5.2.10.1"><a href="#section-4.5.10" class="auto internal xref">4.5.10</a>. <a href="#name-party_history-objects-array" class="internal xref">party_history Objects Array</a></p>
+                    <p id="section-toc.1-1.4.2.5.2.10.1"><a href="#section-4.5.10" class="auto internal xref">4.5.10</a>. <a href="#name-application" class="internal xref">application</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.11">
-                    <p id="section-toc.1-1.4.2.5.2.11.1"><a href="#section-4.5.11" class="auto internal xref">4.5.11</a>. <a href="#name-application" class="internal xref">application</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.12">
-                    <p id="section-toc.1-1.4.2.5.2.12.1"><a href="#section-4.5.12" class="auto internal xref">4.5.12</a>. <a href="#name-message_id" class="internal xref">message_id</a></p>
+                    <p id="section-toc.1-1.4.2.5.2.11.1"><a href="#section-4.5.11" class="auto internal xref">4.5.11</a>. <a href="#name-message_id" class="internal xref">message_id</a></p>
 </li>
                 </ul>
 </li>
@@ -1542,7 +1539,7 @@ By doing so, it facilitates the integration and seamless exchange of conversatio
                     <p id="section-toc.1-1.6.2.3.2.4.1"><a href="#section-6.3.4" class="auto internal xref">6.3.4</a>.  <a href="#name-dialog-object-parameter-nam" class="internal xref">Dialog Object Parameter Names Registry</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.5">
-                    <p id="section-toc.1-1.6.2.3.2.5.1"><a href="#section-6.3.5" class="auto internal xref">6.3.5</a>.  <a href="#name-party_history-object-parame" class="internal xref">party_history Object Parameter Names Registry</a></p>
+                    <p id="section-toc.1-1.6.2.3.2.5.1"><a href="#section-6.3.5" class="auto internal xref">6.3.5</a>.  <a href="#name-event-object-parameter-name" class="internal xref">Event Object Parameter Names Registry</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.6">
                     <p id="section-toc.1-1.6.2.3.2.6.1"><a href="#section-6.3.6" class="auto internal xref">6.3.6</a>.  <a href="#name-attachment-object-parameter" class="internal xref">Attachment Object Parameter Names Registry</a></p>
@@ -4076,106 +4073,37 @@ The Session Object is the appropriate place to capture a session identifier that
           </ul>
 </section>
 </div>
-<div id="party_history-objects-array">
-<section id="section-4.5.10">
-          <h4 id="name-party_history-objects-array">
-<a href="#section-4.5.10" class="section-number selfRef">4.5.10. </a><a href="#name-party_history-objects-array" class="section-name selfRef">party_history Objects Array</a>
-          </h4>
-<p id="section-4.5.10-1">Participants in a dialog may not all join and leave at the same time.
-To support the capturing of the information when parties join, drop, go on hold or mute and unmute, the party_history array may be added to the Dialog Object.<a href="#section-4.5.10-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.5.10-2.1">
-              <p id="section-4.5.10-2.1.1">party_history: "Party_History[]" (optional)<a href="#section-4.5.10-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<div id="party_history-object">
-<section id="section-4.5.10.1">
-            <h5 id="name-party_history-object">
-<a href="#section-4.5.10.1" class="section-number selfRef">4.5.10.1. </a><a href="#name-party_history-object" class="section-name selfRef">Party_History Object</a>
-            </h5>
-<p id="section-4.5.10.1-1">The Party_History Object contains the following parameters:<a href="#section-4.5.10.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.5.10.1-2.1">
-                <p id="section-4.5.10.1-2.1.1">party: "UnsignedInt"<a href="#section-4.5.10.1-2.1.1" class="pilcrow">¶</a></p>
-<p id="section-4.5.10.1-2.1.2">
-The index of the party for this event.<a href="#section-4.5.10.1-2.1.2" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-4.5.10.1-2.2">
-                <p id="section-4.5.10.1-2.2.1">time: "Date"<a href="#section-4.5.10.1-2.2.1" class="pilcrow">¶</a></p>
-<p id="section-4.5.10.1-2.2.2">
-The time at which this event occurred.<a href="#section-4.5.10.1-2.2.2" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-4.5.10.1-2.3">
-                <p id="section-4.5.10.1-2.3.1">event: "String"<a href="#section-4.5.10.1-2.3.1" class="pilcrow">¶</a></p>
-<p id="section-4.5.10.1-2.3.2">
-The string token for the event which <span class="bcp14">MUST</span> be one of the following:<a href="#section-4.5.10.1-2.3.2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.5.10.1-2.3.3.1">
-                    <p id="section-4.5.10.1-2.3.3.1.1">"join" - when the party joins the dialog<a href="#section-4.5.10.1-2.3.3.1.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.2">
-                    <p id="section-4.5.10.1-2.3.3.2.1">"drop" - when the party drops out of the dialog<a href="#section-4.5.10.1-2.3.3.2.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.3">
-                    <p id="section-4.5.10.1-2.3.3.3.1">"hold" - when the party is put on hold<a href="#section-4.5.10.1-2.3.3.3.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.4">
-                    <p id="section-4.5.10.1-2.3.3.4.1">"unhold" - when the part is taken off hold<a href="#section-4.5.10.1-2.3.3.4.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.5">
-                    <p id="section-4.5.10.1-2.3.3.5.1">"mute" - when the party is muted<a href="#section-4.5.10.1-2.3.3.5.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.6">
-                    <p id="section-4.5.10.1-2.3.3.6.1">"unmute" - when the part is taken off mute<a href="#section-4.5.10.1-2.3.3.6.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.7">
-                    <p id="section-4.5.10.1-2.3.3.7.1">"keydown" - when a DTMF or application key/button was pressed<a href="#section-4.5.10.1-2.3.3.7.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-4.5.10.1-2.3.3.8">
-                    <p id="section-4.5.10.1-2.3.3.8.1">"keyup" - when a DTMF or application key/button was released<a href="#section-4.5.10.1-2.3.3.8.1" class="pilcrow">¶</a></p>
-</li>
-                </ul>
-</li>
-              <li class="normal" id="section-4.5.10.1-2.4">
-                <p id="section-4.5.10.1-2.4.1">button: "String" - (optional, required for keydown and keyup events)<a href="#section-4.5.10.1-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<p id="section-4.5.10.1-3">The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.<a href="#section-4.5.10.1-3" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
 <div id="application">
-<section id="section-4.5.11">
+<section id="section-4.5.10">
           <h4 id="name-application">
-<a href="#section-4.5.11" class="section-number selfRef">4.5.11. </a><a href="#name-application" class="section-name selfRef">application</a>
+<a href="#section-4.5.10" class="section-number selfRef">4.5.10. </a><a href="#name-application" class="section-name selfRef">application</a>
           </h4>
-<p id="section-4.5.11-1">The application parameter is used to capture the application, communication channel or context over which the conversation was held.
+<p id="section-4.5.10-1">The application parameter is used to capture the application, communication channel or context over which the conversation was held.
 The conversation mode can be identified by looking at the dialog type.
 However that does not different between different communication platform service providers or hosting service.
-For example, the application parameter can be used to identify the web conference hosting service.<a href="#section-4.5.11-1" class="pilcrow">¶</a></p>
+For example, the application parameter can be used to identify the web conference hosting service.<a href="#section-4.5.10-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.5.11-2.1">
-              <p id="section-4.5.11-2.1.1">application "String" (optional)<a href="#section-4.5.11-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.5.10-2.1">
+              <p id="section-4.5.10-2.1.1">application "String" (optional)<a href="#section-4.5.10-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="message_id">
-<section id="section-4.5.12">
+<section id="section-4.5.11">
           <h4 id="name-message_id">
-<a href="#section-4.5.12" class="section-number selfRef">4.5.12. </a><a href="#name-message_id" class="section-name selfRef">message_id</a>
+<a href="#section-4.5.11" class="section-number selfRef">4.5.11. </a><a href="#name-message_id" class="section-name selfRef">message_id</a>
           </h4>
-<p id="section-4.5.12-1">Some messaging systems assign a unique message identifier to each message.
+<p id="section-4.5.11-1">Some messaging systems assign a unique message identifier to each message.
 The message_id parameter is applicable to "recording" and "text" type Dialog Objects and <span class="bcp14">MUST NOT</span> be present in "incomplete" type Dialog Objects.
 The message_id parameter may be used to label the message for either cross referencing back to the messaging system or to prevent the addition of duplicate messages to the vCon.
 For example SMTP <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> messages have a message-id in the SMTP header.
 In the SMTP case a message may exist in multiple mailboxes or tags.
 When exporting these SMTP messages, the message_id parameter may be used to avoid adding the same message,
-to the vCon containing the email thread, more than once.<a href="#section-4.5.12-1" class="pilcrow">¶</a></p>
+to the vCon containing the email thread, more than once.<a href="#section-4.5.11-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.5.12-2.1">
-              <p id="section-4.5.12-2.1.1">message_id: "String" (optional)<a href="#section-4.5.12-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.5.11-2.1">
+              <p id="section-4.5.11-2.1.1">message_id: "String" (optional)<a href="#section-4.5.11-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -5386,25 +5314,18 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
                   <a href="#session_id" class="auto internal xref">Section 4.5.9</a> RFC XXXX</td>
               </tr>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1">party_history</td>
-                <td class="text-left" rowspan="1" colspan="1">dialog party events history</td>
-                <td class="text-left" rowspan="1" colspan="1">IESG</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#party_history-objects-array" class="auto internal xref">Section 4.5.10</a> RFC XXXX</td>
-              </tr>
-              <tr>
                 <td class="text-left" rowspan="1" colspan="1">application</td>
                 <td class="text-left" rowspan="1" colspan="1">dialog source application</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#application" class="auto internal xref">Section 4.5.11</a> RFC XXXX</td>
+                  <a href="#application" class="auto internal xref">Section 4.5.10</a> RFC XXXX</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">message_id</td>
                 <td class="text-left" rowspan="1" colspan="1">dialog message id</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#message_id" class="auto internal xref">Section 4.5.12</a> RFC XXXX</td>
+                  <a href="#message_id" class="auto internal xref">Section 4.5.11</a> RFC XXXX</td>
               </tr>
             </tbody>
           </table>
@@ -5468,22 +5389,8 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
                       <a href="#dialog-type" class="auto internal xref">Section 4.5.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
-                    <td class="text-left" rowspan="1" colspan="1">transfer</td>
-                    <td class="text-left" rowspan="1" colspan="1">transfer dialog</td>
-                    <td class="text-left" rowspan="1" colspan="1">IESG</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#dialog-type" class="auto internal xref">Section 4.5.1</a> RFC XXXX</td>
-                  </tr>
-                  <tr>
                     <td class="text-left" rowspan="1" colspan="1">incomplete</td>
                     <td class="text-left" rowspan="1" colspan="1">incomplete dialog</td>
-                    <td class="text-left" rowspan="1" colspan="1">IESG</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#dialog-type" class="auto internal xref">Section 4.5.1</a> RFC XXXX</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">recording-set</td>
-                    <td class="text-left" rowspan="1" colspan="1">multi-recording dialog</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
                       <a href="#dialog-type" class="auto internal xref">Section 4.5.1</a> RFC XXXX</td>
@@ -5496,12 +5403,12 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
 </div>
 </section>
 </div>
-<div id="partyhistory-object-parameter-names-registry">
+<div id="event-object-parameter-names-registry">
 <section id="section-6.3.5">
-          <h4 id="name-party_history-object-parame">
-<a href="#section-6.3.5" class="section-number selfRef">6.3.5. </a><a href="#name-party_history-object-parame" class="section-name selfRef">party_history Object Parameter Names Registry</a>
+          <h4 id="name-event-object-parameter-name">
+<a href="#section-6.3.5" class="section-number selfRef">6.3.5. </a><a href="#name-event-object-parameter-name" class="section-name selfRef">Event Object Parameter Names Registry</a>
           </h4>
-<p id="section-6.3.5-1">This initial values for the party_history Object Parameter Names Registry are listed in the following table.
+<p id="section-6.3.5-1">The initial values for the Event Object Parameter Names Registry are listed in the following table.
 Use the template in <span><a href="#object-registry-template" class="internal xref">Object Registry Template</a> (<a href="#object-registry-template" class="auto internal xref">Section 6.3.1</a>)</span> when registering additional entries to this table.<a href="#section-6.3.5-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-9">
             <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
@@ -5515,52 +5422,94 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
             </thead>
             <tbody>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1">party</td>
-                <td class="text-left" rowspan="1" colspan="1">event party index</td>
+                <td class="text-left" rowspan="1" colspan="1">type</td>
+                <td class="text-left" rowspan="1" colspan="1">event type name</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                  <a href="#event-type" class="auto internal xref">Section 4.3.1</a> RFC XXXX</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">time</td>
                 <td class="text-left" rowspan="1" colspan="1">time event occurred</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                  <a href="#event-time" class="auto internal xref">Section 4.3.2</a> RFC XXXX</td>
               </tr>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1">event</td>
-                <td class="text-left" rowspan="1" colspan="1">event type</td>
+                <td class="text-left" rowspan="1" colspan="1">session</td>
+                <td class="text-left" rowspan="1" colspan="1">event session index</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                  <a href="#event-session" class="auto internal xref">Section 4.3.3</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">party</td>
+                <td class="text-left" rowspan="1" colspan="1">event party index</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#event-party" class="auto internal xref">Section 4.3.4</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">dialog</td>
+                <td class="text-left" rowspan="1" colspan="1">event dialog index</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#event-dialog" class="auto internal xref">Section 4.3.5</a> RFC XXXX</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">button</td>
                 <td class="text-left" rowspan="1" colspan="1">button label character or string</td>
                 <td class="text-left" rowspan="1" colspan="1">IESG</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                  <a href="#event-button" class="auto internal xref">Section 4.3.6</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">transferee</td>
+                <td class="text-left" rowspan="1" colspan="1">transferee party index</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#event-transferee" class="auto internal xref">Section 4.3.7</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">transfer_target</td>
+                <td class="text-left" rowspan="1" colspan="1">transfer target party index</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#event-transfer-target" class="auto internal xref">Section 4.3.8</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">consultation</td>
+                <td class="text-left" rowspan="1" colspan="1">consultation session index</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#event-consultation" class="auto internal xref">Section 4.3.9</a> RFC XXXX</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">target_session</td>
+                <td class="text-left" rowspan="1" colspan="1">target session index</td>
+                <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <a href="#event-target-session" class="auto internal xref">Section 4.3.10</a> RFC XXXX</td>
               </tr>
             </tbody>
           </table>
-<div id="partyevent-event-name-registry">
+<div id="event-type-name-registry">
 <section id="section-6.3.5.1">
-            <h5 id="name-party_event-event-name-regi">
-<a href="#section-6.3.5.1" class="section-number selfRef">6.3.5.1. </a><a href="#name-party_event-event-name-regi" class="section-name selfRef">party_event Event Name Registry</a>
+            <h5 id="name-event-type-name-registry">
+<a href="#section-6.3.5.1" class="section-number selfRef">6.3.5.1. </a><a href="#name-event-type-name-registry" class="section-name selfRef">Event Type Name Registry</a>
             </h5>
-<p id="section-6.3.5.1-1">This document defines a new registry for the token name values that are permitted as values to the <span><a href="#party_history-object" class="internal xref">party_event Object event</a> (<a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a>)</span> parameter.<a href="#section-6.3.5.1-1" class="pilcrow">¶</a></p>
-<div id="partyevent-event-name-registration-template">
+<p id="section-6.3.5.1-1">This document defines a new registry for the token name values that are permitted as values to the <span><a href="#event-type" class="internal xref">Event Object type</a> (<a href="#event-type" class="auto internal xref">Section 4.3.1</a>)</span> parameter.<a href="#section-6.3.5.1-1" class="pilcrow">¶</a></p>
+<div id="event-type-name-registration-template">
 <section id="section-6.3.5.1.1">
-              <h6 id="name-party_event-event-name-regis">
-<a href="#section-6.3.5.1.1" class="section-number selfRef">6.3.5.1.1. </a><a href="#name-party_event-event-name-regis" class="section-name selfRef">party_event Event Name Registration Template</a>
+              <h6 id="name-event-type-name-registratio">
+<a href="#section-6.3.5.1.1" class="section-number selfRef">6.3.5.1.1. </a><a href="#name-event-type-name-registratio" class="section-name selfRef">Event Type Name Registration Template</a>
               </h6>
-<p id="section-6.3.5.1.1-1">party_event Event Name:<a href="#section-6.3.5.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.3.5.1.1-2">The string token name of a party_event Object event type.
+<p id="section-6.3.5.1.1-1">Event Type Name:<a href="#section-6.3.5.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.5.1.1-2">The string token name of an Event Object type.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.<a href="#section-6.3.5.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.3.5.1.1-3">party_event Event Description:<a href="#section-6.3.5.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.3.5.1.1-4">Brief description of the party_event Object Event<a href="#section-6.3.5.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.3.5.1.1-3">Event Type Description:<a href="#section-6.3.5.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.3.5.1.1-4">Brief description of the Event Object type<a href="#section-6.3.5.1.1-4" class="pilcrow">¶</a></p>
 <p id="section-6.3.5.1.1-5">Change Controller:<a href="#section-6.3.5.1.1-5" class="pilcrow">¶</a></p>
 <p id="section-6.3.5.1.1-6">For Standards Track RFCs, list the "IESG".  For others, give the
    name of the responsible party.  Other details (e.g., postal
@@ -5572,18 +5521,18 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
    included but is not required.<a href="#section-6.3.5.1.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="partyevent-type-name-registration-initial-values">
+<div id="event-type-name-registration-initial-values">
 <section id="section-6.3.5.1.2">
-              <h6 id="name-party_event-type-name-regis">
-<a href="#section-6.3.5.1.2" class="section-number selfRef">6.3.5.1.2. </a><a href="#name-party_event-type-name-regis" class="section-name selfRef">party_event Type Name Registration Initial Values</a>
+              <h6 id="name-event-type-name-registration">
+<a href="#section-6.3.5.1.2" class="section-number selfRef">6.3.5.1.2. </a><a href="#name-event-type-name-registration" class="section-name selfRef">Event Type Name Registration Initial Values</a>
               </h6>
-<p id="section-6.3.5.1.2-1">The following table defines the initial values for the Dialog Object Types Registry.<a href="#section-6.3.5.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.5.1.2-1">The following table defines the initial values for the Event Type Name Registry.<a href="#section-6.3.5.1.2-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-10">
                 <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
                   <tr>
-                    <th class="text-left" rowspan="1" colspan="1">party_event Event Name</th>
-                    <th class="text-left" rowspan="1" colspan="1">party_event Event Description</th>
+                    <th class="text-left" rowspan="1" colspan="1">Event Type Name</th>
+                    <th class="text-left" rowspan="1" colspan="1">Event Type Description</th>
                     <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
                     <th class="text-left" rowspan="1" colspan="1">Specification Document(s)</th>
                   </tr>
@@ -5594,56 +5543,84 @@ Use the template in <span><a href="#object-registry-template" class="internal xr
                     <td class="text-left" rowspan="1" colspan="1">party join event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-party" class="auto internal xref">Section 4.3.1.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">drop</td>
                     <td class="text-left" rowspan="1" colspan="1">party drop event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-party" class="auto internal xref">Section 4.3.1.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">hold</td>
                     <td class="text-left" rowspan="1" colspan="1">party on hold event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-party" class="auto internal xref">Section 4.3.1.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">unhold</td>
                     <td class="text-left" rowspan="1" colspan="1">party off hold event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-party" class="auto internal xref">Section 4.3.1.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">mute</td>
                     <td class="text-left" rowspan="1" colspan="1">party on mute event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-party" class="auto internal xref">Section 4.3.1.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">unmute</td>
                     <td class="text-left" rowspan="1" colspan="1">party off mute event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-party" class="auto internal xref">Section 4.3.1.1</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">keydown</td>
                     <td class="text-left" rowspan="1" colspan="1">DTMF/app key/button press event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-key" class="auto internal xref">Section 4.3.1.2</a> RFC XXXX</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">keyup</td>
                     <td class="text-left" rowspan="1" colspan="1">DTMF/app key/button release event</td>
                     <td class="text-left" rowspan="1" colspan="1">IESG</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <a href="#party_history-object" class="auto internal xref">Section 4.5.10.1</a> RFC XXXX</td>
+                      <a href="#event-type-key" class="auto internal xref">Section 4.3.1.2</a> RFC XXXX</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">consultation-start</td>
+                    <td class="text-left" rowspan="1" colspan="1">transfer consultation start event</td>
+                    <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <a href="#event-type-transfer" class="auto internal xref">Section 4.3.1.3</a> RFC XXXX</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">blind-transfer</td>
+                    <td class="text-left" rowspan="1" colspan="1">blind transfer event</td>
+                    <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <a href="#event-type-transfer" class="auto internal xref">Section 4.3.1.3</a> RFC XXXX</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">consultative-transfer</td>
+                    <td class="text-left" rowspan="1" colspan="1">consultative transfer event</td>
+                    <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <a href="#event-type-transfer" class="auto internal xref">Section 4.3.1.3</a> RFC XXXX</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">transfer-abandoned</td>
+                    <td class="text-left" rowspan="1" colspan="1">transfer abandoned event</td>
+                    <td class="text-left" rowspan="1" colspan="1">IESG</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <a href="#event-type-transfer" class="auto internal xref">Section 4.3.1.3</a> RFC XXXX</td>
                   </tr>
                 </tbody>
               </table>
@@ -8501,7 +8478,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 }
 </pre><a href="#appendix-A.9-3" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A.9-4">TODO:  recording-set example with party_history<a href="#appendix-A.9-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.9-4">TODO: Session Object and Event Object example<a href="#appendix-A.9-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

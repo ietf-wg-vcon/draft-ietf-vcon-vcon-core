@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                          6 October 2026
-Expires: 9 April 2027
+Intended status: Standards Track                          7 October 2026
+Expires: 10 April 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 April 2027.
+   This Internet-Draft will expire on 10 April 2027.
 
 Copyright Notice
 
@@ -151,9 +151,8 @@ Table of Contents
        4.5.7.  Dialog Content
        4.5.8.  disposition
        4.5.9.  session_id
-       4.5.10. party_history Objects Array
-       4.5.11. application
-       4.5.12. message_id
+       4.5.10. application
+       4.5.11. message_id
      4.6.  Attachment Object
        4.6.1.  purpose
        4.6.2.  start
@@ -191,7 +190,7 @@ Table of Contents
        6.3.2.  vCon Object Parameter Names Registry
        6.3.3.  Party Object Parameter Names Registry
        6.3.4.  Dialog Object Parameter Names Registry
-       6.3.5.  party_history Object Parameter Names Registry
+       6.3.5.  Event Object Parameter Names Registry
        6.3.6.  Attachment Object Parameter Names Registry
        6.3.7.  Analysis Object Parameter Names Registry
        6.3.8.  Redacted Object Parameter Names Registry
@@ -2353,55 +2352,7 @@ Table of Contents
    *  session_id: "SessionId" | "SessionId[]" | ("SessionId" |
       "SessionId[]")[] (optional)
 
-4.5.10.  party_history Objects Array
-
-   Participants in a dialog may not all join and leave at the same time.
-   To support the capturing of the information when parties join, drop,
-   go on hold or mute and unmute, the party_history array may be added
-   to the Dialog Object.
-
-   *  party_history: "Party_History[]" (optional)
-
-4.5.10.1.  Party_History Object
-
-   The Party_History Object contains the following parameters:
-
-   *  party: "UnsignedInt"
-
-      The index of the party for this event.
-
-   *  time: "Date"
-
-      The time at which this event occurred.
-
-   *  event: "String"
-
-      The string token for the event which MUST be one of the following:
-
-      -  "join" - when the party joins the dialog
-
-      -  "drop" - when the party drops out of the dialog
-
-      -  "hold" - when the party is put on hold
-
-      -  "unhold" - when the part is taken off hold
-
-      -  "mute" - when the party is muted
-
-      -  "unmute" - when the part is taken off mute
-
-      -  "keydown" - when a DTMF or application key/button was pressed
-
-      -  "keyup" - when a DTMF or application key/button was released
-
-   *  button: "String" - (optional, required for keydown and keyup
-      events)
-
-   The button parameter value is the String value of the DTMF digit,
-   character or string label for the button that was pressed or
-   released.
-
-4.5.11.  application
+4.5.10.  application
 
    The application parameter is used to capture the application,
    communication channel or context over which the conversation was
@@ -2413,7 +2364,7 @@ Table of Contents
 
    *  application "String" (optional)
 
-4.5.12.  message_id
+4.5.11.  message_id
 
    Some messaging systems assign a unique message identifier to each
    message.  The message_id parameter is applicable to "recording" and
@@ -3332,13 +3283,10 @@ Table of Contents
    | session_id     | RFC7989 session   | IESG       | Section 4.5.9  |
    |                | ID                |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | party_history  | dialog party      | IESG       | Section 4.5.10 |
-   |                | events history    |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | application    | dialog source     | IESG       | Section 4.5.11 |
+   | application    | dialog source     | IESG       | Section 4.5.10 |
    |                | application       |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
-   | message_id     | dialog message id | IESG       | Section 4.5.12 |
+   | message_id     | dialog message id | IESG       | Section 4.5.11 |
    |                |                   |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
 
@@ -3380,72 +3328,87 @@ Table of Contents
    The following table defines the initial values for the Dialog Object
    Types Registry.
 
-    +==================+=================+============+===============+
-    | Dialog Type Name | Dialog Type     | Change     | Specification |
-    |                  | Description     | Controller | Document(s)   |
-    +==================+=================+============+===============+
-    | text             | text dialog     | IESG       | Section 4.5.1 |
-    |                  |                 |            | RFC XXXX      |
-    +------------------+-----------------+------------+---------------+
-    | recording        | recording       | IESG       | Section 4.5.1 |
-    |                  | dialog          |            | RFC XXXX      |
-    +------------------+-----------------+------------+---------------+
-    | transfer         | transfer dialog | IESG       | Section 4.5.1 |
-    |                  |                 |            | RFC XXXX      |
-    +------------------+-----------------+------------+---------------+
-    | incomplete       | incomplete      | IESG       | Section 4.5.1 |
-    |                  | dialog          |            | RFC XXXX      |
-    +------------------+-----------------+------------+---------------+
-    | recording-set    | multi-recording | IESG       | Section 4.5.1 |
-    |                  | dialog          |            | RFC XXXX      |
-    +------------------+-----------------+------------+---------------+
+      +==================+=============+============+===============+
+      | Dialog Type Name | Dialog Type | Change     | Specification |
+      |                  | Description | Controller | Document(s)   |
+      +==================+=============+============+===============+
+      | text             | text dialog | IESG       | Section 4.5.1 |
+      |                  |             |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
+      | recording        | recording   | IESG       | Section 4.5.1 |
+      |                  | dialog      |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
+      | incomplete       | incomplete  | IESG       | Section 4.5.1 |
+      |                  | dialog      |            | RFC XXXX      |
+      +------------------+-------------+------------+---------------+
 
                                   Table 8
 
-6.3.5.  party_history Object Parameter Names Registry
+6.3.5.  Event Object Parameter Names Registry
 
-   This initial values for the party_history Object Parameter Names
-   Registry are listed in the following table.  Use the template in
-   Object Registry Template (Section 6.3.1) when registering additional
-   entries to this table.
+   The initial values for the Event Object Parameter Names Registry are
+   listed in the following table.  Use the template in Object Registry
+   Template (Section 6.3.1) when registering additional entries to this
+   table.
 
-    +===========+=====================+============+==================+
-    | Parameter | Parameter           | Change     | Specification    |
-    | Name      | Description         | Controller | Document(s)      |
-    +===========+=====================+============+==================+
-    | party     | event party index   | IESG       | Section 4.5.10.1 |
-    |           |                     |            | RFC XXXX         |
-    +-----------+---------------------+------------+------------------+
-    | time      | time event occurred | IESG       | Section 4.5.10.1 |
-    |           |                     |            | RFC XXXX         |
-    +-----------+---------------------+------------+------------------+
-    | event     | event type          | IESG       | Section 4.5.10.1 |
-    |           |                     |            | RFC XXXX         |
-    +-----------+---------------------+------------+------------------+
-    | button    | button label        | IESG       | Section 4.5.10.1 |
-    |           | character or string |            | RFC XXXX         |
-    +-----------+---------------------+------------+------------------+
+     +=================+===============+============+===============+
+     | Parameter Name  | Parameter     | Change     | Specification |
+     |                 | Description   | Controller | Document(s)   |
+     +=================+===============+============+===============+
+     | type            | event type    | IESG       | Section 4.3.1 |
+     |                 | name          |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | time            | time event    | IESG       | Section 4.3.2 |
+     |                 | occurred      |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | session         | event session | IESG       | Section 4.3.3 |
+     |                 | index         |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | party           | event party   | IESG       | Section 4.3.4 |
+     |                 | index         |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | dialog          | event dialog  | IESG       | Section 4.3.5 |
+     |                 | index         |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | button          | button label  | IESG       | Section 4.3.6 |
+     |                 | character or  |            | RFC XXXX      |
+     |                 | string        |            |               |
+     +-----------------+---------------+------------+---------------+
+     | transferee      | transferee    | IESG       | Section 4.3.7 |
+     |                 | party index   |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | transfer_target | transfer      | IESG       | Section 4.3.8 |
+     |                 | target party  |            | RFC XXXX      |
+     |                 | index         |            |               |
+     +-----------------+---------------+------------+---------------+
+     | consultation    | consultation  | IESG       | Section 4.3.9 |
+     |                 | session index |            | RFC XXXX      |
+     +-----------------+---------------+------------+---------------+
+     | target_session  | target        | IESG       | Section       |
+     |                 | session index |            | 4.3.10 RFC    |
+     |                 |               |            | XXXX          |
+     +-----------------+---------------+------------+---------------+
 
-                                  Table 9
+                                 Table 9
 
-6.3.5.1.  party_event Event Name Registry
+6.3.5.1.  Event Type Name Registry
 
    This document defines a new registry for the token name values that
-   are permitted as values to the party_event Object event
-   (Section 4.5.10.1) parameter.
+   are permitted as values to the Event Object type (Section 4.3.1)
+   parameter.
 
-6.3.5.1.1.  party_event Event Name Registration Template
+6.3.5.1.1.  Event Type Name Registration Template
 
-   party_event Event Name:
+   Event Type Name:
 
-   The string token name of a party_event Object event type.  The name
-   is case sensitive.  Names may not match other registered names in a
-   case-insensitive manner unless the Designated Experts state that
-   there is a compelling reason to allow an exception.
+   The string token name of an Event Object type.  The name is case
+   sensitive.  Names may not match other registered names in a case-
+   insensitive manner unless the Designated Experts state that there is
+   a compelling reason to allow an exception.
 
-   party_event Event Description:
+   Event Type Description:
 
-   Brief description of the party_event Object Event
+   Brief description of the Event Object type
 
    Change Controller:
 
@@ -3460,42 +3423,65 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.5.1.2.  party_event Type Name Registration Initial Values
+6.3.5.1.2.  Event Type Name Registration Initial Values
 
-   The following table defines the initial values for the Dialog Object
-   Types Registry.
+   The following table defines the initial values for the Event Type
+   Name Registry.
 
-   +=============+=====================+============+==================+
-   | party_event | party_event Event   | Change     | Specification    |
-   | Event Name  | Description         | Controller | Document(s)      |
-   +=============+=====================+============+==================+
-   | join        | party join event    | IESG       | Section 4.5.10.1 |
-   |             |                     |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | drop        | party drop event    | IESG       | Section 4.5.10.1 |
-   |             |                     |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | hold        | party on hold       | IESG       | Section 4.5.10.1 |
-   |             | event               |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | unhold      | party off hold      | IESG       | Section 4.5.10.1 |
-   |             | event               |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | mute        | party on mute       | IESG       | Section 4.5.10.1 |
-   |             | event               |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | unmute      | party off mute      | IESG       | Section 4.5.10.1 |
-   |             | event               |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | keydown     | DTMF/app key/       | IESG       | Section 4.5.10.1 |
-   |             | button press event  |            | RFC XXXX         |
-   +-------------+---------------------+------------+------------------+
-   | keyup       | DTMF/app key/       | IESG       | Section 4.5.10.1 |
-   |             | button release      |            | RFC XXXX         |
-   |             | event               |            |                  |
-   +-------------+---------------------+------------+------------------+
+   +=======================+===============+==========+===============+
+   | Event Type Name       | Event Type    |Change    | Specification |
+   |                       | Description   |Controller| Document(s)   |
+   +=======================+===============+==========+===============+
+   | join                  | party join    |IESG      | Section       |
+   |                       | event         |          | 4.3.1.1 RFC   |
+   |                       |               |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | drop                  | party drop    |IESG      | Section       |
+   |                       | event         |          | 4.3.1.1 RFC   |
+   |                       |               |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | hold                  | party on hold |IESG      | Section       |
+   |                       | event         |          | 4.3.1.1 RFC   |
+   |                       |               |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | unhold                | party off     |IESG      | Section       |
+   |                       | hold event    |          | 4.3.1.1 RFC   |
+   |                       |               |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | mute                  | party on mute |IESG      | Section       |
+   |                       | event         |          | 4.3.1.1 RFC   |
+   |                       |               |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | unmute                | party off     |IESG      | Section       |
+   |                       | mute event    |          | 4.3.1.1 RFC   |
+   |                       |               |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | keydown               | DTMF/app key/ |IESG      | Section       |
+   |                       | button press  |          | 4.3.1.2 RFC   |
+   |                       | event         |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | keyup                 | DTMF/app key/ |IESG      | Section       |
+   |                       | button        |          | 4.3.1.2 RFC   |
+   |                       | release event |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | consultation-start    | transfer      |IESG      | Section       |
+   |                       | consultation  |          | 4.3.1.3 RFC   |
+   |                       | start event   |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | blind-transfer        | blind         |IESG      | Section       |
+   |                       | transfer      |          | 4.3.1.3 RFC   |
+   |                       | event         |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | consultative-transfer | consultative  |IESG      | Section       |
+   |                       | transfer      |          | 4.3.1.3 RFC   |
+   |                       | event         |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
+   | transfer-abandoned    | transfer      |IESG      | Section       |
+   |                       | abandoned     |          | 4.3.1.3 RFC   |
+   |                       | event         |          | XXXX          |
+   +-----------------------+---------------+----------+---------------+
 
-                                  Table 10
+                                 Table 10
 
 6.3.6.  Attachment Object Parameter Names Registry
 
@@ -6131,7 +6117,7 @@ A.9.  Amended Signed vCon
      }
    }
 
-   TODO: recording-set example with party_history
+   TODO: Session Object and Event Object example
 
 Appendix B.  vCon JSON Schema
 
