@@ -203,25 +203,26 @@ Table of Contents
      6.4.  vCon Extensions Names Registry
        6.4.1.  Extensions Registration Template
      6.5.  JSON Web Signature and Encryption Header Parameters
-   7.  Non-Upward Compatible Changes to the vCon Container
-     7.1.  Version 0.3.0 to 0.4.0
-     7.2.  Version 0.0.2 to 0.3.0
-     7.3.  Version 0.0.1 to 0.0.2
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
-   Appendix A.  Example vCons
-     A.1.  Two Party Call vCon With Inline Recording
-     A.2.  Email Thread Multipart vCon
-     A.3.  Email Thread Text vCon
-     A.4.  Two Party Call vCon With Externally Referenced Recording
-     A.5.  Two Party Call vCon with Analysis
-     A.6.  Signed vCon
-     A.7.  Encrypted vCon
-     A.8.  Redacted vCon
-     A.9.  Amended Signed vCon
-   Appendix B.  vCon JSON Schema
-   Appendix C.  vCon CDDL
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
+   Appendix A.  Non-Upward Compatible Changes to the vCon Container
+     A.1.  Version 0.4.0 to 0.5.0
+     A.2.  Version 0.3.0 to 0.4.0
+     A.3.  Version 0.0.2 to 0.3.0
+     A.4.  Version 0.0.1 to 0.0.2
+   Appendix B.  Example vCons
+     B.1.  Two Party Call vCon With Inline Recording
+     B.2.  Email Thread Multipart vCon
+     B.3.  Email Thread Text vCon
+     B.4.  Two Party Call vCon With Externally Referenced Recording
+     B.5.  Two Party Call vCon with Analysis
+     B.6.  Signed vCon
+     B.7.  Encrypted vCon
+     B.8.  Redacted vCon
+     B.9.  Amended Signed vCon
+   Appendix C.  vCon JSON Schema
+   Appendix D.  vCon CDDL
    Acknowledgments
    Author's Address
 
@@ -673,12 +674,13 @@ Table of Contents
    created in Internet-Draft versions.  The extension mechanism replaces
    the need for schema versioning.  The vcon parameter was used to
    contain the syntactic version of the JSON format used in the vCon.
-   (see Non-Upward Compatible Changes to the vCon Container (Section 7))
+   (see Non-Upward Compatible Changes to the vCon Container
+   (Appendix A))
 
    *  vcon: "String"
 
    For syntax defined in this document, the string MUST have the value:
-   "0.4.0"
+   "0.5.0"
 
 4.1.2.  uuid
 
@@ -2838,7 +2840,7 @@ Table of Contents
 
    *  header: "Header"
 
-   The value of header is defined in Header Object (Section 5.2.2)
+   The value of header is defined in Header Object (Section 5.2.2).
 
    *  protected: "String"
 
@@ -3865,37 +3867,9 @@ Table of Contents
    *  Specification Document(s): Header Object (Section 5.2.2),
       Unprotected Object (Section 5.3.1) of RFC XXXX
 
-7.  Non-Upward Compatible Changes to the vCon Container
+7.  References
 
-7.1.  Version 0.3.0 to 0.4.0
-
-   *  The "appended" Object was renamed to "amended"
-
-   *  The "must_support" parameter was renamed to "critical" to be
-      consistent with other IETF JSON schema extension mechanisms.
-
-   *  The "session_id" Dialog Object parameter was changes from a String
-      to a SessionId Object.
-
-7.2.  Version 0.0.2 to 0.3.0
-
-   *  "transfer-target" parameter was renamed to "transfer_target" to be
-      consistent with other compound names that use the underscore
-      ("_").
-
-   *  "target-dialog" parameter was renamed to "target_dialog" to be
-      consistent with other compound names that use the underscore
-      ("_").
-
-7.3.  Version 0.0.1 to 0.0.2
-
-   *  "mimetype" parameters were renamed to "mediatype"
-
-   *  "alg" and "signature" were combined into "content_hash"
-
-8.  References
-
-8.1.  Normative References
+7.1.  Normative References
 
    [DID]      W3C, "Decentralized Identifiers (DIDs) v1.0", July 2022,
               <https://www.w3.org/TR/did-core/>.
@@ -3996,7 +3970,7 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-peabody-
               dispatch-new-uuid-format-04>.
 
-8.2.  Informative References
+7.2.  Informative References
 
    [CBOR]     Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,
@@ -4064,7 +4038,62 @@ Table of Contents
               <https://github.com/vcon-dev/vcon/blob/main/docs/
               vCons_%20an%20Open%20Standard%20for%20Conversation%20Data.pdf>.
 
-Appendix A.  Example vCons
+Appendix A.  Non-Upward Compatible Changes to the vCon Container
+
+A.1.  Version 0.4.0 to 0.5.0
+
+   *  The "vcon" parameter value was changed from "0.4.0" to "0.5.0".
+
+   *  The Session Object and the "sessions" array were added.  A 0.4.0
+      vCon is migrated by adding a Session Object which references all
+      of its Dialog Objects.
+
+   *  The "party_history" Dialog Object parameter was replaced by the
+      Event Object and the "events" array.  Each Party_History Object
+      becomes an Event Object, with "event" renamed to "type", which
+      references the Session Object and the Dialog Object from which it
+      came.
+
+   *  The "transfer" type Dialog Object was replaced by the transfer
+      Event Object types.  Each "transfer" type Dialog Object becomes
+      one or two Event Objects in which "transferor" becomes "party",
+      and the Dialog Objects referenced by "original", "consultation"
+      and "target_dialog" are each referenced through a Session Object.
+
+   *  The "originator" Dialog Object parameter was moved to the Session
+      Object.
+
+   *  Dialog Object indices change where "transfer" type Dialog Objects
+      are removed from the dialog array, and references to them are
+      updated.
+
+A.2.  Version 0.3.0 to 0.4.0
+
+   *  The "appended" Object was renamed to "amended"
+
+   *  The "must_support" parameter was renamed to "critical" to be
+      consistent with other IETF JSON schema extension mechanisms.
+
+   *  The "session_id" Dialog Object parameter was changes from a String
+      to a SessionId Object.
+
+A.3.  Version 0.0.2 to 0.3.0
+
+   *  "transfer-target" parameter was renamed to "transfer_target" to be
+      consistent with other compound names that use the underscore
+      ("_").
+
+   *  "target-dialog" parameter was renamed to "target_dialog" to be
+      consistent with other compound names that use the underscore
+      ("_").
+
+A.4.  Version 0.0.1 to 0.0.2
+
+   *  "mimetype" parameters were renamed to "mediatype"
+
+   *  "alg" and "signature" were combined into "content_hash"
+
+Appendix B.  Example vCons
 
    This appendix contains example vCons in the unsigned, signed and
    encrypted form.  The JSON has been indented for readability.  The
@@ -4074,7 +4103,7 @@ Appendix A.  Example vCons
    examples.  The example vCons in this document were generated using
    the [PY-VCON] command line interface.
 
-A.1.  Two Party Call vCon With Inline Recording
+B.1.  Two Party Call vCon With Inline Recording
 
    This example vCon is for a simple 2 party PSTN call.  It has a single
    Dialog Object which contains a single channel wav format recording
@@ -4296,7 +4325,7 @@ A.1.  Two Party Call vCon With Inline Recording
      "uuid": "01a07da3-661d-89b0-b9a2-279e0d16bc46"
    }
 
-A.2.  Email Thread Multipart vCon
+B.2.  Email Thread Multipart vCon
 
    The following is an unsigned form of an vCon for a 2 message email
    thread between 2 parties.  The email messages are multipart MIME
@@ -4432,7 +4461,7 @@ A.2.  Email Thread Multipart vCon
      "uuid": "01a07dfb-fe0b-89ee-b9a2-279e0d16bc46"
    }
 
-A.3.  Email Thread Text vCon
+B.3.  Email Thread Text vCon
 
    The following is an unsigned form of an vCon for a 3 message email
    thread between 2 parties.  The email messages are plain text message
@@ -4516,7 +4545,7 @@ A.3.  Email Thread Text vCon
      "uuid": "01a07e00-0ecc-81db-b9a2-279e0d16bc46"
    }
 
-A.4.  Two Party Call vCon With Externally Referenced Recording
+B.4.  Two Party Call vCon With Externally Referenced Recording
 
    This example vCon is for a simple 2 party PSTN call.  It has a single
    Dialog Object which reference a single channel wav format recording
@@ -4560,7 +4589,7 @@ A.4.  Two Party Call vCon With Externally Referenced Recording
      "uuid": "01a07da8-c2bb-83e5-b9a2-279e0d16bc46"
    }
 
-A.5.  Two Party Call vCon with Analysis
+B.5.  Two Party Call vCon with Analysis
 
    TODO: fix diarization in transcript
 
@@ -5484,10 +5513,10 @@ A.5.  Two Party Call vCon with Analysis
      "uuid": "01a07da8-c2bb-83e5-b9a2-279e0d16bc46"
    }
 
-A.6.  Signed vCon
+B.6.  Signed vCon
 
    This example vCon is the signed form of the Two Party Call vCon With
-   Externally Referenced Recording (Appendix A.4) example.  The private
+   Externally Referenced Recording (Appendix B.4) example.  The private
    key used to sign this can be found at:
 
  https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
@@ -5749,10 +5778,10 @@ A.6.  Signed vCon
      ]
    }
 
-A.7.  Encrypted vCon
+B.7.  Encrypted vCon
 
    This example vCon is the encrypted form of the Signed vCon
-   (Appendix A.6) example.  The private key to decrypt it can be found
+   (Appendix B.6) example.  The private key to decrypt it can be found
    at:
 
  https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
@@ -6076,10 +6105,10 @@ A.7.  Encrypted vCon
      }
    }
 
-A.8.  Redacted vCon
+B.8.  Redacted vCon
 
    This is an example redaction of the vCon in the example Two Party
-   Call vCon With Externally Referenced Recording (Appendix A.4).  Most
+   Call vCon With Externally Referenced Recording (Appendix B.4).  Most
    notable is the Redacted object (Section 4.1.8) which references the
    lesser redacted version of this vCon.  In addition the *url*
    parameter has been redacted from the Dialog Object (Section 4.5), but
@@ -6245,7 +6274,7 @@ A.8.  Redacted vCon
      }
    }
 
-A.9.  Amended Signed vCon
+B.9.  Amended Signed vCon
 
    This is an example vCon with an Amended Object (Section 4.1.9)
    referencing the vCon that it amends or adds additional content.  In
@@ -6306,7 +6335,7 @@ A.9.  Amended Signed vCon
 
    TODO: Session Object and Event Object example
 
-Appendix B.  vCon JSON Schema
+Appendix C.  vCon JSON Schema
 
    This JSON schema is provided as informational.  The text in sections
    1-6 of this document define the normative definition of the vCon
@@ -7701,7 +7730,7 @@ Appendix B.  vCon JSON Schema
        SHOULD-level statements are not enforced by this schema."
    }
 
-Appendix C.  vCon CDDL
+Appendix D.  vCon CDDL
 
    This CDDL for vCon core is provided as informational.  The text in
    sections 1-6 of this document define the normative definition of the
