@@ -456,7 +456,7 @@ The vcon parameter was used to contain the syntactic version of the JSON format 
 
 * vcon: "String"
 
-For syntax defined in this document, the string MUST have the value: "0.4.0"
+For syntax defined in this document, the string MUST have the value: "0.5.0"
 
 ### uuid
 
@@ -1880,7 +1880,7 @@ The Signature Object MUST contain a header, protected and signature parameter as
 
 * header: "Header"
 
-The value of header is defined in [Header Object](#jws-header-object)
+The value of header is defined in [Header Object](#jws-header-object).
 
 * protected: "String"
 * signature: "String"
@@ -2501,7 +2501,21 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 * Change Controller: IESG
 * Specification Document(s): [Header Object](#jws-header-object), [Unprotected Object](#unprotected-object) of RFC XXXX
 
+--- back
+
 # Non-Upward Compatible Changes to the vCon Container {#name-non-upward-compatible-changes-to-the-vcon-container}
+
+## Version 0.4.0 to 0.5.0
+
+  * The "vcon" parameter value was changed from "0.4.0" to "0.5.0".
+  * The Session Object and the "sessions" array were added.
+    A 0.4.0 vCon is migrated by adding a Session Object which references all of its Dialog Objects.
+  * The "party_history" Dialog Object parameter was replaced by the Event Object and the "events" array.
+    Each Party_History Object becomes an Event Object, with "event" renamed to "type", which references the Session Object and the Dialog Object from which it came.
+  * The "transfer" type Dialog Object was replaced by the transfer Event Object types.
+    Each "transfer" type Dialog Object becomes one or two Event Objects in which "transferor" becomes "party", and the Dialog Objects referenced by "original", "consultation" and "target_dialog" are each referenced through a Session Object.
+  * The "originator" Dialog Object parameter was moved to the Session Object.
+  * Dialog Object indices change where "transfer" type Dialog Objects are removed from the dialog array, and references to them are updated.
 
 ## Version 0.3.0 to 0.4.0
 
@@ -2520,8 +2534,6 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 
   * "alg" and "signature" were combined into "content_hash"
 
-
---- back
 
 # Example vCons
 
