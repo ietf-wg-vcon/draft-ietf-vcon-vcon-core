@@ -1883,24 +1883,31 @@ The Signature Object MUST contain a header, protected and signature parameter as
 The value of header is defined in [Header Object](#jws-header-object).
 
 * protected: "String"
+
+The string value of protected is the Base64Url encoded JWS Protected Header as defined in section 7.2.1 of [JWS].
+
 * signature: "String"
 
+The string value of signature is the Base64Url encoded JWS Signature as defined in section 7.2.1 of [JWS].
 
 ### Header Object {#jws-header-object}
 
 The Header Object and its contents are defined in section 4 of [JWS].
-The Header Object for a signed vCon MUST include the alg and either the x5c or x5u arrays.
+The Header Object for a signed vCon MUST include at least one of x5c or x5u.
+The alg parameter MUST be present in either the JWS Protected Header or the Header Object.
+As defined in section 7.2.1 of [JWS], a header parameter MUST NOT be present in both the JWS Protected Header and the Header Object.
 The x5c or x5u requirement makes the management and use of vCons easier, allowing the certificate chain to be found as the vCon is moved.
+Other header parameters defined for [JWS] MAY be present in the Header Object.
 
-* alg: "String"
+* alg: "String" (MUST be present here or in the JWS Protected Header)
 
 The string value of alg is defined in section 4.1.1 of [JWS].  For a signed vCon this value SHOULD be "RS256" to maximize interoperability.
 
-* x5c: "String\[\]" (MUST provide x5c or x5u)
+* x5c: "String\[\]" (MUST provide at least one of x5c or x5u)
 
 The array of string values for x5c are defined in section 4.1.6 of [JWS].
 
-* x5u: "String" (MUST provide x5c or x5u)
+* x5u: "String" (MUST provide at least one of x5c or x5u)
 
 The string value of x5u MUST contain an [HTTPS] URL as defined in section 4.1.5 of [JWS].
 
@@ -1936,7 +1943,15 @@ The rationale is that meta data and dialog will typically be collected in one se
 The signing is likely for the lifetime of the vCon, where the encryption may be shorter term or domain specific.
 vCons may be stored in unencrypted form, but the signed form MUST be maintained to ensure its integrity.
 
-A encrypted vCon uses [JWE] and takes the General JWE JSON Serialization Syntax form as defined in section 7.2.1 of [JWE].
+An encrypted vCon uses [JWE] and takes the General JWE JSON Serialization Syntax form as defined in section 7.2.1 of [JWE].
+The alg and enc header parameters MUST each be present in one of the header locations permitted by [JWE].
+The enc parameter is the same for all recipients and is present in either the JWE Protected Header or the Unprotected Object.
+The alg parameter is present in the JWE Protected Header, the Unprotected Object or the Header Object of each recipient.
+As defined in section 7.2.1 of [JWE], a header parameter MUST NOT be present in more than one of these locations.
+
+* protected: "String" (optional)
+
+The string value of protected is the Base64Url encoded JWE Protected Header as defined in section 7.2.1 of [JWE].
 
 * unprotected: "Unprotected"
 
@@ -1952,7 +1967,11 @@ The string value of ciphertext is constructed as defined in section 7.2.1 of [JW
 
 * tag: "String"
 
-The string value of tag is the the Authentication Tag as defined in section 7.2.1 of [JWE].
+The string value of tag is the Authentication Tag as defined in section 7.2.1 of [JWE].
+
+* aad: "String" (optional)
+
+The string value of aad is the Base64Url encoded Additional Authenticated Data as defined in section 7.2.1 of [JWE].
 
 ### Unprotected Object
 
@@ -1960,7 +1979,7 @@ The string value of tag is the the Authentication Tag as defined in section 7.2.
 
 The string value of cty SHOULD be either "application/vcon" or "application/vcon+gzip"
 
-* enc: "String"
+* enc: "String" (MUST be present here or in the JWE Protected Header)
 
 The string value of enc SHOULD be "A256CBC-HS512"
 
@@ -1970,9 +1989,11 @@ The string value of the UUID for the vCon contained in the ciphertext parameter.
 This is provided for identification of the encrypted vCon without the need of the key to decrypt the vCon.
 The value of this uuid parameter SHOULD be verified when the vCon is decrypted.
 
+Other header parameters defined for [JWE] MAY be present.
+
 ### Recipient Object
 
-* header: "Header"
+* header: "Header" (optional)
 
 The value of header is defined in [Header Object](#jwe-header-object).
 
@@ -1982,9 +2003,10 @@ The string value of encrypted_key is defined in section 7.2.1 of [JWE].
 
 ### Header Object {#jwe-header-object}
 
-* alg: "String"
-
+* alg: "String" (MUST be present here, in the Unprotected Object or in the JWE Protected Header)
 The string value of alg SHOULD be "RSA-OAEP".
+
+Other header parameters defined for [JWE] MAY be present.
 
 ## Differentiation of vCon forms
 
@@ -2002,6 +2024,8 @@ The following is the recommended approaches to identifying which form a particul
   * dialog
   * analysis
   * attachments
+  * sessions
+  * events
 
 * signed (JWS)
 
@@ -2476,7 +2500,7 @@ Extension Name:
 
 Extension Description:
 
-  Brief description of the the vCon extension
+  Brief description of the vCon extension
 
 Change Controller:
 
@@ -2666,6 +2690,7 @@ TODO: Session Object and Event Object example
 This JSON schema is provided as informational.
 The text in sections 1-6 of this document define the normative definition of the vCon schema.
 If the JSON schema provided below differs from that in the text of the above sections, the text should be taken as the definitive definition and the JSON Schema below should be consider incorrect.
+The JSON Schema is permissive: parameters and type values which are not defined in this document do not cause validation to fail.
 
 The JSON Schema definition below has been formatted with line breaks to
 print nicely on the page.
@@ -2681,6 +2706,8 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 This CDDL for vCon core is provided as informational.
 The text in sections 1-6 of this document define the normative definition of the vCon CDDL.
 If the CDDL provided below differs or conflicts from that in the text of the above sections, the text should be taken as the definitive definition and the CDDL below should be consider incorrect.
+The CDDL is strict: parameters and type values which are not defined in this document cause validation to fail unless the CDDL for the vCon extension which defines them is also used.
+Failing validation against this CDDL is not by itself a reason to reject a vCon (see [](#extending-vcon)).
 
 ~~~
 {::include vcon.cddl}
