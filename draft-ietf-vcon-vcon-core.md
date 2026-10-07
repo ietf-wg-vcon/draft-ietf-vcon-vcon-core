@@ -1540,42 +1540,6 @@ The Session Object is the appropriate place to capture a session identifier that
 * session_id: "SessionId" \| "SessionId\[\]" \| ("SessionId" \| "SessionId\[\]")\[\] (optional)
 
 
-### party_history Objects Array {#party_history-objects-array}
-
-Participants in a dialog may not all join and leave at the same time.
-To support the capturing of the information when parties join, drop, go on hold or mute and unmute, the party_history array may be added to the Dialog Object.
-
-* party_history: "Party_History\[\]" (optional)
-
-#### Party_History Object {#party_history-object}
-
-The Party_History Object contains the following parameters:
-
-* party: "UnsignedInt"
-
-  The index of the party for this event.
-
-* time: "Date"
-
-  The time at which this event occurred.
-
-* event: "String"
-
-  The string token for the event which MUST be one of the following:
-
-    * "join" - when the party joins the dialog
-    * "drop" - when the party drops out of the dialog
-    * "hold" - when the party is put on hold
-    * "unhold" - when the part is taken off hold
-    * "mute" - when the party is muted
-    * "unmute" - when the part is taken off mute
-    * "keydown" - when a DTMF or application key/button was pressed
-    * "keyup" - when a DTMF or application key/button was released
-
-* button: "String" - (optional, required for keydown and keyup events)
-
-The button parameter value is the String value of the DTMF digit, character or string label for the button that was pressed or released.
-
 ### application
 
 The application parameter is used to capture the application, communication channel or context over which the conversation was held.
@@ -2215,7 +2179,6 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | content_hash | dialog content hash | IESG | [](#dialog-content) RFC XXXX |
 | disposition | dialog disposition | IESG | [](#disposition) RFC XXXX |
 | session_id | RFC7989 session ID  | IESG | [](#session_id) RFC XXXX |
-| party_history | dialog party events history | IESG | [](#party_history-objects-array) RFC XXXX |
 | application | dialog source application | IESG | [](#application) RFC XXXX |
 | message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
 
@@ -2256,38 +2219,42 @@ The following table defines the initial values for the Dialog Object Types Regis
 | --- | --- | --- | --- |
 | text | text dialog | IESG | [](#dialog-type) RFC XXXX |
 | recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
-| transfer | transfer dialog | IESG | [](#dialog-type) RFC XXXX |
 | incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
-| recording-set | multi-recording dialog | IESG | [](#dialog-type) RFC XXXX |
 
 
-### party_history Object Parameter Names Registry
+### Event Object Parameter Names Registry
 
-This initial values for the party_history Object Parameter Names Registry are listed in the following table.
+The initial values for the Event Object Parameter Names Registry are listed in the following table.
 Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| party | event party index | IESG | [](#party_history-object) RFC XXXX |
-| time | time event occurred | IESG | [](#party_history-object) RFC XXXX |
-| event | event type | IESG | [](#party_history-object) RFC XXXX |
-| button | button label character or string | IESG | [](#party_history-object) RFC XXXX |
+| type | event type name | IESG | [](#event-type) RFC XXXX |
+| time | time event occurred | IESG | [](#event-time) RFC XXXX |
+| session | event session index | IESG | [](#event-session) RFC XXXX |
+| party | event party index | IESG | [](#event-party) RFC XXXX |
+| dialog | event dialog index | IESG | [](#event-dialog) RFC XXXX |
+| button | button label character or string | IESG | [](#event-button) RFC XXXX |
+| transferee | transferee party index | IESG | [](#event-transferee) RFC XXXX |
+| transfer_target | transfer target party index | IESG | [](#event-transfer-target) RFC XXXX |
+| consultation | consultation session index | IESG | [](#event-consultation) RFC XXXX |
+| target_session | target session index | IESG | [](#event-target-session) RFC XXXX |
 
-#### party_event Event Name Registry
+#### Event Type Name Registry
 
-This document defines a new registry for the token name values that are permitted as values to the [party_event Object event](#party_history-object) parameter.
+This document defines a new registry for the token name values that are permitted as values to the [Event Object type](#event-type) parameter.
 
-##### party_event Event Name Registration Template
+##### Event Type Name Registration Template
 
-party_event Event Name:
+Event Type Name:
 
-  The string token name of a party_event Object event type.
+  The string token name of an Event Object type.
   The name is case sensitive.
   Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
-party_event Event Description:
+Event Type Description:
 
-  Brief description of the party_event Object Event
+  Brief description of the Event Object type
 
 Change Controller:
 
@@ -2302,21 +2269,24 @@ Specification Document(s):
    the documents.  An indication of the relevant sections may also be
    included but is not required.
 
-##### party_event Type Name Registration Initial Values
+##### Event Type Name Registration Initial Values
 
-The following table defines the initial values for the Dialog Object Types Registry.
+The following table defines the initial values for the Event Type Name Registry.
 
-| party_event Event Name | party_event Event Description | Change Controller | Specification Document(s) |
+| Event Type Name | Event Type Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| join | party join event | IESG | [](#party_history-object) RFC XXXX |
-| drop | party drop event | IESG | [](#party_history-object) RFC XXXX |
-| hold | party on hold event | IESG | [](#party_history-object) RFC XXXX |
-| unhold | party off hold event | IESG | [](#party_history-object) RFC XXXX |
-| mute | party on mute event | IESG | [](#party_history-object) RFC XXXX |
-| unmute | party off mute event | IESG | [](#party_history-object) RFC XXXX |
-| keydown | DTMF/app key/button press event | IESG | [](#party_history-object) RFC XXXX |
-| keyup | DTMF/app key/button release event | IESG | [](#party_history-object) RFC XXXX |
-
+| join | party join event | IESG | [](#event-type-party) RFC XXXX |
+| drop | party drop event | IESG | [](#event-type-party) RFC XXXX |
+| hold | party on hold event | IESG | [](#event-type-party) RFC XXXX |
+| unhold | party off hold event | IESG | [](#event-type-party) RFC XXXX |
+| mute | party on mute event | IESG | [](#event-type-party) RFC XXXX |
+| unmute | party off mute event | IESG | [](#event-type-party) RFC XXXX |
+| keydown | DTMF/app key/button press event | IESG | [](#event-type-key) RFC XXXX |
+| keyup | DTMF/app key/button release event | IESG | [](#event-type-key) RFC XXXX |
+| consultation-start | transfer consultation start event | IESG | [](#event-type-transfer) RFC XXXX |
+| blind-transfer | blind transfer event | IESG | [](#event-type-transfer) RFC XXXX |
+| consultative-transfer | consultative transfer event | IESG | [](#event-type-transfer) RFC XXXX |
+| transfer-abandoned | transfer abandoned event | IESG | [](#event-type-transfer) RFC XXXX |
 
 ### Attachment Object Parameter Names Registry
 
@@ -2568,7 +2538,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 {::include examples/ab_call_ext_rec_amended.pp}
 ~~~
 
-TODO:  recording-set example with party_history
+TODO: Session Object and Event Object example
 
 # vCon JSON Schema
 
