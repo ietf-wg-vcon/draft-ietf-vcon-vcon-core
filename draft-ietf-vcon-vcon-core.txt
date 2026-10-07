@@ -3011,8 +3011,9 @@ Table of Contents
 5.3.3.  Header Object
 
    *  alg: "String" (MUST be present here, in the Unprotected Object or
-      in the JWE Protected Header) The string value of alg SHOULD be
-      "RSA-OAEP".
+      in the JWE Protected Header)
+
+   The string value of alg SHOULD be "RSA-OAEP".
 
    Other header parameters defined for [JWE] MAY be present.
 
