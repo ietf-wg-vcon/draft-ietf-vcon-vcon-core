@@ -845,16 +845,18 @@ The type parameter specifies a specific type of relationship to the reference se
 
 * type: "String"
 
-The type parameter is a string that SHOULD contain one of the following values:
+The string MUST have the value of one of the following tokens or a value defined in a vCon extension:
 
 * "child" - a session contained within this session
 * "peer" - a session that occurred in parallel or overlapping this session
 * "precursor" - a session that occurred before and leading up to this session
 * "breakout" - a separate session that included some subset of the parties in this session and typically overlapping with this session
 
-TBD: other types? consult
+The handling of a Session_Reference Object with a type which is not recognized is described in [](#extending-vcon).
 
-#### description
+TBD: other types?
+
+#### description {#session-reference-description}
 
 The description parameter is used to better describe the relationship to the referenced Session Object.
 
@@ -1382,7 +1384,6 @@ X
 | content_hash | S (4) | S (4) | X |
 | disposition | SN | SN | M |
 | session_id | O | O | O |
-| party_history | O | O | O |
 | application | O | O | O |
 | message_id | O | O | X |
 
@@ -2221,6 +2222,72 @@ The following table defines the initial values for the Dialog Object Types Regis
 | recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
 | incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
 
+
+ession Object Parameter Names Registry
+
+The following defines the initial values for the Session Object Parameter Names Registry.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| start | session start time | IESG | [](#session-start) RFC XXXX |
+| duration | session duration period | IESG | [](#session-duration) RFC XXXX |
+| parties | session parties list | IESG | [](#session-parties) RFC XXXX |
+| originator | session originator party | IESG | [](#session-originator) RFC XXXX |
+| session_id | RFC7989 session ID | IESG | [](#session-session-id) RFC XXXX |
+| sessions | Session_Reference Objects array | IESG | [](#session-sessions) RFC XXXX |
+| dialog | session dialog index list | IESG | [](#session-dialog) RFC XXXX |
+
+### Session_Reference Object Parameter Names Registry
+
+The following defines the initial values for the Session_Reference Object Parameter Names Registry.
+Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
+
+| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| session | referenced session index | IESG | [](#session-reference-session) RFC XXXX |
+| type | session relationship type | IESG | [](#session-reference-type) RFC XXXX |
+| description | session relationship description | IESG | [](#session-reference-description) RFC XXXX |
+
+#### Session_Reference Type Name Registry
+
+This document defines a new registry for the token name values that are permitted as values to the [Session_Reference Object type](#session-reference-type) parameter.
+
+##### Session_Reference Type Name Registration Template
+
+Session_Reference Type Name:
+
+  The string token name of a Session_Reference Object type.
+  The name is case sensitive.
+  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
+
+Session_Reference Type Description:
+
+  Brief description of the Session_Reference Object type
+
+Change Controller:
+
+   For Standards Track RFCs, list the "IESG".  For others, give the
+   name of the responsible party.  Other details (e.g., postal
+   address, email address, home page URI) may also be included.
+
+Specification Document(s):
+
+   Reference to the document or documents that specify the parameter,
+   preferably including URIs that can be used to retrieve copies of
+   the documents.  An indication of the relevant sections may also be
+   included but is not required.
+
+##### Session_Reference Type Name Registration Initial Values
+
+The following table defines the initial values for the Session_Reference Type Name Registry.
+
+| Session_Reference Type Name | Session_Reference Type Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- |
+| child | contained session | IESG | [](#session-reference-type) RFC XXXX |
+| peer | parallel or overlapping session | IESG | [](#session-reference-type) RFC XXXX |
+| precursor | preceding session | IESG | [](#session-reference-type) RFC XXXX |
+| breakout | breakout session with a subset of the parties | IESG | [](#session-reference-type) RFC XXXX |
 
 ### Event Object Parameter Names Registry
 
