@@ -5,10 +5,68 @@
 ; This CDDL is informative.
 ; Constraints that cannot be expressed in CDDL are stated in
 ; comments.
-; Note: the extension parameter wildcard (* tstr => any) means the
-; per-type parameter prohibitions in this CDDL are advisory; a
-; prohibited parameter matches the wildcard.  The prose and Table 1
-; of the draft are definitive.
+;
+; The Objects of the unsigned form are those of the 0.4.0 draft
+; (commit fdcf2f5).  The signed (JWS) and encrypted (JWE) forms
+; and the extension points follow the draft at commit 25c1397.
+;
+; This CDDL is strict.  A parameter or value which is not defined
+; here does not validate, unless the CDDL of the vCon extension
+; which defines it is used together with this CDDL.  Failing
+; validation against this CDDL is not by itself a reason to
+; reject a vCon.  The draft defines how parameters and values
+; which are not recognized are handled (see Extending vCon).
+;
+; Extension points
+; ----------------
+; The extension points are CDDL sockets (RFC 8610, Section 3.9).
+;
+; 1. Adding parameters to an Object.
+;
+; Each Object ends with a group socket named for that Object.
+; A vCon extension adds parameters to that Object only, with for
+; example:
+;
+;     $$party-ext //= ( ? example_parameter: tstr )
+;
+; The "*" before each of these sockets allows the socket to match
+; nothing, so that this CDDL can be used with no extensions, and
+; allows more than one extension to add to the same Object.
+;
+; 2. Adding a value which selects other parameters.
+;
+; The dialog-type-ext socket adds a Dialog Object type along with
+; the parameters which apply to that type.  The encoding-ext
+; socket adds an encoding value along with the form of the body
+; parameter for that encoding.  For example:
+;
+;     $$dialog-type-ext //= example_dialog_type
+;     example_dialog_type = (
+;         type: "example",
+;         dialog_common_type,
+;         ? example_parameter: tstr,
+;         * $$example-dialog-ext
+;       )
+;
+;     $$encoding-ext //= ( encoding: "example", body: tstr )
+;
+; A group which defines a new type is best given a rule name and
+; ended with a socket of its own, as above, so that another
+; extension can add parameters to that type.
+;
+; 3. Adding a value to a list of values.
+;
+; The disposition-ext socket adds a disposition value, with for
+; example:
+;
+;     $disposition-ext /= "example"
+;
+; The sockets in 2 and 3 are alternatives in a choice.  They have
+; no "*" and are not to be given one.
+;
+; The header objects of the signed and encrypted forms have no
+; socket.  They are open, as any JWS or JWE header parameter MAY
+; be present in them.
 
 ; A vCon JSON object is in one of three forms (Section 3):
 ; unsigned, signed (JWS) or encrypted (JWE).
@@ -35,7 +93,7 @@ unsigned_vcon_type = {
     ? dialog: [* dialog_object_type],        ; Section 4.1.11
     ? analysis: [* analysis_object_type],    ; Section 4.1.12
     ? attachments: [* attachment_object_type], ; Section 4.1.13
-    $$vcon-ext
+    * $$vcon-ext
   }
 
 ; Object and multi-parameter types
@@ -49,7 +107,7 @@ redacted_object_type = {
     type: tstr,
     ? ( url: url_value_type,
         content_hash: content_hash_type ),
-    $$reference-ext
+    * $$redacted-ext
   }
 
 ; Amended Object (Section 4.1.9.1)
@@ -59,7 +117,7 @@ amended_object_type = {
     ? uuid: uuid_value_type,
     ? ( url: url_value_type,
         content_hash: content_hash_type ),
-    $$reference-ext
+    * $$amended-ext
   }
 
 ; Party Object (Section 4.2)
@@ -81,7 +139,7 @@ party_object_type = {
     ? type: tstr,                            ; Section 4.2.11
     ? org: tstr,                             ; Section 4.2.12
     ? dept: tstr,                            ; Section 4.2.13
-    $$party-ext
+    * $$party-ext
   }
 
 ; Civicaddress Object (Section 4.2.9)
@@ -103,7 +161,7 @@ civicaddress_type = {
     ? flr: tstr,
     ? nam: tstr,
     ? pc: tstr,
-    $$party-ext
+    * $$civicaddress-ext
   }
 
 ; Dialog Object (Section 4.3)
@@ -116,8 +174,9 @@ dialog_object_type = {
       dialog_text_type //
       dialog_recording_set_type //
       dialog_transfer_type //
-      dialog_incomplete_type ),
-    $$dialog-ext
+      dialog_incomplete_type //
+      $$dialog-type-ext ),
+    * $$dialog-ext
   }
 
 ; Parameters common to all Dialog Object types
@@ -221,7 +280,7 @@ party_history_object_type = {
              "mute" / "unmute" //
       ( event: "keydown" / "keyup",
         button: tstr ) ),
-    $$dialog-ext
+    * $$party-history-ext
   }
 
 ; Attachment Object (Section 4.4)
@@ -237,7 +296,7 @@ attachment_object_type = {
     ; Attachment Content (Section 4.4.7) SHOULD be present;
     ; body or url MAY be absent if redacted
     ? file_content_type,
-    $$attachment-ext
+    * $$attachment-ext
   }
 
 ; Analysis Object (Section 4.5)
@@ -263,7 +322,7 @@ analysis_object_type = {
     ; Analysis Content (Section 4.5.9) SHOULD be present;
     ; body or url MAY be absent if redacted
     ? file_content_type,
-    $$analysis-ext
+    * $$analysis-ext
   }
 
 ; Inline Files (Section 2.3) and
@@ -274,11 +333,14 @@ file_content_type = ( inline_content_type // external_content_type )
 
 ; body is any JSON value when encoding is "json";
 ; otherwise body is a string (Sections 2.3.1 and 2.3.2).
+; A vCon extension which adds an encoding value also defines the
+; form of body for that encoding.
 inline_content_type = (
     ( encoding: "json",
       body: any ) //
     ( encoding: "none" / "base64url",
-      body: tstr )
+      body: tstr ) //
+    $$encoding-ext
   )
 
 external_content_type = (
@@ -301,7 +363,14 @@ session_id_parameter_type =
 ;_______________________________________
 
 ; RFC3339 date string (Section 2.2)
-date_type = tstr .regexp "[0-9]{4}-[0-9]{2}-[0-9]{2}[Tt][0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})"
+; The pattern is in two parts only to keep the lines short.  The
+; first 19 characters are the date, "T" and the time.  The rest is
+; the optional fraction of a second and the time zone offset.
+date_type = date_and_time_type .and date_offset_type
+date_and_time_type = tstr .regexp
+    "[0-9]{4}-[0-9]{2}-[0-9]{2}[Tt][0-9]{2}:[0-9]{2}:[0-9]{2}.*"
+date_offset_type = tstr .regexp
+    ".{19}([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})"
 
 ; String token of the form: hash algorithm, "-", Base64Url encoded
 ; digest, e.g. "sha512-..." (Section 2.2)
@@ -315,10 +384,12 @@ duration_type = uint / float
 
 ; "no-answer" etc. (Section 4.3.11)
 disposition_value_type = "no-answer" / "congestion" / "failed" /
-    "busy" / "hung-up" / "voicemail-no-message"
+    "busy" / "hung-up" / "voicemail-no-message" /
+    $disposition-ext
 
 ; Media type of the form: type "/" subtype (Section 2.2)
-media_type_value_type = tstr .regexp "[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+(;.*)?"
+media_type_value_type = tstr .regexp
+    "[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+(;.*)?"
 
 party_index_type = uint
 
@@ -337,9 +408,9 @@ attachment_index_or_list_type =
 dialog_parties_type = party_index_type /
     [* ( party_index_type / [* party_index_type] / null )]
 
-; Extension parameters MAY appear in any object (Section 2.5)
-
-uuid_value_type = tstr .regexp "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+; UUID string
+uuid_value_type = tstr .regexp
+    "[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}"
 
 ; HTTPS URL (Section 2.4.1)
 url_value_type = tstr .regexp "https://.+"
@@ -350,30 +421,49 @@ url_value_type = tstr .regexp "https://.+"
 signed_vcon_type = {
     payload: base64url_value_type,
     signatures: [+ signature_object_type],
-    $$envelope-ext
+    * $$signed-ext
   }
 
 ; Signature Object (Section 5.2.1)
 signature_object_type = {
     header: signed_header_object_type,
-    protected: base64url_value_type,
+    ; present when the JWS Protected Header is not empty
+    ? protected: base64url_value_type,
     signature: base64url_value_type,
-    $$envelope-ext
+    * $$signature-ext
   }
 
 ; Header Object (Section 5.2.2)
-; MUST include alg and either x5c or x5u.
+; MUST include at least one of x5c or x5u.
+; Other JWS header parameters MAY be present.
+; Not enforced by this CDDL, as the JWS Protected Header is an
+; opaque string here:
+; - alg MUST be present here or in the JWS Protected Header, and
+;   SHOULD be in the JWS Protected Header.
+; - alg MUST NOT be "none" in the JWS Protected Header.
+; - A header parameter MUST NOT be present in both the JWS
+;   Protected Header and the Header Object.
 signed_header_object_type = {
-    alg: tstr,                               ; SHOULD be "RS256"
-    ( x5c: [* tstr] //
+    ; SHOULD be "RS256"; MUST NOT be "none"
+    ? alg: tstr .ne "none",
+    ( ( x5c: [+ tstr],
+        ? x5u: url_value_type ) //
       x5u: url_value_type ),
     ? uuid: uuid_value_type,                 ; SHOULD be provided
-    $$envelope-ext
+    * tstr => any
   }
 
 ; Encrypted Form of vCon Object (Section 5.3)
 ;____________________________________________
 
+; Not enforced by this CDDL, as the JWE Protected Header is an
+; opaque string here:
+; - enc MUST be present in the JWE Protected Header or the
+;   Unprotected Object.
+; - alg MUST be present in the JWE Protected Header, the
+;   Unprotected Object or the Header Object of each recipient.
+; - A header parameter MUST NOT be present in more than one of
+;   those locations.
 encrypted_vcon_type = {
     ? protected: base64url_value_type,
     unprotected: unprotected_object_type,
@@ -381,32 +471,37 @@ encrypted_vcon_type = {
     iv: base64url_value_type,
     ciphertext: base64url_value_type,
     tag: base64url_value_type,
-    $$envelope-ext
+    ? aad: base64url_value_type,
+    * $$encrypted-ext
   }
 
 ; Unprotected Object (Section 5.3.1)
+; Other JWE header parameters MAY be present.
 unprotected_object_type = {
     ; cty SHOULD be "application/vcon" or "application/vcon+gzip"
     cty: tstr,
     ; enc SHOULD be "A256CBC-HS512"
-    enc: tstr,
+    ? enc: tstr,
+    ? alg: tstr,
     ? uuid: uuid_value_type,                 ; SHOULD be provided
-    $$envelope-ext
+    * tstr => any
   }
 
 ; Recipient Object (Section 5.3.2)
+; A Recipient Object with no parameters is permitted.
 recipient_object_type = {
-    header: recipient_header_object_type,
-    encrypted_key: base64url_value_type,
-    $$envelope-ext
+    ? header: recipient_header_object_type,
+    ; present when the JWE Encrypted Key is not empty
+    ? encrypted_key: base64url_value_type,
+    * $$recipient-ext
   }
 
 ; Header Object (Section 5.3.3)
+; Other JWE header parameters MAY be present.
 recipient_header_object_type = {
-    alg: tstr,                               ; SHOULD be "RSA-OAEP"
-    $$envelope-ext
+    ? alg: tstr,                             ; SHOULD be "RSA-OAEP"
+    * tstr => any
   }
 
 ; Base64Url encoded string
 base64url_value_type = tstr .regexp "[A-Za-z0-9_-]+"
-
