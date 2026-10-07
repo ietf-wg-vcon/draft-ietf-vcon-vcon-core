@@ -854,7 +854,7 @@ The string MUST have the value of one of the following tokens or a value defined
 
 The handling of a Session_Reference Object with a type which is not recognized is described in [](#extending-vcon).
 
-TBD: other types?
+TODO: other types?
 
 #### description {#session-reference-description}
 
@@ -1599,11 +1599,23 @@ The value of the party parameter is the index into the Party Object array to the
 
 ### dialog {#attachment-dialog}
 
-Attachments are added as data related to the dialog.
+Attachments are added as data related to a dialog or a session.
 The dialog parameter is used to identify the dialog that the attachment is part of.
-The dialog is identified by the index to the dialog Object in the dialog objects array.
 
-* dialog: "UnsignedInt"
+* dialog: "UnsignedInt" (optional)
+
+The value of the dialog parameter is the index into the dialog Object array to the Dialog Object to which this Attachment Object relates.
+At least one of the dialog or session parameters MUST be present (see [](#attachment-session)).
+
+### session {#attachment-session}
+
+Attachments may be related to one or more sessions as opposed to a specific dialog.
+The session parameter is used to identify the sessions that the attachment is part of.
+
+* session: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
+
+The value of the session parameter is the index to the session or array of indices to the Session Object array to which this Attachment Object relates.
+The requirement for the dialog or session parameter to be present is defined in [](#attachment-dialog).
 
 ### mediatype {#attachment-mediatype}
 
@@ -1671,18 +1683,39 @@ The string value SHOULD be one of the following:
 Analysis typically pertains to one or more of the Dialog Objects in the dialog array.
 The dialog parameter is used to indicate which Dialog Objects this analysis was based upon.
 
-* dialog: "UnsignedInt" \| "UnsignedInt\[\]" (optional only if the analysis was not derived from any of the dialog)
+* dialog: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
 
 The value of the dialog parameter is the index to the dialog or array of indices to the Dialog Object array to which this Analysis Object corresponds.
+At least one of the dialog, session, attachment or analysis parameters SHOULD be present to indicate the scope of what was input to the analysis (see [](#analysis-session), [](#analysis-attachment) and [](#analysis-analysis)).
+Analysis may also be based upon data which is not contained in the vCon, in which case none of these parameters may apply.
+
+### session {#analysis-session}
+
+Analysis may pertain to one or more sessions as a whole, as opposed to specific Dialog Objects.
+The session parameter is used to indicate which Session Objects this analysis was based upon.
+
+* session: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
+
+The value of the session parameter is the index to the session or array of indices to the Session Object array to which this Analysis Object corresponds.
 
 ### attachment {#analysis-attachment}
 
 The analysis may pertain to one or more of the Attachment Objects in the attachment array.
 The attachment parameter is used to indicate which Attachment Objects this analysis was based upon.
 
-* attachment: "UnsignedInt" \| "UnsignedInt\[\]" (optional only if the analysis was not derived from any of the attachments)
+* attachment: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
 
 The value of the attachment parameter is the index to the attachment or array of indices to the Attachment Object array to which this analysis object corresponds.
+
+### analysis {#analysis-analysis}
+
+The analysis may be derived from one or more of the other Analysis Objects in the analysis array.
+The analysis parameter is used to indicate which Analysis Objects this analysis was based upon.
+
+* analysis: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
+
+The value of the analysis parameter is the index to the analysis or array of indices to the Analysis Object array to which this Analysis Object corresponds.
+An Analysis Object MUST NOT reference itself in the analysis parameter.
 
 ### mediatype {#analysis-mediatype}
 
@@ -2223,7 +2256,7 @@ The following table defines the initial values for the Dialog Object Types Regis
 | incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
 
 
-ession Object Parameter Names Registry
+### Session Object Parameter Names Registry
 
 The following defines the initial values for the Session Object Parameter Names Registry.
 Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
@@ -2366,6 +2399,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | start | attachment start time | IESG | [](#attachment-start) RFC XXXX |
 | party | sending party index | IESG | [](#party) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#attachment-dialog) RFC XXXX |
+| session | associated session index | IESG | [](#attachment-session) RFC XXXX |
 | mediatype | attachment body media type | IESG | [](#attachment-mediatype) RFC XXXX |
 | filename | attachment content filename | IESG | [](#attachment-filename) RFC XXXX |
 | body | attachment inline content | IESG | [](#attachment-content) RFC XXXX |
@@ -2382,7 +2416,9 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | --- | --- | --- | --- |
 | type | analysis type | IESG | [](#analysis-type) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
+| session | associated session index | IESG | [](#analysis-session) RFC XXXX |
 | attachment | associated attachment index | IESG | [](#analysis-attachment) RFC XXXX |
+| analysis | associated analysis index | IESG | [](#analysis-analysis) RFC XXXX |
 | mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
 | filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
 | vendor | vendor producing content | IESG | [](#vendor) RFC XXXX |
