@@ -2004,6 +2004,7 @@ The string value of encrypted_key is defined in section 7.2.1 of [JWE].
 ### Header Object {#jwe-header-object}
 
 * alg: "String" (MUST be present here, in the Unprotected Object or in the JWE Protected Header)
+
 The string value of alg SHOULD be "RSA-OAEP".
 
 Other header parameters defined for [JWE] MAY be present.
