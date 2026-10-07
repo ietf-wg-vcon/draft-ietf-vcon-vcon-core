@@ -15,7 +15,7 @@
       "description": "DEPRECATED: Syntactic version of the JSON f
         ormat. This was used to indicate schema changes in the In
         ternet-Draft versions",
-      "const": "0.4.0"
+      "const": "0.5.0"
     },
     "uuid": {
       "type": "string",
@@ -154,12 +154,30 @@
           ce is provided"
       }
     },
+    "sessions": {
+      "type": "array",
+      "description": "Array of Session Objects, each grouping the
+         Dialog and Event Objects of one session of the conversat
+        ion",
+      "items": {
+        "$ref": "#/definitions/Session"
+      }
+    },
     "parties": {
       "type": "array",
       "description": "Array of Party Objects representing all par
         ties involved in the conversation",
       "items": {
         "$ref": "#/definitions/Party"
+      }
+    },
+    "events": {
+      "type": "array",
+      "description": "Array of Event Objects; order is not signif
+        icant, Event Objects are sequenced by their time paramete
+        r",
+      "items": {
+        "$ref": "#/definitions/Event"
       }
     },
     "dialog": {
@@ -188,6 +206,98 @@
     }
   },
   "definitions": {
+    "Session": {
+      "type": "object",
+      "description": "Represents one session of the conversation 
+        and references the Dialog Objects which are part of it; a
+         Session Object with no parameters is permitted",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the session in RFC3339 fo
+            rmat; SHOULD be present"
+        },
+        "duration": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "number",
+              "minimum": 0
+            }
+          ],
+          "description": "Duration of the session in seconds"
+        },
+        "parties": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Indices of all parties that were part o
+            f the session; SHOULD be present; the first party is 
+            the implied originator"
+        },
+        "originator": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the originating party; only pr
+            ovided if the first party in parties is not the origi
+            nator"
+        },
+        "session_id": {
+          "$ref": "#/definitions/SessionId"
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SessionReference"
+          },
+          "description": "Relationships to other Session Objects"
+        },
+        "dialog": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Indices of the Dialog Objects which are
+             part of the session"
+        }
+      }
+    },
+    "SessionReference": {
+      "type": "object",
+      "description": "Session_Reference Object: the relationship 
+        of another Session Object to the Session Object which con
+        tains this reference",
+      "required": [
+        "session",
+        "type"
+      ],
+      "properties": {
+        "session": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the referenced Session Object 
+            in the sessions array"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of relationship: child, peer, prec
+            ursor, breakout, or a value defined in a vCon extensi
+            on"
+        },
+        "description": {
+          "type": "string",
+          "description": "Free form text description of the relat
+            ionship"
+        }
+      }
+    },
     "Party": {
       "type": "object",
       "description": "Represents a party involved in the conversa
@@ -327,6 +437,328 @@
         }
       }
     },
+    "Event": {
+      "type": "object",
+      "description": "Represents an event which occurred in a ses
+        sion, such as a party joining, a key press or a transfer"
+        ,
+      "required": [
+        "type",
+        "time",
+        "session",
+        "party"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of event: join, drop, hold, unhold
+            , mute, unmute, keydown, keyup, consultation-start, b
+            lind-transfer, consultative-transfer, transfer-abando
+            ned, or a value defined in a vCon extension"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time of the event in RFC3339 format"
+        },
+        "session": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the Session Object in which th
+            e event occurred; for transfer event types, the Sessi
+            on Object for the original call"
+        },
+        "party": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the party to which the event a
+            pplies; for transfer event types, the Transferor"
+        },
+        "dialog": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the Dialog Object associated w
+            ith the event; MUST NOT be present for transfer event
+             types"
+        },
+        "button": {
+          "type": "string",
+          "description": "DTMF digit, character or string (requir
+            ed for keydown and keyup events)"
+        },
+        "transferee": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Party index of the Transferee (transfer
+             event types)"
+        },
+        "transfer_target": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Party index of the Transfer Target (tra
+            nsfer event types; optional for transfer-abandoned)"
+        },
+        "consultation": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Session index of the consultative call 
+            (consultation-start and consultative-transfer; option
+            al for transfer-abandoned)"
+        },
+        "target_session": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Session index of the target call (blind
+            -transfer and consultative-transfer)"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "join",
+                  "drop",
+                  "hold",
+                  "unhold",
+                  "mute",
+                  "unmute"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "button"
+                  ]
+                },
+                {
+                  "required": [
+                    "transferee"
+                  ]
+                },
+                {
+                  "required": [
+                    "transfer_target"
+                  ]
+                },
+                {
+                  "required": [
+                    "consultation"
+                  ]
+                },
+                {
+                  "required": [
+                    "target_session"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "keydown",
+                  "keyup"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "button"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "transferee"
+                  ]
+                },
+                {
+                  "required": [
+                    "transfer_target"
+                  ]
+                },
+                {
+                  "required": [
+                    "consultation"
+                  ]
+                },
+                {
+                  "required": [
+                    "target_session"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "consultation-start"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "transferee",
+              "transfer_target",
+              "consultation"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "dialog"
+                  ]
+                },
+                {
+                  "required": [
+                    "button"
+                  ]
+                },
+                {
+                  "required": [
+                    "target_session"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "blind-transfer"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "transferee",
+              "transfer_target",
+              "target_session"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "dialog"
+                  ]
+                },
+                {
+                  "required": [
+                    "button"
+                  ]
+                },
+                {
+                  "required": [
+                    "consultation"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "consultative-transfer"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "transferee",
+              "transfer_target",
+              "consultation",
+              "target_session"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "dialog"
+                  ]
+                },
+                {
+                  "required": [
+                    "button"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "transfer-abandoned"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "transferee"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "dialog"
+                  ]
+                },
+                {
+                  "required": [
+                    "button"
+                  ]
+                },
+                {
+                  "required": [
+                    "target_session"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "$comment": "The rules for each known type follow the Event
+         Object Parameter Applicability by Type tables. An Event 
+        Object with a type which is not listed is only checked fo
+        r the parameters common to all types."
+    },
     "Dialog": {
       "type": "object",
       "description": "Represents a segment of captured conversati
@@ -337,21 +769,14 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "recording",
-            "text",
-            "transfer",
-            "incomplete",
-            "recording-set"
-          ],
-          "description": "Type of dialog"
+          "description": "Type of dialog: recording, text, incomp
+            lete, or a value defined in a vCon extension"
         },
         "start": {
           "type": "string",
           "format": "date-time",
           "description": "Start time of the dialog in RFC3339 for
-            mat; SHOULD be present unless not known; optional for
-             transfer type"
+            mat; SHOULD be present unless not known"
         },
         "duration": {
           "anyOf": [
@@ -401,31 +826,9 @@
               }
             }
           ],
-          "description": "Index/indices of parties in the parties
-             array; SHOULD be present for recording, recording-se
-            t and text types; MUST NOT be present for transfer ty
-            pe"
-        },
-        "originator": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Index of the originating party if first
-             party is not the originator"
-        },
-        "recordings": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "description": "recording-set reference to list of indi
-            ces to recording Dialog Objects"
-        },
-        "recording_set": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Index of the recording-set Dialog Objec
-            t that this recording is a part of"
+          "description": "Index/indices of the parties that contr
+            ibuted to the dialog content; SHOULD be present for r
+            ecording and text types"
         },
         "mediatype": {
           "type": "string",
@@ -440,17 +843,14 @@
         },
         "body": {
           "description": "Inline content of the dialog (for inlin
-            e files).  Any type for encoding=json, otherwise it m
-            ust be a string."
+            e files).  Any type for encoding json; a string for e
+            ncoding base64url or none."
         },
         "encoding": {
           "type": "string",
-          "enum": [
-            "base64url",
-            "json",
-            "none"
-          ],
-          "description": "Encoding type for inline content"
+          "description": "Encoding type for inline content: base6
+            4url, json, none, or a value defined in a vCon extens
+            ion"
         },
         "url": {
           "type": "string",
@@ -474,17 +874,12 @@
         },
         "disposition": {
           "type": "string",
-          "enum": [
-            "no-answer",
-            "congestion",
-            "failed",
-            "busy",
-            "hung-up",
-            "voicemail-no-message"
-          ],
           "description": "Reason the call or conversation failed 
-            (required for incomplete type); \"failed\" SHOULD be 
-            used when the reason is not known"
+            (required for incomplete type, SHOULD NOT be present 
+            for other types): no-answer, congestion, failed, busy
+            , hung-up, voicemail-no-message, or a value defined i
+            n a vCon extension; \"failed\" SHOULD be used when th
+            e reason is not known"
         },
         "session_id": {
           "anyOf": [
@@ -514,54 +909,8 @@
               }
             }
           ],
-          "description": "Session ID(s) for the dialog"
-        },
-        "party_history": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PartyHistory"
-          },
-          "description": "History of party join/drop/hold/mute ev
-            ents"
-        },
-        "transferee": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Party index of the transferee (for tran
-            sfer type)"
-        },
-        "transferor": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Party index of the transferor (for tran
-            sfer type)"
-        },
-        "transfer_target": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Party index of the transfer target (for
-             transfer type)"
-        },
-        "original": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Dialog index of the original call (for 
-            transfer type); may reference a recording, recording-
-            set or text type Dialog Object"
-        },
-        "consultation": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Dialog index of the consultation call (
-            for transfer type); may reference a recording, record
-            ing-set, text or incomplete type Dialog Object"
-        },
-        "target_dialog": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Dialog index of the target call (for tr
-            ansfer type); may reference a recording, recording-se
-            t, text or incomplete type Dialog Object"
+          "description": "Session ID(s) for the dialog, correlate
+            d with the parties parameter"
         },
         "application": {
           "type": "string",
@@ -592,418 +941,7 @@
             ]
           },
           "then": {
-            "required": [
-              "disposition"
-            ]
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "recording-set"
-              }
-            },
-            "required": [
-              "type"
-            ]
-          },
-          "then": {
-            "required": [
-              "recordings"
-            ]
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "transfer"
-              }
-            },
-            "required": [
-              "type"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "parties"
-                  ]
-                },
-                {
-                  "required": [
-                    "originator"
-                  ]
-                },
-                {
-                  "required": [
-                    "session_id"
-                  ]
-                },
-                {
-                  "required": [
-                    "party_history"
-                  ]
-                },
-                {
-                  "required": [
-                    "message_id"
-                  ]
-                },
-                {
-                  "required": [
-                    "recordings"
-                  ]
-                },
-                {
-                  "required": [
-                    "recording_set"
-                  ]
-                },
-                {
-                  "required": [
-                    "mediatype"
-                  ]
-                },
-                {
-                  "required": [
-                    "filename"
-                  ]
-                },
-                {
-                  "required": [
-                    "body"
-                  ]
-                },
-                {
-                  "required": [
-                    "encoding"
-                  ]
-                },
-                {
-                  "required": [
-                    "url"
-                  ]
-                },
-                {
-                  "required": [
-                    "content_hash"
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "recording-set"
-              }
-            },
-            "required": [
-              "type"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "message_id"
-                  ]
-                },
-                {
-                  "required": [
-                    "recording_set"
-                  ]
-                },
-                {
-                  "required": [
-                    "mediatype"
-                  ]
-                },
-                {
-                  "required": [
-                    "filename"
-                  ]
-                },
-                {
-                  "required": [
-                    "body"
-                  ]
-                },
-                {
-                  "required": [
-                    "encoding"
-                  ]
-                },
-                {
-                  "required": [
-                    "url"
-                  ]
-                },
-                {
-                  "required": [
-                    "content_hash"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferee"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferor"
-                  ]
-                },
-                {
-                  "required": [
-                    "transfer_target"
-                  ]
-                },
-                {
-                  "required": [
-                    "original"
-                  ]
-                },
-                {
-                  "required": [
-                    "consultation"
-                  ]
-                },
-                {
-                  "required": [
-                    "target_dialog"
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "incomplete"
-              }
-            },
-            "required": [
-              "type"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "message_id"
-                  ]
-                },
-                {
-                  "required": [
-                    "recordings"
-                  ]
-                },
-                {
-                  "required": [
-                    "recording_set"
-                  ]
-                },
-                {
-                  "required": [
-                    "mediatype"
-                  ]
-                },
-                {
-                  "required": [
-                    "filename"
-                  ]
-                },
-                {
-                  "required": [
-                    "body"
-                  ]
-                },
-                {
-                  "required": [
-                    "encoding"
-                  ]
-                },
-                {
-                  "required": [
-                    "url"
-                  ]
-                },
-                {
-                  "required": [
-                    "content_hash"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferee"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferor"
-                  ]
-                },
-                {
-                  "required": [
-                    "transfer_target"
-                  ]
-                },
-                {
-                  "required": [
-                    "original"
-                  ]
-                },
-                {
-                  "required": [
-                    "consultation"
-                  ]
-                },
-                {
-                  "required": [
-                    "target_dialog"
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "recording"
-              }
-            },
-            "required": [
-              "type"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "recordings"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferee"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferor"
-                  ]
-                },
-                {
-                  "required": [
-                    "transfer_target"
-                  ]
-                },
-                {
-                  "required": [
-                    "original"
-                  ]
-                },
-                {
-                  "required": [
-                    "consultation"
-                  ]
-                },
-                {
-                  "required": [
-                    "target_dialog"
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "text"
-              }
-            },
-            "required": [
-              "type"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "recordings"
-                  ]
-                },
-                {
-                  "required": [
-                    "recording_set"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferee"
-                  ]
-                },
-                {
-                  "required": [
-                    "transferor"
-                  ]
-                },
-                {
-                  "required": [
-                    "transfer_target"
-                  ]
-                },
-              {
-                  "required": [
-                    "original"
-                  ]
-                },
-                {
-                  "required": [
-                    "consultation"
-                  ]
-                },
-                {
-                  "required": [
-                    "target_dialog"
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          "if": {
-            "required": [
-              "body"
-            ],
-            "properties": {
-              "body": {
-                "not": {
-                  "const": ""
-                }
-              }
-            }
-          },
-          "then": {
-            "required": [
+            "required": quired": [
               "encoding"
             ]
           }
@@ -1026,8 +964,34 @@
               "mediatype"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "encoding": {
+                "enum": [
+                  "base64url",
+                  "none"
+                ]
+              }
+            },
+            "required": [
+              "encoding"
+            ]
+          },
+          "then": {
+            "properties": {
+              "body": {
+                "type": "string"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "$comment": "The rules for each known type follow the Dialo
+        g Object Parameter Applicability by Type table. A Dialog 
+        Object with a type which is not listed is only checked fo
+        r the rules common to all types."
     },
     "SessionId": {
       "type": "object",
@@ -1044,72 +1008,13 @@
         }
       }
     },
-    "PartyHistory": {
-      "type": "object",
-      "description": "Records party events during the dialog",
-      "required": [
-        "party",
-        "time",
-        "event"
-      ],
-      "properties": {
-        "party": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Index of the party"
-        },
-        "time": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Time of the event in RFC3339 format"
-        },
-        "event": {
-          "type": "string",
-          "enum": [
-            "join",
-            "drop",
-            "hold",
-            "unhold",
-            "mute",
-            "unmute",
-            "keydown",
-            "keyup"
-          ],
-          "description": "Type of event"
-        },
-        "button": {
-          "type": "string",
-          "description": "DTMF digit, character or string (requir
-            ed for keydown/keyup events)"
-        }
-      },
-      "if": {
-        "properties": {
-          "event": {
-            "enum": [
-              "keydown",
-              "keyup"
-            ]
-          }
-        },
-        "required": [
-          "event"
-        ]
-      },
-      "then": {
-        "required": [
-          "button"
-        ]
-      }
-    },
     "Attachment": {
       "type": "object",
       "description": "Represents an ancillary document related to
          the conversation",
       "required": [
         "start",
-        "party",
-        "dialog"
+        "party"
       ],
       "properties": {
         "purpose": {
@@ -1133,7 +1038,25 @@
           "type": "integer",
           "minimum": 0,
           "description": "Index of the dialog this attachment is 
-            part of"
+            part of (optional; at least one of dialog or session 
+            MUST be present)"
+        },
+        "session": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          ],
+          "description": "Index/indices of the Session Object(s) 
+            this attachment is related to"
         },
         "mediatype": {
           "type": "string",
@@ -1147,81 +1070,34 @@
         },
         "body": {
           "description": "Inline content of the attachment (for i
-            nline files).  Any type for encoding=json, otherwise 
-            it must be a string."
+            nline files).  Any type for encoding json; a string f
+            or encoding base64url or none."
         },
         "encoding": {
           "type": "string",
-          "enum": [
-            "base64url",
-            "json",
-            "none"
-          ],
-          "description": "Encoding type for inline content"
+          "description": "Encoding type for inline content: base6
+            4url, json, none, or a value defined in a vCon extens
+            ion"
         },
         "url": {
           "type": "string",
           "format": "uri",
-          "description": "HTTPS URL for externally referenced att
-            achment"
-        },
-        "content_hash": {
-          "oneOf": [
-            {
-              "type": "string"
+    "enum": [
+                  "base64url",
+                  "none"
+                ]
+              }
             },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ],
-          "description": "Hash(es) of external content"
-        }
-      },
-      "dependencies": {
-        "url": [
-          "content_hash"
-        ]
-      },
-      "allOf": [
-        {
-          "if": {
-            "required": [
-              "body"
-            ],
-            "properties": {
-              "body": {
-                "not": {
-                  "const": ""
-                }
-              }
-            }
-          },
-          "then": {
             "required": [
               "encoding"
             ]
-          }
-        },
-        {
-          "if": {
-            "required": [
-              "body"
-            ],
-            "properties": {
-              "body": {
-                "not": {
-                  "const": ""
-                }
-              }
-            }
           },
           "then": {
-            "required": [
-              "mediatype"
-            ]
+            "properties": {
+              "body": {
+                "type": "string"
+              }
+            }
           }
         }
       ]
@@ -1255,7 +1131,24 @@
             }
           ],
           "description": "Index/indices of dialog objects this an
-            alysis is based on"
+            alysis is based on (optional)"
+        },
+        "session": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          ],
+          "description": "Index/indices of Session Objects this a
+            nalysis is based on (optional)"
         },
         "attachment": {
           "oneOf": [
@@ -1272,7 +1165,25 @@
             }
           ],
           "description": "Index/indices of attachment objects thi
-            s analysis is based on"
+            s analysis is based on (optional)"
+        },
+        "analysis": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          ],
+          "description": "Index/indices of other Analysis Objects
+             this analysis is based on (optional); MUST NOT refer
+            ence itself"
         },
         "mediatype": {
           "type": "string",
@@ -1304,37 +1215,11 @@
         },
         "body": {
           "description": "Inline content of the analysis (for inl
-            ine files).  Any type for encoding=json, otherwise it
-             must be a string."
+            ine files).  Any type for encoding json; a string for
+             encoding base64url or none."
         },
         "encoding": {
-          "type": "string",
-          "enum": [
-            "base64url",
-            "json",
-            "none"
-          ],
-          "description": "Encoding type for inline content"
-        },
-        "url": {
-          "type": "string",
-          "format": "uri",
-          "description": "HTTPS URL for externally referenced ana
-            lysis"
-        },
-        "content_hash": {
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ],
-          "description": "Hash(es) of external content"
+          "type": "string",l content"
         }
       },
       "dependencies": {
@@ -1361,8 +1246,34 @@
               "encoding"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "encoding": {
+                "enum": [
+                  "base64url",
+                  "none"
+                ]
+              }
+            },
+            "required": [
+              "encoding"
+            ]
+          },
+          "then": {
+            "properties": {
+              "body": {
+                "type": "string"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "$comment": "At least one of the dialog, session, attachmen
+        t or analysis parameters SHOULD be present. An Analysis O
+        bject MUST NOT reference itself in the analysis parameter
+        ; this is not enforced by this schema."
     }
   },
   "not": {
@@ -1373,8 +1284,51 @@
     "$comment": "The redacted and amended parameters are mutually
        exclusive"
   },
-  "$comment": "At least one of the parties, dialog, analysis or a
-    ttachments parameters SHOULD be present (RFCXXXX Section 4). 
-    SHOULD-level statements are not enforced by this schema."
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "dialog"
+            ],
+            "properties": {
+              "dialog": {
+                "minItems": 1
+              }
+            }
+          },
+          {
+            "required": [
+              "events"
+            ],
+            "properties": {
+              "events": {
+                "minItems": 1
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "sessions"
+        ],
+        "properties": {
+          "sessions": {
+            "minItems": 1
+          }
+        },
+        "$comment": "At least one Session Object MUST exist if th
+          e events array or the dialog array contain Objects"
+      }
+    }
+  ],
+  "$comment": "This schema is permissive: parameters and type val
+    ues which are not defined in RFCXXXX do not cause validation 
+    to fail. At least one of the parties, dialog, analysis or att
+    achments parameters SHOULD be present. SHOULD-level statement
+    s are not enforced by this schema. Index values are not check
+    ed against the size of the array which they reference."
 }
 
