@@ -4631,6 +4631,7 @@ The protected parameter <span class="bcp14">MUST</span> be present when the JWS 
 The Header Object for a signed vCon <span class="bcp14">MUST</span> include at least one of x5c or x5u.
 The alg parameter <span class="bcp14">MUST</span> be present in either the JWS Protected Header or the Header Object.
 The alg parameter <span class="bcp14">SHOULD</span> be present in the JWS Protected Header so that it is integrity protected.
+The alg parameter <span class="bcp14">MUST NOT</span> have the value "none".
 As defined in section 7.2.1 of <span>[<a href="#JWS" class="cite xref">JWS</a>]</span>, a header parameter <span class="bcp14">MUST NOT</span> be present in both the JWS Protected Header and the Header Object.
 The x5c or x5u requirement makes the management and use of vCons easier, allowing the certificate chain to be found as the vCon is moved.
 Other header parameters defined for <span>[<a href="#JWS" class="cite xref">JWS</a>]</span> <span class="bcp14">MAY</span> be present in the Header Object.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
