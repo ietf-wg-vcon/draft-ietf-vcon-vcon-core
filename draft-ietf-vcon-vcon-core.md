@@ -1897,6 +1897,7 @@ The Header Object and its contents are defined in section 4 of [JWS].
 The Header Object for a signed vCon MUST include at least one of x5c or x5u.
 The alg parameter MUST be present in either the JWS Protected Header or the Header Object.
 The alg parameter SHOULD be present in the JWS Protected Header so that it is integrity protected.
+The alg parameter MUST NOT have the value "none".
 As defined in section 7.2.1 of [JWS], a header parameter MUST NOT be present in both the JWS Protected Header and the Header Object.
 The x5c or x5u requirement makes the management and use of vCons easier, allowing the certificate chain to be found as the vCon is moved.
 Other header parameters defined for [JWS] MAY be present in the Header Object.
