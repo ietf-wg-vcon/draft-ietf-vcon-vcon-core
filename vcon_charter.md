@@ -41,7 +41,7 @@ The scope of the VCON working group is:
 
 ### Standards Track AI Agent Extension
 
-  * Define an extension to the baseline format that contains meta-data unique to AI Agents and AI agent conversations, that are important to capture in an interchangeable format. These include, but are not limited to: tool call requests and responses; model details (vendor, version, parameters, and so on); token usage; prompts, prompt templates,  and other input not communicated to other participants. reasoning and other output not communicated to other participants. 
+  * Define an extension to the baseline format that contains meta-data unique to AI Agents and AI agent conversations, that are important to capture in an interchangeable format. These include, but are not limited to: tool call requests and responses; model details (vendor, version, parameters, and so on); token usage; prompts, prompt templates; reasoning and other output not communicated to participants but relevant for data capture. 
 
 ### Informational Internet Draft Output
 The Working Group may develop use cases in drafts for reference, but there is no expectation they will be published as an RFC.
