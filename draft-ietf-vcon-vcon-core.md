@@ -208,6 +208,8 @@ The primary focus is on creating a flexible, extensible standard for the exchang
 
 * analysis - analysis, transformations, summary, sentiment, or translation typically of the dialog data
 
+* contributor - a party that generated, or potentially generated, any part of the Dialog Content of a Dialog Object
+
 * conversation - an exchange of communication using text, audio or video medium between at least one human and one or more bots or humans
 
 * de-identification - removal of all information that could identify a party in a conversation.  This includes PII as well as audio and video recordings.  Voice recordings might be re-vocalized with a different speaker.
@@ -222,13 +224,15 @@ The primary focus is on creating a flexible, extensible standard for the exchang
 
 * parameter - JSON key and value pair
 
-* party - an observer or participant to the conversation, either passive or active
+* party - an observer, facilitator or participant to the conversation, either passive or active, which may be a contributor, a receiver, both or neither (e.g. the organizer of a conference)
 
 * payload - the contents or bytes that make up a file
 
 * PII - Personal Identifiable Information
 
 * PII masked - may include voice recordings, but PII is removed from transcripts and recordings (audio and video).
+
+* receiver - a party to which any part of the dialog in a session was sent and potentially received
 
 * vCon - container for conversational information
 
@@ -776,17 +780,20 @@ The value MUST be the session duration in seconds.
 
 ### parties {#session-parties}
 
-The Session Object parties parameter references all of the Party Objects from the parties Array that were part of the session.
+The Session Object parties parameter references the Party Objects from the parties Array that are the receivers of the dialog in this session.
 The parties parameter SHOULD be present.
-This SHOULD include all of the parties that actively contributed as well as those that were passively part of the conversation.
-A party is a passive participant if they potentially received any part of the dialog that was exchanged in this session.
+A party is a receiver if they potentially received any part of the dialog that was exchanged in this session.
 This is not a guarantee that they received any part of the dialog, only that some part of any dialog in this session was sent to them.
-The [Dialog Object parties parameter](#dialog-parties) indicates which party(s) were potentially active in specific dialog segments.
+The contributors to the dialog in this session are indicated in the [Dialog Object parties parameter](#dialog-parties) of each of the Dialog Objects that are part of this session.
+A contributor is not necessarily a receiver.
+For example, an automated announcement or prompt player contributes to the dialog, but does not receive any of it.
+A contributor that did not potentially receive any part of the dialog in this session SHOULD NOT be included in the Session Object parties parameter.
+The originator of the session MAY be included in the Session Object parties parameter even if it is not a receiver (see [](#session-originator)).
 To determine what part(s) of the dialog that a party potentially heard or received, the Event Objects may provide data as to when a party joined, dropped out, went on or off hold.
 
 * parties: "UnsignedInt\[\]"
 
-The value of the parties parameter is an array of the indices into the parties Object array to the Party Objects that were part of the session.
+The value of the parties parameter is an array of the indices into the parties Object array to the Party Objects that are the receivers of the dialog in the session.
 
 ### originator {#session-originator}
 
@@ -1428,8 +1435,11 @@ The value MUST be the dialog duration in seconds.
 ### parties {#dialog-parties}
 
 The party(s) which generated the text or recording for this piece of dialog are indicated in the parties parameter.
+These parties are the contributors to the Dialog Object.
+The receivers of the dialog are indicated in the parties parameter of the Session Object which references this Dialog Object (see [](#session-parties)).
 The parties parameter SHOULD be present in "recording" and "text" type Dialog Objects.
-The parties parameter is optional for "incomplete" type Dialog Objects, where it indicates the parties between which the call or conversation setup was attempted.
+The parties parameter is optional for "incomplete" type Dialog Objects, where it indicates the party that attempted to set up the call or conversation (i.e. the caller or originator).
+The party(s) to which the call or conversation setup was attempted are indicated in the parties parameter of the Session Object which references the "incomplete" type Dialog Object.
 
 * parties: "UnsignedInt" \| "UnsignedInt\[\]" \| ("UnsignedInt" \| "UnsignedInt\[\]")\[\]
 
@@ -1448,7 +1458,7 @@ Other participants are identified only in the recording Dialog Objects in which 
 As a result, no single recording Dialog Object necessarily identifies all parties participating in the conversation.
 The parties parameter of a Dialog Object only references the parties that contributed, or potentially contributed, to the Dialog Content of that Dialog Object.
 The complete call or session is represented by a Session Object which references the Dialog Objects that are part of it (see [](#session-object)).
-The parties parameter of the Session Object is the place to find the full set of parties, both those that contributed and those that were passively part of the call or session (see [](#session-parties)).
+The parties parameter of the Session Object identifies the receivers of the dialog in the call or session (see [](#session-parties)).
 The start and duration parameters of the Session Object identify the beginning and the duration of the call or session (see [](#session-start) and [](#session-duration)).
 
 The originator of the call or session is indicated in the Session Object (see [](#session-originator)).
@@ -1456,15 +1466,20 @@ In some cases, there may be a separate recording file for each party in a conver
 It should be noted that the recordings may be shorter than the collective conference when there is a separate recording per speaker/party.
 For example the recording(s) of the individual speaker may be trimmed to only the parts where they are actually speaking.
 
-In the email context, [SMTP] messages have the headers From, To, Cc and Bcc that all correspond to parties to the text Dialog Object.
-The From header should be the first party index in the parties parameter for the text Dialog Object.
-They are the sender of the message.
-The parties listed in the To, Cc and Bcc [SMTP] headers (if present) should all be added in that order to the parties parameter in the text Dialog Object.
+In the email context, [SMTP] messages have the headers From, To, Cc and Bcc.
+The party in the From header is the sender of the message and the contributor to the text Dialog Object.
+The From header party SHOULD be the only party in the parties parameter for the text Dialog Object.
+The parties listed in the To, Cc and Bcc [SMTP] headers (if present) are the receivers of the message.
+They SHOULD be included in the parties parameter of the Session Object which references the text Dialog Object (see [](#session-parties)).
 The sender SHOULD be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
 A text Dialog Object should only contain a single [SMTP] message.
-Each may have a different set of parties.
-
-TODO: The following paragraph adds the To, Cc and Bcc recipients to the Dialog Object parties, which conflicts with the Dialog Object parties only referencing the parties that contributed to the Dialog Content. In an email thread the recipients can change with each message. Using join and drop Event Objects to add and remove recipients for every message is awkward. Options include: keeping recipients in the parties of text Dialog Objects, a separate Dialog Object parameter for the parties that the content was sent to, or recipients only in the Session Object parties.
+Each message in an email thread may have a different set of receivers.
+If all of the messages in the thread have the same set of receivers, a single Session Object which references all of the text Dialog Objects for the thread is sufficient.
+Otherwise, the thread is represented by a parent Session Object which references a child Session Object for each set of receivers (see [](#session-sessions)).
+Each time the set of receivers changes from one message to the next, a new Session Object is created as a child of the Session Object for the email thread.
+That child Session Object references the text Dialog Object(s) for the message(s) sent to that set of receivers.
+The parties parameter of each child Session Object contains the receivers of the messages referenced by that child Session Object.
+The parties parameter of the parent Session Object contains the receivers of all of the messages in the thread.
 
 ### mediatype {#dialog-mediatype}
 
