@@ -941,7 +941,65 @@
             ]
           },
           "then": {
-            "required": quired": [
+            "required": [
+              "disposition"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "mediatype"
+                  ]
+                },
+                {
+                  "required": [
+                    "filename"
+                  ]
+                },
+                {
+                  "required": [
+                    "body"
+                  ]
+                },
+                {
+                  "required": [
+                    "encoding"
+                  ]
+                },
+                {
+                  "required": [
+                    "url"
+                  ]
+                },
+                {
+                  "required": [
+                    "content_hash"
+                  ]
+                },
+                {
+                  "required": [
+                    "message_id"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "body"
+            ],
+            "properties": {
+              "body": {
+                "not": {
+                  "const": ""
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
               "encoding"
             ]
           }
@@ -1082,7 +1140,85 @@
         "url": {
           "type": "string",
           "format": "uri",
-    "enum": [
+          "description": "HTTPS URL for externally referenced att
+            achment"
+        },
+        "content_hash": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Hash(es) of external content"
+        }
+      },
+      "dependencies": {
+        "url": [
+          "content_hash"
+        ]
+      },
+      "anyOf": [
+        {
+          "required": [
+            "dialog"
+          ]
+        },
+        {
+          "required": [
+            "session"
+          ]
+        }
+      ],
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "body"
+            ],
+            "properties": {
+              "body": {
+                "not": {
+                  "const": ""
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "encoding"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "body"
+            ],
+            "properties": {
+              "body": {
+                "not": {
+                  "const": ""
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "mediatype"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "encoding": {
+                "enum": [
                   "base64url",
                   "none"
                 ]
@@ -1219,7 +1355,30 @@
              encoding base64url or none."
         },
         "encoding": {
-          "type": "string",l content"
+          "type": "string",
+          "description": "Encoding type for inline content: base6
+            4url, json, none, or a value defined in a vCon extens
+            ion"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "HTTPS URL for externally referenced ana
+            lysis"
+        },
+        "content_hash": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Hash(es) of external content"
         }
       },
       "dependencies": {
