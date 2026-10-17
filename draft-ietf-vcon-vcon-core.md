@@ -1354,7 +1354,7 @@ A recording Dialog Object may be one of a set of recordings which collectively r
 
 #### text {#dialog-type-text}
 
-A dialog of type "text" has Dialog Content that either contains a body or refers to via url, which contains the text from one of the parties for a segment of the conversation.
+A dialog of type “text” has Dialog Content that either contains a body or refers to via url, which contains a single message from one of the parties.
 
 #### incomplete {#dialog-type-incomplete}
 
@@ -2576,6 +2576,10 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
   * The "transfer" type Dialog Object was replaced by the transfer Event Object types.
     Each "transfer" type Dialog Object becomes one or two Event Objects in which "transferor" becomes "party", and the Dialog Objects referenced by "original", "consultation" and "target_dialog" are each referenced through a Session Object.
   * The "originator" Dialog Object parameter was moved to the Session Object.
+  * The Dialog Object "parties" parameter contains only the contributors, and the receivers are in the Session Object "parties" parameter.
+    In 0.4.0, the parties parameter of a "text" type Dialog Object contained the sender and all of the receivers of the message, with the first party being the sender unless originator was set.
+    A 0.4.0 "text" type Dialog Object is migrated by reducing its parties to the sender, and by including all of its parties, including the sender, in the parties of the Session Object for that message.
+    Similarly, the parties of a 0.4.0 "incomplete" type Dialog Object are reduced to the originator, or the first party if originator is not set, and the remaining parties are included in the parties of the Session Object.
   * Dialog Object indices change where "transfer" type Dialog Objects are removed from the dialog array, and references to them are updated.
   * Some implementations of version 0.4.0 repeated header parameters, with identical values, in more than one header of the signed and encrypted forms.
     Implementations which read vCons produced by those implementations may choose to accept them.
