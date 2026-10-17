@@ -1470,10 +1470,18 @@ In the email context, [SMTP] messages have the headers From, To, Cc and Bcc.
 The party in the From header is the sender of the message and the contributor to the text Dialog Object.
 The From header party SHOULD be the only party in the parties parameter for the text Dialog Object.
 The parties listed in the To, Cc and Bcc [SMTP] headers (if present) are the receivers of the message.
-They SHOULD be included in the parties parameter of the Session Object which references the text Dialog Object (see [](#session-parties)).
-The sender SHOULD be allowed to set a policy, through out of band means, as to whether they would like their application or server to include the Bcc parties in the vCon.
+The sender is also a receiver of the message, as the sender retains a copy of the message that they sent.
+The sender and the other receivers SHOULD be included in the parties parameter of the Session Object which references the text Dialog Object (see [](#session-parties)).
+The Bcc parties are private to the sender.
+The sender SHOULD be allowed to set a policy, through out of band means, as to whether the Bcc parties are included in the vCon.
+In the absence of such a policy, the Bcc parties MAY be included in a vCon which is for the use of the sender, and SHOULD NOT be included in a vCon which is for broader use.
+When the Bcc parties are not included in the vCon, they SHOULD NOT be referenced in the Session Object parties parameter.
+A Party Object SHOULD NOT be included for a Bcc party, unless that party is also the sender or a To or Cc receiver of another message in the vCon.
+The Bcc header SHOULD also be removed from the Dialog Content, and the Session Objects SHOULD be constructed as if the Bcc parties were not receivers of that message.
+A vCon which includes the Bcc parties may be redacted to remove them for broader use (see [redacted](#redacted)).
 A text Dialog Object should only contain a single [SMTP] message.
 Each message in an email thread may have a different set of receivers.
+The set of receivers of a message includes its sender.
 If all of the messages in the thread have the same set of receivers, a single Session Object which references all of the text Dialog Objects for the thread is sufficient.
 Otherwise, the thread is represented by a parent Session Object which references a child Session Object for each set of receivers (see [](#session-sessions)).
 Each time the set of receivers changes from one message to the next, a new Session Object is created as a child of the Session Object for the email thread.
