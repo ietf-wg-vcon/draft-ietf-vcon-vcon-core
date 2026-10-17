@@ -2066,9 +2066,9 @@ Table of Contents
 
 4.5.1.2.  text
 
-   A dialog of type "text" has Dialog Content that either contains a
-   body or refers to via url, which contains the text from one of the
-   parties for a segment of the conversation.
+   A dialog of type “text” has Dialog Content that either contains a
+   body or refers to via url, which contains a single message from one
+   of the parties.
 
 4.5.1.3.  incomplete
 
@@ -4160,6 +4160,19 @@ A.1.  Version 0.4.0 to 0.5.0
 
    *  The "originator" Dialog Object parameter was moved to the Session
       Object.
+
+   *  The Dialog Object "parties" parameter contains only the
+      contributors, and the receivers are in the Session Object
+      "parties" parameter.  In 0.4.0, the parties parameter of a "text"
+      type Dialog Object contained the sender and all of the receivers
+      of the message, with the first party being the sender unless
+      originator was set.  A 0.4.0 "text" type Dialog Object is migrated
+      by reducing its parties to the sender, and by including all of its
+      parties, including the sender, in the parties of the Session
+      Object for that message.  Similarly, the parties of a 0.4.0
+      "incomplete" type Dialog Object are reduced to the originator, or
+      the first party if originator is not set, and the remaining
+      parties are included in the parties of the Session Object.
 
    *  Dialog Object indices change where "transfer" type Dialog Objects
       are removed from the dialog array, and references to them are
