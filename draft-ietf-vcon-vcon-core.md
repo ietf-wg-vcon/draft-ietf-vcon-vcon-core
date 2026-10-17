@@ -1354,7 +1354,7 @@ A recording Dialog Object may be one of a set of recordings which collectively r
 
 #### text {#dialog-type-text}
 
-A dialog of type “text” has Dialog Content that either contains a body or refers to via url, which contains a single message from one of the parties.
+A dialog of type "text" has Dialog Content that either contains a body or refers to via url, which contains a single message from one of the parties.
 
 #### incomplete {#dialog-type-incomplete}
 
