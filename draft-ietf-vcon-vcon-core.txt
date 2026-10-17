@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         16 October 2026
-Expires: 19 April 2027
+Intended status: Standards Track                         17 October 2026
+Expires: 20 April 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 April 2027.
+   This Internet-Draft will expire on 20 April 2027.
 
 Copyright Notice
 
@@ -2243,14 +2243,28 @@ Table of Contents
    and the contributor to the text Dialog Object.  The From header party
    SHOULD be the only party in the parties parameter for the text Dialog
    Object.  The parties listed in the To, Cc and Bcc [SMTP] headers (if
-   present) are the receivers of the message.  They SHOULD be included
-   in the parties parameter of the Session Object which references the
-   text Dialog Object (see Section 4.2.3).  The sender SHOULD be allowed
-   to set a policy, through out of band means, as to whether they would
-   like their application or server to include the Bcc parties in the
-   vCon.  A text Dialog Object should only contain a single [SMTP]
-   message.  Each message in an email thread may have a different set of
-   receivers.  If all of the messages in the thread have the same set of
+   present) are the receivers of the message.  The sender is also a
+   receiver of the message, as the sender retains a copy of the message
+   that they sent.  The sender and the other receivers SHOULD be
+   included in the parties parameter of the Session Object which
+   references the text Dialog Object (see Section 4.2.3).  The Bcc
+   parties are private to the sender.  The sender SHOULD be allowed to
+   set a policy, through out of band means, as to whether the Bcc
+   parties are included in the vCon.  In the absence of such a policy,
+   the Bcc parties MAY be included in a vCon which is for the use of the
+   sender, and SHOULD NOT be included in a vCon which is for broader
+   use.  When the Bcc parties are not included in the vCon, they SHOULD
+   NOT be referenced in the Session Object parties parameter.  A Party
+   Object SHOULD NOT be included for a Bcc party, unless that party is
+   also the sender or a To or Cc receiver of another message in the
+   vCon.  The Bcc header SHOULD also be removed from the Dialog Content,
+   and the Session Objects SHOULD be constructed as if the Bcc parties
+   were not receivers of that message.  A vCon which includes the Bcc
+   parties may be redacted to remove them for broader use (see
+   Section 4.1.8).  A text Dialog Object should only contain a single
+   [SMTP] message.  Each message in an email thread may have a different
+   set of receivers.  The set of receivers of a message includes its
+   sender.  If all of the messages in the thread have the same set of
    receivers, a single Session Object which references all of the text
    Dialog Objects for the thread is sufficient.  Otherwise, the thread
    is represented by a parent Session Object which references a child
@@ -7384,7 +7398,65 @@ Appendix C.  vCon JSON Schema
                ]
              },
              "then": {
-               "required": quired": [
+               "required": [
+                 "disposition"
+               ],
+               "not": {
+                 "anyOf": [
+                   {
+                     "required": [
+                       "mediatype"
+                     ]
+                   },
+                   {
+                     "required": [
+                       "filename"
+                     ]
+                   },
+                   {
+                     "required": [
+                       "body"
+                     ]
+                   },
+                   {
+                     "required": [
+                       "encoding"
+                     ]
+                   },
+                   {
+                     "required": [
+                       "url"
+                     ]
+                   },
+                   {
+                     "required": [
+                       "content_hash"
+                     ]
+                   },
+                   {
+                     "required": [
+                       "message_id"
+                     ]
+                   }
+                 ]
+               }
+             }
+           },
+           {
+             "if": {
+               "required": [
+                 "body"
+               ],
+               "properties": {
+                 "body": {
+                   "not": {
+                     "const": ""
+                   }
+                 }
+               }
+             },
+             "then": {
+               "required": [
                  "encoding"
                ]
              }
@@ -7525,7 +7597,85 @@ Appendix C.  vCon JSON Schema
            "url": {
              "type": "string",
              "format": "uri",
-       "enum": [
+             "description": "HTTPS URL for externally referenced att
+               achment"
+           },
+           "content_hash": {
+             "oneOf": [
+               {
+                 "type": "string"
+               },
+               {
+                 "type": "array",
+                 "items": {
+                   "type": "string"
+                 }
+               }
+             ],
+             "description": "Hash(es) of external content"
+           }
+         },
+         "dependencies": {
+           "url": [
+             "content_hash"
+           ]
+         },
+         "anyOf": [
+           {
+             "required": [
+               "dialog"
+             ]
+           },
+           {
+             "required": [
+               "session"
+             ]
+           }
+         ],
+         "allOf": [
+           {
+             "if": {
+               "required": [
+                 "body"
+               ],
+               "properties": {
+                 "body": {
+                   "not": {
+                     "const": ""
+                   }
+                 }
+               }
+             },
+             "then": {
+               "required": [
+                 "encoding"
+               ]
+             }
+           },
+           {
+             "if": {
+               "required": [
+                 "body"
+               ],
+               "properties": {
+                 "body": {
+                   "not": {
+                     "const": ""
+                   }
+                 }
+               }
+             },
+             "then": {
+               "required": [
+                 "mediatype"
+               ]
+             }
+           },
+           {
+             "if": {
+               "properties": {
+                 "encoding": {
+                   "enum": [
                      "base64url",
                      "none"
                    ]
@@ -7662,7 +7812,30 @@ Appendix C.  vCon JSON Schema
                 encoding base64url or none."
            },
            "encoding": {
-             "type": "string",l content"
+             "type": "string",
+             "description": "Encoding type for inline content: base6
+               4url, json, none, or a value defined in a vCon extens
+               ion"
+           },
+           "url": {
+             "type": "string",
+             "format": "uri",
+             "description": "HTTPS URL for externally referenced ana
+               lysis"
+           },
+           "content_hash": {
+             "oneOf": [
+               {
+                 "type": "string"
+               },
+               {
+                 "type": "array",
+                 "items": {
+                   "type": "string"
+                 }
+               }
+             ],
+             "description": "Hash(es) of external content"
            }
          },
          "dependencies": {
