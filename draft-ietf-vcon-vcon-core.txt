@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         17 October 2026
-Expires: 20 April 2027
+Intended status: Standards Track                         21 October 2026
+Expires: 24 April 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 April 2027.
+   This Internet-Draft will expire on 24 April 2027.
 
 Copyright Notice
 
@@ -2066,7 +2066,7 @@ Table of Contents
 
 4.5.1.2.  text
 
-   A dialog of type “text” has Dialog Content that either contains a
+   A dialog of type "text" has Dialog Content that either contains a
    body or refers to via url, which contains a single message from one
    of the parties.
 
