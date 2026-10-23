@@ -22,10 +22,10 @@ VCON_PYPATH="${VCON_PATH}py-vcon"
 VCON=${VCON_PATH}py-vcon/vcon/bin/vcon
 CERTPATH=${VCON_PATH}py-vcon/certs/
 
-all: ${VCON_PATH}vcon ${INCLUDES}
+all: ${INCLUDES}
 
-${VCON_PATH}/py-vcon:
-	(cd ${VCON_PATH} ; git clone https://github.com/vcon-dev/vcon.git)
+check: ${EXAMPLES} ${GENERATED_DEPENDENCIES}
+	python3 check_examples.py ..
 
 vcon_includes: $(INCLUDES)
 	echo "Making $(INCLUDES)"
@@ -38,49 +38,49 @@ clean:
 	echo "building $@ from $^"
 	cat $^ | ./trunc_lines.sh > $@
 
-ab_call_ext_rec.vcon: ${VCON_PATH}vcon ${VCON} ab.vcon ab_call.mp3 Makefile
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab.vcon add ex-recording ab_call.mp3 2022-06-21T13:53:26-04:00 "[0,1]" https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/raw/refs/heads/main/examples/ab_call.mp3 | jq '.' > ab_call_ext_rec.vcon)
+ab_call_ext_rec.vcon: ${VCON} ab.vcon ab_call_2ch.ogg Makefile
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab.vcon add ex-recording ab_call_2ch.ogg 2022-06-21T13:53:26-04:00 "[0,1]" https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/raw/refs/heads/main/examples/ab_call_2ch.ogg | jq '.' > ab_call_ext_rec.vcon)
 
-ab_call_ext_rec_signed.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon sign ${CERTPATH}fake_grp.key ${CERTPATH}fake_grp.crt ${CERTPATH}fake_div.crt ${CERTPATH}fake_ca_root.crt | jq '.' > ab_call_ext_rec_signed.vcon)
+ab_call_ext_rec_signed.vcon: ${VCON} ab_call_ext_rec.vcon
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon sign ${CERTPATH}fake_grp.key ${CERTPATH}fake_grp.crt ${CERTPATH}fake_div.crt ${CERTPATH}fake_ca_root.crt | jq '.' > ab_call_ext_rec_signed.vcon)
 
-ab_call_ext_rec_encrypted.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec_signed.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec_signed.vcon encrypt ${CERTPATH}fake_grp.crt | jq '.' > ab_call_ext_rec_encrypted.vcon)
+ab_call_ext_rec_encrypted.vcon: ${VCON} ab_call_ext_rec_signed.vcon
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec_signed.vcon encrypt ${CERTPATH}fake_grp.crt | jq '.' > ab_call_ext_rec_encrypted.vcon)
 
-ab_call_ext_rec_decrypted.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec_encrypted.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec_encrypted.vcon decrypt ${CERTPATH}fake_grp.key ${CERTPATH}fake_grp.crt | jq '.' > ab_call_ext_rec_decrypted.vcon)
+ab_call_ext_rec_decrypted.vcon: ${VCON} ab_call_ext_rec_encrypted.vcon
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec_encrypted.vcon decrypt ${CERTPATH}fake_grp.key ${CERTPATH}fake_grp.crt | jq '.' > ab_call_ext_rec_decrypted.vcon)
 
-ab_call_ext_rec_decrypted_verified.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec_decrypted.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec_decrypted.vcon verify ${CERTPATH}fake_ca_root.crt | jq '.' > ab_call_ext_rec_decrypted_verified.vcon)
+ab_call_ext_rec_decrypted_verified.vcon: ${VCON} ab_call_ext_rec_decrypted.vcon
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec_decrypted.vcon verify ${CERTPATH}fake_ca_root.crt | jq '.' > ab_call_ext_rec_decrypted_verified.vcon)
 
-ab_call_int_rec.vcon: ${VCON_PATH}vcon ${VCON} ab.vcon ab_call.wav 
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab.vcon add in-recording ab_call.wav 2022-06-21T13:53:26-04:00 "[0,1]" | jq '.' > ab_call_int_rec.vcon)
+ab_call_int_rec.vcon: ${VCON} ab.vcon ab_call.wav 
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab.vcon add in-recording ab_call.wav 2022-06-21T13:53:26-04:00 "[0,1]" | jq '.' > ab_call_int_rec.vcon)
 
-ab_call_ext_rec_amended.vcon: ${VCON_PATH}vcon ${VCON} ab_call_ext_rec.vcon
+ab_call_ext_rec_amended.vcon: ${VCON} ab_call_ext_rec.vcon
 	$(eval DIALOG_DATE := $(shell jq .dialog[0].start ab_call_ext_rec.vcon))
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter create_amended | jq '.dialog += [{"type": "text", "start": $(DIALOG_DATE), "parties": [1, 0], "mediatype": "text/plain", "body": "Good day!", "encoding": "none"}]' | jq '.' > ab_call_ext_rec_amended.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter create_amended | jq '.dialog += [{"type": "text", "start": $(DIALOG_DATE), "parties": [1], "mediatype": "text/plain", "body": "Good day!", "encoding": "none"}] | .sessions[0].dialog += [(.dialog | length) - 1]' > ab_call_ext_rec_amended.vcon)
 
 b_email_acct_prob_image.vcon: email_acct_prob_bob_image.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_acct_prob_bob_image.txt | jq 'del(.vcon)' > b_email_acct_prob_image.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -n add in-email email_acct_prob_bob_image.txt | jq '.' > b_email_acct_prob_image.vcon)
 
 ab_email_acct_prob_thread.vcon: b_email_acct_prob_image.vcon email_acct_prob_alice_reply.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i b_email_acct_prob_image.vcon add in-email email_acct_prob_alice_reply.txt | jq 'del(.vcon)' > ab_email_acct_prob_thread.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i b_email_acct_prob_image.vcon add in-email email_acct_prob_alice_reply.txt | jq '.' > ab_email_acct_prob_thread.vcon)
 
 ab_email_prob_followup_alice.vcon: email_prob_followup_alice.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -n add in-email email_prob_followup_alice.txt | jq 'del(.vcon)' > ab_email_prob_followup_alice.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -n add in-email email_prob_followup_alice.txt | jq '.' > ab_email_prob_followup_alice.vcon)
 
 ab_email_prob_followup_bob_reply.vcon: ab_email_prob_followup_alice.vcon email_prob_followup_bob_reply.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_email_prob_followup_alice.vcon add in-email email_prob_followup_bob_reply.txt | jq 'del(.vcon)' > ab_email_prob_followup_bob_reply.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_email_prob_followup_alice.vcon add in-email email_prob_followup_bob_reply.txt | jq '.' > ab_email_prob_followup_bob_reply.vcon)
 
 ab_email_prob_followup_text_thread.vcon: ab_email_prob_followup_bob_reply.vcon email_prob_followup_alice_ack.txt
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_email_prob_followup_bob_reply.vcon add in-email email_prob_followup_alice_ack.txt | jq 'del(.vcon)' > ab_email_prob_followup_text_thread.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_email_prob_followup_bob_reply.vcon add in-email email_prob_followup_alice_ack.txt | jq '.' > ab_email_prob_followup_text_thread.vcon)
 
 ab_call_ext_rec_analysis.vcon: ab_call_ext_rec.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter deepgram | jq '.' > ab_call_ext_rec_analysis.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec.vcon filter deepgram | jq '.' > ab_call_ext_rec_analysis.vcon)
 
 ab_call_ext_rec_with_redact.vcon: ab_call_ext_rec_analysis.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; ${VCON} -i ab_call_ext_rec_analysis.vcon filter redact_pii | jq '.' > ab_call_ext_rec_with_redact.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec_analysis.vcon filter redact_pii | jq '.' > ab_call_ext_rec_with_redact.vcon)
 
 ab_call_ext_rec_redacted.vcon: ab_call_ext_rec_with_redact.vcon
-	(export PYTHONPATH=${VCON_PYPATH}:${PATHONPATH} ; jq '. + {parties: [.parties[] | delpaths([["foo"], ["tel"]])]} + {dialog: [.dialog[] | delpaths([["body"], ["url"]])]} + {analysis: [.analysis[1]]} + {redacted: {uuid: .uuid, type: "PII Redaction"}} + {uuid: "01928e10-193e-8231-b9a2-279e0d16bc46"}' ab_call_ext_rec_with_redact.vcon > ab_call_ext_rec_redacted.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; jq '. + {parties: [.parties[] | delpaths([["foo"], ["tel"]])]} + {dialog: [.dialog[] | delpaths([["body"], ["url"]])]} + {analysis: [.analysis[1]]} + {redacted: {uuid: .uuid, type: "PII Redaction"}} + {uuid: "01928e10-193e-8231-b9a2-279e0d16bc46"}' ab_call_ext_rec_with_redact.vcon > ab_call_ext_rec_redacted.vcon)
 
