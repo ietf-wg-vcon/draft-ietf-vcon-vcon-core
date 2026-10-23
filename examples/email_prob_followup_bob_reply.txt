@@ -16,8 +16,10 @@ Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.gq1.yahoo.c
 Date: Fri, 23 Sep 2022 23:34:32 +0000 (UTC)
 From: Bob <b@example.com>
 To: Alice <a@example.com>
-Message-ID: <1126698042.388315.1663969465698@mail.yahoo.com>
-Subject: Re: Account problem
+Message-ID: <1879233410.402112.1663976072118@mail.yahoo.com>
+In-Reply-To: <1402576211.401234.1663975499936@mail.yahoo.com>
+References: <1402576211.401234.1663975499936@mail.yahoo.com>
+Subject: Re: Account issue followup
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
