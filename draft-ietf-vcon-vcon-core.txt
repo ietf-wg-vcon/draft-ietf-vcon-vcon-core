@@ -223,6 +223,7 @@ Table of Contents
      B.9.  Amended Signed vCon
    Appendix C.  vCon JSON Schema
    Appendix D.  vCon CDDL
+   Appendix E.  vCon Extension Template
    Acknowledgments
    Author's Address
 
@@ -586,6 +587,9 @@ Table of Contents
       them.  State whether the extension introduces any new external
       content references, and if so, the integrity mechanism that
       protects them, such as Section 2.4.2.
+
+   A markdown template for a vCon extension document containing these
+   sections is referenced in vCon Extension Template (Appendix E).
 
    Extensions to the vCon schema can be classified into two categories:
 
@@ -8599,6 +8603,15 @@ Appendix D.  vCon CDDL
 
    ; Base64Url encoded string
    base64url_value_type = tstr .regexp "[A-Za-z0-9_-]+"
+
+Appendix E.  vCon Extension Template
+
+   A template for writing a vCon extension Internet-Draft is provided in
+   kramdown-rfc markdown.  It contains the sections required of an
+   extension document in Extending vCon (Section 2.5), along with JSON
+   Schema and CDDL appendices.  The template can be downloaded from:
+   https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-
+   core/refs/heads/main/template-draft-vcon-xxxx-extension.md
 
 Acknowledgments
 
