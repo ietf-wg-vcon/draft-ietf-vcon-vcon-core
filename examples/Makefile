@@ -54,7 +54,7 @@ ab_call_ext_rec_decrypted_verified.vcon: ${VCON} ab_call_ext_rec_decrypted.vcon
 	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab_call_ext_rec_decrypted.vcon verify ${CERTPATH}fake_ca_root.crt | jq '.' > ab_call_ext_rec_decrypted_verified.vcon)
 
 ab_call_int_rec.vcon: ${VCON} ab.vcon ab_call.wav 
-	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab.vcon add in-recording ab_call.wav 2022-06-21T13:53:26-04:00 "[0,1]" | jq '.' > ab_call_int_rec.vcon)
+	(export PYTHONPATH=${VCON_PYPATH}:${PYTHONPATH} ; ${VCON} -i ab.vcon add in-recording ab_call.wav 2022-06-21T13:53:26-04:00 "[0,1]" | ${VCON} add event join '{"time": "2022-06-21T13:53:26-04:00", "sessions": 0, "party": 0}' | ${VCON} add event join '{"time": "2022-06-21T13:53:26-04:00", "sessions": 0, "party": 1}' | ${VCON} add event drop '{"time": "2022-06-21T13:53:30.720-04:00", "sessions": 0, "party": 0}' | ${VCON} add event drop '{"time": "2022-06-21T13:53:30.720-04:00", "sessions": 0, "party": 1}' | jq '.' > ab_call_int_rec.vcon)
 
 ab_call_ext_rec_amended.vcon: ${VCON} ab_call_ext_rec.vcon
 	$(eval DIALOG_DATE := $(shell jq .dialog[0].start ab_call_ext_rec.vcon))
