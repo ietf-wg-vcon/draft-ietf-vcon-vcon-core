@@ -1,4 +1,5 @@
 {
+  "vcon": "0.5.0",
   "parties": [
     {
       "mailto": "b@example.com",
@@ -15,11 +16,10 @@
       "start": "2022-09-23T21:44:25.000+00:00",
       "duration": 0,
       "parties": [
-        0,
-        1
+        0
       ],
-      "mediatype": "multipart/mixed; \n\tboundary=\"----=_Part_38
-        8314_1108189513.1663969465698\"",
+      "mediatype": "multipart/mixed; boundary=\"----=_Part_388314
+        _1108189513.1663969465698\"",
       "encoding": "none",
       "body": "------=_Part_388314_1108189513.1663969465698\r\nCo
         ntent-Type: multipart/alternative;\r\n\tboundary=\"----=_
@@ -67,11 +67,10 @@
       "start": "2022-09-23T21:44:59.000+00:00",
       "duration": 0,
       "parties": [
-        1,
-        0
+        1
       ],
-      "mediatype": "multipart/alternative; \n\tboundary=\"----=_P
-        art_390234_811845464.1663969499935\"",
+      "mediatype": "multipart/alternative; boundary=\"----=_Part_
+        390234_811845464.1663969499935\"",
       "encoding": "none",
       "body": "------=_Part_390234_811845464.1663969499935\r\nCon
         tent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-
@@ -119,7 +118,21 @@
   ],
   "analysis": [],
   "attachments": [],
-  "created_at": "2026-09-07T22:27:41.697+00:00",
+  "created_at": "2026-10-24T01:29:10.590+00:00",
   "subject": "Account problem",
-  "uuid": "01a07dfb-fe0b-89ee-b9a2-279e0d16bc46"
+  "sessions": [
+    {
+      "start": "2022-09-23T21:44:25.000+00:00",
+      "duration": 34,
+      "parties": [
+        0,
+        1
+      ],
+      "dialog": [
+        0,
+        1
+      ]
+    }
+  ],
+  "uuid": "01a16b86-acc8-8c6d-b9a2-279e0d16bc46"
 }

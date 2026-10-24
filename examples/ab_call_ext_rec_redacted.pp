@@ -1,4 +1,5 @@
 {
+  "vcon": "0.5.0",
   "created_at": "2022-06-21T13:53:00-04:00",
   "parties": [
     {
@@ -12,15 +13,15 @@
     {
       "type": "recording",
       "start": "2022-06-21T17:53:26.000+00:00",
-      "duration": 33.12,
+      "duration": 32.932396,
       "parties": [
         0,
         1
       ],
-      "mediatype": "audio/x-mp3",
-      "filename": "ab_call.mp3",
-      "content_hash": "sha512-GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iC
-        ONNThnH0a75fhUM6cYzLZ5GynSURREvZwmOh54-2lRRieyj82UQ"
+      "mediatype": "audio/ogg",
+      "filename": "ab_call_2ch.ogg",
+      "content_hash": "sha512-Y-Q9eclT6b5hFyIfLtnFAAXgqFzN5_Cjr3J
+        Q3DMmcnpXHkGMgtvaxrLW2R2OhFTzR-DinyrngBG2w9lTZXr1EQ"
     }
   ],
   "analysis": [
@@ -30,112 +31,111 @@
       "body": [
         {
           "parties": 0,
-          "start": "2022-06-21T17:53:27.200000+00:00",
-          "duration": 0.5600001000000001,
-          "text": "Hello."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:27.760000+00:00",
-          "duration": 1.6799997999999998,
-          "text": "This is {{URL}}."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:29.440000+00:00",
-          "duration": 0.8799999000000005,
-          "text": "My name is Bob."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:30.320000+00:00",
-          "duration": 1.2000002999999992,
-          "text": "How can I help you?"
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:31.600000+00:00",
-          "duration": 0.7199997000000007,
+          "start": "2022-06-21T17:53:31.520000+00:00",
+          "duration": 0.6400000000000006,
           "text": "Hi."
         },
         {
           "parties": 0,
-          "start": "2022-06-21T17:53:32.320000+00:00",
-          "duration": 2.4799992999999994,
-          "text": "I'd like to add Fu to my service."
+          "start": "2022-06-21T17:53:32.240000+00:00",
+          "duration": 2.16,
+          "text": "I'd like to add Foo to my service."
         },
         {
           "parties": 0,
-          "start": "2022-06-21T17:53:35.200000+00:00",
-          "duration": 0.6399990000000013,
+          "start": "2022-06-21T17:53:39.695001+00:00",
+          "duration": 6.5600000000000005,
+          "text": "My name is Alice and my number is {{BAN}}."
+        },
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:53.820936+00:00",
+          "duration": 0.5600020000000008,
+          "text": "No."
+        },
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:54.380938+00:00",
+          "duration": 0.7999989999999997,
+          "text": "Thank you."
+        },
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:55.180937+00:00",
+          "duration": 0.3200000000000003,
+          "text": "Goodbye."
+        },
+        {
+          "parties": 1,
+          "start": "2022-06-21T17:53:27.120000+00:00",
+          "duration": 0.5599999999999998,
+          "text": "Hello."
+        },
+        {
+          "parties": 1,
+          "start": "2022-06-21T17:53:27.680000+00:00",
+          "duration": 1.5999999999999999,
+          "text": "This is {{URL}}."
+        },
+        {
+          "parties": 1,
+          "start": "2022-06-21T17:53:29.280000+00:00",
+          "duration": 0.8800000000000003,
+          "text": "My name is Bob."
+        },
+        {
+          "parties": 1,
+          "start": "2022-06-21T17:53:30.160000+00:00",
+          "duration": 1.2000000000000002,
+          "text": "How can I help you?"
+        },
+        {
+          "parties": 1,
+          "start": "2022-06-21T17:53:35.040000+00:00",
+          "duration": 0.7199990000000014,
           "text": "{{US_STATE}}."
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:36.160000+00:00",
+          "parties": 1,
+          "start": "2022-06-21T17:53:36.080000+00:00",
           "duration": 2.959999999999999,
           "text": "Can you give me your name and phone number so 
             I can look up your account?"
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:39.735000+00:00",
-          "duration": 6.879999999999999,
-          "text": "My name is Alice, and my number is {{BAN}}."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:46.775000+00:00",
-          "duration": 0.8799990000000015,
+          "parties": 1,
+          "start": "2022-06-21T17:53:46.635000+00:00",
+          "duration": 0.7999999999999972,
           "text": "Thank you."
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:48.935000+00:00",
-          "duration": 0.40000000000000213,
+          "parties": 1,
+          "start": "2022-06-21T17:53:48.795000+00:00",
+          "duration": 0.7199999999999989,
           "text": "{{US_STATE}}."
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:50.134874+00:00",
-          "duration": 1.600000999999999,
-          "text": "I've added two to your service."
+          "parties": 1,
+          "start": "2022-06-21T17:53:49.994999+00:00",
+          "duration": 1.600002,
+          "text": "I've added food to your service."
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:51.734875+00:00",
-          "duration": 2,
-          "text": "Is there anything else that I can help you wit
-            h?"
+          "parties": 1,
+          "start": "2022-06-21T17:53:51.595001+00:00",
+          "duration": 1.6799989999999987,
+          "text": "Is there anything else I can help you with?"
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:54.054874+00:00",
-          "duration": 0.4799999999999969,
-          "text": "No."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:54.534874+00:00",
-          "duration": 0.7999990000000032,
-          "text": "Thank you."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:55.334875+00:00",
-          "duration": 0.6399989999999995,
-          "text": "Goodbye."
-        },
-        {
-          "parties": 0,
-          "start": "2022-06-21T17:53:56.374874+00:00",
+          "parties": 1,
+          "start": "2022-06-21T17:53:56.320875+00:00",
           "duration": 0.6400000000000006,
           "text": "Goodbye."
         },
         {
-          "parties": 0,
-          "start": "2022-06-21T17:53:57.014874+00:00",
-          "duration": 0.880001,
+          "parties": 1,
+          "start": "2022-06-21T17:53:56.960875+00:00",
+          "duration": 0.8000009999999982,
           "text": "Have a nice day."
         }
       ],
@@ -146,9 +146,22 @@
     }
   ],
   "attachments": [],
+  "sessions": [
+    {
+      "start": "2022-06-21T17:53:26.000+00:00",
+      "duration": 32.932396,
+      "parties": [
+        0,
+        1
+      ],
+      "dialog": [
+        0
+      ]
+    }
+  ],
   "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
   "redacted": {
-    "uuid": "01a07da8-c2bb-83e5-b9a2-279e0d16bc46",
+    "uuid": "01a16b86-96e7-80a8-b9a2-279e0d16bc46",
     "type": "PII Redaction"
   }
 }

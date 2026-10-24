@@ -1,4 +1,5 @@
 {
+  "vcon": "0.5.0",
   "parties": [
     {
       "mailto": "a@example.com",
@@ -15,14 +16,13 @@
       "start": "2022-09-23T23:24:59.000+00:00",
       "duration": 0,
       "parties": [
-        0,
-        1
+        0
       ],
       "mediatype": "text/plain",
       "encoding": "none",
       "body": "Hi Bob:\nI just wanted to follow up to see that yo
         ur account is ok now.\n\nRegards,\nAlice\n\n",
-      "message_id": "<2031327240.390235.1663969499936@mail.yahoo.
+      "message_id": "<1402576211.401234.1663975499936@mail.yahoo.
         com>"
     },
     {
@@ -30,8 +30,7 @@
       "start": "2022-09-23T23:34:32.000+00:00",
       "duration": 0,
       "parties": [
-        1,
-        0
+        1
       ],
       "mediatype": "text/plain; charset=UTF-8",
       "encoding": "none",
@@ -40,7 +39,7 @@
         > wrote:  \n \n  Hi Bob:\n  I just wanted to follow up to
          see that your account is ok now.\n  \n  Regards,\n  Alic
         e\n",
-      "message_id": "<1126698042.388315.1663969465698@mail.yahoo.
+      "message_id": "<1879233410.402112.1663976072118@mail.yahoo.
         com>"
     },
     {
@@ -48,8 +47,7 @@
       "start": "2022-09-23T23:38:12.000+00:00",
       "duration": 0,
       "parties": [
-        0,
-        1
+        0
       ],
       "mediatype": "text/plain",
       "encoding": "none",
@@ -60,13 +58,28 @@
            \n    Hi Bob:\n    I just wanted to follow up to see t
         hat your account is ok now.\n    \n    Regards,\n    Alic
         e\n",
-      "message_id": "<2031327240.390235.1663969499936@mail.yahoo.
+      "message_id": "<1535873320.402417.1663976292034@mail.yahoo.
         com>"
     }
   ],
   "analysis": [],
   "attachments": [],
-  "created_at": "2026-09-07T22:32:08.133+00:00",
+  "created_at": "2026-10-24T01:29:12.007+00:00",
   "subject": "Account issue followup",
-  "uuid": "01a07e00-0ecc-81db-b9a2-279e0d16bc46"
+  "sessions": [
+    {
+      "start": "2022-09-23T23:24:59.000+00:00",
+      "duration": 793,
+      "parties": [
+        0,
+        1
+      ],
+      "dialog": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "uuid": "01a16b86-b24d-8057-b9a2-279e0d16bc46"
 }
