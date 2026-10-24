@@ -397,6 +397,8 @@ An extension that claims to be **Compatible** uses this section to show why no i
 Describe how the extension's parameters interact with redaction and de-identification, including whether any of them can carry party-identifying data or PII and how a redactor is expected to handle them.
 State whether the extension introduces any new external content references, and if so, the integrity mechanism that protects them, such as [content_hash](#content_hash).
 
+A markdown template for a vCon extension document containing these sections is referenced in [vCon Extension Template](#vcon-extension-template).
+
 Extensions to the vCon schema can be classified into two categories:
 
 * **Compatible**: These extensions introduce additional data or fields without altering the meaning or structure of existing elements. Implementations that do not recognize these extensions can safely ignore them while maintaining valid processing of the vCon.
@@ -2756,6 +2758,12 @@ Failing validation against this CDDL is not by itself a reason to reject a vCon 
 {::include vcon.cddl}
 ~~~
 
+# vCon Extension Template
+
+A template for writing a vCon extension Internet-Draft is provided in kramdown-rfc markdown.
+It contains the sections required of an extension document in [Extending vCon](#extending-vcon), along with JSON Schema and CDDL appendices.
+The template can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/template-draft-vcon-xxxx-extension.md
 
 # Acknowledgments
 {:numbered="false"}
