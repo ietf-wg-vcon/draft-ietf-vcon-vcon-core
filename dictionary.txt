@@ -4,6 +4,7 @@ addr
 acct
 alg
 ans
+API
 app
 Bcc
 bcp
@@ -21,6 +22,8 @@ CDR
 civicaddress
 Civicaddress
 certs
+chatbot
+chatbots
 cohost
 com
 cose
@@ -29,7 +32,9 @@ cty
 ciphertext
 CLI
 ContentHash
+CRM
 crypto
+curation
 dan
 de
 De

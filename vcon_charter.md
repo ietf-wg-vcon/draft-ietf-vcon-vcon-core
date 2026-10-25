@@ -6,7 +6,7 @@ The vCon work group is about passing conversational data, where that conversatio
 
 Such data is commonly generated and collected in many environments, including online meeting systems, contact centers, web-based AI chatbots, and desktop AI agent platforms. These store a range of data, including chat logs, transcripts, recordings, tool call requests and responses, reasoning, prompt context, sub-agent invocations and returns, meeting sidebar start and end, and so on. Most systems provide a way to store such information, but there are not many standards or interoperability within the storage or transmission mechanisms or formats.
 
-Furthermore, the traditional proprietary storage formats have varied wildly acorss the type of originating system - one type of format for an online meeting platform, a different one for a contact center call, and a wide range of formats to capture AI Agent conversations. As the lines become blurry between human and AI agent participants in a conversation, it is imperative that a singular format is capable of representing a conversation - whether it be amongst humans, AI agents, or some combination therein. 
+Furthermore, the traditional proprietary storage formats have varied wildly across the type of originating system - one type of format for an online meeting platform, a different one for a contact center call, and a wide range of formats to capture AI Agent conversations. As the lines become blurry between human and AI agent participants in a conversation, it is imperative that a singular format is capable of representing a conversation - whether it be amongst humans, AI agents, or some combination therein. 
 
 The two opposing forces influencing such information passing are (1) trying to enforce privacy of personal data and (2) providing the ability and interest to use conversations in various ways, including analysis, curation of training data, troubleshooting, auditing, and even production as evidence in legal or civil cases. 
 
@@ -41,7 +41,7 @@ The scope of the VCON working group is:
 
 ### Standards Track AI Agent Extension
 
-  * Define an extension to the baseline format that contains meta-data unique to AI Agents and AI agent conversations, that are important to capture in an interchangeable format. These include, but are not limited to: tool call requests and responses; model details (vendor, version, parameters, and so on); token usage; prompts, prompt templates; reasoning and other output not communicated to participants but relevant for data capture; and references to records in other systems that resulted from the conversation, such as an order or a payment.
+  * Define one or more extensions to the baseline format that contains meta-data unique to AI Agents and AI agent conversations, that are important to capture in an interchangeable format. These include, but are not limited to: tool call requests and responses; model details (vendor, version, parameters, and so on); token usage; prompts, prompt templates; reasoning and other output not communicated to participants but relevant for data capture; and references to records in other systems that resulted from the conversation, such as an order or a payment.
 
 ### Informational Internet Draft Output
 The Working Group may develop use cases in drafts for reference, but there is no expectation they will be published as an RFC.
