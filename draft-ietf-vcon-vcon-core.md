@@ -751,6 +751,71 @@ They are in the order that they were added.
 
 The value of the attachments parameter is an array of [Attachment Objects](#attachment-object).
 
+### redacted_strings Objects Array
+
+A vCon can contain sensitive information in string values in many places. A text dialog containing chat messages or emails might contain a person's first name, or a street address, or an account number. Events, like a tool call made by an AI agent - can contain an account ID or social security number. 
+
+The vCon format provides a general purpose solution for redacting sensitive inforamtion from any string in the object. Any string which has a substring containing sensitive information can be replaced by "__REDACTED_REF_#", where the value of \# is a positive integer which uniquely identifies the substring that was replaced. Within the redacted_strings array there will be a member that contains a matching reference, along with meta-data about the redaction, such as the type of information that was redacted. 
+
+As an example, consider the following simplified event, which contains a tool call that has an account ID in it. Several mandatory parameters have been omitted for ease of understanding:
+
+~~~
+{
+  "events" : [
+    {
+      "type" : "tool-call",
+      "tool_name" : "close_account_by_id",
+      "input-params" : [
+        {
+          "input-name" : "account_id",
+          "input-value" : "293827344"
+        }
+      ]
+    }
+  ]
+}
+~~~
+
+
+You can see that this contains a sensitive account ID. Here is a version that is now redacted.
+
+~~~
+{
+  "events" : [
+    {
+      "type" : "tool-call",
+      "tool_name" : "close_account_by_id",
+      "input-params" : [
+        {
+          "input-name" : "account_id",
+          "input-value" : "__REDACTED_REF_1"
+        }
+      ]
+    }
+  ]
+}
+~~~
+
+There will then be an entry in the redacted_strings array like this:
+
+
+~~~
+  "redacted_strings" : [
+    "ref" : "1",
+    "type" : "account_number"
+  ]
+}
+~~~
+
+Implementations created a vCon that perform this kind of string redaction MUST include an entry in the redacted_strings array for every unique substring value they redact. A single vCon MUST NOT have more than 99999 such substrings redacted, to provide an upper bound on the integer value and to allow bounded regex parsing. 
+
+Furthermore, a processor of the VCON MUST validate that - for each instance of the regular expression "__REDACTED_REF_\d{1,5}$" it finds in the vCon,  there is a corresponding entry in the redacted_strings array whose ref value matches the reference digit sequence. If there is no match, then it means the substring was not actually redacted, and the literal substring value is actually whatever matched "__REDACTED_REF_\d{1,5}$" for that reference ID. This can happen if a user were to literally type a chat message or email like, "Yeah I'm going to try to break vcon by typing __REDACTED_REF_3 hah hah hah!". 
+
+This redaction technique allows VCon to have a way of redacting information from strings anywhere, including future extensions to vCon. This means, unless an extension might convey sensitive information in a way for which string redaction is insufficient, it will not need any specific redaction capability defined.
+
+
+
+
 ## Session Object
 
 The Session Object is used to show the scope for conversational dialog and events.
