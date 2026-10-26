@@ -753,9 +753,9 @@ The value of the attachments parameter is an array of [Attachment Objects](#atta
 
 ### redacted_strings Objects Array
 
-A vCon can contain sensitive information in string values in many places. A text dialog containing chat messages or emails might contain a person's first name, or a street address, or an account number. Events, like a tool call made by an AI agent - can contain an account ID or social security number. 
+A vCon can contain sensitive information in string values in many places. A text dialog containing chat messages or emails might contain a person's first name, or a street address, or an account number. Events, like a tool call made by an AI agent - can contain an account ID or social security number.
 
-The vCon format provides a general purpose solution for redacting sensitive inforamtion from any string in the object. Any string which has a substring containing sensitive information can be replaced by "__REDACTED_REF_#", where the value of \# is a positive integer which uniquely identifies the substring that was replaced. Within the redacted_strings array there will be a member that contains a matching reference, along with meta-data about the redaction, such as the type of information that was redacted. 
+The vCon format provides a general purpose solution for redacting sensitive inforamtion from any string in the object. Any string which has a substring containing sensitive information can be replaced by "__REDACTED_REF_#", where the value of \# is a positive integer which uniquely identifies the substring that was replaced. Within the redacted_strings array there will be a member that contains a matching reference, along with meta-data about the redaction, such as the type of information that was redacted.
 
 As an example, consider the following simplified event, which contains a tool call that has an account ID in it. Several mandatory parameters have been omitted for ease of understanding:
 
@@ -804,12 +804,11 @@ There will then be an entry in the redacted_strings array like this:
     "ref" : "1",
     "type" : "account_number"
   ]
-}
 ~~~
 
-Implementations created a vCon that perform this kind of string redaction MUST include an entry in the redacted_strings array for every unique substring value they redact. A single vCon MUST NOT have more than 99999 such substrings redacted, to provide an upper bound on the integer value and to allow bounded regex parsing. 
+Implementations created a vCon that perform this kind of string redaction MUST include an entry in the redacted_strings array for every unique substring value they redact. A single vCon MUST NOT have more than 99999 such substrings redacted, to provide an upper bound on the integer value and to allow bounded regex parsing.
 
-Furthermore, a processor of the VCON MUST validate that - for each instance of the regular expression "__REDACTED_REF_\d{1,5}$" it finds in the vCon,  there is a corresponding entry in the redacted_strings array whose ref value matches the reference digit sequence. If there is no match, then it means the substring was not actually redacted, and the literal substring value is actually whatever matched "__REDACTED_REF_\d{1,5}$" for that reference ID. This can happen if a user were to literally type a chat message or email like, "Yeah I'm going to try to break vcon by typing __REDACTED_REF_3 hah hah hah!". 
+Furthermore, a processor of the VCON MUST validate that - for each instance of the regular expression "__REDACTED_REF_\d{1,5}$" it finds in the vCon,  there is a corresponding entry in the redacted_strings array whose ref value matches the reference digit sequence. If there is no match, then it means the substring was not actually redacted, and the literal substring value is actually whatever matched "__REDACTED_REF_\d{1,5}$" for that reference ID. This can happen if a user were to literally type a chat message or email like, "Yeah I'm going to try to break vcon by typing __REDACTED_REF_3 hah hah hah!".
 
 This redaction technique allows VCon to have a way of redacting information from strings anywhere, including future extensions to vCon. This means, unless an extension might convey sensitive information in a way for which string redaction is insufficient, it will not need any specific redaction capability defined.
 
@@ -1665,11 +1664,11 @@ to the vCon containing the email thread, more than once.
 
 ### redacted_segments {#redacted_segments}
 
-One of the ways to perform redaction on audio content is to substitute the segments containing the information with a "beep" sound for audio. For video, specific parts of the video can be blurred out, or the video can be blackened entirely. When this happens, a human can easily discern that redaction has occurred. However, it is not easy for software systems to determine this. There are many cases where we want a piece of software processing a VCON to know that such redaction has happened, where it happened, and which parties content was redacted. For example, a troubleshooting tool might want to call out these segments to a user whose role is to confirm that redaction is working well. 
+One of the ways to perform redaction on audio content is to substitute the segments containing the information with a "beep" sound for audio. For video, specific parts of the video can be blurred out, or the video can be blackened entirely. When this happens, a human can easily discern that redaction has occurred. However, it is not easy for software systems to determine this. There are many cases where we want a piece of software processing a VCON to know that such redaction has happened, where it happened, and which parties content was redacted. For example, a troubleshooting tool might want to call out these segments to a user whose role is to confirm that redaction is working well.
 
-The redacted_segments field contains an array of one or more Redacted_segments objects. This field is optional, but SHOULD be included in a redacted vCon. 
+The redacted_segments field contains an array of one or more Redacted_segments objects. This field is optional, but SHOULD be included in a redacted vCon.
 
-* redacted_segments: "Redacted_segments" [\] 
+* redacted_segments: "Redacted_segments" [\]
 
 #### Redacted_segments
 
@@ -1677,15 +1676,15 @@ The object contains the following parameters:
 
 * start: "Date" (required)
 
-The start time of the audiovisual redaction. 
+The start time of the audiovisual redaction.
 
 * end: "Date" (required)
 
-The end time of the audiovisual redaction. 
+The end time of the audiovisual redaction.
 
 parties: "Party\[\]" (optional)
 
-An array of the parties who have been redacted. This is useful when the dialog contains a blend of multiple contributors, and it is desired to indicate which one has been redacted. 
+An array of the parties who have been redacted. This is useful when the dialog contains a blend of multiple contributors, and it is desired to indicate which one has been redacted.
 
 ## Attachment Object
 
