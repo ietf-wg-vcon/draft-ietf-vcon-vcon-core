@@ -1960,6 +1960,38 @@ Other values can be used, in which case an implementation not familiar with the 
 The original, unredacted value of the string. This is useful in applications of vCons where the desired property is not data redaction, but data identification. This may allow downstream vCon processors to perform the redaction (which is as simple as removing the "orig" field), or to allow redaction in the user inferface (for example, a first name in a transcript is not shown to the user unless they right-click and elect to reveal the information). It is also useful for downstream data processing applications which generate analytics and create aggregates off of this inforamtion.
 
 
+# Redaction Techniques
+
+vCon has many ways in which sensitive inforamtion can be redacted from a vCon. This section summarizes them.
+
+Whenever any of these redaction techniques are employed, the redacted_from element SHOULD be added to the vCon referencing its prior, unredacted version.
+
+## Recording Content Removal
+
+If an audio recording, or a text chat, contains sensitive inforamtion, the offending Dialog Content (either the body or the url) can be removed from the vCon. Note that, in this case, the Dialog object itself is still present with its meta-data, such as the start and end times.
+
+It is RECOMMENDED that the Dialog Content is removed - rather than removing the entire Dialog object itself. Doing so requires the Dialog array to be reindexed and all references to it updated. It also obcures the fact that redaction was performed, which may confuse downstream processors or players.
+
+## Participant Information Hiding
+
+It may be desired to hide the fact that a participant was present in a conversation. In that case, the simplest approach is to remove all of their attributes from their Party object - resuling in an empty but valid party object of {}. This approach is efficient in that it can be done without touching anything else in the vCon. The vCon still indicates that SOMEONE was there, but there is no identifying information for them.
+
+## Audiovisual Content Rewriting
+
+For audio, a "beep" can be added; for video, the video can have blur effects applied or the entire video can be blackened. These all require codec-level operations. If they are done, the fact that they were done SHOULD be signaled with the inclusion of the redacted_segments field in the Dialog object.
+
+## String Redaction
+
+The vCon format supports a general purpose string redaction methodology, through the usage of the redacted_strings array. This can be used to remove any sensitive information present in string format anywhere in the vCon.
+
+When an audio or video recording has been transcribed, and the transcription is present in the vCon, if a segment of audio or video is redacted, it is RECOMMENDED to also redact the transcript of the transcribed version of that sensitive information, using string redaction.
+
+A tempting alternative to using the redacted_strings array is to just perform inline subtitution of text, replacing (for example) a social security number with "XXX-XX-XXXX". This is NOT RECOMMENDED. Downstream processors canno easily differentiate a redacted version of a field with a valid field, potentially breaking them.
+
+## Regeneration of the vCon
+
+In some cases, the goal of redaction is to also hide the fact that redaction was ever even done. In that case, the vCon can be regenerated. Regeneration produces a totally new vCon with no connections to the original, all arrays (like Party) reindexed to hide any missing information, and the redacted_from field removed. Similarly, sensitive strings like a social security number can be replaced with valid, but incorrect versions.
+
 
 
 # Security Considerations
