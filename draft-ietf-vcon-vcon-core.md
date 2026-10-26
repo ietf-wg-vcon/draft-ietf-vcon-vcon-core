@@ -1403,6 +1403,7 @@ X
 | session_id | O | O | O |
 | application | O | O | O |
 | message_id | O | O | X |
+| redacted_segments | O | SN | X |
 
 (1) MUST be present for inline Dialog Content; optional for externally referenced Dialog Content when the media type is provided in the [HTTPS] Content-Type header; not required when Dialog Content is absent, such as in a placeholder Dialog Object or a redacted vCon.
 
@@ -1596,6 +1597,30 @@ When exporting these SMTP messages, the message_id parameter may be used to avoi
 to the vCon containing the email thread, more than once.
 
 * message_id: "String" (optional)
+
+### redacted_segments {#redacted_segments}
+
+One of the ways to perform redaction on audio content is to substitute the segments containing the information with a "beep" sound for audio. For video, specific parts of the video can be blurred out, or the video can be blackened entirely. When this happens, a human can easily discern that redaction has occurred. However, it is not easy for software systems to determine this. There are many cases where we want a piece of software processing a VCON to know that such redaction has happened, where it happened, and which parties content was redacted. For example, a troubleshooting tool might want to call out these segments to a user whose role is to confirm that redaction is working well. 
+
+The redacted_segments field contains an array of one or more Redacted_segments objects. This field is optional, but SHOULD be included in a redacted vCon. 
+
+* redacted_segments: "Redacted_segments" [\] 
+
+#### Redacted_segments
+
+The object contains the following parameters:
+
+* start: "Date" (required)
+
+The start time of the audiovisual redaction. 
+
+* end: "Date" (required)
+
+The end time of the audiovisual redaction. 
+
+parties: "Party\[\]" (optional)
+
+An array of the parties who have been redacted. This is useful when the dialog contains a blend of multiple contributors, and it is desired to indicate which one has been redacted. 
 
 ## Attachment Object
 
@@ -2284,6 +2309,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | session_id | RFC7989 session ID  | IESG | [](#session_id) RFC XXXX |
 | application | dialog source application | IESG | [](#application) RFC XXXX |
 | message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
+| redacted_segments | redacted segments | IESG | [](#redacted_segments) RFC XXXX |
 
 #### Dialog Type Name Registry
 
