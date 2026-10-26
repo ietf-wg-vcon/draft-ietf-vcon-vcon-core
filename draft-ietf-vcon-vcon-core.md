@@ -1912,9 +1912,13 @@ Alternatively, for externally referenced analysis:
 
 The redacted string object provides information about a string which was redacted from the vCon.
 
+### Ref
+
 * ref: "UnsignedInt" (required)
 
 The reference to the string which was redacted, which will be present elsewhere in the document. This is always between 1 and 99999.
+
+### Type
 
 * type: "String" (optional)
 
@@ -1943,6 +1947,8 @@ The type of string information which was redacted. This is an extensible string 
 TODO: add IANA registry.
 
 Other values can be used, in which case an implementation not familiar with the value treats it as UNSPECIFIED. Absence of this field is also the same as UNSPECIFIED.
+
+### Orig
 
 * orig: "String" (optional)
 
