@@ -394,7 +394,8 @@ For each incompatibility, state the processing that is affected, for example red
 An extension that claims to be **Compatible** uses this section to show why no incompatibility exists.
 
 * **Privacy and Integrity Considerations**:
-Describe how the extension's parameters interact with redaction and de-identification, including whether any of them can carry party-identifying data or PII and how a redactor is expected to handle them.
+Describe how the extension's parameters interact with redaction and de-identification, including whether any of them can carry party-identifying data or PII and how a redactor is expected to handle them. In particular, state whether the string redaction feature of the vCon will work to redact any sensitive information, or if there is additional extension-specific redaction capabilities needed.
+
 State whether the extension introduces any new external content references, and if so, the integrity mechanism that protects them, such as [content_hash](#content_hash).
 
 A markdown template for a vCon extension document containing these sections is referenced in [vCon Extension Template](#vcon-extension-template).
@@ -407,10 +408,9 @@ Extensions to the vCon schema can be classified into two categories:
 
 Wherever feasible, extensions **SHOULD** be designed as **Compatible** to preserve compatibility with existing implementations.
 The question of Compatible vs Incompatible is a little subjective.
-A transcriber for vCon can be fairly tolerant of changes adding new parameters or objects to a vCon.
-On the other hand, a redactor must be aware of the implications of all parameters in the vCon to be sure to redact all of the objective information.
-In these cases a transcriber will likely only need to look at the critical extensions.
-However the redactor perhaps should reject vCons with any extension that it does not support.
+A transcriber for vCon can be fairly tolerant of changes adding new parameters or objects to a vCon. In these cases a transcriber will likely only need to look at the critical extensions.
+On the other hand, a redactor must be aware of the implications of all parameters in the vCon to be sure to redact all of the objective information. If an extension adds information which cannot be removed by the vCon string redaction feature, this may make the extension incompatible.
+A redactor which needs a 100% guarantee that it can redact everything, perhaps should reject vCons with any extension that it does not support. Others, may choose to accept them, assuming the string redaction is sufficient.
 
 However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
 
@@ -434,7 +434,7 @@ This top level vCon object is also contained as described in the [signed](#signe
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
 The signed form of vCon is defined in [](#signed-form-of-vcon-object) using [JWS] to provide integrity and proof of the conversation data.
 The encrypted form of vCon is defined in [](#encrypted-form-of-vcon-object) using [JWE] to provide complete privacy of the conversational data.
-Partial privacy or data minimization can be provide for a vCon using the [redacted_from](#redacted_from) construct.
+Partial privacy or data minimization can be provide for a vCon using the techniques outlined in (Redaction Techniques)[#redaction_techniques].
 
 # Unsigned Form of vCon Object
 
@@ -449,7 +449,7 @@ When a vCon is to be exported from one security domain to another, it SHOULD be 
 The subsequent domain may have need to redact or amend data to the vCon.
 Alternatively the originating domain may want to redact the vCon before providing it to an other domain.
 The second or subsequent domain, MAY modify the prior vCon instance version and when complete or exporting to another security domain, it SHOULD sign or encrypt the new vCon instance version.
-The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted_from](#redacted_from)) or amended_from ([amended_from](#amended_from)) parameters.
+The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted_from](#redacted_from)) or amended_from ([amended_from](#amended_from)) parameters - see (Redaction Techniques)[#redaction_techniques].
 
 ## vCon JSON Object Keys and Values
 
@@ -541,20 +541,9 @@ The [Redacted_from Object](#redacted_from-object) SHOULD contain the uuid parame
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL MUST
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.
 
-The method(s) for redaction of text, audio and video can be done with existing post processing of media.
-The method of redaction is out of scope of this document.
-The assurance of the accuracy of the redaction is made by the entity that creates the redaction which
+Redaction techniques are discussed in more detail in (Redaction Techniques)[#redaction_techniques]. The assurance of the accuracy of the redaction is made by the entity that creates the redaction which
 SHOULD sign the redacted version of the vCon.
 
-All data and parameters in the prior, less redacted, vCon instance version are either:
-
-* Removed entirely in the redacted version
-* Copied and partially redacted
-* Copied as is
-
-Data which is to be completely removed from the redacted version, that is contained in a JSON array in
-the unredacted vCon, SHOULD create an empty placeholder such that object array indices do not change for
-the rest of the elements of the array.
 
 * redacted_from: "Redacted_from" (optional, mutually exclusive with amended_from parameter)
 
@@ -572,7 +561,7 @@ does not exist.
 
 The value of the redacted type parameter is used to indicate the type of redaction that was performed on
 this vCon relative to the less redacted version referenced by the redacted uuid parameter.
-This should indicate the type of information that was redacted.
+This should indicate the type of information that was redacted, and has the same set of values defined for the type field of the redacted_string object.
 
 The the location of the referenced vCon MAY be provided as defined in [Externally Referenced Files](#externally-referenced-files) by including url  and content_hash.
 content_hash MUST be included if url is provided.
@@ -1553,7 +1542,7 @@ In the absence of such a policy, the Bcc parties MAY be included in a vCon which
 When the Bcc parties are not included in the vCon, they SHOULD NOT be referenced in the Session Object parties parameter.
 A Party Object SHOULD NOT be included for a Bcc party, unless that party is also the sender or a To or Cc receiver of another message in the vCon.
 The Bcc header SHOULD also be removed from the Dialog Content, and the Session Objects SHOULD be constructed as if the Bcc parties were not receivers of that message.
-A vCon which includes the Bcc parties may be redacted to remove them for broader use (see [redacted_from](#redacted_from)).
+A vCon which includes the Bcc parties may be redacted to remove them for broader use (see [Redaction Techniques](#redaction_techniques)).
 A text Dialog Object should only contain a single [SMTP] message.
 Each message in an email thread may have a different set of receivers.
 The set of receivers of a message includes its sender.
@@ -1960,11 +1949,12 @@ Other values can be used, in which case an implementation not familiar with the 
 The original, unredacted value of the string. This is useful in applications of vCons where the desired property is not data redaction, but data identification. This may allow downstream vCon processors to perform the redaction (which is as simple as removing the "orig" field), or to allow redaction in the user inferface (for example, a first name in a transcript is not shown to the user unless they right-click and elect to reveal the information). It is also useful for downstream data processing applications which generate analytics and create aggregates off of this inforamtion.
 
 
-# Redaction Techniques
+# Redaction Techniques {#redaction_techniques}
 
 vCon has many ways in which sensitive inforamtion can be redacted from a vCon. This section summarizes them.
 
-Whenever any of these redaction techniques are employed, the redacted_from element SHOULD be added to the vCon referencing its prior, unredacted version.
+Whenever any of these redaction techniques are employed, the redacted_from element SHOULD be added to the vCon referencing its prior, unredacted version. Data which is to be completely removed from the redacted version, that is contained in a JSON array in the unredacted vCon, SHOULD create an empty placeholder such that object array indices do not change for the rest of the elements of the array. If an element is removed entirely, all indexes to that array MUST be revised.
+
 
 ## Recording Content Removal
 
@@ -1975,6 +1965,8 @@ It is RECOMMENDED that the Dialog Content is removed - rather than removing the 
 ## Participant Information Hiding
 
 It may be desired to hide the fact that a participant was present in a conversation. In that case, the simplest approach is to remove all of their attributes from their Party object - resuling in an empty but valid party object of {}. This approach is efficient in that it can be done without touching anything else in the vCon. The vCon still indicates that SOMEONE was there, but there is no identifying information for them.
+
+Similarly, if a dialog contains emails and the desire is to remove the set of participants who were BCC'd, those parties can be removed from the corresponding parties array in the session object. String redaction can also be used to hide the identity of the party that was BCC'd, while still indicating that someone received the mail.
 
 ## Audiovisual Content Rewriting
 
@@ -2042,8 +2034,6 @@ So it seemed the logical solution for signing vCons, is JOSE [JWS] JSON Serializ
 encrypting vCons is JOSE [JWE] JSON Serialization.
 The solutions are well documents, implementations are readily available and tested.
 
-Methods of redaction exist for text, audio and video using post processing of the media.
-The method of redaction used is out of the scope of this document.
 A redacted vCon SHOULD reference it's non-redacted version.
 The non-redacted version of the vCon referenced from the redacted vCon MUST be encrypted such that only those with permission to view the non-redacted content can decrypt it.
 
@@ -2411,6 +2401,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
 | analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |
 | attachments | Attachment Objects array | IESG | [](#attachments-objects-array) RFC XXXX |
+| redacted_strings | Redacted Strings array | IESG | [](#redacted_string-object)
 
 ### Party Object Parameter Names Registry
 
