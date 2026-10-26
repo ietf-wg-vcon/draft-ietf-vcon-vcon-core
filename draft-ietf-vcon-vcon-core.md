@@ -434,7 +434,7 @@ This top level vCon object is also contained as described in the [signed](#signe
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
 The signed form of vCon is defined in [](#signed-form-of-vcon-object) using [JWS] to provide integrity and proof of the conversation data.
 The encrypted form of vCon is defined in [](#encrypted-form-of-vcon-object) using [JWE] to provide complete privacy of the conversational data.
-Partial privacy or data minimization can be provide for a vCon using the [redacted](#redacted) construct.
+Partial privacy or data minimization can be provide for a vCon using the [redacted_from](#redacted_from) construct.
 
 # Unsigned Form of vCon Object
 
@@ -449,7 +449,7 @@ When a vCon is to be exported from one security domain to another, it SHOULD be 
 The subsequent domain may have need to redact or amend data to the vCon.
 Alternatively the originating domain may want to redact the vCon before providing it to an other domain.
 The second or subsequent domain, MAY modify the prior vCon instance version and when complete or exporting to another security domain, it SHOULD sign or encrypt the new vCon instance version.
-The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted](#redacted)) or amended_from ([amended](#amended)) parameters.
+The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted_from](#redacted_from)) or amended_from ([amended_from](#amended_from)) parameters.
 
 ## vCon JSON Object Keys and Values
 
@@ -531,13 +531,13 @@ The subject may also be derived from analysis of the dialog.
 
 The string value of the subject parameter is a free formed JSON string with no constrained syntax.
 
-### redacted_from
+### redacted_from {#redacted_from}
 
 A redacted vCon SHOULD provide a reference to the unredacted or prior, less redacted, vCon instance version of itself.
-The purpose of the [Redacted_from Object](#redacted-object) is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
+The purpose of the [Redacted_from Object](#redacted_from-object) is to provide the reference to the unredacted or less redacted version of the vCon from which this vCon was derived.
 For privacy reasons, it may be necessary to redact a vCon to construct another vCon without the PII.
 This allows the non-PII portion of the vCon to still be analyzed or used in a broader scope.
-The [Redacted_from Object](#redacted-object) SHOULD contain the uuid parameter and MAY include the url, content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
+The [Redacted_from Object](#redacted_from-object) SHOULD contain the uuid parameter and MAY include the url, content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL MUST
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.
 
@@ -558,7 +558,7 @@ the rest of the elements of the array.
 
 * redacted_from: "Redacted_from" (optional, mutually exclusive with amended_from parameter)
 
-#### Redacted_from Object
+#### Redacted_from Object {#redacted_from-object}
 
 A Redacted_from Object contains the following parameters:
 
@@ -595,11 +595,11 @@ The signed unredacted vCon contains the unredacted vCon in the unsigned form in 
 ~~~
 {: #diagram1 title="redacted vCon object tree"}
 
-### amended
+### amended_from {#amended_from}
 
 A signed or encrypted vCon cannot be modified without invalidating it.
 In these cases, to allow for adding of additional information a new vCon instance version MUST be created.
-The prior vCon instance version is referenced by the [Amended Object](#amended-object).
+The prior vCon instance version is referenced by the [Amended_from Object](#amended_from-object).
 The vCon with amended data contains all of the data that is in the referenced vCon with the exception of data that is amended.
 That is to say that the newer version of the vCon is a deep copy of the prior version with the amended and additional data added to it.
 
@@ -607,7 +607,7 @@ The prior vCon instance version SHOULD be referenced via the uuid of the prior v
 
 * amended_from: "Amended_from" (optional, mutually exclusive with redacted_from parameter)
 
-#### Amended_from Object
+#### Amended_from Object {#amended_from-object}
 
 The Amended_from Object contains the following parameters:
 
@@ -1480,7 +1480,7 @@ In the absence of such a policy, the Bcc parties MAY be included in a vCon which
 When the Bcc parties are not included in the vCon, they SHOULD NOT be referenced in the Session Object parties parameter.
 A Party Object SHOULD NOT be included for a Bcc party, unless that party is also the sender or a To or Cc receiver of another message in the vCon.
 The Bcc header SHOULD also be removed from the Dialog Content, and the Session Objects SHOULD be constructed as if the Bcc parties were not receivers of that message.
-A vCon which includes the Bcc parties may be redacted to remove them for broader use (see [redacted](#redacted)).
+A vCon which includes the Bcc parties may be redacted to remove them for broader use (see [redacted_from](#redacted_from)).
 A text Dialog Object should only contain a single [SMTP] message.
 Each message in an email thread may have a different set of receivers.
 The set of receivers of a message includes its sender.
@@ -1827,7 +1827,7 @@ Alternatively, for externally referenced analysis:
 The security concerns for vCons can put into two categories: making the conversation immutable through integrity verification and protecting the confidentiality of privacy of the parties to the conversation and/or their PII.
 These requirements along with need to evolve a vCon (e.g. adding analysis, translations and transcriptions) conflict in some ways.
 To enable this, multiple versions of a vCon may be created.
-Versions of a vCon may add information (e.g. analysis added to a prior vCon referenced by the amended_from ([amended](#amended))) and versions that remove information (e.g. redactions of privacy information removed from the vCon referenced in the redacted_from ([redacted](#redacted))).
+Versions of a vCon may add information (e.g. analysis added to a prior vCon referenced by the amended_from ([amended_from](#amended_from))) and versions that remove information (e.g. redactions of privacy information removed from the vCon referenced in the redacted_from ([redacted_from](#redacted_from))).
 Redactions may be at different levels for example:
 
 * PII masked to remove PII data in the text, audio, video or transcripts
@@ -1849,9 +1849,9 @@ The distinction among these has gotten clouded over recent years.
 The import consideration is that each is a different security domain.
 Information about a conversation captured in an enterprise communications system (e.g. meta data and Dialog Object(s) recorded in an IP PBX) is a different security domain from a SaaS transcription service (i.e. an Analysis Object).
 Before a vCon leaves a security domain, it SHOULD be signed to prevent it from being altered.
-If the new security domain needs to alter it, a new vCon is created with the removed or added data and the prior version is referenced (i.e. via the redacted_from ([redacted](#redacted)) or amended_from ([amended](#amended))).
+If the new security domain needs to alter it, a new vCon is created with the removed or added data and the prior version is referenced (i.e. via the redacted_from ([redacted_from](#redacted_from)) or amended_from ([amended_from](#amended_from))).
 See the redacted vCon object tree figure-1 and amended vCon object tree figure-2.
-If information is redacted for privacy reasons, the vCon referenced in the redacted_from ([redacted](#redacted)), if inline, SHOULD be encrypted to protect the privacy information in the unredacted version of the vCon.
+If information is redacted for privacy reasons, the vCon referenced in the redacted_from ([redacted_from](#redacted_from)), if inline, SHOULD be encrypted to protect the privacy information in the unredacted version of the vCon.
 
 The secure storage and access of externally referenced conversation data is considered out of scope from this document.
 Secure mechanisms for HTTPS access and storage of files are well defined.
@@ -2230,8 +2230,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | created_at | creation date | IESG | [](#created_at) RFC XXXX |
 | updated_at | modification date | IESG | [](#updated_at) RFC XXXX |
 | subject | conversation subject | IESG | [](#subject) RFC XXXX |
-| redacted_from | Redacted Object | IESG | [](#redacted) RFC XXXX |
-| amended_from | Amended Object | IESG | [](#redacted) RFC XXXX |
+| redacted_from | Redacted Object | IESG | [](#redacted_from) RFC XXXX |
+| amended_from | Amended Object | IESG | [](#amended_from) RFC XXXX |
 | group | reserved for future extension | IESG | RFC XXXX |
 | sessions | Session Objects array | IESG | [](#sessions-objects-array) RFC XXXX |
 | events | Event Objects array | IESG | [](#events-objects-array) RFC XXXX |
@@ -2505,10 +2505,10 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| uuid | less redacted vCon UUID | IESG | [](#redacted-object) RFC XXXX |
-| type | redaction type or reason | IESG | [](#redacted-object) RFC XXXX |
-| url | referenced less redacted vCon URL | IESG | [](#redacted-object) RFC XXXX |
-| content_hash | less redacted vCon hash | IESG | [](#redacted-object) RFC XXXX |
+| uuid | less redacted vCon UUID | IESG | [](_#redacted_from_-object) RFC XXXX |
+| type | redaction type or reason | IESG | [](#redacted_from-object) RFC XXXX |
+| url | referenced less redacted vCon URL | IESG | [](#redacted_from-object) RFC XXXX |
+| content_hash | less redacted vCon hash | IESG | [](#redacted_from-object) RFC XXXX |
 
 ### Amended_from Object Parameter Names Registry
 
@@ -2517,9 +2517,9 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
 | --- | --- | --- | --- |
-| uuid | prior vCon version UUID | IESG | [](#amended-object) RFC XXXX |
-| url | referenced prior version vCon URL | IESG | [](#amended-object) RFC XXXX |
-| content_hash | prior version vCon hash | IESG | [](#amended-object) RFC XXXX |
+| uuid | prior vCon version UUID | IESG | [](#amended_from-object) RFC XXXX |
+| url | referenced prior version vCon URL | IESG | [](#amended_from-object) RFC XXXX |
+| content_hash | prior version vCon hash | IESG | [](#amended_from-object) RFC XXXX |
 
 
 ## vCon Extensions Names Registry
@@ -2705,7 +2705,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 ## Redacted vCon
 
 This is an example redaction of the vCon in the example [Two Party Call vCon With Externally Referenced Recording](#two-party-call-vcon-with-externally-referenced-recording).
-Most notable is the [Redacted_from object](#redacted) which references the lesser redacted version of this vCon.
+Most notable is the [Redacted_from object](#redacted_from) which references the lesser redacted version of this vCon.
 In addition the **url** parameter has been redacted from the [Dialog Object](#dialog-object), but the rest of the [Dialog Object](#dialog-object) was left in the redaction.
 
 The unformatted version of the following example can be downloaded from:
@@ -2717,7 +2717,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 
 ## Amended Signed vCon
 
-This is an example vCon with an [Amended_from Object](#amended) referencing the vCon that it amends or adds additional content.
+This is an example vCon with an [Amended_from Object](#amended_from-object) referencing the vCon that it amends or adds additional content.
 In this case it is referencing the signed vCon example above.
 An example text Dialog Object (index 1) is the amendment.
 
