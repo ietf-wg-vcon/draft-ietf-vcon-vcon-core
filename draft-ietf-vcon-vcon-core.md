@@ -757,6 +757,12 @@ A vCon can contain sensitive information in string values in many places. A text
 
 The vCon format provides a general purpose solution for redacting sensitive inforamtion from any string in the object. Any string which has a substring containing sensitive information can be replaced by "__REDACTED_REF_#", where the value of \# is a positive integer which uniquely identifies the substring that was replaced. Within the redacted_strings array there will be a member that contains a matching reference, along with meta-data about the redaction, such as the type of information that was redacted.
 
+The redacted_strings array is defined as:
+
+* redacted_strings: "Redacted_string\[\]" (optional)
+
+Where the Redacted_string object is defined in [Redacted_string Object](#redacted_string-object).
+
 As an example, consider the following simplified event, which contains a tool call that has an account ID in it. Several mandatory parameters have been omitted for ease of understanding:
 
 ~~~
@@ -801,8 +807,10 @@ There will then be an entry in the redacted_strings array like this:
 
 ~~~
   "redacted_strings" : [
-    "ref" : "1",
-    "type" : "account_number"
+    {
+      "ref" : "1",
+      "type" : "account_number"
+    }
   ]
 ~~~
 
@@ -1909,6 +1917,49 @@ Alternatively, for externally referenced analysis:
 
 * url: "String"
 * content_hash: "ContentHash" \| "ContentHash\[\]"
+
+
+## Redacted_string Object {#redacted_string-object}
+
+The redacted string object provides information about a string which was redacted from the vCon.
+
+* ref: "UnsignedInt" (required)
+
+The reference to the string which was redacted, which will be present elsewhere in the document. This is always between 1 and 99999.
+
+* type: "String" (optional)
+
+The type of string information which was redacted. This is an extensible string enumeration. The following values are defined, representing the most common forms of sensitive information redacted from conversations:
+
+* GOVT_ID_NUM: A government issued identifier, such as a social security number, passport number, drivers license number, taxpayer ID, and o on.
+
+* FIN_ID_NUM: A financial institution identifier, such as a bank account number, a routing number, a wire number, PIN codes, and so on.
+
+* MED_ID_NUM: A medical identifier, such as a patient ID
+
+* BIOMETRIC: A string containing biometric data, typically in some encoded form for representation. Examples would include a fingerprint, retina scan, or face geometry.
+
+* AUTH_DATA: Data used for a user to authenticate themselves, such as a password, digital certificate, or security questions or answers.
+
+* CONTACT_INFO: Full name, email, physical mailing address, phone numbers, and so on.
+
+* LOC_INFO: ZIp code, GPS location data, IP addresses, MAC addresses
+
+* EMPL_INFO: Work information, such as a job title, job code, salary, and so on.
+
+* BELIEF_INFO: Religious preference, political party or preference, sexual orientation
+
+* UNSPECIFIED: Used when the type is not known, not specified, or not able to be determined.
+
+TODO: add IANA registry.
+
+Other values can be used, in which case an implementation not familiar with the value treats it as UNSPECIFIED. Absence of this field is also the same as UNSPECIFIED.
+
+* orig: "String" (optional)
+
+The original, unredacted value of the string. This is useful in applications of vCons where the desired property is not data redaction, but data identification. This may allow downstream vCon processors to perform the redaction (which is as simple as removing the "orig" field), or to allow redaction in the user inferface (for example, a first name in a transcript is not shown to the user unless they right-click and elect to reveal the information). It is also useful for downstream data processing applications which generate analytics and create aggregates off of this inforamtion.
+
+
 
 
 # Security Considerations
