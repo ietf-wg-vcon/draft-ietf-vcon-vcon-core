@@ -449,7 +449,7 @@ When a vCon is to be exported from one security domain to another, it SHOULD be 
 The subsequent domain may have need to redact or amend data to the vCon.
 Alternatively the originating domain may want to redact the vCon before providing it to an other domain.
 The second or subsequent domain, MAY modify the prior vCon instance version and when complete or exporting to another security domain, it SHOULD sign or encrypt the new vCon instance version.
-The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted](#redacted)) or amended ([amended](#amended)) parameters.
+The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted](#redacted)) or amended_from ([amended](#amended)) parameters.
 
 ## vCon JSON Object Keys and Values
 
@@ -556,7 +556,7 @@ Data which is to be completely removed from the redacted version, that is contai
 the unredacted vCon, SHOULD create an empty placeholder such that object array indices do not change for
 the rest of the elements of the array.
 
-* redacted_from: "Redacted_from" (optional, mutually exclusive with amended parameter)
+* redacted_from: "Redacted_from" (optional, mutually exclusive with amended_from parameter)
 
 #### Redacted_from Object
 
@@ -605,15 +605,15 @@ That is to say that the newer version of the vCon is a deep copy of the prior ve
 
 The prior vCon instance version SHOULD be referenced via the uuid of the prior vCon instance version, and MAY include the url and content_hash parameters (see [Externally Referenced Files](#externally-referenced-files)).
 
-* amended: "Amended" (optional, mutually exclusive with redacted_from parameter)
+* amended_from: "Amended_from" (optional, mutually exclusive with redacted_from parameter)
 
-#### Amended Object
+#### Amended_from Object
 
-The Amended Object contains the following parameters:
+The Amended_from Object contains the following parameters:
 
 * uuid: "String" (optional if external reference provided)
 
-The value contains the [uuid string value](#uuid) of the unredacted/original vCon instance version.
+The value contains the [uuid string value](#uuid) of the unamended/original vCon instance version.
 
 The location of the referenced vCon MAY be provided, as defined in [Externally Referenced Files](#externally-referenced-files) by including url and content_hash.  content_hash MUST be provided if url is provided.
 
@@ -623,8 +623,8 @@ The location of the referenced vCon MAY be provided, as defined in [Externally R
 The following figure illustrates an example partial JSON object tree for an amended vCon.
 The top level object is the JWS signed amended vCon which contains the unsigned form of the vCon in it's payload parameter.
 The second level object is the amended vCon with additional conversational data (e.g. analysis data).
-It refers to its original parent (or prior vCon instance version) of the vCon in its amended parameter.
-Note: the amended parameter may refer to the prior version of the vCon via URL.
+It refers to its original parent (or prior vCon instance version) of the vCon in its amended_from parameter.
+Note: the amended_from parameter may refer to the prior version of the vCon via URL.
 The amended vCon in this figure refers to the JWS signed version of the vCon, which in turn contains the original vCon in unsigned form in its payload parameter.
 
 ~~~
@@ -1827,7 +1827,7 @@ Alternatively, for externally referenced analysis:
 The security concerns for vCons can put into two categories: making the conversation immutable through integrity verification and protecting the confidentiality of privacy of the parties to the conversation and/or their PII.
 These requirements along with need to evolve a vCon (e.g. adding analysis, translations and transcriptions) conflict in some ways.
 To enable this, multiple versions of a vCon may be created.
-Versions of a vCon may add information (e.g. analysis added to a prior vCon referenced by the amended ([amended](#amended))) and versions that remove information (e.g. redactions of privacy information removed from the vCon referenced in the redacted_from ([redacted](#redacted))).
+Versions of a vCon may add information (e.g. analysis added to a prior vCon referenced by the amended_from ([amended](#amended))) and versions that remove information (e.g. redactions of privacy information removed from the vCon referenced in the redacted_from ([redacted](#redacted))).
 Redactions may be at different levels for example:
 
 * PII masked to remove PII data in the text, audio, video or transcripts
@@ -1849,7 +1849,7 @@ The distinction among these has gotten clouded over recent years.
 The import consideration is that each is a different security domain.
 Information about a conversation captured in an enterprise communications system (e.g. meta data and Dialog Object(s) recorded in an IP PBX) is a different security domain from a SaaS transcription service (i.e. an Analysis Object).
 Before a vCon leaves a security domain, it SHOULD be signed to prevent it from being altered.
-If the new security domain needs to alter it, a new vCon is created with the removed or added data and the prior version is referenced (i.e. via the redacted_from ([redacted](#redacted)) or amended ([amended](#amended))).
+If the new security domain needs to alter it, a new vCon is created with the removed or added data and the prior version is referenced (i.e. via the redacted_from ([redacted](#redacted)) or amended_from ([amended](#amended))).
 See the redacted vCon object tree figure-1 and amended vCon object tree figure-2.
 If information is redacted for privacy reasons, the vCon referenced in the redacted_from ([redacted](#redacted)), if inline, SHOULD be encrypted to protect the privacy information in the unredacted version of the vCon.
 
@@ -2231,7 +2231,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | updated_at | modification date | IESG | [](#updated_at) RFC XXXX |
 | subject | conversation subject | IESG | [](#subject) RFC XXXX |
 | redacted_from | Redacted Object | IESG | [](#redacted) RFC XXXX |
-| amended | Amended Object | IESG | [](#redacted) RFC XXXX |
+| amended_from | Amended Object | IESG | [](#redacted) RFC XXXX |
 | group | reserved for future extension | IESG | RFC XXXX |
 | sessions | Session Objects array | IESG | [](#sessions-objects-array) RFC XXXX |
 | events | Event Objects array | IESG | [](#events-objects-array) RFC XXXX |
@@ -2510,9 +2510,9 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | url | referenced less redacted vCon URL | IESG | [](#redacted-object) RFC XXXX |
 | content_hash | less redacted vCon hash | IESG | [](#redacted-object) RFC XXXX |
 
-### Amended Object Parameter Names Registry
+### Amended_from Object Parameter Names Registry
 
-The following defines the initial values for the Amended Object Parameter Names Registry.
+The following defines the initial values for the Amended_from Object Parameter Names Registry.
 Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
 | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
@@ -2717,7 +2717,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 
 ## Amended Signed vCon
 
-This is an example vCon with an [Amended Object](#amended) referencing the vCon that it amends or adds additional content.
+This is an example vCon with an [Amended_from Object](#amended) referencing the vCon that it amends or adds additional content.
 In this case it is referencing the signed vCon example above.
 An example text Dialog Object (index 1) is the amendment.
 
