@@ -1,3 +1,4 @@
 # Automatically generated CODEOWNERS
 # Regenerate with `make update-codeowners`
 draft-ietf-vcon-vcon-core.md dan.ietf@sipez.com
+draft-rosenberg-vcon-redaction.md jdrosen@jdrosen.net

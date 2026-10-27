@@ -19,6 +19,7 @@
 Gemfile.lock
 archive.json
 draft-ietf-vcon-vcon-core.xml
+draft-rosenberg-vcon-redaction.xml
 package-lock.json
 report.xml
 !requirements.txt
