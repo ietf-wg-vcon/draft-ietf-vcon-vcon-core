@@ -99,14 +99,15 @@ Table of Contents
        4.1.5.  created_at
        4.1.6.  updated_at
        4.1.7.  subject
-       4.1.8.  redacted
-       4.1.9.  amended
+       4.1.8.  redacted_from
+       4.1.9.  amended_from
        4.1.10. sessions Objects Array
        4.1.11. parties Objects Array
        4.1.12. events Objects Array
        4.1.13. dialog Objects Array
        4.1.14. analysis Objects Array
        4.1.15. attachments Objects Array
+       4.1.16. redacted_strings Objects Array
      4.2.  Session Object
        4.2.1.  start
        4.2.2.  duration
@@ -153,6 +154,7 @@ Table of Contents
        4.5.9.  session_id
        4.5.10. application
        4.5.11. message_id
+       4.5.12. redacted_segments
      4.6.  Attachment Object
        4.6.1.  purpose
        4.6.2.  start
@@ -174,38 +176,48 @@ Table of Contents
        4.7.9.  product
        4.7.10. schema
        4.7.11. Analysis Content
-   5.  Security Considerations
-     5.1.  Signing Externally Referenced Files
-     5.2.  Signed Form of vCon Object
-       5.2.1.  Signature Object
-       5.2.2.  Header Object
-       5.2.3.  Long Term Archiving of Signed vCons
-     5.3.  Encrypted Form of vCon Object
-       5.3.1.  Unprotected Object
-       5.3.2.  Recipient Object
-       5.3.3.  Header Object
-     5.4.  Differentiation of vCon forms
-   6.  IANA Considerations
-     6.1.  JSON Format vCon Mediatype
-     6.2.  gzip Format vCon Mediatype
-     6.3.  vCon JSON Registry
-       6.3.1.  Object Registry Template
-       6.3.2.  vCon Object Parameter Names Registry
-       6.3.3.  Party Object Parameter Names Registry
-       6.3.4.  Dialog Object Parameter Names Registry
-       6.3.5.  Session Object Parameter Names Registry
-       6.3.6.  Session_Reference Object Parameter Names Registry
-       6.3.7.  Event Object Parameter Names Registry
-       6.3.8.  Attachment Object Parameter Names Registry
-       6.3.9.  Analysis Object Parameter Names Registry
-       6.3.10. Redacted Object Parameter Names Registry
-       6.3.11. Amended Object Parameter Names Registry
-     6.4.  vCon Extensions Names Registry
-       6.4.1.  Extensions Registration Template
-     6.5.  JSON Web Signature and Encryption Header Parameters
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+     4.8.  Redacted_string Object
+       4.8.1.  Ref
+       4.8.2.  Type
+       4.8.3.  Orig
+   5.  Redaction Techniques
+     5.1.  Recording Content Removal
+     5.2.  Participant Information Hiding
+     5.3.  Audiovisual Content Rewriting
+     5.4.  String Redaction
+     5.5.  Regeneration of the vCon
+   6.  Security Considerations
+     6.1.  Signing Externally Referenced Files
+     6.2.  Signed Form of vCon Object
+       6.2.1.  Signature Object
+       6.2.2.  Header Object
+       6.2.3.  Long Term Archiving of Signed vCons
+     6.3.  Encrypted Form of vCon Object
+       6.3.1.  Unprotected Object
+       6.3.2.  Recipient Object
+       6.3.3.  Header Object
+     6.4.  Differentiation of vCon forms
+   7.  IANA Considerations
+     7.1.  JSON Format vCon Mediatype
+     7.2.  gzip Format vCon Mediatype
+     7.3.  vCon JSON Registry
+       7.3.1.  Object Registry Template
+       7.3.2.  vCon Object Parameter Names Registry
+       7.3.3.  Party Object Parameter Names Registry
+       7.3.4.  Dialog Object Parameter Names Registry
+       7.3.5.  Session Object Parameter Names Registry
+       7.3.6.  Session_Reference Object Parameter Names Registry
+       7.3.7.  Event Object Parameter Names Registry
+       7.3.8.  Attachment Object Parameter Names Registry
+       7.3.9.  Analysis Object Parameter Names Registry
+       7.3.10. Redacted_from Object Parameter Names Registry
+       7.3.11. Amended_from Object Parameter Names Registry
+     7.4.  vCon Extensions Names Registry
+       7.4.1.  Extensions Registration Template
+     7.5.  JSON Web Signature and Encryption Header Parameters
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Non-Upward Compatible Changes to the vCon Container
      A.1.  Version 0.4.0 to 0.5.0
      A.2.  Version 0.3.0 to 0.4.0
@@ -355,6 +367,10 @@ Table of Contents
 
    *  receiver - a party to which any part of the dialog in a session
       was sent and potentially received
+
+   *  regex - a regular expression, a sequence of characters that
+      defines a search pattern used to match, locate or validate strings
+      of text
 
    *  vCon - container for conversational information
 
@@ -535,7 +551,7 @@ Table of Contents
       the extension.  State whether and under what conditions the name
       appears in the extensions (Section 4.1.3) parameter, the critical
       (Section 4.1.4) parameter, or both.  This is the name registered
-      in the vCon Extensions Names Registry (Section 6.4) and the name
+      in the vCon Extensions Names Registry (Section 7.4) and the name
       against which implementations determine whether they support the
       extension.
 
@@ -548,7 +564,7 @@ Table of Contents
       value is used.  For each new Object, define the parameters of the
       Object in the same manner.  For each new Object, a new parameter
       names registry SHOULD be requested from IANA with the parameters
-      of the new Object as its initial values (see Section 6.3).  For
+      of the new Object as its initial values (see Section 7.3).  For
       any deprecated parameter, state what is to be used in its stead
       and the migration approach.  Use the snake case naming convention
       for all parameter names, as opposed to camel case.  Register each
@@ -584,9 +600,14 @@ Table of Contents
       extension's parameters interact with redaction and de-
       identification, including whether any of them can carry party-
       identifying data or PII and how a redactor is expected to handle
-      them.  State whether the extension introduces any new external
-      content references, and if so, the integrity mechanism that
-      protects them, such as Section 2.4.2.
+      them.  In particular, state whether the string redaction feature
+      of the vCon will work to redact any sensitive information, or if
+      there is additional extension-specific redaction capabilities
+      needed.
+
+   State whether the extension introduces any new external content
+   references, and if so, the integrity mechanism that protects them,
+   such as Section 2.4.2.
 
    A markdown template for a vCon extension document containing these
    sections is referenced in vCon Extension Template (Appendix E).
@@ -608,12 +629,16 @@ Table of Contents
    preserve compatibility with existing implementations.  The question
    of Compatible vs Incompatible is a little subjective.  A transcriber
    for vCon can be fairly tolerant of changes adding new parameters or
-   objects to a vCon.  On the other hand, a redactor must be aware of
-   the implications of all parameters in the vCon to be sure to redact
-   all of the objective information.  In these cases a transcriber will
-   likely only need to look at the critical extensions.  However the
-   redactor perhaps should reject vCons with any extension that it does
-   not support.
+   objects to a vCon.  In these cases a transcriber will likely only
+   need to look at the critical extensions.  On the other hand, a
+   redactor must be aware of the implications of all parameters in the
+   vCon to be sure to redact all of the objective information.  If an
+   extension adds information which cannot be removed by the vCon string
+   redaction feature, this may make the extension incompatible.  A
+   redactor which needs a 100% guarantee that it can redact everything,
+   perhaps should reject vCons with any extension that it does not
+   support.  Others, may choose to accept them, assuming the string
+   redaction is sufficient.
 
    However, when disruptive extensions are necessary, the names of all
    such extensions *MUST* be listed in the critical (Section 4.1.4)
@@ -648,15 +673,16 @@ Table of Contents
 
    The unsigned form of the vCon has a single top level object.  This
    top level vCon object is also contained as described in the signed
-   (Section 5.2) and encrypted (Section 5.3) forms of the vCon.  The
+   (Section 6.2) and encrypted (Section 6.3) forms of the vCon.  The
    selection of the JSON format enables interchange between application
    and lower layers of the network stack, critical for enablement of
    analysis of conversations.  The signed form of vCon is defined in
-   Section 5.2 using [JWS] to provide integrity and proof of the
+   Section 6.2 using [JWS] to provide integrity and proof of the
    conversation data.  The encrypted form of vCon is defined in
-   Section 5.3 using [JWE] to provide complete privacy of the
+   Section 6.3 using [JWE] to provide complete privacy of the
    conversational data.  Partial privacy or data minimization can be
-   provide for a vCon using the Section 4.1.8 construct.
+   provide for a vCon using the techniques outlined in (Redaction
+   Techniques)[#redaction_techniques].
 
 4.  Unsigned Form of vCon Object
 
@@ -679,8 +705,9 @@ Table of Contents
    domain, MAY modify the prior vCon instance version and when complete
    or exporting to another security domain, it SHOULD sign or encrypt
    the new vCon instance version.  The new vCon instance version SHOULD
-   refer to the prior vCon instance version via the redacted
-   (Section 4.1.8) or amended (Section 4.1.9) parameters.
+   refer to the prior vCon instance version via the redacted_from
+   (Section 4.1.8) or amended_from (Section 4.1.9) parameters - see
+   (Redaction Techniques)[#redaction_techniques].
 
 4.1.  vCon JSON Object Keys and Values
 
@@ -782,48 +809,34 @@ Table of Contents
    The string value of the subject parameter is a free formed JSON
    string with no constrained syntax.
 
-4.1.8.  redacted
+4.1.8.  redacted_from
 
    A redacted vCon SHOULD provide a reference to the unredacted or
    prior, less redacted, vCon instance version of itself.  The purpose
-   of the Redacted Object (Section 4.1.8.1) is to provide the reference
-   to the unredacted or less redacted version of the vCon from which
-   this vCon was derived.  For privacy reasons, it may be necessary to
-   redact a vCon to construct another vCon without the PII.  This allows
-   the non-PII portion of the vCon to still be analyzed or used in a
-   broader scope.  The Redacted Object (Section 4.1.8.1) SHOULD contain
-   the uuid parameter and MAY include the url, content_hash parameters
-   (see Externally Referenced Files (Section 2.4)).  If a reference to
-   the unredacted vCon is provided in the url parameter, the access to
-   that URL MUST be restricted to only those who should be allowed to
-   see the identity or PII for the redacted vCon.
+   of the Redacted_from Object (Section 4.1.8.1) is to provide the
+   reference to the unredacted or less redacted version of the vCon from
+   which this vCon was derived.  For privacy reasons, it may be
+   necessary to redact a vCon to construct another vCon without the PII.
+   This allows the non-PII portion of the vCon to still be analyzed or
+   used in a broader scope.  The Redacted_from Object (Section 4.1.8.1)
+   SHOULD contain the uuid parameter and MAY include the url,
+   content_hash parameters (see Externally Referenced Files
+   (Section 2.4)).  If a reference to the unredacted vCon is provided in
+   the url parameter, the access to that URL MUST be restricted to only
+   those who should be allowed to see the identity or PII for the
+   redacted vCon.
 
-   The method(s) for redaction of text, audio and video can be done with
-   existing post processing of media.  The method of redaction is out of
-   scope of this document.  The assurance of the accuracy of the
-   redaction is made by the entity that creates the redaction which
+   Redaction techniques are discussed in more detail in (Redaction
+   Techniques)[#redaction_techniques].  The assurance of the accuracy of
+   the redaction is made by the entity that creates the redaction which
    SHOULD sign the redacted version of the vCon.
 
-   All data and parameters in the prior, less redacted, vCon instance
-   version are either:
+   *  redacted_from: "Redacted_from" (optional, mutually exclusive with
+      amended_from parameter)
 
-   *  Removed entirely in the redacted version
+4.1.8.1.  Redacted_from Object
 
-   *  Copied and partially redacted
-
-   *  Copied as is
-
-   Data which is to be completely removed from the redacted version,
-   that is contained in a JSON array in the unredacted vCon, SHOULD
-   create an empty placeholder such that object array indices do not
-   change for the rest of the elements of the array.
-
-   *  redacted: "Redacted" (optional, mutually exclusive with amended
-      parameter)
-
-4.1.8.1.  Redacted Object
-
-   A Redacted Object contains the following parameters:
+   A Redacted_from Object contains the following parameters:
 
    *  uuid: "String"
 
@@ -837,7 +850,9 @@ Table of Contents
    The value of the redacted type parameter is used to indicate the type
    of redaction that was performed on this vCon relative to the less
    redacted version referenced by the redacted uuid parameter.  This
-   should indicate the type of information that was redacted.
+   should indicate the type of information that was redacted, and has
+   the same set of values defined for the type field of the
+   redacted_string object.
 
    The the location of the referenced vCon MAY be provided as defined in
    Externally Referenced Files (Section 2.4) by including url and
@@ -851,8 +866,8 @@ Table of Contents
    for a redacted vCon.  The top level object is a JWS signed vCon which
    contains a vCon in the unsigned form in the payload parameter.  The
    second level object is the redacted vcon which refers to the
-   encrypted unredacted vCon in it's redacted parameter.  Note that the
-   redacted vCon references the JWE encrypted vCon by UUID and may
+   encrypted unredacted vCon in it's redacted_from parameter.  Note that
+   the redacted vCon references the JWE encrypted vCon by UUID and may
    reference it by URL.  The JWE encrypted unredacted vCon contains the
    signed version of the unredacted vCon in the ciphertext parameter.
    The signed unredacted vCon contains the unredacted vCon in the
@@ -864,12 +879,15 @@ Table of Contents
                    |    payload-|-- unsigned redacted vCon in
                    -------------- / payload parameter
                                  /
-               -------------    /
-   vCon which  |vCon       |<---
-   has been    |           |
-   redacted:   |  redacted-|-- Redacted Object
-               ------------- / refers to JWE
-                            / encrypted unredacted vCon
+               ----------------    /
+   vCon which  |vCon          |<---
+   has been    |              |
+   redacted:   |redacted_from-|-- Redacted Object
+               ---------------- / refers to JWE
+                               /  encrypted unredacted vCon
+                              /
+                             /
+                            /
                            /
                           /
                          /
@@ -894,13 +912,13 @@ Table of Contents
 
                     Figure 1: redacted vCon object tree
 
-4.1.9.  amended
+4.1.9.  amended_from
 
    A signed or encrypted vCon cannot be modified without invalidating
    it.  In these cases, to allow for adding of additional information a
    new vCon instance version MUST be created.  The prior vCon instance
-   version is referenced by the Amended Object (Section 4.1.9.1).  The
-   vCon with amended data contains all of the data that is in the
+   version is referenced by the Amended_from Object (Section 4.1.9.1).
+   The vCon with amended data contains all of the data that is in the
    referenced vCon with the exception of data that is amended.  That is
    to say that the newer version of the vCon is a deep copy of the prior
    version with the amended and additional data added to it.
@@ -910,17 +928,19 @@ Table of Contents
    content_hash parameters (see Externally Referenced Files
    (Section 2.4)).
 
-   *  amended: "Amended" (optional, mutually exclusive with redacted
-      parameter)
+   *  amended_from: "Amended_from" (optional, mutually exclusive with
+      redacted_from parameter)
 
-4.1.9.1.  Amended Object
+4.1.9.1.  Amended_from Object
 
-   The Amended Object contains the following parameters:
+   The Amended_from Object contains the following parameters:
 
    *  uuid: "String" (optional if external reference provided)
 
-   The value contains the uuid string value (Section 4.1.2) of the
-   unredacted/original vCon instance version.
+   The value contains the uuid string value (Section 4.1.2) of the prior
+   vCon instance version, to which this vCon's amendments were applied.
+   The prior vCon instance version may be the original vCon, a redacted
+   vCon, or a previously amended vCon.
 
    The location of the referenced vCon MAY be provided, as defined in
    Externally Referenced Files (Section 2.4) by including url and
@@ -932,14 +952,14 @@ Table of Contents
 
    The following figure illustrates an example partial JSON object tree
    for an amended vCon.  The top level object is the JWS signed amended
-   vCon which contains the unsigned form of the vCon in it's payload
+   vCon which contains the unsigned form of the vCon in its payload
    parameter.  The second level object is the amended vCon with
    additional conversational data (e.g. analysis data).  It refers to
-   its original parent (or prior vCon instance version) of the vCon in
-   its amended parameter.  Note: the amended parameter may refer to the
-   prior version of the vCon via URL.  The amended vCon in this figure
-   refers to the JWS signed version of the vCon, which in turn contains
-   the original vCon in unsigned form in its payload parameter.
+   the prior vCon instance version in its amended parameter.  Note: the
+   amended_from parameter may refer to the prior vCon instance version
+   via URL.  The amended vCon in this figure refers to the JWS signed
+   version of the vCon, which in turn contains the original vCon in
+   unsigned form in its payload parameter.
 
                    --------------
    Signed          | JWS   uuid-|-- amended vCon uuid in header
@@ -947,15 +967,17 @@ Table of Contents
                    |    payload-|-- payload parameter
                    -------------- / contains unsigned
                                  / amended vCon
-               -------------    /
-   vCon with   |vCon       |<---
-   amended     |           |
-   data:       |   amended-|--- amended parameter
-               |  analysis-|  / refers to JWS
-               ------------- / signed original vCon
-                            / along with additional
-                           / conversational data
-                          / (e.g. analysis)
+               ---------------  /
+   vCon with   |vCon         |<-
+   amended     |             |
+   data:       |amended_from-|--- amended_from parameter
+               |    analysis-|  / refers to JWS
+               --------------- / signed original vCon
+                              / along with additional
+                             / conversational data
+                            / (e.g. analysis)
+                           /
+                          /
                          /
                         /
                        / ------------
@@ -1132,6 +1154,98 @@ Table of Contents
 
    The value of the attachments parameter is an array of Attachment
    Objects (Section 4.6).
+
+4.1.16.  redacted_strings Objects Array
+
+   A vCon can contain sensitive information in string values in many
+   places.  A text dialog containing chat messages or emails might
+   contain a person's first name, or a street address, or an account
+   number.  Events, like a tool call made by an AI agent - can contain
+   an account ID or social security number.
+
+   The vCon format provides a general purpose solution for redacting
+   sensitive information from any string in the object.  Any string
+   which has a substring containing sensitive information can be
+   replaced by "__REDACTED_REF_#", where the value of # is a positive
+   integer which uniquely identifies the substring that was replaced.
+   Within the redacted_strings array there will be a member that
+   contains a matching reference, along with meta-data about the
+   redaction, such as the type of information that was redacted.
+
+   The redacted_strings array is defined as:
+
+   *  redacted_strings: "Redacted_string[]" (optional)
+
+   Where the Redacted_string object is defined in Redacted_string Object
+   (Section 4.8).
+
+   As an example, consider the following simplified event, which
+   contains a tool call that has an account ID in it.  Several mandatory
+   parameters have been omitted for ease of understanding:
+
+   {
+     "events" : [
+       {
+         "type" : "tool-call",
+         "tool_name" : "close_account_by_id",
+         "input-params" : [
+           {
+             "input-name" : "account_id",
+             "input-value" : "293827344"
+           }
+         ]
+       }
+     ]
+   }
+
+   You can see that this contains a sensitive account ID.  Here is a
+   version that is now redacted.
+
+   {
+     "events" : [
+       {
+         "type" : "tool-call",
+         "tool_name" : "close_account_by_id",
+         "input-params" : [
+           {
+             "input-name" : "account_id",
+             "input-value" : "__REDACTED_REF_1"
+           }
+         ]
+       }
+     ]
+   }
+
+   There will then be an entry in the redacted_strings array like this:
+
+     "redacted_strings" : [
+       {
+         "ref" : "1",
+         "type" : "account_number"
+       }
+     ]
+
+   Implementations created a vCon that perform this kind of string
+   redaction MUST include an entry in the redacted_strings array for
+   every unique substring value they redact.  A single vCon MUST NOT
+   have more than 99999 such substrings redacted, to provide an upper
+   bound on the integer value and to allow bounded regex parsing.
+
+   Furthermore, a processor of the VCON MUST validate that - for each
+   instance of the regular expression "__REDACTED_REF_\d{1,5}$" it finds
+   in the vCon, there is a corresponding entry in the redacted_strings
+   array whose ref value matches the reference digit sequence.  If there
+   is no match, then it means the substring was not actually redacted,
+   and the literal substring value is actually whatever matched
+   "__REDACTED_REF_\d{1,5}$" for that reference ID.  This can happen if
+   a user were to literally type a chat message or email like, "Yeah I'm
+   going to try to break vcon by typing __REDACTED_REF_3 hah hah hah!".
+
+   This redaction technique allows vCon to have a way of redacting
+   information from strings anywhere, including future extensions to
+   vCon.  This means, unless an extension might convey sensitive
+   information in a way for which string redaction is insufficient, it
+   will not need any specific redaction capability defined.
 
 4.2.  Session Object
 
@@ -2138,39 +2252,41 @@ Table of Contents
 
    X  The parameter MUST NOT be present.
 
-             +==============+===========+=======+============+
-             | Parameter    | recording | text  | incomplete |
-             +==============+===========+=======+============+
-             | type         | M         | M     | M          |
-             +--------------+-----------+-------+------------+
-             | start        | S         | S     | S          |
-             +--------------+-----------+-------+------------+
-             | duration     | O         | O     | O          |
-             +--------------+-----------+-------+------------+
-             | parties      | S         | S     | O          |
-             +--------------+-----------+-------+------------+
-             | mediatype    | M (1)     | M (1) | X          |
-             +--------------+-----------+-------+------------+
-             | filename     | O         | O     | X          |
-             +--------------+-----------+-------+------------+
-             | body         | S (2)     | S (2) | X          |
-             +--------------+-----------+-------+------------+
-             | encoding     | S (3)     | S (3) | X          |
-             +--------------+-----------+-------+------------+
-             | url          | S (2)     | S (2) | X          |
-             +--------------+-----------+-------+------------+
-             | content_hash | S (4)     | S (4) | X          |
-             +--------------+-----------+-------+------------+
-             | disposition  | SN        | SN    | M          |
-             +--------------+-----------+-------+------------+
-             | session_id   | O         | O     | O          |
-             +--------------+-----------+-------+------------+
-             | application  | O         | O     | O          |
-             +--------------+-----------+-------+------------+
-             | message_id   | O         | O     | X          |
-             +--------------+-----------+-------+------------+
+          +===================+===========+=======+============+
+          | Parameter         | recording | text  | incomplete |
+          +===================+===========+=======+============+
+          | type              | M         | M     | M          |
+          +-------------------+-----------+-------+------------+
+          | start             | S         | S     | S          |
+          +-------------------+-----------+-------+------------+
+          | duration          | O         | O     | O          |
+          +-------------------+-----------+-------+------------+
+          | parties           | S         | S     | O          |
+          +-------------------+-----------+-------+------------+
+          | mediatype         | M (1)     | M (1) | X          |
+          +-------------------+-----------+-------+------------+
+          | filename          | O         | O     | X          |
+          +-------------------+-----------+-------+------------+
+          | body              | S (2)     | S (2) | X          |
+          +-------------------+-----------+-------+------------+
+          | encoding          | S (3)     | S (3) | X          |
+          +-------------------+-----------+-------+------------+
+          | url               | S (2)     | S (2) | X          |
+          +-------------------+-----------+-------+------------+
+          | content_hash      | S (4)     | S (4) | X          |
+          +-------------------+-----------+-------+------------+
+          | disposition       | SN        | SN    | M          |
+          +-------------------+-----------+-------+------------+
+          | session_id        | O         | O     | O          |
+          +-------------------+-----------+-------+------------+
+          | application       | O         | O     | O          |
+          +-------------------+-----------+-------+------------+
+          | message_id        | O         | O     | X          |
+          +-------------------+-----------+-------+------------+
+          | redacted_segments | O         | SN    | X          |
+          +-------------------+-----------+-------+------------+
 
-                                  Table 4
+                                 Table 4
 
    (1) MUST be present for inline Dialog Content; optional for
    externally referenced Dialog Content when the media type is provided
@@ -2301,23 +2417,23 @@ Table of Contents
    vCon.  The Bcc header SHOULD also be removed from the Dialog Content,
    and the Session Objects SHOULD be constructed as if the Bcc parties
    were not receivers of that message.  A vCon which includes the Bcc
-   parties may be redacted to remove them for broader use (see
-   Section 4.1.8).  A text Dialog Object should only contain a single
-   [SMTP] message.  Each message in an email thread may have a different
-   set of receivers.  The set of receivers of a message includes its
-   sender.  If all of the messages in the thread have the same set of
-   receivers, a single Session Object which references all of the text
-   Dialog Objects for the thread is sufficient.  Otherwise, the thread
-   is represented by a parent Session Object which references a child
-   Session Object for each set of receivers (see Section 4.2.6).  Each
-   time the set of receivers changes from one message to the next, a new
-   Session Object is created as a child of the Session Object for the
-   email thread.  That child Session Object references the text Dialog
-   Object(s) for the message(s) sent to that set of receivers.  The
-   parties parameter of each child Session Object contains the receivers
-   of the messages referenced by that child Session Object.  The parties
-   parameter of the parent Session Object contains the receivers of all
-   of the messages in the thread.
+   parties may be redacted to remove them for broader use (see Redaction
+   Techniques (Section 5)).  A text Dialog Object should only contain a
+   single [SMTP] message.  Each message in an email thread may have a
+   different set of receivers.  The set of receivers of a message
+   includes its sender.  If all of the messages in the thread have the
+   same set of receivers, a single Session Object which references all
+   of the text Dialog Objects for the thread is sufficient.  Otherwise,
+   the thread is represented by a parent Session Object which references
+   a child Session Object for each set of receivers (see Section 4.2.6).
+   Each time the set of receivers changes from one message to the next,
+   a new Session Object is created as a child of the Session Object for
+   the email thread.  That child Session Object references the text
+   Dialog Object(s) for the message(s) sent to that set of receivers.
+   The parties parameter of each child Session Object contains the
+   receivers of the messages referenced by that child Session Object.
+   The parties parameter of the parent Session Object contains the
+   receivers of all of the messages in the thread.
 
 4.5.5.  mediatype
 
@@ -2482,6 +2598,44 @@ Table of Contents
    email thread, more than once.
 
    *  message_id: "String" (optional)
+
+4.5.12.  redacted_segments
+
+   One of the ways to perform redaction on audio content is to
+   substitute the segments containing the information with a "beep"
+   sound for audio.  For video, specific parts of the video can be
+   blurred out, or the video can be blackened entirely.  When this
+   happens, a human can easily discern that redaction has occurred.
+   However, it is not easy for software systems to determine this.
+   There are many cases where we want a piece of software processing a
+   VCON to know that such redaction has happened, where it happened, and
+   which parties content was redacted.  For example, a troubleshooting
+   tool might want to call out these segments to a user whose role is to
+   confirm that redaction is working well.
+
+   The redacted_segments field contains an array of one or more
+   Redacted_segments objects.  This field is optional, but SHOULD be
+   included in a redacted vCon.
+
+   *  redacted_segments: "Redacted_segments" []
+
+4.5.12.1.  Redacted_segments
+
+   The object contains the following parameters:
+
+   *  start: "Date" (required)
+
+   The start time of the audiovisual redaction.
+
+   *  end: "Date" (required)
+
+   The end time of the audiovisual redaction.
+
+   parties: "Party[]" (optional)
+
+   An array of the parties who have been redacted.  This is useful when
+   the dialog contains a blend of multiple contributors, and it is
+   desired to indicate which one has been redacted.
 
 4.6.  Attachment Object
 
@@ -2787,7 +2941,161 @@ Table of Contents
 
    *  content_hash: "ContentHash" | "ContentHash[]"
 
-5.  Security Considerations
+4.8.  Redacted_string Object
+
+   The redacted string object provides information about a string which
+   was redacted from the vCon.
+
+4.8.1.  Ref
+
+   *  ref: "UnsignedInt" (required)
+
+   The reference to the string which was redacted, which will be present
+   elsewhere in the document.  This is always between 1 and 99999.
+
+4.8.2.  Type
+
+   *  type: "String" (optional)
+
+   The type of string information which was redacted.  This is an
+   extensible string enumeration.  The following values are defined,
+   representing the most common forms of sensitive information redacted
+   from conversations:
+
+   *  GOVT_ID_NUM: A government issued identifier, such as a social
+      security number, passport number, drivers license number, taxpayer
+      ID, and o on.
+
+   *  FIN_ID_NUM: A financial institution identifier, such as a bank
+      account number, a routing number, a wire number, PIN codes, and so
+      on.
+
+   *  MED_ID_NUM: A medical identifier, such as a patient ID
+
+   *  BIOMETRIC: A string containing biometric data, typically in some
+      encoded form for representation.  Examples would include a
+      fingerprint, retina scan, or face geometry.
+
+   *  AUTH_DATA: Data used for a user to authenticate themselves, such
+      as a password, digital certificate, or security questions or
+      answers.
+
+   *  CONTACT_INFO: Full name, email, physical mailing address, phone
+      numbers, and so on.
+
+   *  LOC_INFO: Zip code, GPS location data, IP addresses, MAC addresses
+
+   *  EMPL_INFO: Work information, such as a job title, job code,
+      salary, and so on.
+
+   *  BELIEF_INFO: Religious preference, political party or preference,
+      sexual orientation
+
+   *  UNSPECIFIED: Used when the type is not known, not specified, or
+      not able to be determined.
+
+   TODO: add IANA registry.
+
+   Other values can be used, in which case an implementation not
+   familiar with the value treats it as UNSPECIFIED.  Absence of this
+   field is also the same as UNSPECIFIED.
+
+4.8.3.  Orig
+
+   *  orig: "String" (optional)
+
+   The original, unredacted value of the string.  This is useful in
+   applications of vCons where the desired property is not data
+   redaction, but data identification.  This may allow downstream vCon
+   processors to perform the redaction (which is as simple as removing
+   the "orig" field), or to allow redaction in the user interface (for
+   example, a first name in a transcript is not shown to the user unless
+   they right-click and elect to reveal the information).  It is also
+   useful for downstream data processing applications which generate
+   analytics and create aggregates off of this information.
+
+5.  Redaction Techniques
+
+   vCon has many ways in which sensitive information can be redacted
+   from a vCon.  This section summarizes them.
+
+   Whenever any of these redaction techniques are employed, the
+   redacted_from element SHOULD be added to the vCon referencing its
+   prior, unredacted version.  Data which is to be completely removed
+   from the redacted version, that is contained in a JSON array in the
+   unredacted vCon, SHOULD create an empty placeholder such that object
+   array indices do not change for the rest of the elements of the
+   array.  If an element is removed entirely, all indexes to that array
+   MUST be revised.
+
+5.1.  Recording Content Removal
+
+   If an audio recording, or a text chat, contains sensitive
+   information, the offending Dialog Content (either the body or the
+   url) can be removed from the vCon.  Note that, in this case, the
+   Dialog object itself is still present with its meta-data, such as the
+   start and end times.
+
+   It is RECOMMENDED that the Dialog Content is removed - rather than
+   removing the entire Dialog object itself.  Doing so requires the
+   Dialog array to be reindexed and all references to it updated.  It
+   also obscures the fact that redaction was performed, which may
+   confuse downstream processors or players.
+
+5.2.  Participant Information Hiding
+
+   It may be desired to hide the fact that a participant was present in
+   a conversation.  In that case, the simplest approach is to remove all
+   of their attributes from their Party object - resulting in an empty
+   but valid party object of {}. This approach is efficient in that it
+   can be done without touching anything else in the vCon.  The vCon
+   still indicates that SOMEONE was there, but there is no identifying
+   information for them.
+
+   Similarly, if a dialog contains emails and the desire is to remove
+   the set of participants who were BCC'd, those parties can be removed
+   from the corresponding parties array in the session object.  String
+   redaction can also be used to hide the identity of the party that was
+   BCC'd, while still indicating that someone received the mail.
+
+5.3.  Audiovisual Content Rewriting
+
+   For audio, a "beep" can be added; for video, the video can have blur
+   effects applied or the entire video can be blackened.  These all
+   require codec-level operations.  If they are done, the fact that they
+   were done SHOULD be signaled with the inclusion of the
+   redacted_segments field in the Dialog object.
+
+5.4.  String Redaction
+
+   The vCon format supports a general purpose string redaction
+   methodology, through the usage of the redacted_strings array.  This
+   can be used to remove any sensitive information present in string
+   format anywhere in the vCon.
+
+   When an audio or video recording has been transcribed, and the
+   transcription is present in the vCon, if a segment of audio or video
+   is redacted, it is RECOMMENDED to also redact the transcript of the
+   transcribed version of that sensitive information, using string
+   redaction.
+
+   A tempting alternative to using the redacted_strings array is to just
+   perform inline substitution of text, replacing (for example) a social
+   security number with "XXX-XX-XXXX".  This is NOT RECOMMENDED.
+   Downstream processors cannot easily differentiate a redacted version
+   of a field with a valid field, potentially breaking them.
+
+5.5.  Regeneration of the vCon
+
+   In some cases, the goal of redaction is to also hide the fact that
+   redaction was ever even done.  In that case, the vCon can be
+   regenerated.  Regeneration produces a totally new vCon with no
+   connections to the original, all arrays (like Party) reindexed to
+   hide any missing information, and the redacted_from field removed.
+   Similarly, sensitive strings like a social security number can be
+   replaced with valid, but incorrect versions.
+
+6.  Security Considerations
 
    The security concerns for vCons can put into two categories: making
    the conversation immutable through integrity verification and
@@ -2796,11 +3104,11 @@ Table of Contents
    evolve a vCon (e.g. adding analysis, translations and transcriptions)
    conflict in some ways.  To enable this, multiple versions of a vCon
    may be created.  Versions of a vCon may add information (e.g.
-   analysis added to a prior vCon referenced by the amended
+   analysis added to a prior vCon referenced by the amended_from
    (Section 4.1.9)) and versions that remove information (e.g.
    redactions of privacy information removed from the vCon referenced in
-   the redacted (Section 4.1.8)).  Redactions may be at different levels
-   for example:
+   the redacted_from (Section 4.1.8)).  Redactions may be at different
+   levels for example:
 
    *  PII masked to remove PII data in the text, audio, video or
       transcripts
@@ -2831,12 +3139,13 @@ Table of Contents
    leaves a security domain, it SHOULD be signed to prevent it from
    being altered.  If the new security domain needs to alter it, a new
    vCon is created with the removed or added data and the prior version
-   is referenced (i.e. via the redacted (Section 4.1.8) or amended
-   (Section 4.1.9)).  See the redacted vCon object tree figure-1 and
-   amended vCon object tree figure-2.  If information is redacted for
-   privacy reasons, the vCon referenced in the redacted (Section 4.1.8),
-   if inline, SHOULD be encrypted to protect the privacy information in
-   the unredacted version of the vCon.
+   is referenced (i.e. via the redacted_from (Section 4.1.8) or
+   amended_from (Section 4.1.9)).  See the redacted vCon object tree
+   figure-1 and amended vCon object tree figure-2.  If information is
+   redacted for privacy reasons, the vCon referenced in the
+   redacted_from (Section 4.1.8), if inline, SHOULD be encrypted to
+   protect the privacy information in the unredacted version of the
+   vCon.
 
    The secure storage and access of externally referenced conversation
    data is considered out of scope from this document.  Secure
@@ -2868,25 +3177,23 @@ Table of Contents
    The solutions are well documents, implementations are readily
    available and tested.
 
-   Methods of redaction exist for text, audio and video using post
-   processing of the media.  The method of redaction used is out of the
-   scope of this document.  A redacted vCon SHOULD reference it's non-
-   redacted version.  The non-redacted version of the vCon referenced
-   from the redacted vCon MUST be encrypted such that only those with
-   permission to view the non-redacted content can decrypt it.
+   A redacted vCon SHOULD reference it's non-redacted version.  The non-
+   redacted version of the vCon referenced from the redacted vCon MUST
+   be encrypted such that only those with permission to view the non-
+   redacted content can decrypt it.
 
    Any time a vCon is shared outside its original security domain, it
    SHOULD be signed and optionally encrypted.  Files externally
    referenced by a vCon SHOULD always be signed with the verification
    information included in the vCon that references the external file as
    defined in Externally Referenced Files (Section 2.4) and Signing
-   Externally Referenced Files (Section 5.1).  Externally referenced
+   Externally Referenced Files (Section 6.1).  Externally referenced
    files SHOULD only be transported over [HTTPS] and SHOULD be access
    controlled to those who are permitted to read the contents of that
    non-redacted vCon. vCons transported over non-secure channels such as
    email MUST be in the encrypted form.
 
-5.1.  Signing Externally Referenced Files
+6.1.  Signing Externally Referenced Files
 
    In some deployments, it is not practical to include all of the file
    contents of a vCon inline.  In support of that, a file may be
@@ -2903,7 +3210,7 @@ Table of Contents
    the signature parameter value for the hash for the url body using the
    procedure defined in section 6.3 and 6.4 of [SHA-512].
 
-5.2.  Signed Form of vCon Object
+6.2.  Signed Form of vCon Object
 
    A signed vCon uses [JWS] and takes the General JWS JSON Serialization
    Syntax form as defined in section 7.2.1 of [JWS].  The vCon General
@@ -2920,9 +3227,9 @@ Table of Contents
    *  signatures: "Signature[]"
 
    The value of signatures is an array of Signature Objects
-   (Section 5.2.1)
+   (Section 6.2.1)
 
-5.2.1.  Signature Object
+6.2.1.  Signature Object
 
    The Signature Object MUST contain a header and signature parameter as
    defined in section 7.2.1 of [JWS].  The protected parameter MUST be
@@ -2931,7 +3238,7 @@ Table of Contents
 
    *  header: "Header"
 
-   The value of header is defined in Header Object (Section 5.2.2).
+   The value of header is defined in Header Object (Section 6.2.2).
 
    *  protected: "String" (present when the JWS Protected Header is not
       empty)
@@ -2944,7 +3251,7 @@ Table of Contents
    The string value of signature is the Base64Url encoded JWS Signature
    as defined in section 7.2.1 of [JWS].
 
-5.2.2.  Header Object
+6.2.2.  Header Object
 
    The Header Object and its contents are defined in section 4 of [JWS].
    The Header Object for a signed vCon MUST include at least one of x5c
@@ -2984,7 +3291,7 @@ Table of Contents
    value of this uuid parameter SHOULD be verified against the UUID in
    the signed vCon.
 
-5.2.3.  Long Term Archiving of Signed vCons
+6.2.3.  Long Term Archiving of Signed vCons
 
    In some use cases, it may be necessary to store or archive signed
    vCons for compliances or records purposes for as long as 10 years or
@@ -3020,10 +3327,10 @@ Table of Contents
    ||__________||
    |____________|
 
-5.3.  Encrypted Form of vCon Object
+6.3.  Encrypted Form of vCon Object
 
    A vCon MUST be signed first using JWS as defined in Signed Form of
-   vCon Object (Section 5.2), then encrypted using JWE as opposed to
+   vCon Object (Section 6.2), then encrypted using JWE as opposed to
    just encrypted with integrity protection.  The rationale is that meta
    data and dialog will typically be collected in one security domain,
    then may be stored or exported to another.  The signing is likely for
@@ -3071,7 +3378,7 @@ Table of Contents
    The string value of aad is the Base64Url encoded Additional
    Authenticated Data as defined in section 7.2.1 of [JWE].
 
-5.3.1.  Unprotected Object
+6.3.1.  Unprotected Object
 
    *  cty: "String"
 
@@ -3097,11 +3404,11 @@ Table of Contents
 
    Other header parameters defined for [JWE] MAY be present.
 
-5.3.2.  Recipient Object
+6.3.2.  Recipient Object
 
    *  header: "Header" (optional)
 
-   The value of header is defined in Header Object (Section 5.3.3).
+   The value of header is defined in Header Object (Section 6.3.3).
 
    *  encrypted_key: "String" (present when the JWE Encrypted Key is not
       empty)
@@ -3109,7 +3416,7 @@ Table of Contents
    The string value of encrypted_key is defined in section 7.2.1 of
    [JWE].
 
-5.3.3.  Header Object
+6.3.3.  Header Object
 
    *  alg: "String" (MUST be present here, in the Unprotected Object or
       in the JWE Protected Header)
@@ -3118,11 +3425,11 @@ Table of Contents
 
    Other header parameters defined for [JWE] MAY be present.
 
-5.4.  Differentiation of vCon forms
+6.4.  Differentiation of vCon forms
 
    vCons in the unsigned, signed and encrypted form are all valid JSON.
    A vCon in any of these forms may additionally be compressed using
-   [GZIP] as described in Section 6.2.  It is necessary to distinguish
+   [GZIP] as described in Section 7.2.  It is necessary to distinguish
    which form a vCon is in, and whether it is compressed, in order to
    properly handle it.  For example a signed vCon needs to be verified.
    The following is the recommended approaches to identifying which form
@@ -3173,12 +3480,12 @@ Table of Contents
    the contained vCon is in one of the JSON forms and is differentiated
    using the parameter based rules above.
 
-6.  IANA Considerations
+7.  IANA Considerations
 
    This section includes the information required for IANA to register
    the application/vcon media type per [MEDIATYPE].
 
-6.1.  JSON Format vCon Mediatype
+7.1.  JSON Format vCon Mediatype
 
    The JSON format for vCon is mandatory to implement.
 
@@ -3224,7 +3531,7 @@ Table of Contents
 
    *  Change controller: IETF
 
-6.2.  gzip Format vCon Mediatype
+7.2.  gzip Format vCon Mediatype
 
    A gzip format vCon is a JSON format vCon that has been compressed
    using the gzip [GZIP] compression algorithm.  The gzip format is used
@@ -3275,7 +3582,7 @@ Table of Contents
 
    *  Change controller: IETF
 
-6.3.  vCon JSON Registry
+7.3.  vCon JSON Registry
 
    This document defines a number of new IANA registries for the JSON
    vCon schema.  Each Object (i.e. dict, map, dictionary) has its own
@@ -3295,7 +3602,7 @@ Table of Contents
    registry template and registration policy as the registries defined
    in this document.
 
-6.3.1.  Object Registry Template
+7.3.1.  Object Registry Template
 
    Parameter Name:
 
@@ -3321,73 +3628,84 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.2.  vCon Object Parameter Names Registry
+7.3.2.  vCon Object Parameter Names Registry
 
    The following defines the initial values for the vCon Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
-   +=============+======================+============+================+
-   | Parameter   | Parameter            | Change     | Specification  |
-   | Name        | Description          | Controller | Document(s)    |
-   +=============+======================+============+================+
-   | vcon        | Schema version       | IESG       | Section 4.1.1  |
-   |             | number               |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | uuid        | vCon instance UUID   | IESG       | Section 4.1.2  |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | extensions  | list of extensions   | IESG       | Section 4.1.3  |
-   |             | used                 |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | critical    | list of incompatible | IESG       | Section 4.1.4  |
-   |             | extensions used      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | created_at  | creation date        | IESG       | Section 4.1.5  |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | updated_at  | modification date    | IESG       | Section 4.1.6  |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | subject     | conversation subject | IESG       | Section 4.1.7  |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | redacted    | Redacted Object      | IESG       | Section 4.1.8  |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | amended     | Amended Object       | IESG       | Section 4.1.8  |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | group       | reserved for future  | IESG       | RFC XXXX       |
-   |             | extension            |            |                |
-   +-------------+----------------------+------------+----------------+
-   | sessions    | Session Objects      | IESG       | Section 4.1.10 |
-   |             | array                |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | events      | Event Objects array  | IESG       | Section 4.1.12 |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | parties     | Party Objects array  | IESG       | Section 4.1.11 |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | dialog      | Dialog Objects array | IESG       | Section 4.1.13 |
-   |             |                      |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | analysis    | Analysis Objects     | IESG       | Section 4.1.14 |
-   |             | array                |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
-   | attachments | Attachment Objects   | IESG       | Section 4.1.15 |
-   |             | array                |            | RFC XXXX       |
-   +-------------+----------------------+------------+----------------+
+    +==================+=================+============+===============+
+    | Parameter Name   | Parameter       | Change     | Specification |
+    |                  | Description     | Controller | Document(s)   |
+    +==================+=================+============+===============+
+    | vcon             | Schema version  | IESG       | Section 4.1.1 |
+    |                  | number          |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | uuid             | vCon instance   | IESG       | Section 4.1.2 |
+    |                  | UUID            |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | extensions       | list of         | IESG       | Section 4.1.3 |
+    |                  | extensions used |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | critical         | list of         | IESG       | Section 4.1.4 |
+    |                  | incompatible    |            | RFC XXXX      |
+    |                  | extensions used |            |               |
+    +------------------+-----------------+------------+---------------+
+    | created_at       | creation date   | IESG       | Section 4.1.5 |
+    |                  |                 |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | updated_at       | modification    | IESG       | Section 4.1.6 |
+    |                  | date            |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | subject          | conversation    | IESG       | Section 4.1.7 |
+    |                  | subject         |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | redacted_from    | Redacted Object | IESG       | Section 4.1.8 |
+    |                  |                 |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | amended_from     | Amended Object  | IESG       | Section 4.1.9 |
+    |                  |                 |            | RFC XXXX      |
+    +------------------+-----------------+------------+---------------+
+    | group            | reserved for    | IESG       | RFC XXXX      |
+    |                  | future          |            |               |
+    |                  | extension       |            |               |
+    +------------------+-----------------+------------+---------------+
+    | sessions         | Session Objects | IESG       | Section       |
+    |                  | array           |            | 4.1.10 RFC    |
+    |                  |                 |            | XXXX          |
+    +------------------+-----------------+------------+---------------+
+    | events           | Event Objects   | IESG       | Section       |
+    |                  | array           |            | 4.1.12 RFC    |
+    |                  |                 |            | XXXX          |
+    +------------------+-----------------+------------+---------------+
+    | parties          | Party Objects   | IESG       | Section       |
+    |                  | array           |            | 4.1.11 RFC    |
+    |                  |                 |            | XXXX          |
+    +------------------+-----------------+------------+---------------+
+    | dialog           | Dialog Objects  | IESG       | Section       |
+    |                  | array           |            | 4.1.13 RFC    |
+    |                  |                 |            | XXXX          |
+    +------------------+-----------------+------------+---------------+
+    | analysis         | Analysis        | IESG       | Section       |
+    |                  | Objects array   |            | 4.1.14 RFC    |
+    |                  |                 |            | XXXX          |
+    +------------------+-----------------+------------+---------------+
+    | attachments      | Attachment      | IESG       | Section       |
+    |                  | Objects array   |            | 4.1.15 RFC    |
+    |                  |                 |            | XXXX          |
+    +------------------+-----------------+------------+---------------+
+    | redacted_strings | Redacted        | IESG       | Section 4.8   |
+    |                  | Strings array   |            |               |
+    +------------------+-----------------+------------+---------------+
 
-                                 Table 5
+                                  Table 5
 
-6.3.3.  Party Object Parameter Names Registry
+7.3.3.  Party Object Parameter Names Registry
 
    The following defines the initial values for the Party Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
    +================+===================+============+================+
@@ -3436,68 +3754,76 @@ Table of Contents
 
                                  Table 6
 
-6.3.4.  Dialog Object Parameter Names Registry
+7.3.4.  Dialog Object Parameter Names Registry
 
    The following defines the initial values for the Dialog Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
-   +================+===================+============+================+
-   | Parameter Name | Parameter         | Change     | Specification  |
-   |                | Description       | Controller | Document(s)    |
-   +================+===================+============+================+
-   | type           | dialog type name  | IESG       | Section 4.5.1  |
-   |                |                   |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | start          | dialog start time | IESG       | Section 4.5.2  |
-   |                |                   |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | duration       | dialog duration   | IESG       | Section 4.5.3  |
-   |                | period            |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | parties        | dialog parties    | IESG       | Section 4.5.4  |
-   |                | list              |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | mediatype      | dialog content    | IESG       | Section 4.5.5  |
-   |                | media type        |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | filename       | dialog content    | IESG       | Section 4.5.6  |
-   |                | filename          |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | body           | dialog inline     | IESG       | Section 4.5.7  |
-   |                | content           |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | encoding       | dialog inline     | IESG       | Section 4.5.7  |
-   |                | content encoding  |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | url            | dialog referenced | IESG       | Section 4.5.7  |
-   |                | content URL       |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | content_hash   | dialog content    | IESG       | Section 4.5.7  |
-   |                | hash              |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | disposition    | dialog            | IESG       | Section 4.5.8  |
-   |                | disposition       |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | session_id     | RFC7989 session   | IESG       | Section 4.5.9  |
-   |                | ID                |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | application    | dialog source     | IESG       | Section 4.5.10 |
-   |                | application       |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
-   | message_id     | dialog message id | IESG       | Section 4.5.11 |
-   |                |                   |            | RFC XXXX       |
-   +----------------+-------------------+------------+----------------+
+   +===================+==================+============+===============+
+   | Parameter Name    | Parameter        | Change     | Specification |
+   |                   | Description      | Controller | Document(s)   |
+   +===================+==================+============+===============+
+   | type              | dialog type      | IESG       | Section 4.5.1 |
+   |                   | name             |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | start             | dialog start     | IESG       | Section 4.5.2 |
+   |                   | time             |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | duration          | dialog duration  | IESG       | Section 4.5.3 |
+   |                   | period           |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | parties           | dialog parties   | IESG       | Section 4.5.4 |
+   |                   | list             |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | mediatype         | dialog content   | IESG       | Section 4.5.5 |
+   |                   | media type       |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | filename          | dialog content   | IESG       | Section 4.5.6 |
+   |                   | filename         |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | body              | dialog inline    | IESG       | Section 4.5.7 |
+   |                   | content          |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | encoding          | dialog inline    | IESG       | Section 4.5.7 |
+   |                   | content          |            | RFC XXXX      |
+   |                   | encoding         |            |               |
+   +-------------------+------------------+------------+---------------+
+   | url               | dialog           | IESG       | Section 4.5.7 |
+   |                   | referenced       |            | RFC XXXX      |
+   |                   | content URL      |            |               |
+   +-------------------+------------------+------------+---------------+
+   | content_hash      | dialog content   | IESG       | Section 4.5.7 |
+   |                   | hash             |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | disposition       | dialog           | IESG       | Section 4.5.8 |
+   |                   | disposition      |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | session_id        | RFC7989 session  | IESG       | Section 4.5.9 |
+   |                   | ID               |            | RFC XXXX      |
+   +-------------------+------------------+------------+---------------+
+   | application       | dialog source    | IESG       | Section       |
+   |                   | application      |            | 4.5.10 RFC    |
+   |                   |                  |            | XXXX          |
+   +-------------------+------------------+------------+---------------+
+   | message_id        | dialog message   | IESG       | Section       |
+   |                   | id               |            | 4.5.11 RFC    |
+   |                   |                  |            | XXXX          |
+   +-------------------+------------------+------------+---------------+
+   | redacted_segments | redacted         | IESG       | Section       |
+   |                   | segments         |            | 4.5.12 RFC    |
+   |                   |                  |            | XXXX          |
+   +-------------------+------------------+------------+---------------+
 
-                                 Table 7
+                                  Table 7
 
-6.3.4.1.  Dialog Type Name Registry
+7.3.4.1.  Dialog Type Name Registry
 
    This document defines a new registry for the token name values that
    are permitted as values to the dialog type (Section 4.5.1) parameter.
 
-6.3.4.1.1.  Dialog Type Name Registration Template
+7.3.4.1.1.  Dialog Type Name Registration Template
 
    Dialog Type Name:
 
@@ -3523,7 +3849,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.4.1.2.  Dialog Type Name Registration Initial Values
+7.3.4.1.2.  Dialog Type Name Registration Initial Values
 
    The following table defines the initial values for the Dialog Object
    Types Registry.
@@ -3544,11 +3870,11 @@ Table of Contents
 
                                   Table 8
 
-6.3.5.  Session Object Parameter Names Registry
+7.3.5.  Session Object Parameter Names Registry
 
    The following defines the initial values for the Session Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
     +================+===================+============+===============+
@@ -3579,11 +3905,11 @@ Table of Contents
 
                                   Table 9
 
-6.3.6.  Session_Reference Object Parameter Names Registry
+7.3.6.  Session_Reference Object Parameter Names Registry
 
    The following defines the initial values for the Session_Reference
    Object Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
    +=============+======================+============+=================+
@@ -3603,13 +3929,13 @@ Table of Contents
 
                                   Table 10
 
-6.3.6.1.  Session_Reference Type Name Registry
+7.3.6.1.  Session_Reference Type Name Registry
 
    This document defines a new registry for the token name values that
    are permitted as values to the Session_Reference Object type
    (Section 4.2.8.2) parameter.
 
-6.3.6.1.1.  Session_Reference Type Name Registration Template
+7.3.6.1.1.  Session_Reference Type Name Registration Template
 
    Session_Reference Type Name:
 
@@ -3635,7 +3961,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.6.1.2.  Session_Reference Type Name Registration Initial Values
+7.3.6.1.2.  Session_Reference Type Name Registration Initial Values
 
    The following table defines the initial values for the
    Session_Reference Type Name Registry.
@@ -3663,11 +3989,11 @@ Table of Contents
 
                                  Table 11
 
-6.3.7.  Event Object Parameter Names Registry
+7.3.7.  Event Object Parameter Names Registry
 
    The initial values for the Event Object Parameter Names Registry are
    listed in the following table.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
      +=================+===============+============+===============+
@@ -3710,13 +4036,13 @@ Table of Contents
 
                                  Table 12
 
-6.3.7.1.  Event Type Name Registry
+7.3.7.1.  Event Type Name Registry
 
    This document defines a new registry for the token name values that
    are permitted as values to the Event Object type (Section 4.3.1)
    parameter.
 
-6.3.7.1.1.  Event Type Name Registration Template
+7.3.7.1.1.  Event Type Name Registration Template
 
    Event Type Name:
 
@@ -3742,7 +4068,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.3.7.1.2.  Event Type Name Registration Initial Values
+7.3.7.1.2.  Event Type Name Registration Initial Values
 
    The following table defines the initial values for the Event Type
    Name Registry.
@@ -3802,11 +4128,11 @@ Table of Contents
 
                                  Table 13
 
-6.3.8.  Attachment Object Parameter Names Registry
+7.3.8.  Attachment Object Parameter Names Registry
 
    The following defines the initial values for the Attachment Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
    +==============+=======================+============+===============+
@@ -3850,11 +4176,11 @@ Table of Contents
 
                                   Table 14
 
-6.3.9.  Analysis Object Parameter Names Registry
+7.3.9.  Analysis Object Parameter Names Registry
 
    The following defines the initial values for the Analysis Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
    +==============+=====================+============+================+
@@ -3906,37 +4232,42 @@ Table of Contents
 
                                  Table 15
 
-6.3.10.  Redacted Object Parameter Names Registry
+7.3.10.  Redacted_from Object Parameter Names Registry
 
-   The following defines the initial values for the Redacted Object
+   The following defines the initial values for the Redacted_from Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
-   +================+===================+============+=================+
-   | Parameter      | Parameter         | Change     | Specification   |
-   | Name           | Description       | Controller | Document(s)     |
-   +================+===================+============+=================+
-   | uuid           | less redacted     | IESG       | Section 4.1.8.1 |
-   |                | vCon UUID         |            | RFC XXXX        |
-   +----------------+-------------------+------------+-----------------+
-   | type           | redaction type or | IESG       | Section 4.1.8.1 |
-   |                | reason            |            | RFC XXXX        |
-   +----------------+-------------------+------------+-----------------+
-   | url            | referenced less   | IESG       | Section 4.1.8.1 |
-   |                | redacted vCon URL |            | RFC XXXX        |
-   +----------------+-------------------+------------+-----------------+
-   | content_hash   | less redacted     | IESG       | Section 4.1.8.1 |
-   |                | vCon hash         |            | RFC XXXX        |
-   +----------------+-------------------+------------+-----------------+
+   +==============+===============+==========+=========================+
+   | Parameter    | Parameter     |Change    | Specification           |
+   | Name         | Description   |Controller| Document(s)             |
+   +==============+===============+==========+=========================+
+   | uuid         | less          |IESG      | _#redacted_from_-object |
+   |              | redacted      |          | RFC XXXX                |
+   |              | vCon UUID     |          |                         |
+   +--------------+---------------+----------+-------------------------+
+   | type         | redaction     |IESG      | Section 4.1.8.1 RFC     |
+   |              | type or       |          | XXXX                    |
+   |              | reason        |          |                         |
+   +--------------+---------------+----------+-------------------------+
+   | url          | referenced    |IESG      | Section 4.1.8.1 RFC     |
+   |              | less          |          | XXXX                    |
+   |              | redacted      |          |                         |
+   |              | vCon URL      |          |                         |
+   +--------------+---------------+----------+-------------------------+
+   | content_hash | less          |IESG      | Section 4.1.8.1 RFC     |
+   |              | redacted      |          | XXXX                    |
+   |              | vCon hash     |          |                         |
+   +--------------+---------------+----------+-------------------------+
 
                                   Table 16
 
-6.3.11.  Amended Object Parameter Names Registry
+7.3.11.  Amended_from Object Parameter Names Registry
 
-   The following defines the initial values for the Amended Object
+   The following defines the initial values for the Amended_from Object
    Parameter Names Registry.  Use the template in Object Registry
-   Template (Section 6.3.1) when registering additional entries to this
+   Template (Section 7.3.1) when registering additional entries to this
    table.
 
    +================+==================+============+=================+
@@ -3955,7 +4286,7 @@ Table of Contents
 
                                  Table 17
 
-6.4.  vCon Extensions Names Registry
+7.4.  vCon Extensions Names Registry
 
    This document defines and new registry for the token name values that
    are permitted as values to the Section 4.1.3 parameter.  However it
@@ -3964,7 +4295,7 @@ Table of Contents
    extensions to the vCon schema.  The registration policy for this
    registry is Specification Required as defined in [RFC8126].
 
-6.4.1.  Extensions Registration Template
+7.4.1.  Extensions Registration Template
 
    Extension Name:
 
@@ -3990,7 +4321,7 @@ Table of Contents
    documents.  An indication of the relevant sections may also be
    included but is not required.
 
-6.5.  JSON Web Signature and Encryption Header Parameters
+7.5.  JSON Web Signature and Encryption Header Parameters
 
    This document registers the following new parameter in the [JWS] JSON
    Web Signature and Encryption Header Parameters registry.
@@ -4003,12 +4334,12 @@ Table of Contents
 
    *  Change Controller: IESG
 
-   *  Specification Document(s): Header Object (Section 5.2.2),
-      Unprotected Object (Section 5.3.1) of RFC XXXX
+   *  Specification Document(s): Header Object (Section 6.2.2),
+      Unprotected Object (Section 6.3.1) of RFC XXXX
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [DID]      W3C, "Decentralized Identifiers (DIDs) v1.0", July 2022,
               <https://www.w3.org/TR/did-core/>.
@@ -4109,7 +4440,7 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-peabody-
               dispatch-new-uuid-format-04>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [CBOR]     Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,
@@ -6278,8 +6609,8 @@ B.8.  Redacted vCon
 
    This is an example redaction of the vCon in the example Two Party
    Call vCon With Externally Referenced Recording (Appendix B.4).  Most
-   notable is the Redacted object (Section 4.1.8) which references the
-   lesser redacted version of this vCon.  In addition the *url*
+   notable is the Redacted_from object (Section 4.1.8) which references
+   the lesser redacted version of this vCon.  In addition the *url*
    parameter has been redacted from the Dialog Object (Section 4.5), but
    the rest of the Dialog Object (Section 4.5) was left in the
    redaction.
@@ -6450,7 +6781,7 @@ B.8.  Redacted vCon
        }
      ],
      "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
-     "redacted": {
+     "redacted_from": {
        "uuid": "01a16b86-96e7-80a8-b9a2-279e0d16bc46",
        "type": "PII Redaction"
      }
@@ -6458,7 +6789,7 @@ B.8.  Redacted vCon
 
 B.9.  Amended Signed vCon
 
-   This is an example vCon with an Amended Object (Section 4.1.9)
+   This is an example vCon with an Amended_from Object (Section 4.1.9.1)
    referencing the vCon that it amends or adds additional content.  In
    this case it is referencing the signed vCon example above.  An
    example text Dialog Object (index 1) is the amendment.
@@ -6524,7 +6855,7 @@ B.9.  Amended Signed vCon
        }
      ],
      "uuid": "01a16b86-9ea3-8a32-a20f-d188127fad29",
-     "amended": {
+     "amended_from": {
        "uuid": "01a16b86-96e7-80a8-b9a2-279e0d16bc46"
      }
    }
