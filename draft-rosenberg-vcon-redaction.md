@@ -20,8 +20,8 @@ venue:
   type: "Working Group"
   mail: "vcon@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/vcon/"
-  github: "jdrosen/vcon-redaction"
-  latest: "https://jdrosen.github.io/vcon-redaction/draft-rosenberg-vcon-redaction.html"
+  github: "ietf-wg-vcon/draft-ietf-vcon-vcon-core"
+  latest: "https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-core/draft-rosenberg-vcon-redaction.html"
 
 author:
  -
