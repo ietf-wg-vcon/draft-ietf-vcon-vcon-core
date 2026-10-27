@@ -234,6 +234,8 @@ The primary focus is on creating a flexible, extensible standard for the exchang
 
 * receiver - a party to which any part of the dialog in a session was sent and potentially received
 
+* regex - a regular expression, a sequence of characters that defines a search pattern used to match, locate or validate strings of text
+
 * vCon - container for conversational information
 
 * vCon instance - a vCon populated with data for a specific conversation
@@ -602,7 +604,8 @@ The Amended_from Object contains the following parameters:
 
 * uuid: "String" (optional if external reference provided)
 
-The value contains the [uuid string value](#uuid) of the unamended/original vCon instance version.
+The value contains the [uuid string value](#uuid) of the prior vCon instance version, to which this vCon's amendments were applied.
+The prior vCon instance version may be the original vCon, a redacted vCon, or a previously amended vCon.
 
 The location of the referenced vCon MAY be provided, as defined in [Externally Referenced Files](#externally-referenced-files) by including url and content_hash.  content_hash MUST be provided if url is provided.
 
@@ -610,10 +613,10 @@ The location of the referenced vCon MAY be provided, as defined in [Externally R
 * content_hash: "ContentHash" \| "ContentHash\[\]"
 
 The following figure illustrates an example partial JSON object tree for an amended vCon.
-The top level object is the JWS signed amended vCon which contains the unsigned form of the vCon in it's payload parameter.
+The top level object is the JWS signed amended vCon which contains the unsigned form of the vCon in its payload parameter.
 The second level object is the amended vCon with additional conversational data (e.g. analysis data).
-It refers to its original parent (or prior vCon instance version) of the vCon in its amended_from parameter.
-Note: the amended_from parameter may refer to the prior version of the vCon via URL.
+It refers to the prior vCon instance version in its amended parameter.
+Note: the amended_from parameter may refer to the prior vCon instance version via URL.
 The amended vCon in this figure refers to the JWS signed version of the vCon, which in turn contains the original vCon in unsigned form in its payload parameter.
 
 ~~~
@@ -744,7 +747,8 @@ The value of the attachments parameter is an array of [Attachment Objects](#atta
 
 A vCon can contain sensitive information in string values in many places. A text dialog containing chat messages or emails might contain a person's first name, or a street address, or an account number. Events, like a tool call made by an AI agent - can contain an account ID or social security number.
 
-The vCon format provides a general purpose solution for redacting sensitive inforamtion from any string in the object. Any string which has a substring containing sensitive information can be replaced by "__REDACTED_REF_#", where the value of \# is a positive integer which uniquely identifies the substring that was replaced. Within the redacted_strings array there will be a member that contains a matching reference, along with meta-data about the redaction, such as the type of information that was redacted.
+The vCon format provides a general purpose solution for redacting sensitive information from any string in the object.
+Any string which has a substring containing sensitive information can be replaced by "__REDACTED_REF_#", where the value of \# is a positive integer which uniquely identifies the substring that was replaced. Within the redacted_strings array there will be a member that contains a matching reference, along with meta-data about the redaction, such as the type of information that was redacted.
 
 The redacted_strings array is defined as:
 
@@ -805,9 +809,11 @@ There will then be an entry in the redacted_strings array like this:
 
 Implementations created a vCon that perform this kind of string redaction MUST include an entry in the redacted_strings array for every unique substring value they redact. A single vCon MUST NOT have more than 99999 such substrings redacted, to provide an upper bound on the integer value and to allow bounded regex parsing.
 
-Furthermore, a processor of the VCON MUST validate that - for each instance of the regular expression "__REDACTED_REF_\d{1,5}$" it finds in the vCon,  there is a corresponding entry in the redacted_strings array whose ref value matches the reference digit sequence. If there is no match, then it means the substring was not actually redacted, and the literal substring value is actually whatever matched "__REDACTED_REF_\d{1,5}$" for that reference ID. This can happen if a user were to literally type a chat message or email like, "Yeah I'm going to try to break vcon by typing __REDACTED_REF_3 hah hah hah!".
+Furthermore, a processor of the VCON MUST validate that - for each instance of the regular expression "__REDACTED_REF_\d{1,5}$" it finds in the vCon,  there is a corresponding entry in the redacted_strings array whose ref value matches the reference digit sequence.
+If there is no match, then it means the substring was not actually redacted, and the literal substring value is actually whatever matched "__REDACTED_REF_\d{1,5}$" for that reference ID.
+This can happen if a user were to literally type a chat message or email like, "Yeah I'm going to try to break vcon by typing __REDACTED_REF_3 hah hah hah!".
 
-This redaction technique allows VCon to have a way of redacting information from strings anywhere, including future extensions to vCon. This means, unless an extension might convey sensitive information in a way for which string redaction is insufficient, it will not need any specific redaction capability defined.
+This redaction technique allows vCon to have a way of redacting information from strings anywhere, including future extensions to vCon. This means, unless an extension might convey sensitive information in a way for which string redaction is insufficient, it will not need any specific redaction capability defined.
 
 
 
@@ -1955,7 +1961,7 @@ The type of string information which was redacted. This is an extensible string 
 
 * CONTACT_INFO: Full name, email, physical mailing address, phone numbers, and so on.
 
-* LOC_INFO: ZIp code, GPS location data, IP addresses, MAC addresses
+* LOC_INFO: Zip code, GPS location data, IP addresses, MAC addresses
 
 * EMPL_INFO: Work information, such as a job title, job code, salary, and so on.
 
@@ -1971,25 +1977,31 @@ Other values can be used, in which case an implementation not familiar with the 
 
 * orig: "String" (optional)
 
-The original, unredacted value of the string. This is useful in applications of vCons where the desired property is not data redaction, but data identification. This may allow downstream vCon processors to perform the redaction (which is as simple as removing the "orig" field), or to allow redaction in the user inferface (for example, a first name in a transcript is not shown to the user unless they right-click and elect to reveal the information). It is also useful for downstream data processing applications which generate analytics and create aggregates off of this inforamtion.
+The original, unredacted value of the string.
+This is useful in applications of vCons where the desired property is not data redaction, but data identification.
+This may allow downstream vCon processors to perform the redaction (which is as simple as removing the "orig" field), or to allow redaction in the user interface (for example, a first name in a transcript is not shown to the user unless they right-click and elect to reveal the information).
+It is also useful for downstream data processing applications which generate analytics and create aggregates off of this information.
 
 
 # Redaction Techniques {#redaction_techniques}
 
-vCon has many ways in which sensitive inforamtion can be redacted from a vCon. This section summarizes them.
+vCon has many ways in which sensitive information can be redacted from a vCon. This section summarizes them.
 
 Whenever any of these redaction techniques are employed, the redacted_from element SHOULD be added to the vCon referencing its prior, unredacted version. Data which is to be completely removed from the redacted version, that is contained in a JSON array in the unredacted vCon, SHOULD create an empty placeholder such that object array indices do not change for the rest of the elements of the array. If an element is removed entirely, all indexes to that array MUST be revised.
 
 
 ## Recording Content Removal
 
-If an audio recording, or a text chat, contains sensitive inforamtion, the offending Dialog Content (either the body or the url) can be removed from the vCon. Note that, in this case, the Dialog object itself is still present with its meta-data, such as the start and end times.
+If an audio recording, or a text chat, contains sensitive information, the offending Dialog Content (either the body or the url) can be removed from the vCon. Note that, in this case, the Dialog object itself is still present with its meta-data, such as the start and end times.
 
-It is RECOMMENDED that the Dialog Content is removed - rather than removing the entire Dialog object itself. Doing so requires the Dialog array to be reindexed and all references to it updated. It also obcures the fact that redaction was performed, which may confuse downstream processors or players.
+It is RECOMMENDED that the Dialog Content is removed - rather than removing the entire Dialog object itself. Doing so requires the Dialog array to be reindexed and all references to it updated. It also obscures the fact that redaction was performed, which may confuse downstream processors or players.
 
 ## Participant Information Hiding
 
-It may be desired to hide the fact that a participant was present in a conversation. In that case, the simplest approach is to remove all of their attributes from their Party object - resuling in an empty but valid party object of {}. This approach is efficient in that it can be done without touching anything else in the vCon. The vCon still indicates that SOMEONE was there, but there is no identifying information for them.
+It may be desired to hide the fact that a participant was present in a conversation.
+In that case, the simplest approach is to remove all of their attributes from their Party object - resulting in an empty but valid party object of {}.
+This approach is efficient in that it can be done without touching anything else in the vCon.
+The vCon still indicates that SOMEONE was there, but there is no identifying information for them.
 
 Similarly, if a dialog contains emails and the desire is to remove the set of participants who were BCC'd, those parties can be removed from the corresponding parties array in the session object. String redaction can also be used to hide the identity of the party that was BCC'd, while still indicating that someone received the mail.
 
@@ -2003,7 +2015,8 @@ The vCon format supports a general purpose string redaction methodology, through
 
 When an audio or video recording has been transcribed, and the transcription is present in the vCon, if a segment of audio or video is redacted, it is RECOMMENDED to also redact the transcript of the transcribed version of that sensitive information, using string redaction.
 
-A tempting alternative to using the redacted_strings array is to just perform inline subtitution of text, replacing (for example) a social security number with "XXX-XX-XXXX". This is NOT RECOMMENDED. Downstream processors canno easily differentiate a redacted version of a field with a valid field, potentially breaking them.
+A tempting alternative to using the redacted_strings array is to just perform inline substitution of text, replacing (for example) a social security number with "XXX-XX-XXXX".
+This is NOT RECOMMENDED. Downstream processors cannot easily differentiate a redacted version of a field with a valid field, potentially breaking them.
 
 ## Regeneration of the vCon
 
