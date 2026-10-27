@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         25 October 2026
-Expires: 28 April 2027
+Intended status: Standards Track                         27 October 2026
+Expires: 30 April 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 April 2027.
+   This Internet-Draft will expire on 30 April 2027.
 
 Copyright Notice
 
@@ -1026,9 +1026,8 @@ Table of Contents
    several Dialogs for some of the parties in the call.  In this case we
    need the Session Object to indicate which Dialogs compose the call or
    conversation.  We also need the Session Object to declare the start
-   of the call as well as the duration as that is likely different from
-   those in the Dialog Objects which only define the start and duration
-   for that talk spurt.
+   and duration of the call, as each Dialog Object only defines the
+   start and duration of its talk spurt.
 
 4.1.10.4.  Agent Coaching
 
@@ -1148,11 +1147,11 @@ Table of Contents
 4.2.1.  start
 
    The start parameter indicates when this session was started.  The
-   start parameter SHOULD be present.  This SHOULD be equal to or before
-   the chronological first "start" parameter for all of the Dialog and
-   "time" parameter for all of the Event Objects which are part of this
-   session.  For example it could be the scheduled start time for a
-   conference where everyone shows up late.
+   start parameter SHOULD be present.  The start of the session may be
+   before or after the start of the Dialog and Event Objects which are
+   part of this session (see Section 4.2.2).  For example it could be
+   the scheduled start time for a conference where everyone shows up
+   late.
 
    *  start: "Date"
 
@@ -1162,10 +1161,47 @@ Table of Contents
 4.2.2.  duration
 
    The duration parameter contains the duration in seconds of the
-   session.  This includes all of the Dialog and Event Objects that are
-   part of that session.  The start and duration SHOULD contain the time
-   period for the start and duration of all the Dialog and Event Objects
-   that are part of this session.
+   session.  The start and duration parameters together define the time
+   period of the session, which includes its start and end.  The time
+   period of the session need not include the entire time period of the
+   Dialog and Event Objects that are part of this session.  Dialog
+   Content of a Dialog Object which is outside of the time period of the
+   session SHOULD be considered to not be part of that session.  Whether
+   or how an application renders Dialog Content outside of the time
+   period of the session is an application choice.
+
+   This allows a session to be scoped to part of a recording without
+   having to split the recording into separate Dialog Objects.  For
+   example, a Session Object may be added to a vCon to mark up the
+   portion of a conversation which is of interest, saving a consumer of
+   the vCon from having to listen to or review the whole conversation.
+   Such a Session Object may be a child or a peer of the Session Object
+   for the whole conversation (see Section 4.2.8.2).  Dialog Objects
+   referenced by the session may also be entirely outside of the time
+   period of the session.  For example, a recording Dialog Object of the
+   opening of a call may be entirely before the time period of a session
+   which marks up a later portion of that call.
+
+   A "text" type Dialog Object is part of the session in its entirety if
+   any part of the time period given by its start and duration is within
+   the time period of the session.  This is because the Dialog Content
+   of a "text" type Dialog Object has no time stamps by which it could
+   be divided.  A vCon extension may define a form of text Dialog
+   Content with time stamps at a finer granularity, such as per word,
+   along with how it is scoped by the time period of a session.  An
+   "incomplete" type Dialog Object is likewise part of the session in
+   its entirety if any part of the time period given by its start and
+   duration is within the time period of the session.
+
+   Event Objects which are part of this session are part of the session
+   even if they are outside of the time period of the session.  For
+   example, it may be important to know that a party dropped out of the
+   conversation before the start of the session.
+
+   If the duration parameter is not present, the time period of the
+   session has no end.  In this case, all of the Dialog Content of the
+   Dialog Objects referenced by the session which is at or after the
+   start of the session is part of the session.
 
    *  duration: "UnsignedInt" | "UnsignedFloat" (optional)
 
@@ -2230,8 +2266,9 @@ Table of Contents
    of it (see Section 4.2).  The parties parameter of the Session Object
    identifies the receivers of the dialog in the call or session (see
    Section 4.2.3).  The start and duration parameters of the Session
-   Object identify the beginning and the duration of the call or session
-   (see Section 4.2.1 and Section 4.2.2).
+   Object identify the time period of the call or session, which may
+   differ from the time periods of the Dialog Objects which it
+   references (see Section 4.2.1 and Section 4.2.2).
 
    The originator of the call or session is indicated in the Session
    Object (see Section 4.2.4).  In some cases, there may be a separate
