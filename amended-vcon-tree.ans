@@ -4,15 +4,17 @@ amended vCon:   |            |
                 |    payload-|-- payload parameter
                 -------------- / contains unsigned
                               / amended vCon
-            -------------    /
-vCon with   |vCon       |<---
-amended     |           |
-data:       |   amended-|--- amended parameter
-            |  analysis-|  / refers to JWS
-            ------------- / signed original vCon
-                         / along with additional
-                        / conversational data
-                       / (e.g. analysis)
+            ---------------  /
+vCon with   |vCon         |<-
+amended     |             |
+data:       |amended_from-|--- amended_from parameter
+            |    analysis-|  / refers to JWS
+            --------------- / signed original vCon
+                           / along with additional
+                          / conversational data
+                         / (e.g. analysis)
+                        /
+                       /
                       /
                      /
                     / ------------

@@ -160,7 +160,7 @@
     }
   ],
   "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
-  "redacted": {
+  "redacted_from": {
     "uuid": "01a16b86-96e7-80a8-b9a2-279e0d16bc46",
     "type": "PII Redaction"
   }

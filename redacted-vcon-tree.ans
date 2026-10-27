@@ -4,12 +4,15 @@ redacted vCon:  |            |
                 |    payload-|-- unsigned redacted vCon in
                 -------------- / payload parameter
                               /
-            -------------    /
-vCon which  |vCon       |<---
-has been    |           |
-redacted:   |  redacted-|-- Redacted Object
-            ------------- / refers to JWE
-                         / encrypted unredacted vCon
+            ----------------    /
+vCon which  |vCon          |<---
+has been    |              |
+redacted:   |redacted_from-|-- Redacted Object
+            ---------------- / refers to JWE
+                            /  encrypted unredacted vCon
+                           /
+                          /
+                         /
                         /
                        /
                       /
