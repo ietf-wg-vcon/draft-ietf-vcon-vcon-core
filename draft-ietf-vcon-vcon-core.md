@@ -671,7 +671,7 @@ To show that those Dialog Objects are all in the same call or conversation, we c
 Some call recorders create separate single channel recordings for each contiguous talk spurt for a Party or stream.
 This may result in several Dialogs for some of the parties in the call.
 In this case we need the Session Object to indicate which Dialogs compose the call or conversation.
-We also need the Session Object to declare the start of the call as well as the duration as that is likely different from those in the Dialog Objects which only define the start and duration for that talk spurt.
+We also need the Session Object to declare the start and duration of the call, as each Dialog Object only defines the start and duration of its talk spurt.
 
 #### Agent Coaching
 
@@ -763,7 +763,7 @@ For example a conference may split into break out sessions and then merge back t
 
 The start parameter indicates when this session was started.
 The start parameter SHOULD be present.
-This SHOULD be equal to or before the chronological first "start" parameter for all of the Dialog and "time" parameter for all of the Event Objects which are part of this session.
+The start of the session may be before or after the start of the Dialog and Event Objects which are part of this session (see [](#session-duration)).
 For example it could be the scheduled start time for a conference where everyone shows up late.
 
 * start: "Date"
@@ -773,8 +773,27 @@ The value of the start parameter is the date and time at which the session start
 ### duration {#session-duration}
 
 The duration parameter contains the duration in seconds of the session.
-This includes all of the Dialog and Event Objects that are part of that session.
-The start and duration SHOULD contain the time period for the start and duration of all the Dialog and Event Objects that are part of this session.
+The start and duration parameters together define the time period of the session, which includes its start and end.
+The time period of the session need not include the entire time period of the Dialog and Event Objects that are part of this session.
+Dialog Content of a Dialog Object which is outside of the time period of the session SHOULD be considered to not be part of that session.
+Whether or how an application renders Dialog Content outside of the time period of the session is an application choice.
+
+This allows a session to be scoped to part of a recording without having to split the recording into separate Dialog Objects.
+For example, a Session Object may be added to a vCon to mark up the portion of a conversation which is of interest, saving a consumer of the vCon from having to listen to or review the whole conversation.
+Such a Session Object may be a child or a peer of the Session Object for the whole conversation (see [](#session-reference-type)).
+Dialog Objects referenced by the session may also be entirely outside of the time period of the session.
+For example, a recording Dialog Object of the opening of a call may be entirely before the time period of a session which marks up a later portion of that call.
+
+A "text" type Dialog Object is part of the session in its entirety if any part of the time period given by its start and duration is within the time period of the session.
+This is because the Dialog Content of a "text" type Dialog Object has no time stamps by which it could be divided.
+A vCon extension may define a form of text Dialog Content with time stamps at a finer granularity, such as per word, along with how it is scoped by the time period of a session.
+An "incomplete" type Dialog Object is likewise part of the session in its entirety if any part of the time period given by its start and duration is within the time period of the session.
+
+Event Objects which are part of this session are part of the session even if they are outside of the time period of the session.
+For example, it may be important to know that a party dropped out of the conversation before the start of the session.
+
+If the duration parameter is not present, the time period of the session has no end.
+In this case, all of the Dialog Content of the Dialog Objects referenced by the session which is at or after the start of the session is part of the session.
 
 * duration: "UnsignedInt" \| "UnsignedFloat" (optional)
 
@@ -1461,7 +1480,7 @@ As a result, no single recording Dialog Object necessarily identifies all partie
 The parties parameter of a Dialog Object only references the parties that contributed, or potentially contributed, to the Dialog Content of that Dialog Object.
 The complete call or session is represented by a Session Object which references the Dialog Objects that are part of it (see [](#session-object)).
 The parties parameter of the Session Object identifies the receivers of the dialog in the call or session (see [](#session-parties)).
-The start and duration parameters of the Session Object identify the beginning and the duration of the call or session (see [](#session-start) and [](#session-duration)).
+The start and duration parameters of the Session Object identify the time period of the call or session, which may differ from the time periods of the Dialog Objects which it references (see [](#session-start) and [](#session-duration)).
 
 The originator of the call or session is indicated in the Session Object (see [](#session-originator)).
 In some cases, there may be a separate recording file for each party in a conversation, where only one party is recorded per file.
