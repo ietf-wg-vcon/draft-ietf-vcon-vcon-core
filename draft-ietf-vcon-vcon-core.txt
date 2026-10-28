@@ -650,7 +650,7 @@ Table of Contents
    accurately.  Implementations that encounter a vCon containing an
    Incompatible extension listed in the critical parameter, but do not
    support that extension, *MUST NOT* process the vCon except to reject
-   it or notify the user.
+   it or report unsupported content.
 
    A parameter may contain a token value which an implementation does
    not recognize, such as a type defined in an extension which the
@@ -780,7 +780,7 @@ Table of Contents
    it or report unsupported content.
 
    *  critical: "String[]" (optional, MUST be present if any
-      incompatible vCon extension is used)
+      Incompatible vCon extension is used)
 
 4.1.5.  created_at
 
@@ -3721,7 +3721,7 @@ Table of Contents
       XXXX.  The schema may be extended through extensions as defined
       there.
 
-   *  Published specification: [VCON], this document: RFC XXXX
+   *  Published specification: This document: RFC XXXX
 
    *  Applications that use this media type:
 
@@ -4828,6 +4828,14 @@ B.1.  Two Party Call vCon With Inline Recording
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_int_rec.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
    {
      "vcon": "0.5.0",
      "created_at": "2022-06-21T13:53:00-04:00",
@@ -5090,6 +5098,14 @@ B.2.  Email Thread Multipart vCon
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
    {
      "vcon": "0.5.0",
      "parties": [
@@ -5240,6 +5256,14 @@ B.3.  Email Thread Text vCon
    vcon-core/refs/heads/main/examples/
    ab_email_prob_followup_text_thread.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
    {
      "vcon": "0.5.0",
      "parties": [
@@ -5336,6 +5360,14 @@ B.4.  Two Party Call vCon With Externally Referenced Recording
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_ext_rec.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
    {
      "vcon": "0.5.0",
      "created_at": "2022-06-21T13:53:00-04:00",
@@ -5386,11 +5418,17 @@ B.4.  Two Party Call vCon With Externally Referenced Recording
 
 B.5.  Two Party Call vCon with Analysis
 
-   TODO: fix diarization in transcript
-
    The unformatted version of the following example can be downloaded
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
+
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
 
    {
      "vcon": "0.5.0",
@@ -6521,6 +6559,14 @@ B.6.  Signed vCon
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
    {
      "payload": "eyJ2Y29uIjoiMC41LjAiLCJjcmVhdGVkX2F0IjoiMjAyMi0wNi0
        yMVQxMzo1MzowMC0wNDowMCIsInBhcnRpZXMiOlt7InRlbCI6IisxMjM0NTY3
@@ -6665,6 +6711,14 @@ B.7.  Encrypted vCon
    The unformatted version of the following example can be downloaded
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_encrypted.vcon
+
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
 
    {
      "protected": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1M
@@ -6846,6 +6900,16 @@ B.8.  Redacted vCon
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
+   TODO: need a better conversation/recording to demonstrate redaction
+
    {
      "vcon": "0.5.0",
      "created_at": "2022-06-21T13:53:00-04:00",
@@ -7025,6 +7089,14 @@ B.9.  Amended Signed vCon
    from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
 
+   Note to the RFC Editor: This example, and its unformatted version at
+   the following URL, contain the vcon parameter (see Section 4.1.1),
+   which is included in the Internet-Draft versions of this document to
+   indicate the version of the schema upon which the example is based.
+   The vcon parameter is to be removed from the example and its
+   unformatted version before publication as an RFC.  Please remove this
+   note before publication.
+
    {
      "vcon": "0.5.0",
      "created_at": "2022-06-21T13:53:00-04:00",
@@ -7086,8 +7158,6 @@ B.9.  Amended Signed vCon
        "uuid": "01a16b86-96e7-80a8-b9a2-279e0d16bc46"
      }
    }
-
-   TODO: Session Object and Event Object example
 
 Appendix C.  vCon JSON Schema
 
