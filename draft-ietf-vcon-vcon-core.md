@@ -416,7 +416,7 @@ A redactor which needs a 100% guarantee that it can redact everything, perhaps s
 
 However, when Incompatible extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon.
 This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
-Implementations that encounter a vCon containing an Incompatible extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
+Implementations that encounter a vCon containing an Incompatible extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or report unsupported content.
 
 A parameter may contain a token value which an implementation does not recognize, such as a type defined in an extension which the implementation does not support.
 If an unsupported extension is listed in the critical parameter, the vCon is not processed as described above.
@@ -505,7 +505,7 @@ Implementations that include extensions which are incompatible with the core vCo
 A vCon that includes a critical parameter indicates that correct interpretation of the vCon requires explicit support for the listed extensions.
 An implementation that does not recognize or support the extensions listed in the critical parameter MUST NOT attempt to process or operate on the vCon, except to reject it or report unsupported content.
 
-* critical: "String\[\]" (optional, MUST be present if any incompatible vCon extension is used)
+* critical: "String\[\]" (optional, MUST be present if any Incompatible vCon extension is used)
 
 ### created_at {#created_at}
 
