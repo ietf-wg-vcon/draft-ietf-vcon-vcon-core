@@ -683,8 +683,8 @@ Table of Contents
    conversation data.  The encrypted form of vCon is defined in
    Section 6.3 using [JWE] to provide complete privacy of the
    conversational data.  Partial privacy or data minimization can be
-   provide for a vCon using the techniques outlined in (Redaction
-   Techniques)[#redaction_techniques].
+   provided for a vCon using the techniques outlined in Redaction
+   Techniques (Section 5).
 
 4.  Unsigned Form of vCon Object
 
@@ -703,13 +703,13 @@ Table of Contents
    be signed or encrypted by the domain that constructed it.  The
    subsequent domain may have need to redact or amend data to the vCon.
    Alternatively the originating domain may want to redact the vCon
-   before providing it to an other domain.  The second or subsequent
+   before providing it to another domain.  The second or subsequent
    domain, MAY modify the prior vCon instance version and when complete
    or exporting to another security domain, it SHOULD sign or encrypt
    the new vCon instance version.  The new vCon instance version SHOULD
    refer to the prior vCon instance version via the redacted_from
    (Section 4.1.8) or amended_from (Section 4.1.9) parameters - see
-   (Redaction Techniques)[#redaction_techniques].
+   Redaction Techniques (Section 5).
 
 4.1.  vCon JSON Object Keys and Values
 
@@ -828,9 +828,9 @@ Table of Contents
    those who should be allowed to see the identity or PII for the
    redacted vCon.
 
-   Redaction techniques are discussed in more detail in (Redaction
-   Techniques)[#redaction_techniques].  The assurance of the accuracy of
-   the redaction is made by the entity that creates the redaction which
+   Redaction techniques are discussed in more detail in Redaction
+   Techniques (Section 5).  The assurance of the accuracy of the
+   redaction is made by the entity that creates the redaction which
    SHOULD sign the redacted version of the vCon.
 
    *  redacted_from: "Redacted_from" (optional, mutually exclusive with
