@@ -369,7 +369,7 @@ In addition to the standard sections of an Internet-Draft, a vCon extension docu
 
 * **Extension Name**:
 State the registered extensions token name for the extension.
-State whether and under what conditions the name appears in the [`extensions`](#extensions) parameter, the [`critical`](#critical) parameter, or both.
+The name MUST appear in the [`extensions`](#extensions) parameter of any vCon which uses the extension; state whether and under what conditions the name also appears in the [`critical`](#critical) parameter.
 This is the name registered in the [vCon Extensions Names Registry](#vcon-extensions-names-registry) and the name against which implementations determine whether they support the extension.
 
 * **Parameter Definitions**:
@@ -414,9 +414,9 @@ A transcriber for vCon can be fairly tolerant of changes adding new parameters o
 On the other hand, a redactor must be aware of the implications of all parameters in the vCon to be sure to redact all of the objective information. If an extension adds information which cannot be removed by the vCon string redaction feature, this may make the extension incompatible.
 A redactor which needs a 100% guarantee that it can redact everything, perhaps should reject vCons with any extension that it does not support. Others, may choose to accept them, assuming the string redaction is sufficient.
 
-However, when disruptive extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon. This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
-
-Implementations that encounter a vCon containing a disruptive extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
+However, when Incompatible extensions are necessary, the names of all such extensions **MUST** be listed in the [`critical`](#critical) parameter of the vCon.
+This allows implementations to determine whether they are capable of processing the vCon safely and accurately.
+Implementations that encounter a vCon containing an Incompatible extension listed in the critical parameter, but do not support that extension, **MUST NOT** process the vCon except to reject it or notify the user.
 
 A parameter may contain a token value which an implementation does not recognize, such as a type defined in an extension which the implementation does not support.
 If an unsupported extension is listed in the critical parameter, the vCon is not processed as described above.
@@ -494,9 +494,10 @@ domains of uniqueness.
 ### extensions
 
 The vCon schema can be extended through the definition of new extensions.
-The extensions parameter SHOULD contain the list of names of all vCon extensions for any parameters used that are not defined in this core vCon schema document.
+The extensions parameter MUST contain the list of names of all vCon extensions which define any parameters, Objects or parameter values used in the vCon that are not defined in this core vCon schema document.
+Each extension name listed in the critical parameter MUST also be listed in the extensions parameter (see [](#critical)).
 
-* extensions: "String\[\]"
+* extensions: "String\[\]" (optional, MUST be present if any vCon extension is used)
 
 ### critical {#critical}
 
@@ -504,7 +505,7 @@ Implementations that include extensions which are incompatible with the core vCo
 A vCon that includes a critical parameter indicates that correct interpretation of the vCon requires explicit support for the listed extensions.
 An implementation that does not recognize or support the extensions listed in the critical parameter MUST NOT attempt to process or operate on the vCon, except to reject it or report unsupported content.
 
-* critical: "String\[\]"
+* critical: "String\[\]" (optional, MUST be present if any incompatible vCon extension is used)
 
 ### created_at {#created_at}
 
