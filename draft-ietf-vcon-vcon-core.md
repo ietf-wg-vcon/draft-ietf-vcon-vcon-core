@@ -377,7 +377,7 @@ Define each new parameter, the level of the schema at which it appears, its valu
 For any existing parameter whose meaning or permitted values are redefined, state the new semantics and values.
 For any value added to the allowed values of an existing parameter, define the value and its semantics and state which parameters apply when the value is used.
 For each new Object, define the parameters of the Object in the same manner.
-For each new Object, a new parameter names registry SHOULD be requested from IANA with the parameters of the new Object as its initial values (see [](#vcon-json-registry)).
+For each new Object, a new parameter names registry SHOULD be requested from IANA with the parameters of the new Object as its initial values (see [](#vcon-field-registry)).
 For any deprecated parameter, state what is to be used in its stead and the migration approach.
 Use the snake case naming convention for all parameter names, as opposed to camel case.
 Register each new parameter in the appropriate Object registry with IANA.
@@ -2478,25 +2478,25 @@ when sending.
 
 * Change controller: IETF
 
-## vCon JSON Registry
+## vCon Field Registry {#vcon-field-registry}
 
-This document defines a number of new IANA registries for the JSON vCon schema.
-Each Object (i.e. dict, map, dictionary) has its own registry of parameter names.
-All of those registries have the same registry template which is defined in the following subsection.
+This document defines a single IANA registry for the JSON vCon schema, allowing extensions to add new objects.
 When registering new entries, the following template should be used.
 The registration policy for these registries is Specification Required as defined in [RFC8126].
 The Designated Experts are expected to verify that the specification is publicly available, that the name follows the naming conventions of this document and that the registration does not duplicate the semantics of an existing registered entry.
 
-A registry created for a new Object defined in a vCon extension (see [](#extending-vcon)) is named in the same form as the registries defined in this document, for example "Party Object Parameter Names Registry".
-It is created within the vCon JSON Registry group and uses the same registry template and registration policy as the registries defined in this document.
 
 ### Object Registry Template
+
+Parent Object Name:
+  The name of the object which is being extended. For example, an extension to the Party object has a Parent Object Name of "Party". If the extension is at the root of the vCon object, then use "-" as the parent object name. If the parent object name exists as a child of multiple object names, then the parent name is the path to that parent, starting from the point of non-ambiguity. For example, the "type" field exists in several places. Extensions to the "type" underneath "Dialog" have a parent object name of "Dialog->type".
+
 
 Parameter Name:
 
   The string name of a parameter to be used within the Object.
   The name is case sensitive.
-  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
+  Within the same Parent Object Name, Parameter names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
 
 Parameter Description:
 
@@ -2515,315 +2515,204 @@ Specification Document(s):
    the documents.  An indication of the relevant sections may also be
    included but is not required.
 
-### vCon Object Parameter Names Registry
+### Initial vCon Field Registry
 
-The following defines the initial values for the vCon Object Parameter Names Registry.
+The following defines the initial values for the vCon Field Registry.
 Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
 
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| vcon | Schema version number | IESG | [](#vcon) RFC XXXX |
-| uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
-| extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
-| critical | list of incompatible extensions used | IESG | [critical](#critical) RFC XXXX |
-| created_at | creation date | IESG | [](#created_at) RFC XXXX |
-| updated_at | modification date | IESG | [](#updated_at) RFC XXXX |
-| subject | conversation subject | IESG | [](#subject) RFC XXXX |
-| redacted_from | Redacted Object | IESG | [](#redacted_from) RFC XXXX |
-| amended_from | Amended Object | IESG | [](#amended_from) RFC XXXX |
-| group | reserved for future extension | IESG | RFC XXXX |
-| sessions | Session Objects array | IESG | [](#sessions-objects-array) RFC XXXX |
-| events | Event Objects array | IESG | [](#events-objects-array) RFC XXXX |
-| parties | Party Objects array | IESG | [](#parties-objects-array) RFC XXXX |
-| dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
-| analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |
-| attachments | Attachment Objects array | IESG | [](#attachments-objects-array) RFC XXXX |
-| redacted_strings | Redacted Strings array | IESG | [](#redacted_string-object)
-
-### Party Object Parameter Names Registry
-
-The following defines the initial values for the Party Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| tel | tel URL | IESG | [](#tel) RFC XXXX |
-| sip | SIP URL | IESG | [](#tel) RFC XXXX |
-| stir | STIR token | IESG | [](#stir) RFC XXXX |
-| mailto | mailto URL | IESG | [](#mailto) RFC XXXX |
-| name | participant name | IESG | [](#name) RFC XXXX |
-| validation | validation method | IESG | [](#validation) RFC XXXX |
-| gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
-| civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
-| uuid | participant unique identifier | IESG | [](#party-uuid) RFC XXXX |
-| type | participant type | IESG | [](#party-type) RFC XXXX |
-| org | participant organization | IESG | [](#party-org) RFC XXXX |
-| dept | participant department | IESG | [](#party-dept) RFC XXXX |
-| did |  decentralized identifier | IESG | [](#party-did) RFC XXXX |
-
-
-
-### Dialog Object Parameter Names Registry
-
-The following defines the initial values for the Dialog Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| type | dialog type name | IESG | [](#dialog-type) RFC XXXX |
-| start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
-| duration | dialog duration period | IESG | [](#dialog-duration) RFC XXXX |
-| parties | dialog parties list | IESG | [](#dialog-parties) RFC XXXX |
-| mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
-| filename | dialog content filename | IESG | [](#dialog-filename) RFC XXXX |
-| body | dialog inline content | IESG | [](#dialog-content) RFC XXXX |
-| encoding | dialog inline content encoding | IESG | [](#dialog-content) RFC XXXX |
-| url | dialog referenced content URL | IESG | [](#dialog-content) RFC XXXX |
-| content_hash | dialog content hash | IESG | [](#dialog-content) RFC XXXX |
-| disposition | dialog disposition | IESG | [](#disposition) RFC XXXX |
-| session_id | RFC7989 session ID  | IESG | [](#session_id) RFC XXXX |
-| application | dialog source application | IESG | [](#application) RFC XXXX |
-| message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
-| redacted_segments | redacted segments | IESG | [](#redacted_segments) RFC XXXX |
-
-#### Dialog Type Name Registry
-
-This document defines a new registry for the token name values that are permitted as values to the [dialog type](#dialog-type) parameter.
-
-##### Dialog Type Name Registration Template
-
-Dialog Type Name:
-
-  The string token name of a Dialog Object Type
-  The name is case sensitive.
-  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
-
-Dialog Type Description:
-
-  Brief description of the Dialog Object type
-
-Change Controller:
-
-   For Standards Track RFCs, list the "IESG".  For others, give the
-   name of the responsible party.  Other details (e.g., postal
-   address, email address, home page URI) may also be included.
-
-Specification Document(s):
-
-   Reference to the document or documents that specify the parameter,
-   preferably including URIs that can be used to retrieve copies of
-   the documents.  An indication of the relevant sections may also be
-   included but is not required.
-
-##### Dialog Type Name Registration Initial Values
-
-The following table defines the initial values for the Dialog Object Types Registry.
-
-| Dialog Type Name | Dialog Type Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| text | text dialog | IESG | [](#dialog-type) RFC XXXX |
-| recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
-| incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
-
-
-### Session Object Parameter Names Registry
-
-The following defines the initial values for the Session Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| start | session start time | IESG | [](#session-start) RFC XXXX |
-| duration | session duration period | IESG | [](#session-duration) RFC XXXX |
-| parties | session parties list | IESG | [](#session-parties) RFC XXXX |
-| originator | session originator party | IESG | [](#session-originator) RFC XXXX |
-| session_id | RFC7989 session ID | IESG | [](#session-session-id) RFC XXXX |
-| sessions | Session_Reference Objects array | IESG | [](#session-sessions) RFC XXXX |
-| dialog | session dialog index list | IESG | [](#session-dialog) RFC XXXX |
-
-### Session_Reference Object Parameter Names Registry
-
-The following defines the initial values for the Session_Reference Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| session | referenced session index | IESG | [](#session-reference-session) RFC XXXX |
-| type | session relationship type | IESG | [](#session-reference-type) RFC XXXX |
-| description | session relationship description | IESG | [](#session-reference-description) RFC XXXX |
-
-#### Session_Reference Type Name Registry
-
-This document defines a new registry for the token name values that are permitted as values to the [Session_Reference Object type](#session-reference-type) parameter.
-
-##### Session_Reference Type Name Registration Template
-
-Session_Reference Type Name:
-
-  The string token name of a Session_Reference Object type.
-  The name is case sensitive.
-  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
-
-Session_Reference Type Description:
-
-  Brief description of the Session_Reference Object type
-
-Change Controller:
-
-   For Standards Track RFCs, list the "IESG".  For others, give the
-   name of the responsible party.  Other details (e.g., postal
-   address, email address, home page URI) may also be included.
-
-Specification Document(s):
-
-   Reference to the document or documents that specify the parameter,
-   preferably including URIs that can be used to retrieve copies of
-   the documents.  An indication of the relevant sections may also be
-   included but is not required.
-
-##### Session_Reference Type Name Registration Initial Values
-
-The following table defines the initial values for the Session_Reference Type Name Registry.
-
-| Session_Reference Type Name | Session_Reference Type Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| child | contained session | IESG | [](#session-reference-type) RFC XXXX |
-| peer | parallel or overlapping session | IESG | [](#session-reference-type) RFC XXXX |
-| precursor | preceding session | IESG | [](#session-reference-type) RFC XXXX |
-| breakout | breakout session with a subset of the parties | IESG | [](#session-reference-type) RFC XXXX |
-
-### Event Object Parameter Names Registry
-
-The initial values for the Event Object Parameter Names Registry are listed in the following table.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| type | event type name | IESG | [](#event-type) RFC XXXX |
-| time | time event occurred | IESG | [](#event-time) RFC XXXX |
-| sessions | event session indices | IESG | [](#event-sessions) RFC XXXX |
-| party | event party index | IESG | [](#event-party) RFC XXXX |
-| dialog | event dialog index | IESG | [](#event-dialog) RFC XXXX |
-| channel | recording channel index | IESG | [](#event-channel) RFC XXXX |
-| contributors | recording channel contributor party indices | IESG | [](#event-contributors) RFC XXXX |
-| button | button label character or string | IESG | [](#event-button) RFC XXXX |
-| transferee | transferee party index | IESG | [](#event-transferee) RFC XXXX |
-| transfer_target | transfer target party index | IESG | [](#event-transfer-target) RFC XXXX |
-| consultation | consultation session index | IESG | [](#event-consultation) RFC XXXX |
-| target_session | target session index | IESG | [](#event-target-session) RFC XXXX |
-
-#### Event Type Name Registry
-
-This document defines a new registry for the token name values that are permitted as values to the [Event Object type](#event-type) parameter.
-
-##### Event Type Name Registration Template
-
-Event Type Name:
-
-  The string token name of an Event Object type.
-  The name is case sensitive.
-  Names may not match other registered names in a case-insensitive manner unless the Designated Experts state that there is a compelling reason to allow an exception.
-
-Event Type Description:
-
-  Brief description of the Event Object type
-
-Change Controller:
-
-   For Standards Track RFCs, list the "IESG".  For others, give the
-   name of the responsible party.  Other details (e.g., postal
-   address, email address, home page URI) may also be included.
-
-Specification Document(s):
-
-   Reference to the document or documents that specify the parameter,
-   preferably including URIs that can be used to retrieve copies of
-   the documents.  An indication of the relevant sections may also be
-   included but is not required.
-
-##### Event Type Name Registration Initial Values
-
-The following table defines the initial values for the Event Type Name Registry.
-
-| Event Type Name | Event Type Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| join | party join event | IESG | [](#event-type-party) RFC XXXX |
-| drop | party drop event | IESG | [](#event-type-party) RFC XXXX |
-| hold | party on hold event | IESG | [](#event-type-party) RFC XXXX |
-| unhold | party off hold event | IESG | [](#event-type-party) RFC XXXX |
-| mute | party on mute event | IESG | [](#event-type-party) RFC XXXX |
-| unmute | party off mute event | IESG | [](#event-type-party) RFC XXXX |
-| keydown | DTMF/app key/button press event | IESG | [](#event-type-key) RFC XXXX |
-| keyup | DTMF/app key/button release event | IESG | [](#event-type-key) RFC XXXX |
-| consultation-start | transfer consultation start event | IESG | [](#event-type-transfer) RFC XXXX |
-| blind-transfer | blind transfer event | IESG | [](#event-type-transfer) RFC XXXX |
-| consultative-transfer | consultative transfer event | IESG | [](#event-type-transfer) RFC XXXX |
-| transfer-abandoned | transfer abandoned event | IESG | [](#event-type-transfer) RFC XXXX |
-| channel-contributors | recording channel contributors change event | IESG | [](#event-type-channel-contributors) RFC XXXX |
-
-### Attachment Object Parameter Names Registry
-
-The following defines the initial values for the Attachment Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| purpose | attachment object purpose description | IESG | [](#attachment-purpose) RFC XXXX |
-| start | attachment start time | IESG | [](#attachment-start) RFC XXXX |
-| party | sending party index | IESG | [](#party) RFC XXXX |
-| dialog | associated dialog index | IESG | [](#attachment-dialog) RFC XXXX |
-| session | associated session index | IESG | [](#attachment-session) RFC XXXX |
-| mediatype | attachment body media type | IESG | [](#attachment-mediatype) RFC XXXX |
-| filename | attachment content filename | IESG | [](#attachment-filename) RFC XXXX |
-| body | attachment inline content | IESG | [](#attachment-content) RFC XXXX |
-| encoding | attachment inline content encoding | IESG | [](#attachment-content) RFC XXXX |
-| url | attachment referenced content URL | IESG | [](#attachment-content) RFC XXXX |
-| content_hash | attachment content hash | IESG | [](#attachment-content) RFC XXXX |
-
-### Analysis Object Parameter Names Registry
-
-The following defines the initial values for the Analysis Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| type | analysis type | IESG | [](#analysis-type) RFC XXXX |
-| dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
-| sessions | associated session indices | IESG | [](#analysis-sessions) RFC XXXX |
-| attachment | associated attachment index | IESG | [](#analysis-attachment) RFC XXXX |
-| analysis | associated analysis index | IESG | [](#analysis-analysis) RFC XXXX |
-| mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
-| filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
-| vendor | vendor producing content | IESG | [](#vendor) RFC XXXX |
-| product | vendor product producing content| IESG | [](#product) RFC XXXX |
-| schema | product schema of content| IESG | [](#schema) RFC XXXX |
-| body | analysis inline content | IESG | [](#analysis-content) RFC XXXX |
-| encoding | analysis inline content encoding | IESG | [](#analysis-content) RFC XXXX |
-| url | analysis referenced content URL | IESG | [](#analysis-content) RFC XXXX |
-| content_hash | analysis content hash | IESG | [](#analysis-content) RFC XXXX |
-
-### Redacted_from Object Parameter Names Registry
-
-The following defines the initial values for the Redacted_from Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| uuid | less redacted vCon UUID | IESG | [](_#redacted_from_-object) RFC XXXX |
-| type | redaction type or reason | IESG | [](#redacted_from-object) RFC XXXX |
-| url | referenced less redacted vCon URL | IESG | [](#redacted_from-object) RFC XXXX |
-| content_hash | less redacted vCon hash | IESG | [](#redacted_from-object) RFC XXXX |
-
-### Amended_from Object Parameter Names Registry
-
-The following defines the initial values for the Amended_from Object Parameter Names Registry.
-Use the template in [Object Registry Template](#object-registry-template) when registering additional entries to this table.
-
-| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
-| --- | --- | --- | --- |
-| uuid | prior vCon version UUID | IESG | [](#amended_from-object) RFC XXXX |
-| url | referenced prior version vCon URL | IESG | [](#amended_from-object) RFC XXXX |
-| content_hash | prior version vCon hash | IESG | [](#amended_from-object) RFC XXXX |
+#### Entries from the Root
+
+The registry entries of the objects from the root are:
+
+Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| ---| --- | --- | --- | --- |
+| - | vcon | Schema version number | IESG | [](#vcon) RFC XXXX |
+| - | uuid | vCon instance UUID | IESG | [](#uuid) RFC XXXX |
+| - | extensions | list of extensions used | IESG | [extensions](#extensions) RFC XXXX |
+| - | critical | list of incompatible extensions used | IESG | [critical](#critical) RFC XXXX |
+| - | created_at | creation date | IESG | [](#created_at) RFC XXXX |
+| - | updated_at | modification date | IESG | [](#updated_at) RFC XXXX |
+| - | subject | conversation subject | IESG | [](#subject) RFC XXXX |
+| - | redacted_from | Redacted Object | IESG | [](#redacted_from) RFC XXXX |
+| - | amended_from | Amended Object | IESG | [](#amended_from) RFC XXXX |
+| - | group | reserved for future extension | IESG | RFC XXXX |
+| - | sessions | Session Objects array | IESG | [](#sessions-objects-array) RFC XXXX |
+| - | events | Event Objects array | IESG | [](#events-objects-array) RFC XXXX |
+| - | parties | Party Objects array | IESG | [](#parties-objects-array) RFC XXXX |
+| - | dialog | Dialog Objects array | IESG | [](#dialog-objects-array) RFC XXXX |
+| - | analysis | Analysis Objects array | IESG | [](#analysis-objects-array) RFC XXXX |
+| - | attachments | Attachment Objects array | IESG | [](#attachments-objects-array) RFC XXXX |
+| - | redacted_strings | Redacted Strings array | IESG | [](#redacted_string-object)
+
+#### Entries from the Party Object  
+
+| Parent Object Name| Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Party | tel | tel URL | IESG | [](#tel) RFC XXXX |
+| Party | sip | SIP URL | IESG | [](#tel) RFC XXXX |
+| Party | stir | STIR token | IESG | [](#stir) RFC XXXX |
+| Party | mailto | mailto URL | IESG | [](#mailto) RFC XXXX |
+| Party | name | participant name | IESG | [](#name) RFC XXXX |
+| Party | validation | validation method | IESG | [](#validation) RFC XXXX |
+| Party | gmlpos | participant geolocation | IESG | [](#gmlpos) RFC XXXX |
+| Party | civicaddress | civic address | IESG | [](#civicaddress) RFC XXXX |
+| Party | uuid | participant unique identifier | IESG | [](#party-uuid) RFC XXXX |
+| Party | type | participant type | IESG | [](#party-type) RFC XXXX |
+| Party | org | participant organization | IESG | [](#party-org) RFC XXXX |
+| Party | dept | participant department | IESG | [](#party-dept) RFC XXXX |
+| Party | did |  decentralized identifier | IESG | [](#party-did) RFC XXXX |
+
+
+
+#### Entries from the Dialog Object
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Dialog | type | dialog type name | IESG | [](#dialog-type) RFC XXXX |
+| Dialog | start | dialog start time | IESG | [](#dialog-start) RFC XXXX |
+| Dialog |duration | dialog duration period | IESG | [](#dialog-duration) RFC XXXX |
+| Dialog |parties | dialog parties list | IESG | [](#dialog-parties) RFC XXXX |
+| Dialog |mediatype | dialog content media type | IESG | [](#dialog-mediatype) RFC XXXX |
+| Dialog | filename | dialog content filename | IESG | [](#dialog-filename) RFC XXXX |
+| Dialog |body | dialog inline content | IESG | [](#dialog-content) RFC XXXX |
+| Dialog |encoding | dialog inline content encoding | IESG | [](#dialog-content) RFC XXXX |
+| Dialog |url | dialog referenced content URL | IESG | [](#dialog-content) RFC XXXX |
+| Dialog |content_hash | dialog content hash | IESG | [](#dialog-content) RFC XXXX |
+| Dialog |disposition | dialog disposition | IESG | [](#disposition) RFC XXXX |
+| Dialog |session_id | RFC7989 session ID  | IESG | [](#session_id) RFC XXXX |
+| Dialog |application | dialog source application | IESG | [](#application) RFC XXXX |
+| Dialog |message_id | dialog message id | IESG | [](#message_id) RFC XXXX |
+| Dialog |redacted_segments | redacted segments | IESG | [](#redacted_segments) RFC XXXX |
+
+#### Entries from the Dialog type Object
+
+
+| Parent Object Name | Dialog Type Name | Dialog Type Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Dialog->type | text | text dialog | IESG | [](#dialog-type) RFC XXXX |
+| Dialog->type | recording | recording dialog | IESG | [](#dialog-type) RFC XXXX |
+| Dialog->type | incomplete | incomplete dialog | IESG | [](#dialog-type) RFC XXXX |
+
+
+#### Entries from the Session Object 
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Session | start | session start time | IESG | [](#session-start) RFC XXXX |
+| Session | duration | session duration period | IESG | [](#session-duration) RFC XXXX |
+| Session | parties | session parties list | IESG | [](#session-parties) RFC XXXX |
+| Session | originator | session originator party | IESG | [](#session-originator) RFC XXXX |
+| Session | session_id | RFC7989 session ID | IESG | [](#session-session-id) RFC XXXX |
+| Session | sessions | Session_Reference Objects array | IESG | [](#session-sessions) RFC XXXX |
+| Session | dialog | session dialog index list | IESG | [](#session-dialog) RFC XXXX |
+
+#### Entries from the Session_Reference Object
+
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Session_Reference | session | referenced session index | IESG | [](#session-reference-session) RFC XXXX |
+| Session_Reference | type | session relationship type | IESG | [](#session-reference-type) RFC XXXX |
+| Session_Reference | description | session relationship description | IESG | [](#session-reference-description) RFC XXXX |
+
+#### Entries from the Session_Reference type Object
+
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Session_Reference->type | child | contained session | IESG | [](#session-reference-type) RFC XXXX |
+| Session_Reference->type | peer | parallel or overlapping session | IESG | [](#session-reference-type) RFC XXXX |
+| Session_Reference->type | precursor | preceding session | IESG | [](#session-reference-type) RFC XXXX |
+| Session_Reference->type | breakout | breakout session with a subset of the parties | IESG | [](#session-reference-type) RFC XXXX |
+
+#### Entries from the Event Object
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Event | type | event type name | IESG | [](#event-type) RFC XXXX |
+| Event | time | time event occurred | IESG | [](#event-time) RFC XXXX |
+| Event | sessions | event session indices | IESG | [](#event-sessions) RFC XXXX |
+| Event | party | event party index | IESG | [](#event-party) RFC XXXX |
+| Event | dialog | event dialog index | IESG | [](#event-dialog) RFC XXXX |
+| Event | channel | recording channel index | IESG | [](#event-channel) RFC XXXX |
+| Event | contributors | recording channel contributor party indices | IESG | [](#event-contributors) RFC XXXX |
+| Event | button | button label character or string | IESG | [](#event-button) RFC XXXX |
+| Event | transferee | transferee party index | IESG | [](#event-transferee) RFC XXXX |
+| Event | transfer_target | transfer target party index | IESG | [](#event-transfer-target) RFC XXXX |
+| Event | consultation | consultation session index | IESG | [](#event-consultation) RFC XXXX |
+| Event | target_session | target session index | IESG | [](#event-target-session) RFC XXXX |
+
+#### Entries from the Event Type Object
+
+
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Event->type | join | party join event | IESG | [](#event-type-party) RFC XXXX |
+| Event->type | drop | party drop event | IESG | [](#event-type-party) RFC XXXX |
+| Event->type | hold | party on hold event | IESG | [](#event-type-party) RFC XXXX |
+| Event->type | unhold | party off hold event | IESG | [](#event-type-party) RFC XXXX |
+| Event->type | mute | party on mute event | IESG | [](#event-type-party) RFC XXXX |
+| Event->type | unmute | party off mute event | IESG | [](#event-type-party) RFC XXXX |
+| Event->type | keydown | DTMF/app key/button press event | IESG | [](#event-type-key) RFC XXXX |
+| Event->type | keyup | DTMF/app key/button release event | IESG | [](#event-type-key) RFC XXXX |
+| Event->type | consultation-start | transfer consultation start event | IESG | [](#event-type-transfer) RFC XXXX |
+| Event->type | blind-transfer | blind transfer event | IESG | [](#event-type-transfer) RFC XXXX |
+| Event->type | consultative-transfer | consultative transfer event | IESG | [](#event-type-transfer) RFC XXXX |
+| Event->type | transfer-abandoned | transfer abandoned event | IESG | [](#event-type-transfer) RFC XXXX |
+| Event->type | channel-contributors | recording channel contributors change event | IESG | [](#event-type-channel-contributors) RFC XXXX |
+
+#### Entries from the Attachment Object
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Attachment | purpose | attachment object purpose description | IESG | [](#attachment-purpose) RFC XXXX |
+| Attachment | start | attachment start time | IESG | [](#attachment-start) RFC XXXX |
+| Attachment | party | sending party index | IESG | [](#party) RFC XXXX |
+| Attachment | dialog | associated dialog index | IESG | [](#attachment-dialog) RFC XXXX |
+| Attachment | session | associated session index | IESG | [](#attachment-session) RFC XXXX |
+| Attachment | mediatype | attachment body media type | IESG | [](#attachment-mediatype) RFC XXXX |
+| Attachment | filename | attachment content filename | IESG | [](#attachment-filename) RFC XXXX |
+| Attachment | body | attachment inline content | IESG | [](#attachment-content) RFC XXXX |
+| Attachment | encoding | attachment inline content encoding | IESG | [](#attachment-content) RFC XXXX |
+| Attachment | url | attachment referenced content URL | IESG | [](#attachment-content) RFC XXXX |
+| Attachment | content_hash | attachment content hash | IESG | [](#attachment-content) RFC XXXX |
+
+#### Entries from the Analysis Object
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Analysis | type | analysis type | IESG | [](#analysis-type) RFC XXXX |
+| Analysis | dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
+| Analysis | sessions | associated session indices | IESG | [](#analysis-sessions) RFC XXXX |
+| Analysis | attachment | associated attachment index | IESG | [](#analysis-attachment) RFC XXXX |
+| Analysis | analysis | associated analysis index | IESG | [](#analysis-analysis) RFC XXXX |
+| Analysis | mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
+| Analysis | filename | analysis content filename | IESG | [](#analysis-filename) RFC XXXX |
+| Analysis | vendor | vendor producing content | IESG | [](#vendor) RFC XXXX |
+| Analysis | product | vendor product producing content| IESG | [](#product) RFC XXXX |
+| Analysis | schema | product schema of content| IESG | [](#schema) RFC XXXX |
+| Analysis | body | analysis inline content | IESG | [](#analysis-content) RFC XXXX |
+| Analysis | encoding | analysis inline content encoding | IESG | [](#analysis-content) RFC XXXX |
+| Analysis | url | analysis referenced content URL | IESG | [](#analysis-content) RFC XXXX |
+| Analysis | content_hash | analysis content hash | IESG | [](#analysis-content) RFC XXXX |
+
+#### Entries from the Redacted_from Object
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Redacted_from | uuid | less redacted vCon UUID | IESG | [](_#redacted_from_-object) RFC XXXX |
+| Redacted_from | type | redaction type or reason | IESG | [](#redacted_from-object) RFC XXXX |
+| Redacted_from | url | referenced less redacted vCon URL | IESG | [](#redacted_from-object) RFC XXXX |
+| Redacted_from | content_hash | less redacted vCon hash | IESG | [](#redacted_from-object) RFC XXXX |
+
+#### Entries from the Amended_from Object
+
+| Parent Object Name | Parameter Name | Parameter Description | Change Controller | Specification Document(s) |
+| --- | --- | --- | --- | --- |
+| Amended_from | uuid | prior vCon version UUID | IESG | [](#amended_from-object) RFC XXXX |
+| Amended_from | url | referenced prior version vCon URL | IESG | [](#amended_from-object) RFC XXXX |
+| Amended_from | content_hash | prior version vCon hash | IESG | [](#amended_from-object) RFC XXXX |
 
 
 ## vCon Extensions Names Registry
