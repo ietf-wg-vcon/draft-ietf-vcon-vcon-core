@@ -436,7 +436,7 @@ This top level vCon object is also contained as described in the [signed](#signe
 The selection of the JSON format enables interchange between application and lower layers of the network stack, critical for enablement of analysis of conversations.
 The signed form of vCon is defined in [](#signed-form-of-vcon-object) using [JWS] to provide integrity and proof of the conversation data.
 The encrypted form of vCon is defined in [](#encrypted-form-of-vcon-object) using [JWE] to provide complete privacy of the conversational data.
-Partial privacy or data minimization can be provide for a vCon using the techniques outlined in (Redaction Techniques)[#redaction_techniques].
+Partial privacy or data minimization can be provided for a vCon using the techniques outlined in [Redaction Techniques](#redaction_techniques).
 
 # Unsigned Form of vCon Object
 
@@ -449,9 +449,9 @@ A vCon in the unsigned form SHOULD contain at least one of the parties, dialog, 
 A vCon may be constructed across several security domains.
 When a vCon is to be exported from one security domain to another, it SHOULD be signed or encrypted by the domain that constructed it.
 The subsequent domain may have need to redact or amend data to the vCon.
-Alternatively the originating domain may want to redact the vCon before providing it to an other domain.
+Alternatively the originating domain may want to redact the vCon before providing it to another domain.
 The second or subsequent domain, MAY modify the prior vCon instance version and when complete or exporting to another security domain, it SHOULD sign or encrypt the new vCon instance version.
-The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted_from](#redacted_from)) or amended_from ([amended_from](#amended_from)) parameters - see (Redaction Techniques)[#redaction_techniques].
+The new vCon instance version SHOULD refer to the prior vCon instance version via the redacted_from ([redacted_from](#redacted_from)) or amended_from ([amended_from](#amended_from)) parameters - see [Redaction Techniques](#redaction_techniques).
 
 ## vCon JSON Object Keys and Values
 
@@ -543,7 +543,7 @@ The [Redacted_from Object](#redacted_from-object) SHOULD contain the uuid parame
 If a reference to the unredacted vCon is provided in the url parameter, the access to that URL MUST
 be restricted to only those who should be allowed to see the identity or PII for the redacted vCon.
 
-Redaction techniques are discussed in more detail in (Redaction Techniques)[#redaction_techniques]. The assurance of the accuracy of the redaction is made by the entity that creates the redaction which
+Redaction techniques are discussed in more detail in [Redaction Techniques](#redaction_techniques). The assurance of the accuracy of the redaction is made by the entity that creates the redaction which
 SHOULD sign the redacted version of the vCon.
 
 
