@@ -9203,7 +9203,8 @@ Acknowledgments
       draft-rosenberg-vcon-cc-usecases and for the data structure ideas
       to create Session Objects instead of recording-sets type Dialogs
       and elevating party_history event Objects into the Event Object
-      array at the top level.
+      array at the top level and the contribution for tagging redactions
+      and enumerating the vCon redaction techniques possible in vCon.
 
    *  Thank you to Rohan Mahy for his help in exploring the CDDL schema
       and CBOR format for vCon and testing out the extension framework
@@ -9237,6 +9238,9 @@ Acknowledgments
 
    *  Thank you to Henk Birkholz for identifying a few ambiguities in
       the syntax and a few missing IANA entries.
+
+   *  Thank you to Eugene Tcipnjatov for pushing me to solve the
+      recording topology case where the contributors change over time.
 
 Author's Address
 
