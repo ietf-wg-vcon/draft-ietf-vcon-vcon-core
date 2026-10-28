@@ -457,7 +457,7 @@ The new vCon instance version SHOULD refer to the prior vCon instance version vi
 
 The keys and values for the top level vCon JSON object are defined in the following subsections.
 
-### vcon
+### vcon {#vcon}
 
 The "vcon" parameter is DEPRECATED as of the publication of this document as an RFC.
 The "vcon" parameter was used to differentiate schema changes to the vCon core container when
@@ -2409,7 +2409,7 @@ The JSON format for vCon is mandatory to implement.
 
 * Interoperability considerations: The vCon schema is defined in RFC XXXX.  The schema may be extended through extensions as defined there.
 
-* Published specification: [VCON], this document: RFC XXXX
+* Published specification: This document: RFC XXXX
 
 * Applications that use this media type:
 
