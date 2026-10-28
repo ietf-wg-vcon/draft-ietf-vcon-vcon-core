@@ -917,6 +917,7 @@ A Session Object may refer to other Session Objects in one of several different 
 The sessions parameter is an array of Session Reference Objects.
 The sessions parameter can be used to create a tree or graph of session.
 A Session Reference Object also labels the relationship between this Session Object and the reference one.
+Event Objects are not inherited through these relationships; an Event Object applies only to the Session Objects listed in its sessions parameter (see [](#event-sessions)).
 
 ### dialog {#session-dialog}
 
@@ -977,8 +978,8 @@ An event is a point in time occurrence, unlike a Dialog Object which captures th
 A period of time, such as the time that a party was on hold, is captured by a pair of Event Objects and not by a duration.
 
 Every Event Object has a type and the time at which the event occurred.
-Depending upon its type, an Event Object also references the session in which it occurred, the party to which it relates, or the Dialog Object to which it relates.
-Each Event Object occurs within the scope of a Session Object, referenced either directly by its session parameter, or through the Dialog Object referenced by its dialog parameter.
+Depending upon its type, an Event Object also references the session(s) in which it occurred, the party to which it relates, or the Dialog Object to which it relates.
+Each Event Object occurs within the scope of one or more Session Objects, referenced either directly by its sessions parameter, or through the Dialog Object referenced by its dialog parameter.
 
 The following types of events are defined in this document:
 
@@ -1091,12 +1092,12 @@ The following figure illustrates the transfer event types and the calls to which
 ~~~
 {: #diagram3 title="transfer event states"}
 
-In the transfer event types, the session parameter references the Session Object for the original call and the party parameter references the Transferor.
+In the transfer event types, the sessions parameter references the Session Object for the original call and the party parameter references the Transferor.
 The transferee and transfer_target parameters reference the other two parties to the transfer (see [](#event-transferee) and [](#event-transfer-target)).
 The consultation and target_session parameters reference the Session Objects for the consultative call and the target call (see [](#event-consultation) and [](#event-target-session)).
 
 There are scenarios where we know that a transfer has occurred, but we have no information for one or two of the consultation, target or original calls.
-In this case a placeholder Session Object is created and its index is used for the consultation, target_session or session parameter.
+In this case a placeholder Session Object is created and its index is used for the consultation, target_session or sessions parameter.
 A placeholder Session Object may contain no parameters or may reference a placeholder Dialog Object.
 A unique Session Object SHOULD be referenced for each role in the transfer.
 
@@ -1121,7 +1122,7 @@ If the contributors to more than one channel change at the same time, a separate
 The channel-contributors Event Object MAY be used with a recording Dialog Object in any of the recording topologies (see [](#dialog-type-recording)), although it may not be useful in some of them, such as talk spurt.
 It indicates which parties are captured on a channel; it does not indicate that a party joined or dropped from the session.
 A party may be in the session, but not captured on any channel of the recording.
-The session and party parameters are not used in the channel-contributors Event Object (see [](#event-session) and [](#event-party)).
+The sessions and party parameters MUST NOT be present in the channel-contributors Event Object (see [](#event-sessions) and [](#event-party)).
 
 The following channel contributors event type is defined:
 
@@ -1139,7 +1140,7 @@ The following table applies to the party and key event types.
 | --- | --- | --- |
 | type | M | M |
 | time | M | M |
-| session | M | M |
+| sessions | M | M |
 | party | M | M |
 | dialog | SN | SN |
 | channel | X | X |
@@ -1156,7 +1157,7 @@ The following table applies to the transfer event types.
 | --- | --- | --- | --- | --- |
 | type | M | M | M | M |
 | time | M | M | M | M |
-| session | M (1) | M (1) | M (1) | M (1) |
+| sessions | M (1) | M (1) | M (1) | M (1) |
 | party | M (2) | M (2) | M (2) | M (2) |
 | dialog | SN | SN | SN | SN |
 | channel | X | X | X | X |
@@ -1167,7 +1168,7 @@ The following table applies to the transfer event types.
 | consultation | M | X | M | O |
 | target_session | X | M | M | X |
 
-(1) References the Session Object for the original call.
+(1) A single index which references the Session Object for the original call.
 
 (2) References the Transferor.
 
@@ -1177,7 +1178,7 @@ The following table applies to the channel contributors event type.
 | --- | --- |
 | type | M |
 | time | M |
-| session | X |
+| sessions | X |
 | party | X |
 | dialog | M |
 | channel | M |
@@ -1198,16 +1199,19 @@ The time parameter indicates the time at which this event occurred.
 
 The time parameter MUST be provided as it is used to determine the sequence in which events occurred.
 
-### session {#event-session}
+### sessions {#event-sessions}
 
-The session parameter indicates the session in which this event occurred.
+The sessions parameter indicates the session(s) in which this event occurred.
 
-* session: "UnsignedInt" (not used in channel-contributors events)
+* sessions: "UnsignedInt" \| "UnsignedInt\[\]" (not used in channel-contributors events)
 
-The value of the session parameter is the index into the sessions Object array to the Session Object in which this event occurred.
-The session parameter MUST be present in all of the Event Object types defined in this document, except "channel-contributors" type Event Objects, in which it MUST NOT be present.
+The value of the sessions parameter is the index, or an array of indices, into the sessions Object array to the Session Object(s) in which this event occurred.
+The sessions parameter MUST be present in all of the Event Object types defined in this document, except "channel-contributors" type Event Objects, in which it MUST NOT be present.
+An Event Object applies only to the Session Objects listed in its sessions parameter.
+An Event Object does not apply to the child or parent Session Objects of the Session Objects listed in its sessions parameter, unless they are also listed (see [](#session-sessions)).
+If an Event Object applies to more than one Session Object, each of those Session Objects MUST be listed in its sessions parameter.
 The session(s) in which a "channel-contributors" type Event Object occurred are the Session Object(s) which reference the Dialog Object referenced by its dialog parameter (see [](#event-dialog)).
-For the transfer event types, the session parameter references the Session Object for the original call between the Transferee and the Transferor.
+For the transfer event types, the value of the sessions parameter MUST be a single index, which references the Session Object for the original call between the Transferee and the Transferor.
 
 ### party {#event-party}
 
@@ -1926,17 +1930,17 @@ The dialog parameter is used to indicate which Dialog Objects this analysis was 
 * dialog: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
 
 The value of the dialog parameter is the index to the dialog or array of indices to the Dialog Object array to which this Analysis Object corresponds.
-At least one of the dialog, session, attachment or analysis parameters SHOULD be present to indicate the scope of what was input to the analysis (see [](#analysis-session), [](#analysis-attachment) and [](#analysis-analysis)).
+At least one of the dialog, sessions, attachment or analysis parameters SHOULD be present to indicate the scope of what was input to the analysis (see [](#analysis-sessions), [](#analysis-attachment) and [](#analysis-analysis)).
 Analysis may also be based upon data which is not contained in the vCon, in which case none of these parameters may apply.
 
-### session {#analysis-session}
+### sessions {#analysis-sessions}
 
 Analysis may pertain to one or more sessions as a whole, as opposed to specific Dialog Objects.
-The session parameter is used to indicate which Session Objects this analysis was based upon.
+The sessions parameter is used to indicate which Session Objects this analysis was based upon.
 
-* session: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
+* sessions: "UnsignedInt" \| "UnsignedInt\[\]" (optional)
 
-The value of the session parameter is the index to the session or array of indices to the Session Object array to which this Analysis Object corresponds.
+The value of the sessions parameter is the index to the session or array of indices to the Session Object array to which this Analysis Object corresponds.
 
 ### attachment {#analysis-attachment}
 
@@ -2696,7 +2700,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | --- | --- | --- | --- |
 | type | event type name | IESG | [](#event-type) RFC XXXX |
 | time | time event occurred | IESG | [](#event-time) RFC XXXX |
-| session | event session index | IESG | [](#event-session) RFC XXXX |
+| sessions | event session indices | IESG | [](#event-sessions) RFC XXXX |
 | party | event party index | IESG | [](#event-party) RFC XXXX |
 | dialog | event dialog index | IESG | [](#event-dialog) RFC XXXX |
 | channel | recording channel index | IESG | [](#event-channel) RFC XXXX |
@@ -2784,7 +2788,7 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | --- | --- | --- | --- |
 | type | analysis type | IESG | [](#analysis-type) RFC XXXX |
 | dialog | associated dialog index | IESG | [](#analysis-dialog) RFC XXXX |
-| session | associated session index | IESG | [](#analysis-session) RFC XXXX |
+| sessions | associated session indices | IESG | [](#analysis-sessions) RFC XXXX |
 | attachment | associated attachment index | IESG | [](#analysis-attachment) RFC XXXX |
 | analysis | associated analysis index | IESG | [](#analysis-analysis) RFC XXXX |
 | mediatype | analysis body media type | IESG | [](#analysis-mediatype) RFC XXXX |
@@ -2873,7 +2877,7 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
   * The Session Object and the "sessions" array were added.
     A 0.4.0 vCon is migrated by adding a Session Object which references all of its Dialog Objects.
   * The "party_history" Dialog Object parameter was replaced by the Event Object and the "events" array.
-    Each Party_History Object becomes an Event Object, with "event" renamed to "type", which references the Session Object for the Dialog Object from which it came.
+    Each Party_History Object becomes an Event Object, with "event" renamed to "type", whose sessions parameter references the Session Object for the Dialog Object from which it came.
     The converted Event Object does not reference the Dialog Object, as the dialog parameter SHOULD NOT be present in the party and key event types.
   * The "transfer" type Dialog Object was replaced by the transfer Event Object types.
     Each "transfer" type Dialog Object becomes one or two Event Objects in which "transferor" becomes "party", and the Dialog Objects referenced by "original", "consultation" and "target_dialog" are each referenced through a Session Object.
