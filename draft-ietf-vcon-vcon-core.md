@@ -3069,7 +3069,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 {:numbered="false"}
 
 * Thank you to Thomas McCarthy-Howe for inventing the concept of a vCon and the many discussions that we had while this concept was developed into reality.
-* Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases and for the data structure ideas to create Session Objects instead of recording-sets type Dialogs and elevating party_history event Objects into the Event Object array at the top level.
+* Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases and for the data structure ideas to create Session Objects instead of recording-sets type Dialogs and elevating party_history event Objects into the Event Object array at the top level and the contribution for tagging redactions and enumerating the vCon redaction techniques possible in vCon.
 * Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon and testing out the extension framework with MIME.
 * The examples in this document were generated using the command line interface (CLI) from the py-vcon [PY-VCON] python open source project.
 * Thank you to Steve Lasker for formatting and spelling edits.
@@ -3080,6 +3080,7 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/he
 * Thank you to Mike Jones, Richard Barnes and Mike Ounsworth for their help with providing an approach to maintaining integrity for long term storage of signed vCons.
 * Thank you to Scott Godin for several thorough reviews and the idea and help on designing the multi-segment recording metadata concept for recording-set.
 * Thank you to Henk Birkholz for identifying a few ambiguities in the syntax and a few missing IANA entries.
+* Thank you to Eugene Tcipnjatov for pushing me to solve the recording topology case where the contributors change over time.
 
 
 
