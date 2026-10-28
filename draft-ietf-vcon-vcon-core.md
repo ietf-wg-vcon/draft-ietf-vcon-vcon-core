@@ -625,7 +625,7 @@ The amended vCon in this figure refers to the JWS signed version of the vCon, wh
 {: #diagram2 title="amended vCon object tree"}
 
 
-### sessions Objects Array
+### sessions Objects Array {#sessions-objects-array}
 
 A vCon can contain a single conversation, several conversations, sub-conversations or side bar conversations.
 The Session Object is used to group dialog Objects into sets of dialog to represent those conversations.
@@ -976,14 +976,16 @@ An Event Object captures one such occurrence.
 An event is a point in time occurrence, unlike a Dialog Object which captures the actual conversation over some duration.
 A period of time, such as the time that a party was on hold, is captured by a pair of Event Objects and not by a duration.
 
-Every Event Object has a type, the time at which the event occurred, the session in which it occurred and the party to which it relates.
-Each Event Object occurs within the scope of a Session Object.
+Every Event Object has a type and the time at which the event occurred.
+Depending upon its type, an Event Object also references the session in which it occurred, the party to which it relates, or the Dialog Object to which it relates.
+Each Event Object occurs within the scope of a Session Object, referenced either directly by its session parameter, or through the Dialog Object referenced by its dialog parameter.
 
 The following types of events are defined in this document:
 
 * party event types - a change in the participation of a party in a session (see [](#event-type-party))
 * key event types - a key or button was pressed or released (see [](#event-type-key))
 * transfer event types - a transfer operation and the relationship between the sessions involved (see [](#event-type-transfer))
+* channel contributors event type - a change in the party(s) contributing to a channel of a recording (see [](#event-type-channel-contributors))
 
 Additional event types may be defined in a vCon extension (see [](#extending-vcon)).
 
@@ -1101,11 +1103,35 @@ A unique Session Object SHOULD be referenced for each role in the transfer.
 The transfer event types only capture the roles, operations and events of the parties and the session setup.
 They do not capture the purpose or reason for the transfer as that is analysis to be captured in the analysis section of the vCon after the conversation has occurred.
 
+#### Channel Contributors Event Type {#event-type-channel-contributors}
+
+The channel contributors event type indicates the time at which the party(s) contributing to a channel of a recording Dialog Object change.
+This supports the channel contributor changes recording topology (see [](#dialog-type-recording)).
+For example, a conference bridge may create a recording with fewer channels than there are parties in the conference, and select the party(s) captured on each channel based upon which parties it detects as talking.
+At times a channel may capture no party at all.
+
+The dialog parameter references the recording Dialog Object and the channel parameter identifies the channel in that recording (see [](#event-dialog) and [](#event-channel)).
+The contributors parameter indicates the party(s) contributing to that channel, starting at the time of the event (see [](#event-contributors)).
+These parties contribute to the channel until the time of the next channel-contributors Event Object for the same Dialog Object and channel, or until the end of the recording.
+The contributors at the start of the recording are indicated in the parties parameter of the Dialog Object (see [](#dialog-parties)).
+The time parameter of a channel-contributors Event Object SHOULD be within the time period given by the start and duration parameters of the referenced Dialog Object.
+Each channel-contributors Event Object applies to exactly one channel.
+If the contributors to more than one channel change at the same time, a separate channel-contributors Event Object is used for each channel, each with the same time parameter value.
+
+The channel-contributors Event Object MAY be used with a recording Dialog Object in any of the recording topologies (see [](#dialog-type-recording)), although it may not be useful in some of them, such as talk spurt.
+It indicates which parties are captured on a channel; it does not indicate that a party joined or dropped from the session.
+A party may be in the session, but not captured on any channel of the recording.
+The session and party parameters are not used in the channel-contributors Event Object (see [](#event-session) and [](#event-party)).
+
+The following channel contributors event type is defined:
+
+* "channel-contributors" - when the party(s) contributing to a channel of a recording change
+
 #### Event Object Parameter Applicability by Type {#event-object-parameter-applicability-by-type}
 
 The following tables summarize which Event Object parameters apply to each Event Object type.
 The parameter definitions in the subsections of this document are definitive; these tables are provided as a summary.
-The symbols used in the tables are: M the parameter MUST be present, O the parameter is optional, X the parameter MUST NOT be present.
+The symbols used in the tables are: M the parameter MUST be present, O the parameter is optional, SN the parameter SHOULD NOT be present, X the parameter MUST NOT be present.
 
 The following table applies to the party and key event types.
 
@@ -1115,7 +1141,9 @@ The following table applies to the party and key event types.
 | time | M | M |
 | session | M | M |
 | party | M | M |
-| dialog | O | O |
+| dialog | SN | SN |
+| channel | X | X |
+| contributors | X | X |
 | button | X | M |
 | transferee | X | X |
 | transfer_target | X | X |
@@ -1130,7 +1158,9 @@ The following table applies to the transfer event types.
 | time | M | M | M | M |
 | session | M (1) | M (1) | M (1) | M (1) |
 | party | M (2) | M (2) | M (2) | M (2) |
-| dialog | X | X | X | X |
+| dialog | SN | SN | SN | SN |
+| channel | X | X | X | X |
+| contributors | X | X | X | X |
 | button | X | X | X | X |
 | transferee | M | M | M | M |
 | transfer_target | M | M | M | O |
@@ -1140,6 +1170,25 @@ The following table applies to the transfer event types.
 (1) References the Session Object for the original call.
 
 (2) References the Transferor.
+
+The following table applies to the channel contributors event type.
+
+| Parameter | channel-contributors |
+| --- | --- |
+| type | M |
+| time | M |
+| session | X |
+| party | X |
+| dialog | M |
+| channel | M |
+| contributors | O (3) |
+| button | X |
+| transferee | X |
+| transfer_target | X |
+| consultation | X |
+| target_session | X |
+
+(3) A null value or the absence of the contributors parameter indicates that no party contributes to the channel.
 
 ### time {#event-time}
 
@@ -1153,32 +1202,57 @@ The time parameter MUST be provided as it is used to determine the sequence in w
 
 The session parameter indicates the session in which this event occurred.
 
-* session: "UnsignedInt"
+* session: "UnsignedInt" (not used in channel-contributors events)
 
 The value of the session parameter is the index into the sessions Object array to the Session Object in which this event occurred.
-The session parameter MUST be provided.
+The session parameter MUST be present in all of the Event Object types defined in this document, except "channel-contributors" type Event Objects, in which it MUST NOT be present.
+The session(s) in which a "channel-contributors" type Event Object occurred are the Session Object(s) which reference the Dialog Object referenced by its dialog parameter (see [](#event-dialog)).
 For the transfer event types, the session parameter references the Session Object for the original call between the Transferee and the Transferor.
 
 ### party {#event-party}
 
 The party parameter indicates the party for this event.
 
-* party: "UnsignedInt"
+* party: "UnsignedInt" (not used in channel-contributors events)
 
 The value of the party parameter is the index into the parties Object array to the party for this event.
-The party parameter MUST be provided.
+The party parameter MUST be present in all of the Event Object types defined in this document, except "channel-contributors" type Event Objects, in which it MUST NOT be present.
+The parties contributing to a channel are indicated in the contributors parameter of the "channel-contributors" type Event Object (see [](#event-contributors)).
 For the transfer event types, the party parameter references the party that played the role of the Transferor.
 
 ### dialog {#event-dialog}
 
-TODO: do we need dialog?
+The dialog parameter indicates the Dialog Object to which this event relates.
 
-An event may relate to a specific piece of dialog.
-
-* dialog: "UnsignedInt" (optional)
+* dialog: "UnsignedInt" (required for channel-contributors events)
 
 The value of the dialog parameter is the index into the dialog Object array to the Dialog Object to which this event relates.
-The dialog parameter MUST NOT be present in the transfer event types.
+The dialog parameter MUST be present in "channel-contributors" type Event Objects and SHOULD NOT be present in the other Event Object types defined in this document.
+The Dialog Object referenced by a "channel-contributors" type Event Object MUST be of type "recording".
+Event Object types defined in a vCon extension may use the dialog parameter, and may allow its value to be an array of indices to Dialog Objects.
+An implementation SHOULD NOT treat an array value for the dialog parameter as an error in an Event Object type defined in a vCon extension.
+
+### channel {#event-channel}
+
+The channel parameter indicates the channel of the recording to which this event relates.
+
+* channel: "UnsignedInt" (required for channel-contributors events)
+
+The value of the channel parameter is the index of the channel in the recording of the Dialog Object referenced by the dialog parameter, where 0 is the first channel.
+The channel index corresponds to the index of the channel in the parties parameter of that Dialog Object (see [](#dialog-parties)).
+The value MUST be less than the number of channels in the recording.
+For a single channel recording, the value MUST be 0.
+The channel parameter MUST be present in "channel-contributors" type Event Objects and MUST NOT be present in the other Event Object types defined in this document.
+
+### contributors {#event-contributors}
+
+The contributors parameter indicates the party(s) contributing to the channel, starting at the time of this event.
+
+* contributors: "UnsignedInt" \| "UnsignedInt\[\]" \| null (optional)
+
+The value of the contributors parameter is the index, or an array of indices, into the parties Object array to the Party Objects which contribute to the channel, starting at the time of this event.
+A null value, or the absence of the contributors parameter, in a "channel-contributors" type Event Object indicates that no party contributes to the channel, starting at the time of this event.
+The contributors parameter MUST NOT be present in the other Event Object types defined in this document.
 
 ### button {#event-button}
 
@@ -1438,7 +1512,20 @@ The applicability of each of the Dialog Object parameters to each of the types i
 #### recording {#dialog-type-recording}
 
 A dialog of type "recording" has Dialog Content that either contains a body or refers to via url, which is a recording of the video and/or audio of a segment of the conversation.
-A recording Dialog Object may be one of a set of recordings which collectively represent a call or session, in which case the Dialog Objects in the set are referenced by a Session Object (see [](#session-dialog)).
+
+A recording of a conversation may be captured using one of a number of topologies.
+The following recording topologies are supported by the recording Dialog Object:
+
+* single channel - a single recording Dialog Object with one channel, into which the audio of all of the parties is mixed
+* multi-channel - a single recording Dialog Object with a separate channel for each party or set of parties
+* per party - a separate single channel recording Dialog Object for each party, which starts when the party joins and ends when the party drops
+* talk spurt - a separate recording Dialog Object for each party and each contiguous period in which that party talks, with the silence trimmed out
+* channel contributor changes - a recording Dialog Object in which the party(s) contributing to a channel change over the duration of the recording, for example a conference bridge which records only the parties that it detects as talking (see [](#event-type-channel-contributors))
+* segmented - any of the other topologies, in which a recording is stopped and a new recording Dialog Object is started for the same party(s), for example when the recording reaches a maximum duration, such that the recording is a sequence of consecutive recording Dialog Objects
+
+The per party, talk spurt and segmented topologies use more than one recording Dialog Object, which collectively represent the call or session.
+In these topologies, the Session Object is important in defining which Dialog Objects are part of a conversation, side bar conversation or call segment (see [](#session-dialog)).
+This allows a single vCon to contain multiple, clearly defined conversations, side bar conversations or call segments (see [](#sessions-objects-array)).
 
 #### text {#dialog-type-text}
 
@@ -1530,7 +1617,7 @@ The parties parameter SHOULD be present in "recording" and "text" type Dialog Ob
 The parties parameter is optional for "incomplete" type Dialog Objects, where it indicates the party that attempted to set up the call or conversation (i.e. the caller or originator).
 The party(s) to which the call or conversation setup was attempted are indicated in the parties parameter of the Session Object which references the "incomplete" type Dialog Object.
 
-* parties: "UnsignedInt" \| "UnsignedInt\[\]" \| ("UnsignedInt" \| "UnsignedInt\[\]")\[\]
+* parties: "UnsignedInt" \| "UnsignedInt\[\]" \| ("UnsignedInt" \| "UnsignedInt\[\]" \| null)\[\]
 
 Single channel recordings should have a parties value of the form: "UnsignedInt" or "UnsignedInt\[\]" where the integer value or array of integer values are the indices to the Party Object(s) in the parties array that contributed to the mix for the single channel recording.
 The index for the Party Object SHOULD be included even if the indicated party was silent the entire piece of dialog.
@@ -1539,6 +1626,13 @@ Multi-channel recordings MUST have a parties value that is an array of the same 
 The values in that array are either an integer or an array of integers which are the indices to the parties that contributed to the mix for the associated channel of the recording.
 The index for Party Objects SHOULD be included even if the party was silent the entire conversation.
 If not all channels are used in a recording, such that no parties are recorded on one or more channels, a null placeholder MUST be inserted into the parties array for the corresponding channel.
+
+By default, the party(s) indicated in the parties parameter for a channel are the contributors to that channel for the entire duration of the recording.
+The contributors to a channel may change over the duration of the recording (see the channel contributor changes recording topology in [](#dialog-type-recording)).
+Such changes are indicated by channel-contributors Event Objects which reference the Dialog Object and the channel (see [](#event-type-channel-contributors)).
+When one or more channel-contributors Event Objects exist for a channel, the parties parameter for that channel indicates the contributors at the start of the recording.
+In that case, a null value for the channel indicates that no party contributes to the channel at the start of the recording.
+If the contributors to a channel change, but the times at which they change are not known, the parties parameter for that channel SHOULD contain all of the parties which contributed to that channel over the duration of the recording, and no channel-contributors Event Object is provided for that channel.
 
 Some recording systems represent a single call or session using multiple recording Dialog Objects.
 This may occur when recordings are periodically segmented or when separate recordings are created for each party and talk spurt.
@@ -2605,6 +2699,8 @@ Use the template in [Object Registry Template](#object-registry-template) when r
 | session | event session index | IESG | [](#event-session) RFC XXXX |
 | party | event party index | IESG | [](#event-party) RFC XXXX |
 | dialog | event dialog index | IESG | [](#event-dialog) RFC XXXX |
+| channel | recording channel index | IESG | [](#event-channel) RFC XXXX |
+| contributors | recording channel contributor party indices | IESG | [](#event-contributors) RFC XXXX |
 | button | button label character or string | IESG | [](#event-button) RFC XXXX |
 | transferee | transferee party index | IESG | [](#event-transferee) RFC XXXX |
 | transfer_target | transfer target party index | IESG | [](#event-transfer-target) RFC XXXX |
@@ -2658,6 +2754,7 @@ The following table defines the initial values for the Event Type Name Registry.
 | blind-transfer | blind transfer event | IESG | [](#event-type-transfer) RFC XXXX |
 | consultative-transfer | consultative transfer event | IESG | [](#event-type-transfer) RFC XXXX |
 | transfer-abandoned | transfer abandoned event | IESG | [](#event-type-transfer) RFC XXXX |
+| channel-contributors | recording channel contributors change event | IESG | [](#event-type-channel-contributors) RFC XXXX |
 
 ### Attachment Object Parameter Names Registry
 
@@ -2776,7 +2873,8 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
   * The Session Object and the "sessions" array were added.
     A 0.4.0 vCon is migrated by adding a Session Object which references all of its Dialog Objects.
   * The "party_history" Dialog Object parameter was replaced by the Event Object and the "events" array.
-    Each Party_History Object becomes an Event Object, with "event" renamed to "type", which references the Session Object and the Dialog Object from which it came.
+    Each Party_History Object becomes an Event Object, with "event" renamed to "type", which references the Session Object for the Dialog Object from which it came.
+    The converted Event Object does not reference the Dialog Object, as the dialog parameter SHOULD NOT be present in the party and key event types.
   * The "transfer" type Dialog Object was replaced by the transfer Event Object types.
     Each "transfer" type Dialog Object becomes one or two Event Objects in which "transferor" becomes "party", and the Dialog Objects referenced by "original", "consultation" and "target_dialog" are each referenced through a Session Object.
   * The "originator" Dialog Object parameter was moved to the Session Object.

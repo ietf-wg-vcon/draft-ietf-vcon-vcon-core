@@ -33,6 +33,7 @@ ciphertext
 CLI
 ContentHash
 CRM
+csv
 crypto
 curation
 dan
@@ -56,6 +57,7 @@ ECRIT
 enablement
 enc
 ext
+facilitator
 flr
 FQHN
 fullname
@@ -107,6 +109,7 @@ JWS
 JWT
 keydown
 keyup
+kramdown
 Lasker
 Lennox
 LLC
@@ -157,6 +160,8 @@ realtime
 rec
 REC
 redaction
+regex
+reindexed
 refcontent
 RESTful
 RFCs
