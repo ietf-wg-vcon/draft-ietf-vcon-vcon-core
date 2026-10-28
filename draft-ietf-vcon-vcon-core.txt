@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         27 October 2026
-Expires: 30 April 2027
+Intended status: Standards Track                         28 October 2026
+Expires: 1 May 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 April 2027.
+   This Internet-Draft will expire on 1 May 2027.
 
 Copyright Notice
 
@@ -123,11 +123,13 @@ Table of Contents
        4.3.3.  session
        4.3.4.  party
        4.3.5.  dialog
-       4.3.6.  button
-       4.3.7.  transferee
-       4.3.8.  transfer_target
-       4.3.9.  consultation
-       4.3.10. target_session
+       4.3.6.  channel
+       4.3.7.  contributors
+       4.3.8.  button
+       4.3.9.  transferee
+       4.3.10. transfer_target
+       4.3.11. consultation
+       4.3.12. target_session
      4.4.  Party Object
        4.4.1.  tel
        4.4.2.  sip
@@ -1477,9 +1479,13 @@ Table of Contents
    that a party was on hold, is captured by a pair of Event Objects and
    not by a duration.
 
-   Every Event Object has a type, the time at which the event occurred,
-   the session in which it occurred and the party to which it relates.
-   Each Event Object occurs within the scope of a Session Object.
+   Every Event Object has a type and the time at which the event
+   occurred.  Depending upon its type, an Event Object also references
+   the session in which it occurred, the party to which it relates, or
+   the Dialog Object to which it relates.  Each Event Object occurs
+   within the scope of a Session Object, referenced either directly by
+   its session parameter, or through the Dialog Object referenced by its
+   dialog parameter.
 
    The following types of events are defined in this document:
 
@@ -1492,6 +1498,9 @@ Table of Contents
    *  transfer event types - a transfer operation and the relationship
       between the sessions involved (see Section 4.3.1.3)
 
+   *  channel contributors event type - a change in the party(s)
+      contributing to a channel of a recording (see Section 4.3.1.4)
+
    Additional event types may be defined in a vCon extension (see
    Section 2.5).
 
@@ -1499,7 +1508,7 @@ Table of Contents
    type of the event.  The event types are described first in the
    subsections of the type parameter (see Section 4.3.1).  The
    parameters which apply to each event type are summarized in
-   Section 4.3.1.4.  The parameters which are specific to an event type
+   Section 4.3.1.5.  The parameters which are specific to an event type
    are defined in the subsections which follow.
 
 4.3.1.  type
@@ -1542,7 +1551,7 @@ Table of Contents
    The key event types capture when a party presses or releases a DTMF
    or application key or button.  The party parameter references the
    party that pressed or released the key or button.  The key or button
-   is identified in the button parameter (see Section 4.3.6).
+   is identified in the button parameter (see Section 4.3.8).
 
    The following key event types are defined:
 
@@ -1700,10 +1709,10 @@ Table of Contents
    Session Object for the original call and the party parameter
    references the Transferor.  The transferee and transfer_target
    parameters reference the other two parties to the transfer (see
-   Section 4.3.7 and Section 4.3.8).  The consultation and
+   Section 4.3.9 and Section 4.3.10).  The consultation and
    target_session parameters reference the Session Objects for the
-   consultative call and the target call (see Section 4.3.9 and
-   Section 4.3.10).
+   consultative call and the target call (see Section 4.3.11 and
+   Section 4.3.12).
 
    There are scenarios where we know that a transfer has occurred, but
    we have no information for one or two of the consultation, target or
@@ -1719,14 +1728,57 @@ Table of Contents
    in the analysis section of the vCon after the conversation has
    occurred.
 
-4.3.1.4.  Event Object Parameter Applicability by Type
+4.3.1.4.  Channel Contributors Event Type
+
+   The channel contributors event type indicates the time at which the
+   party(s) contributing to a channel of a recording Dialog Object
+   change.  This supports the channel contributor changes recording
+   topology (see Section 4.5.1.1).  For example, a conference bridge may
+   create a recording with fewer channels than there are parties in the
+   conference, and select the party(s) captured on each channel based
+   upon which parties it detects as talking.  At times a channel may
+   capture no party at all.
+
+   The dialog parameter references the recording Dialog Object and the
+   channel parameter identifies the channel in that recording (see
+   Section 4.3.5 and Section 4.3.6).  The contributors parameter
+   indicates the party(s) contributing to that channel, starting at the
+   time of the event (see Section 4.3.7).  These parties contribute to
+   the channel until the time of the next channel-contributors Event
+   Object for the same Dialog Object and channel, or until the end of
+   the recording.  The contributors at the start of the recording are
+   indicated in the parties parameter of the Dialog Object (see
+   Section 4.5.4).  The time parameter of a channel-contributors Event
+   Object SHOULD be within the time period given by the start and
+   duration parameters of the referenced Dialog Object.  Each channel-
+   contributors Event Object applies to exactly one channel.  If the
+   contributors to more than one channel change at the same time, a
+   separate channel-contributors Event Object is used for each channel,
+   each with the same time parameter value.
+
+   The channel-contributors Event Object MAY be used with a recording
+   Dialog Object in any of the recording topologies (see
+   Section 4.5.1.1), although it may not be useful in some of them, such
+   as talk spurt.  It indicates which parties are captured on a channel;
+   it does not indicate that a party joined or dropped from the session.
+   A party may be in the session, but not captured on any channel of the
+   recording.  The session and party parameters are not used in the
+   channel-contributors Event Object (see Section 4.3.3 and
+   Section 4.3.4).
+
+   The following channel contributors event type is defined:
+
+   *  "channel-contributors" - when the party(s) contributing to a
+      channel of a recording change
+
+4.3.1.5.  Event Object Parameter Applicability by Type
 
    The following tables summarize which Event Object parameters apply to
    each Event Object type.  The parameter definitions in the subsections
    of this document are definitive; these tables are provided as a
    summary.  The symbols used in the tables are: M the parameter MUST be
-   present, O the parameter is optional, X the parameter MUST NOT be
-   present.
+   present, O the parameter is optional, SN the parameter SHOULD NOT be
+   present, X the parameter MUST NOT be present.
 
    The following table applies to the party and key event types.
 
@@ -1742,7 +1794,11 @@ Table of Contents
            +-----------------+----------------------+----------+
            | party           | M                    | M        |
            +-----------------+----------------------+----------+
-           | dialog          | O                    | O        |
+           | dialog          | SN                   | SN       |
+           +-----------------+----------------------+----------+
+           | channel         | X                    | X        |
+           +-----------------+----------------------+----------+
+           | contributors    | X                    | X        |
            +-----------------+----------------------+----------+
            | button          | X                    | M        |
            +-----------------+----------------------+----------+
@@ -1771,7 +1827,11 @@ Table of Contents
    +-----------------+-------------+--------+---------------+---------+
    | party           |M (2)        |M (2)   | M (2)         |M (2)    |
    +-----------------+-------------+--------+---------------+---------+
-   | dialog          |X            |X       | X             |X        |
+   | dialog          |SN           |SN      | SN            |SN       |
+   +-----------------+-------------+--------+---------------+---------+
+   | channel         |X            |X       | X             |X        |
+   +-----------------+-------------+--------+---------------+---------+
+   | contributors    |X            |X       | X             |X        |
    +-----------------+-------------+--------+---------------+---------+
    | button          |X            |X       | X             |X        |
    +-----------------+-------------+--------+---------------+---------+
@@ -1790,6 +1850,41 @@ Table of Contents
 
    (2) References the Transferor.
 
+   The following table applies to the channel contributors event type.
+
+                +=================+======================+
+                | Parameter       | channel-contributors |
+                +=================+======================+
+                | type            | M                    |
+                +-----------------+----------------------+
+                | time            | M                    |
+                +-----------------+----------------------+
+                | session         | X                    |
+                +-----------------+----------------------+
+                | party           | X                    |
+                +-----------------+----------------------+
+                | dialog          | M                    |
+                +-----------------+----------------------+
+                | channel         | M                    |
+                +-----------------+----------------------+
+                | contributors    | O (3)                |
+                +-----------------+----------------------+
+                | button          | X                    |
+                +-----------------+----------------------+
+                | transferee      | X                    |
+                +-----------------+----------------------+
+                | transfer_target | X                    |
+                +-----------------+----------------------+
+                | consultation    | X                    |
+                +-----------------+----------------------+
+                | target_session  | X                    |
+                +-----------------+----------------------+
+
+                                 Table 4
+
+   (3) A null value or the absence of the contributors parameter
+   indicates that no party contributes to the channel.
+
 4.3.2.  time
 
    The time parameter indicates the time at which this event occurred.
@@ -1804,38 +1899,88 @@ Table of Contents
    The session parameter indicates the session in which this event
    occurred.
 
-   *  session: "UnsignedInt"
+   *  session: "UnsignedInt" (not used in channel-contributors events)
 
    The value of the session parameter is the index into the sessions
    Object array to the Session Object in which this event occurred.  The
-   session parameter MUST be provided.  For the transfer event types,
-   the session parameter references the Session Object for the original
-   call between the Transferee and the Transferor.
+   session parameter MUST be present in all of the Event Object types
+   defined in this document, except "channel-contributors" type Event
+   Objects, in which it MUST NOT be present.  The session(s) in which a
+   "channel-contributors" type Event Object occurred are the Session
+   Object(s) which reference the Dialog Object referenced by its dialog
+   parameter (see Section 4.3.5).  For the transfer event types, the
+   session parameter references the Session Object for the original call
+   between the Transferee and the Transferor.
 
 4.3.4.  party
 
    The party parameter indicates the party for this event.
 
-   *  party: "UnsignedInt"
+   *  party: "UnsignedInt" (not used in channel-contributors events)
 
    The value of the party parameter is the index into the parties Object
    array to the party for this event.  The party parameter MUST be
-   provided.  For the transfer event types, the party parameter
-   references the party that played the role of the Transferor.
+   present in all of the Event Object types defined in this document,
+   except "channel-contributors" type Event Objects, in which it MUST
+   NOT be present.  The parties contributing to a channel are indicated
+   in the contributors parameter of the "channel-contributors" type
+   Event Object (see Section 4.3.7).  For the transfer event types, the
+   party parameter references the party that played the role of the
+   Transferor.
 
 4.3.5.  dialog
 
-   TODO: do we need dialog?
+   The dialog parameter indicates the Dialog Object to which this event
+   relates.
 
-   An event may relate to a specific piece of dialog.
-
-   *  dialog: "UnsignedInt" (optional)
+   *  dialog: "UnsignedInt" (required for channel-contributors events)
 
    The value of the dialog parameter is the index into the dialog Object
    array to the Dialog Object to which this event relates.  The dialog
-   parameter MUST NOT be present in the transfer event types.
+   parameter MUST be present in "channel-contributors" type Event
+   Objects and SHOULD NOT be present in the other Event Object types
+   defined in this document.  The Dialog Object referenced by a
+   "channel-contributors" type Event Object MUST be of type "recording".
+   Event Object types defined in a vCon extension may use the dialog
+   parameter, and may allow its value to be an array of indices to
+   Dialog Objects.  An implementation SHOULD NOT treat an array value
+   for the dialog parameter as an error in an Event Object type defined
+   in a vCon extension.
 
-4.3.6.  button
+4.3.6.  channel
+
+   The channel parameter indicates the channel of the recording to which
+   this event relates.
+
+   *  channel: "UnsignedInt" (required for channel-contributors events)
+
+   The value of the channel parameter is the index of the channel in the
+   recording of the Dialog Object referenced by the dialog parameter,
+   where 0 is the first channel.  The channel index corresponds to the
+   index of the channel in the parties parameter of that Dialog Object
+   (see Section 4.5.4).  The value MUST be less than the number of
+   channels in the recording.  For a single channel recording, the value
+   MUST be 0.  The channel parameter MUST be present in "channel-
+   contributors" type Event Objects and MUST NOT be present in the other
+   Event Object types defined in this document.
+
+4.3.7.  contributors
+
+   The contributors parameter indicates the party(s) contributing to the
+   channel, starting at the time of this event.
+
+   *  contributors: "UnsignedInt" | "UnsignedInt[]" | null (optional)
+
+   The value of the contributors parameter is the index, or an array of
+   indices, into the parties Object array to the Party Objects which
+   contribute to the channel, starting at the time of this event.  A
+   null value, or the absence of the contributors parameter, in a
+   "channel-contributors" type Event Object indicates that no party
+   contributes to the channel, starting at the time of this event.  The
+   contributors parameter MUST NOT be present in the other Event Object
+   types defined in this document.
+
+4.3.8.  button
 
    The button parameter indicates the key or button that was pressed or
    released.
@@ -1848,7 +1993,7 @@ Table of Contents
    "keyup" type Event Objects and MUST NOT be present in other Event
    Object types.
 
-4.3.7.  transferee
+4.3.9.  transferee
 
    The transferee parameter indicates the Transferee in the transfer
    event types.
@@ -1862,7 +2007,7 @@ Table of Contents
    Transferee is not known, an empty Party Object (see Party Object
    (Section 4.4)) is referenced.
 
-4.3.8.  transfer_target
+4.3.10.  transfer_target
 
    The transfer_target parameter indicates the Transfer Target in the
    transfer event types.  Other parties may be part of the Session
@@ -1884,7 +2029,7 @@ Table of Contents
    was identified.  The transfer_target parameter MUST NOT be present in
    Event Object types other than the transfer event types.
 
-4.3.9.  consultation
+4.3.11.  consultation
 
    The consultation parameter indicates the session for the consultative
    call in the transfer event types.
@@ -1903,7 +2048,7 @@ Table of Contents
    parameter MUST NOT be present in "blind-transfer" type Event Objects
    or in Event Object types other than the transfer event types.
 
-4.3.10.  target_session
+4.3.12.  target_session
 
    The target_session parameter indicates the session for the target
    call in the transfer event types.
@@ -2213,10 +2358,44 @@ Table of Contents
 
    A dialog of type "recording" has Dialog Content that either contains
    a body or refers to via url, which is a recording of the video and/or
-   audio of a segment of the conversation.  A recording Dialog Object
-   may be one of a set of recordings which collectively represent a call
-   or session, in which case the Dialog Objects in the set are
-   referenced by a Session Object (see Section 4.2.7).
+   audio of a segment of the conversation.
+
+   A recording of a conversation may be captured using one of a number
+   of topologies.  The following recording topologies are supported by
+   the recording Dialog Object:
+
+   *  single channel - a single recording Dialog Object with one
+      channel, into which the audio of all of the parties is mixed
+
+   *  multi-channel - a single recording Dialog Object with a separate
+      channel for each party or set of parties
+
+   *  per party - a separate single channel recording Dialog Object for
+      each party, which starts when the party joins and ends when the
+      party drops
+
+   *  talk spurt - a separate recording Dialog Object for each party and
+      each contiguous period in which that party talks, with the silence
+      trimmed out
+
+   *  channel contributor changes - a recording Dialog Object in which
+      the party(s) contributing to a channel change over the duration of
+      the recording, for example a conference bridge which records only
+      the parties that it detects as talking (see Section 4.3.1.4)
+
+   *  segmented - any of the other topologies, in which a recording is
+      stopped and a new recording Dialog Object is started for the same
+      party(s), for example when the recording reaches a maximum
+      duration, such that the recording is a sequence of consecutive
+      recording Dialog Objects
+
+   The per party, talk spurt and segmented topologies use more than one
+   recording Dialog Object, which collectively represent the call or
+   session.  In these topologies, the Session Object is important in
+   defining which Dialog Objects are part of a conversation, side bar
+   conversation or call segment (see Section 4.2.7).  This allows a
+   single vCon to contain multiple, clearly defined conversations, side
+   bar conversations or call segments (see Section 4.1.10).
 
 4.5.1.2.  text
 
@@ -2286,7 +2465,7 @@ Table of Contents
           | redacted_segments | O         | SN    | X          |
           +-------------------+-----------+-------+------------+
 
-                                 Table 4
+                                 Table 5
 
    (1) MUST be present for inline Dialog Content; optional for
    externally referenced Dialog Content when the media type is provided
@@ -2346,7 +2525,7 @@ Table of Contents
    references the "incomplete" type Dialog Object.
 
    *  parties: "UnsignedInt" | "UnsignedInt[]" | ("UnsignedInt" |
-      "UnsignedInt[]")[]
+      "UnsignedInt[]" | null)[]
 
    Single channel recordings should have a parties value of the form:
    "UnsignedInt" or "UnsignedInt[]" where the integer value or array of
@@ -2365,6 +2544,23 @@ Table of Contents
    no parties are recorded on one or more channels, a null placeholder
    MUST be inserted into the parties array for the corresponding
    channel.
+
+   By default, the party(s) indicated in the parties parameter for a
+   channel are the contributors to that channel for the entire duration
+   of the recording.  The contributors to a channel may change over the
+   duration of the recording (see the channel contributor changes
+   recording topology in Section 4.5.1.1).  Such changes are indicated
+   by channel-contributors Event Objects which reference the Dialog
+   Object and the channel (see Section 4.3.1.4).  When one or more
+   channel-contributors Event Objects exist for a channel, the parties
+   parameter for that channel indicates the contributors at the start of
+   the recording.  In that case, a null value for the channel indicates
+   that no party contributes to the channel at the start of the
+   recording.  If the contributors to a channel change, but the times at
+   which they change are not known, the parties parameter for that
+   channel SHOULD contain all of the parties which contributed to that
+   channel over the duration of the recording, and no channel-
+   contributors Event Object is provided for that channel.
 
    Some recording systems represent a single call or session using
    multiple recording Dialog Objects.  This may occur when recordings
@@ -3699,7 +3895,7 @@ Table of Contents
     |                  | Strings array   |            |               |
     +------------------+-----------------+------------+---------------+
 
-                                  Table 5
+                                  Table 6
 
 7.3.3.  Party Object Parameter Names Registry
 
@@ -3752,7 +3948,7 @@ Table of Contents
    |                | identifier        |            | RFC XXXX       |
    +----------------+-------------------+------------+----------------+
 
-                                 Table 6
+                                 Table 7
 
 7.3.4.  Dialog Object Parameter Names Registry
 
@@ -3816,7 +4012,7 @@ Table of Contents
    |                   |                  |            | XXXX          |
    +-------------------+------------------+------------+---------------+
 
-                                  Table 7
+                                  Table 8
 
 7.3.4.1.  Dialog Type Name Registry
 
@@ -3868,7 +4064,7 @@ Table of Contents
       |                  | dialog      |            | RFC XXXX      |
       +------------------+-------------+------------+---------------+
 
-                                  Table 8
+                                  Table 9
 
 7.3.5.  Session Object Parameter Names Registry
 
@@ -3903,7 +4099,7 @@ Table of Contents
     |                | index list        |            | RFC XXXX      |
     +----------------+-------------------+------------+---------------+
 
-                                  Table 9
+                                  Table 10
 
 7.3.6.  Session_Reference Object Parameter Names Registry
 
@@ -3927,7 +4123,7 @@ Table of Contents
    |             | description          |            |                 |
    +-------------+----------------------+------------+-----------------+
 
-                                  Table 10
+                                  Table 11
 
 7.3.6.1.  Session_Reference Type Name Registry
 
@@ -3987,7 +4183,7 @@ Table of Contents
    |                   | the parties       |          | XXXX          |
    +-------------------+-------------------+----------+---------------+
 
-                                 Table 11
+                                 Table 12
 
 7.3.7.  Event Object Parameter Names Registry
 
@@ -3996,45 +4192,53 @@ Table of Contents
    Template (Section 7.3.1) when registering additional entries to this
    table.
 
-     +=================+===============+============+===============+
-     | Parameter Name  | Parameter     | Change     | Specification |
-     |                 | Description   | Controller | Document(s)   |
-     +=================+===============+============+===============+
-     | type            | event type    | IESG       | Section 4.3.1 |
-     |                 | name          |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | time            | time event    | IESG       | Section 4.3.2 |
-     |                 | occurred      |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | session         | event session | IESG       | Section 4.3.3 |
-     |                 | index         |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | party           | event party   | IESG       | Section 4.3.4 |
-     |                 | index         |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | dialog          | event dialog  | IESG       | Section 4.3.5 |
-     |                 | index         |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | button          | button label  | IESG       | Section 4.3.6 |
-     |                 | character or  |            | RFC XXXX      |
-     |                 | string        |            |               |
-     +-----------------+---------------+------------+---------------+
-     | transferee      | transferee    | IESG       | Section 4.3.7 |
-     |                 | party index   |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | transfer_target | transfer      | IESG       | Section 4.3.8 |
-     |                 | target party  |            | RFC XXXX      |
-     |                 | index         |            |               |
-     +-----------------+---------------+------------+---------------+
-     | consultation    | consultation  | IESG       | Section 4.3.9 |
-     |                 | session index |            | RFC XXXX      |
-     +-----------------+---------------+------------+---------------+
-     | target_session  | target        | IESG       | Section       |
-     |                 | session index |            | 4.3.10 RFC    |
-     |                 |               |            | XXXX          |
-     +-----------------+---------------+------------+---------------+
+   +=================+===================+============+===============+
+   | Parameter Name  | Parameter         | Change     | Specification |
+   |                 | Description       | Controller | Document(s)   |
+   +=================+===================+============+===============+
+   | type            | event type name   | IESG       | Section 4.3.1 |
+   |                 |                   |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | time            | time event        | IESG       | Section 4.3.2 |
+   |                 | occurred          |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | session         | event session     | IESG       | Section 4.3.3 |
+   |                 | index             |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | party           | event party index | IESG       | Section 4.3.4 |
+   |                 |                   |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | dialog          | event dialog      | IESG       | Section 4.3.5 |
+   |                 | index             |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | channel         | recording channel | IESG       | Section 4.3.6 |
+   |                 | index             |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | contributors    | recording channel | IESG       | Section 4.3.7 |
+   |                 | contributor party |            | RFC XXXX      |
+   |                 | indices           |            |               |
+   +-----------------+-------------------+------------+---------------+
+   | button          | button label      | IESG       | Section 4.3.8 |
+   |                 | character or      |            | RFC XXXX      |
+   |                 | string            |            |               |
+   +-----------------+-------------------+------------+---------------+
+   | transferee      | transferee party  | IESG       | Section 4.3.9 |
+   |                 | index             |            | RFC XXXX      |
+   +-----------------+-------------------+------------+---------------+
+   | transfer_target | transfer target   | IESG       | Section       |
+   |                 | party index       |            | 4.3.10 RFC    |
+   |                 |                   |            | XXXX          |
+   +-----------------+-------------------+------------+---------------+
+   | consultation    | consultation      | IESG       | Section       |
+   |                 | session index     |            | 4.3.11 RFC    |
+   |                 |                   |            | XXXX          |
+   +-----------------+-------------------+------------+---------------+
+   | target_session  | target session    | IESG       | Section       |
+   |                 | index             |            | 4.3.12 RFC    |
+   |                 |                   |            | XXXX          |
+   +-----------------+-------------------+------------+---------------+
 
-                                 Table 12
+                                 Table 13
 
 7.3.7.1.  Event Type Name Registry
 
@@ -4125,8 +4329,13 @@ Table of Contents
    |                       | abandoned     |          | 4.3.1.3 RFC   |
    |                       | event         |          | XXXX          |
    +-----------------------+---------------+----------+---------------+
+   | channel-contributors  | recording     |IESG      | Section       |
+   |                       | channel       |          | 4.3.1.4 RFC   |
+   |                       | contributors  |          | XXXX          |
+   |                       | change event  |          |               |
+   +-----------------------+---------------+----------+---------------+
 
-                                 Table 13
+                                 Table 14
 
 7.3.8.  Attachment Object Parameter Names Registry
 
@@ -4174,7 +4383,7 @@ Table of Contents
    |              | hash                  |            | RFC XXXX      |
    +--------------+-----------------------+------------+---------------+
 
-                                  Table 14
+                                  Table 15
 
 7.3.9.  Analysis Object Parameter Names Registry
 
@@ -4230,7 +4439,7 @@ Table of Contents
    |              | hash                |            | RFC XXXX       |
    +--------------+---------------------+------------+----------------+
 
-                                 Table 15
+                                 Table 16
 
 7.3.10.  Redacted_from Object Parameter Names Registry
 
@@ -4261,7 +4470,7 @@ Table of Contents
    |              | vCon hash     |          |                         |
    +--------------+---------------+----------+-------------------------+
 
-                                  Table 16
+                                  Table 17
 
 7.3.11.  Amended_from Object Parameter Names Registry
 
@@ -4284,7 +4493,7 @@ Table of Contents
    |                | vCon hash        |            | RFC XXXX        |
    +----------------+------------------+------------+-----------------+
 
-                                 Table 17
+                                 Table 18
 
 7.4.  vCon Extensions Names Registry
 
@@ -4521,8 +4730,10 @@ A.1.  Version 0.4.0 to 0.5.0
    *  The "party_history" Dialog Object parameter was replaced by the
       Event Object and the "events" array.  Each Party_History Object
       becomes an Event Object, with "event" renamed to "type", which
-      references the Session Object and the Dialog Object from which it
-      came.
+      references the Session Object for the Dialog Object from which it
+      came.  The converted Event Object does not reference the Dialog
+      Object, as the dialog parameter SHOULD NOT be present in the party
+      and key event types.
 
    *  The "transfer" type Dialog Object was replaced by the transfer
       Event Object types.  Each "transfer" type Dialog Object becomes
