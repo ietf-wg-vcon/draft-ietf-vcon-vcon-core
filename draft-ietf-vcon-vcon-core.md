@@ -802,8 +802,8 @@ There will then be an entry in the redacted_strings array like this:
 ~~~
   "redacted_strings" : [
     {
-      "ref" : "1",
-      "type" : "account_number"
+      "ref" : 1,
+      "type" : "FIN_ID_NUM"
     }
   ]
 ~~~
@@ -1791,11 +1791,11 @@ to the vCon containing the email thread, more than once.
 
 One of the ways to perform redaction on audio content is to substitute the segments containing the information with a "beep" sound for audio. For video, specific parts of the video can be blurred out, or the video can be blackened entirely. When this happens, a human can easily discern that redaction has occurred. However, it is not easy for software systems to determine this. There are many cases where we want a piece of software processing a VCON to know that such redaction has happened, where it happened, and which parties content was redacted. For example, a troubleshooting tool might want to call out these segments to a user whose role is to confirm that redaction is working well.
 
-The redacted_segments field contains an array of one or more Redacted_segments objects. This field is optional, but SHOULD be included in a redacted vCon.
+The redacted_segments field contains an array of one or more Redacted_segments Objects. This field is optional, but SHOULD be included in a redacted vCon.
 
 * redacted_segments: "Redacted_segments\[\]" (optional)
 
-#### Redacted_segments
+#### Redacted_segments Object {#redacted_segments-object}
 
 The object contains the following parameters:
 
@@ -1807,9 +1807,12 @@ The start time of the audiovisual redaction.
 
 The end time of the audiovisual redaction.
 
-parties: "Party\[\]" (optional)
+TODO: should use duration instead of end?
 
-An array of the parties who have been redacted. This is useful when the dialog contains a blend of multiple contributors, and it is desired to indicate which one has been redacted.
+parties: "UnsignedInt\[\]" (optional)
+
+An array of indices into the parties Object array to the parties whose content has been redacted.
+This is useful when the dialog contains a blend of multiple contributors, and it is desired to indicate which one has been redacted.
 
 ## Attachment Object
 
