@@ -1507,10 +1507,14 @@ They are distinct by the order or index in the Dialog Object array.
 
 ### type {#dialog-type}
 
-* type: "String"
+* type: "String" (required, unless the Dialog Object is empty)
 
 The string MUST have the value of either "recording", "text" or "incomplete", or a value defined in a vCon extension.
 The handling of a Dialog Object with a type which is not recognized is described in [](#extending-vcon).
+The type parameter MUST be present in all Dialog Objects, unless the Dialog Object is completely empty.
+An empty Dialog Object (\{\}) contains no parameters and has no meaning.
+An empty Dialog Object may be used to hold a position in the dialog array, such that the indices of the other Dialog Objects, and the references to them, do not change.
+For example, an empty Dialog Object may be inserted as a placeholder for a Dialog Object that is to be filled in later, or may replace a Dialog Object that is removed when a vCon is redacted (see [Redaction Techniques](#redaction_techniques)) or edited.
 The semantics of each Dialog Object type are described in the following subsections.
 The applicability of each of the Dialog Object parameters to each of the types is summarized in [](#dialog-object-parameter-applicability-by-type).
 
@@ -2872,6 +2876,9 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
 
 # Non-Upward Compatible Changes to the vCon Container {#name-non-upward-compatible-changes-to-the-vcon-container}
 
+This appendix outlines the changes between versions of the vCon container which are not upward compatible, and the high level operations needed to migrate a vCon from one version to the next.
+It does not describe every detail of the migration.
+
 ## Version 0.4.0 to 0.5.0
 
   * The "vcon" parameter value was changed from "0.4.0" to "0.5.0".
@@ -2887,7 +2894,15 @@ This document registers the following new parameter in the [JWS] JSON Web Signat
     In 0.4.0, the parties parameter of a "text" type Dialog Object contained the sender and all of the receivers of the message, with the first party being the sender unless originator was set.
     A 0.4.0 "text" type Dialog Object is migrated by reducing its parties to the sender, and by including all of its parties, including the sender, in the parties of the Session Object for that message.
     Similarly, the parties of a 0.4.0 "incomplete" type Dialog Object are reduced to the originator, or the first party if originator is not set, and the remaining parties are included in the parties of the Session Object.
-  * Dialog Object indices change where "transfer" type Dialog Objects are removed from the dialog array, and references to them are updated.
+  * The "redacted" parameter was renamed to "redacted_from", and the Redacted Object was renamed to the Redacted_from Object.
+  * The "amended" parameter was renamed to "amended_from", and the Amended Object was renamed to the Amended_from Object.
+  * The "recording-set" type Dialog Object, and the "recordings" and "recording_set" Dialog Object parameters, were replaced by the Session Object.
+    A 0.4.0 "recording-set" type Dialog Object is migrated by creating a Session Object which references the Dialog Objects listed in its recordings parameter, and by removing the recording_set parameter from the recording Dialog Objects which referenced it.
+  * Each removed "transfer" and "recording-set" type Dialog Object is replaced by an empty Dialog Object (see [](#dialog-type)), so that the indices of the other Dialog Objects, and the references to them, do not change.
+  * The alg parameter MUST NOT have the value "none".
+    A 0.4.0 signed vCon which uses the alg value "none" is migrated by signing the vCon again with a permitted algorithm.
+  * The extensions parameter MUST, rather than SHOULD, list the names of all vCon extensions used in the vCon.
+    A 0.4.0 vCon which uses an extension that is not listed in its extensions parameter is migrated by adding the extension name.
   * Some implementations of version 0.4.0 repeated header parameters, with identical values, in more than one header of the signed and encrypted forms.
     Implementations which read vCons produced by those implementations may choose to accept them.
 
