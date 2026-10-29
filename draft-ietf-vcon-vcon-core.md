@@ -2456,7 +2456,7 @@ when sending.
 
 * Interoperability considerations: The vCon schema is defined in RFC XXXX.  The schema may be extended through extensions as defined there.
 
-* Published specification: [VCON], this document: RFC XXXX
+* Published specification: This document: RFC XXXX
 
 * Applications that use this media type:
 
@@ -2926,7 +2926,7 @@ It has a single Dialog Object which contains a single channel wav format recordi
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_int_rec.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -2942,7 +2942,7 @@ The email messages are multipart MIME message bodies.
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -2958,7 +2958,7 @@ The email messages are plain text message bodies.
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_email_prob_followup_text_thread.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -2974,7 +2974,7 @@ It has a single Dialog Object which reference a single channel wav format record
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -2987,7 +2987,7 @@ Please remove this note before publication.
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -3007,7 +3007,7 @@ The certificate chain is included in the x5c parameter of the header Object.
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -3025,7 +3025,7 @@ The private key to decrypt it can be found at:
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_encrypted.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -3042,7 +3042,7 @@ In addition the **url** parameter has been redacted from the [Dialog Object](#di
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
@@ -3061,7 +3061,7 @@ An example text Dialog Object (index 1) is the amendment.
 The unformatted version of the following example can be downloaded from:
 https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
 
-Note to the RFC Editor: This example, and its unformatted version at the following URL, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
+Note to the RFC Editor: This example, and its unformatted version at the URL above, contain the vcon parameter (see [](#vcon)), which is included in the Internet-Draft versions of this document to indicate the version of the schema upon which the example is based.
 The vcon parameter is to be removed from the example and its unformatted version before publication as an RFC.
 Please remove this note before publication.
 
