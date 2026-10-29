@@ -1789,7 +1789,7 @@ One of the ways to perform redaction on audio content is to substitute the segme
 
 The redacted_segments field contains an array of one or more Redacted_segments objects. This field is optional, but SHOULD be included in a redacted vCon.
 
-* redacted_segments: "Redacted_segments" [\]
+* redacted_segments: "Redacted_segments\[\]" (optional)
 
 #### Redacted_segments
 
