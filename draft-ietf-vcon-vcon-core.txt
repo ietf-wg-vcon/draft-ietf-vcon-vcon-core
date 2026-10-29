@@ -4,8 +4,8 @@
 
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                         28 October 2026
-Expires: 1 May 2027
+Intended status: Standards Track                         29 October 2026
+Expires: 2 May 2027
 
 
          The JSON format for vCon - Conversation Data Container
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 May 2027.
+   This Internet-Draft will expire on 2 May 2027.
 
 Copyright Notice
 
@@ -3772,7 +3772,7 @@ Table of Contents
       XXXX.  The schema may be extended through extensions as defined
       there.
 
-   *  Published specification: [VCON], this document: RFC XXXX
+   *  Published specification: This document: RFC XXXX
 
    *  Applications that use this media type:
 
@@ -4829,8 +4829,8 @@ B.1.  Two Party Call vCon With Inline Recording
    vcon-core/refs/heads/main/examples/ab_call_int_rec.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -5099,8 +5099,8 @@ B.2.  Email Thread Multipart vCon
    vcon-core/refs/heads/main/examples/ab_email_acct_prob_thread.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -5257,8 +5257,8 @@ B.3.  Email Thread Text vCon
    ab_email_prob_followup_text_thread.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -5361,8 +5361,8 @@ B.4.  Two Party Call vCon With Externally Referenced Recording
    vcon-core/refs/heads/main/examples/ab_call_ext_rec.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -5423,8 +5423,8 @@ B.5.  Two Party Call vCon with Analysis
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -6560,8 +6560,8 @@ B.6.  Signed vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -6713,8 +6713,8 @@ B.7.  Encrypted vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_encrypted.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -6901,8 +6901,8 @@ B.8.  Redacted vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
@@ -7090,8 +7090,8 @@ B.9.  Amended Signed vCon
    vcon-core/refs/heads/main/examples/ab_call_ext_rec_amended.vcon
 
    Note to the RFC Editor: This example, and its unformatted version at
-   the following URL, contain the vcon parameter (see Section 4.1.1),
-   which is included in the Internet-Draft versions of this document to
+   the URL above, contain the vcon parameter (see Section 4.1.1), which
+   is included in the Internet-Draft versions of this document to
    indicate the version of the schema upon which the example is based.
    The vcon parameter is to be removed from the example and its
    unformatted version before publication as an RFC.  Please remove this
