@@ -4487,7 +4487,7 @@ to the vCon containing the email thread, more than once.<a href="#section-4.5.11
 <a href="#section-4.5.12" class="section-number selfRef">4.5.12. </a><a href="#name-redacted_segments" class="section-name selfRef">redacted_segments</a>
           </h4>
 <p id="section-4.5.12-1">One of the ways to perform redaction on audio content is to substitute the segments containing the information with a "beep" sound for audio. For video, specific parts of the video can be blurred out, or the video can be blackened entirely. When this happens, a human can easily discern that redaction has occurred. However, it is not easy for software systems to determine this. There are many cases where we want a piece of software processing a VCON to know that such redaction has happened, where it happened, and which parties content was redacted. For example, a troubleshooting tool might want to call out these segments to a user whose role is to confirm that redaction is working well.<a href="#section-4.5.12-1" class="pilcrow">¶</a></p>
-<p id="section-4.5.12-2">The redacted_segments field contains an array of one or more Redacted_segments Objects. This field is optional, but <span class="bcp14">SHOULD</span> be included in a redacted vCon.<a href="#section-4.5.12-2" class="pilcrow">¶</a></p>
+<p id="section-4.5.12-2">The redacted_segments field contains an array of one or more <span><a href="#redacted_segments-object" class="internal xref">Redacted_segments Objects</a> (<a href="#redacted_segments-object" class="auto internal xref">Section 4.5.12.1</a>)</span>. This field is optional, but <span class="bcp14">SHOULD</span> be included in a redacted vCon.<a href="#section-4.5.12-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5.12-3.1">
               <p id="section-4.5.12-3.1.1">redacted_segments: "Redacted_segments[]" (optional)<a href="#section-4.5.12-3.1.1" class="pilcrow">¶</a></p>
@@ -4512,7 +4512,11 @@ to the vCon containing the email thread, more than once.<a href="#section-4.5.11
             </ul>
 <p id="section-4.5.12.1-5">The end time of the audiovisual redaction.<a href="#section-4.5.12.1-5" class="pilcrow">¶</a></p>
 <p id="section-4.5.12.1-6">TODO: should use duration instead of end?<a href="#section-4.5.12.1-6" class="pilcrow">¶</a></p>
-<p id="section-4.5.12.1-7">parties: "UnsignedInt[]" (optional)<a href="#section-4.5.12.1-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.5.12.1-7.1">
+                <p id="section-4.5.12.1-7.1.1">parties: "UnsignedInt[]" (optional)<a href="#section-4.5.12.1-7.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 <p id="section-4.5.12.1-8">An array of indices into the parties Object array to the parties whose content has been redacted.
 This is useful when the dialog contains a blend of multiple contributors, and it is desired to indicate which one has been redacted.<a href="#section-4.5.12.1-8" class="pilcrow">¶</a></p>
 </section>

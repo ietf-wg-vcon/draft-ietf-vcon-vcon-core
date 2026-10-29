@@ -2835,8 +2835,8 @@ Table of Contents
    confirm that redaction is working well.
 
    The redacted_segments field contains an array of one or more
-   Redacted_segments Objects.  This field is optional, but SHOULD be
-   included in a redacted vCon.
+   Redacted_segments Objects (Section 4.5.12.1).  This field is
+   optional, but SHOULD be included in a redacted vCon.
 
    *  redacted_segments: "Redacted_segments[]" (optional)
 
@@ -2854,7 +2854,7 @@ Table of Contents
 
    TODO: should use duration instead of end?
 
-   parties: "UnsignedInt[]" (optional)
+   *  parties: "UnsignedInt[]" (optional)
 
    An array of indices into the parties Object array to the parties
    whose content has been redacted.  This is useful when the dialog
