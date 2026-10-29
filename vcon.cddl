@@ -6,7 +6,7 @@
 ; Constraints that cannot be expressed in CDDL are stated in
 ; comments.
 ;
-; This CDDL follows the text of the draft at commit 25c1397.
+; This CDDL follows the text of the draft at commit 7f1fee9.
 ;
 ; This CDDL is strict.  A parameter or value which is not defined
 ; here does not validate, unless the CDDL of the vCon extension
@@ -35,7 +35,10 @@
 ;
 ; The dialog-type-ext socket adds a Dialog Object type along with
 ; the parameters which apply to that type.  The event-type-ext
-; socket does the same for an Event Object type.  The encoding-ext
+; socket does the same for an Event Object type.  An Event Object
+; type defined in a vCon extension may allow the value of its
+; dialog parameter to be an array of Dialog Object indices
+; (dialog_index_or_list_type).  The encoding-ext
 ; socket adds an encoding value along with the form of the body
 ; parameter for that encoding.  For example:
 ;
@@ -90,9 +93,10 @@ unsigned_vcon_type = {
     created_at: date_type,
     ? updated_at: date_type,
     ? subject: tstr,
-    ; redacted and amended are mutually exclusive
-    ? ( redacted: redacted_object_type //
-        amended: amended_object_type ),
+    ; redacted_from and amended_from are mutually exclusive
+    ? ( redacted_from: redacted_from_object_type //
+        amended_from: amended_from_object_type ),
+    ? redacted_strings: [* redacted_string_object_type],
     ; at least one of parties, dialog, analysis or attachments
     ; SHOULD be present
     ? sessions: [* session_object_type],
@@ -107,32 +111,49 @@ unsigned_vcon_type = {
 ; Object and multi-parameter types
 ;_________________________________
 
-; Redacted Object
+; Redacted_from Object
 ; uuid SHOULD be provided.
 ; content_hash MUST be provided if url is provided.
-redacted_object_type = {
+; type has the same set of values as the type parameter of the
+; Redacted_string Object.
+redacted_from_object_type = {
     ? uuid: uuid_value_type,
     type: tstr,
     ? ( url: url_value_type,
         content_hash: content_hash_type ),
-    * $$redacted-ext
+    * $$redacted-from-ext
   }
 
-; Amended Object
+; Amended_from Object
 ; uuid is optional only if an external reference is provided.
 ; content_hash MUST be provided if url is provided.
-amended_object_type = {
+amended_from_object_type = {
     ? uuid: uuid_value_type,
     ? ( url: url_value_type,
         content_hash: content_hash_type ),
-    * $$amended-ext
+    * $$amended-from-ext
+  }
+
+; Redacted_string Object
+; Not enforced by this CDDL:
+; - Each "__REDACTED_REF_#" substring in the vCon has a
+;   Redacted_string Object with a matching ref value.
+redacted_string_object_type = {
+    ref: 1..99999,
+    ; type is an extensible string enumeration: "GOVT_ID_NUM",
+    ; "FIN_ID_NUM", "MED_ID_NUM", "BIOMETRIC", "AUTH_DATA",
+    ; "CONTACT_INFO", "LOC_INFO", "EMPL_INFO", "BELIEF_INFO",
+    ; "UNSPECIFIED" or another value; absent is "UNSPECIFIED"
+    ? type: tstr,
+    ? orig: tstr,
+    * $$redacted-string-ext
   }
 
 ; Session Object
 ; A Session Object with no parameters is permitted.
-; start SHOULD be equal to or before the start of all of the
-; Dialog Objects and the time of all of the Event Objects which
-; are part of the session.  This is not enforced by this CDDL.
+; start and duration define the time period of the session,
+; which need not include the entire time period of its Dialog
+; and Event Objects.
 session_object_type = {
     ; start SHOULD be present
     ? start: date_type,
@@ -167,6 +188,10 @@ session_reference_type_value_type = "child" / "peer" /
 ; A vCon extension adds an Event Object type through the
 ; event-type-ext socket and adds parameters to all Event Object
 ; types through the event-ext socket.
+; Not enforced by this CDDL:
+; - An Event Object applies only to the Session Objects listed in
+;   its sessions parameter, and not to their child or parent
+;   Session Objects unless they are also listed.
 event_object_type = {
     ( event_party_type //
       event_key_type //
@@ -174,32 +199,41 @@ event_object_type = {
       event_blind_transfer_type //
       event_consultative_transfer_type //
       event_transfer_abandoned_type //
+      event_channel_contributors_type //
       $$event-type-ext ),
     * $$event-ext
   }
 
-; Parameters common to all Event Object types
-; In the transfer event types, session references the Session
-; Object for the original call and party references the
-; Transferor.
+; Parameters common to the party and key event types
 event_common_type = (
     "time": date_type,
-    session: session_index_type,
-    party: party_index_type
+    sessions: session_index_or_list_type,
+    party: party_index_type,
+    ; dialog SHOULD NOT be present
+    ? dialog: dialog_index_type
+  )
+
+; Parameters common to the transfer event types
+; sessions is a single index which references the Session Object
+; for the original call, and party references the Transferor.
+event_transfer_common_type = (
+    "time": date_type,
+    sessions: session_index_type,
+    party: party_index_type,
+    ; dialog SHOULD NOT be present
+    ? dialog: dialog_index_type
   )
 
 ; Party event types
 event_party_type = (
     type: "join" / "drop" / "hold" / "unhold" / "mute" / "unmute",
-    event_common_type,
-    ? dialog: dialog_index_type
+    event_common_type
   )
 
 ; Key event types
 event_key_type = (
     type: "keydown" / "keyup",
     event_common_type,
-    ? dialog: dialog_index_type,
     button: tstr
   )
 
@@ -208,7 +242,7 @@ event_key_type = (
 ; consultation and target_session reference Session Objects.
 event_consultation_start_type = (
     type: "consultation-start",
-    event_common_type,
+    event_transfer_common_type,
     transferee: party_index_type,
     transfer_target: party_index_type,
     consultation: session_index_type
@@ -216,7 +250,7 @@ event_consultation_start_type = (
 
 event_blind_transfer_type = (
     type: "blind-transfer",
-    event_common_type,
+    event_transfer_common_type,
     transferee: party_index_type,
     transfer_target: party_index_type,
     target_session: session_index_type
@@ -224,7 +258,7 @@ event_blind_transfer_type = (
 
 event_consultative_transfer_type = (
     type: "consultative-transfer",
-    event_common_type,
+    event_transfer_common_type,
     transferee: party_index_type,
     transfer_target: party_index_type,
     consultation: session_index_type,
@@ -233,10 +267,28 @@ event_consultative_transfer_type = (
 
 event_transfer_abandoned_type = (
     type: "transfer-abandoned",
-    event_common_type,
+    event_transfer_common_type,
     transferee: party_index_type,
     ? transfer_target: party_index_type,
     ? consultation: session_index_type
+  )
+
+; Channel contributors event type
+; sessions and party MUST NOT be present.  The sessions of the
+; event are the Session Objects which reference its Dialog
+; Object.
+; Not enforced by this CDDL:
+; - dialog MUST reference a "recording" type Dialog Object.
+; - channel MUST be less than the number of channels in the
+;   recording.
+event_channel_contributors_type = (
+    type: "channel-contributors",
+    "time": date_type,
+    dialog: dialog_index_type,
+    channel: uint,
+    ; absent or null: no party contributes to the channel
+    ? contributors: party_index_type / [* party_index_type] /
+        null
   )
 
 ; Party Object
@@ -290,6 +342,8 @@ civicaddress_type = {
 ; for the "incomplete" type, the required disposition parameter.
 ; A placeholder Dialog Object MUST be of type "recording" if the
 ; call was set up, or of type "incomplete" if it was not.
+; An empty Dialog Object has no type and no meaning; it holds a
+; position in the dialog array.
 ; A vCon extension adds a Dialog Object type through the
 ; dialog-type-ext socket and adds parameters to all Dialog Object
 ; types through the dialog-ext socket.
@@ -299,7 +353,9 @@ dialog_object_type = {
       dialog_incomplete_type //
       $$dialog-type-ext ),
     * $$dialog-ext
-  }
+  } / empty_dialog_object_type
+
+empty_dialog_object_type = {}
 
 ; Parameters common to all Dialog Object types
 dialog_common_type = (
@@ -333,13 +389,26 @@ dialog_media_based_type = (
     ? message_id: tstr,
     ; disposition SHOULD NOT be present
     ? disposition: disposition_value_type,
+    ; redacted_segments SHOULD NOT be present in "text" type
+    ; Dialog Objects
+    ? redacted_segments: [* redacted_segments_object_type],
     ; Dialog Content SHOULD be present;
     ; body or url MAY be absent if redacted
     ? file_content_type
   )
 
-; mediatype, filename, message_id and Dialog Content MUST NOT be
-; present in "incomplete" type Dialog Objects.
+; Redacted_segments Object
+; TODO: should use duration instead of end?
+redacted_segments_object_type = {
+    start: date_type,
+    end: date_type,
+    ? parties: [* party_index_type],
+    * $$redacted-segments-ext
+  }
+
+; mediatype, filename, message_id, redacted_segments and Dialog
+; Content MUST NOT be present in "incomplete" type Dialog
+; Objects.
 dialog_incomplete_type = (
     type: "incomplete",
     dialog_common_type,
@@ -368,7 +437,7 @@ attachment_object_type = {
   }
 
 ; Analysis Object
-; At least one of dialog, session, attachment or analysis SHOULD
+; At least one of dialog, sessions, attachment or analysis SHOULD
 ; be present.
 ; An Analysis Object MUST NOT reference itself in the analysis
 ; parameter.  This is not enforced by this CDDL.
@@ -377,7 +446,7 @@ analysis_object_type = {
     ; "transcript", "translation", "tts"
     type: tstr,
     ? dialog: dialog_index_or_list_type,
-    ? session: session_index_or_list_type,
+    ? sessions: session_index_or_list_type,
     ? attachment: attachment_index_or_list_type,
     ? analysis: analysis_index_or_list_type,
     ; mediatype SHOULD be present for inline content; when no
@@ -398,7 +467,10 @@ analysis_object_type = {
 ; Inline Files and Externally Referenced Files
 ;_____________________________________________
 
-file_content_type = ( inline_content_type // external_content_type )
+; When the url of externally referenced content has been
+; redacted, the content_hash MAY remain without the url.
+file_content_type = ( inline_content_type //
+    external_content_type // redacted_content_type )
 
 ; body is any JSON value when encoding is "json";
 ; otherwise body is a string.
@@ -414,6 +486,10 @@ inline_content_type = (
 
 external_content_type = (
     url: url_value_type,
+    content_hash: content_hash_type
+  )
+
+redacted_content_type = (
     content_hash: content_hash_type
   )
 

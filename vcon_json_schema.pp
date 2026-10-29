@@ -55,10 +55,11 @@
       "type": "string",
       "description": "Subject or topic of the conversation"
     },
-    "redacted": {
+    "redacted_from": {
       "type": "object",
       "description": "Reference to the unredacted or less redacte
-        d vCon prior instance",
+        d vCon prior instance (Redacted_from Object); mutually ex
+        clusive with amended_from",
       "required": [
         "type"
       ],
@@ -71,7 +72,9 @@
         },
         "type": {
           "type": "string",
-          "description": "Type of redaction performed"
+          "description": "Type of redaction performed; same set o
+            f values as the type parameter of the Redacted_string
+             Object"
         },
         "url": {
           "type": "string",
@@ -101,10 +104,11 @@
         ]
       }
     },
-    "amended": {
+    "amended_from": {
       "type": "object",
       "description": "Reference to the prior vCon instance versio
-        n that this vCon amends",
+        n that this vCon amends (Amended_from Object); mutually e
+        xclusive with redacted_from",
       "properties": {
         "uuid": {
           "type": "string",
@@ -152,6 +156,15 @@
         ],
         "$comment": "uuid is optional only if an external referen
           ce is provided"
+      }
+    },
+    "redacted_strings": {
+      "type": "array",
+      "description": "Array of Redacted_string Objects, one for e
+        ach unique substring replaced by __REDACTED_REF_# in the 
+        vCon",
+      "items": {
+        "$ref": "#/definitions/RedactedString"
       }
     },
     "sessions": {
@@ -237,9 +250,9 @@
             "type": "integer",
             "minimum": 0
           },
-          "description": "Indices of all parties that were part o
-            f the session; SHOULD be present; the first party is 
-            the implied originator"
+          "description": "Indices of the parties that are the rec
+            eivers of the dialog in the session; SHOULD be presen
+            t; the first party is the implied originator"
         },
         "originator": {
           "type": "integer",
@@ -444,9 +457,7 @@
         ,
       "required": [
         "type",
-        "time",
-        "session",
-        "party"
+        "time"
       ],
       "properties": {
         "type": {
@@ -454,32 +465,80 @@
           "description": "Type of event: join, drop, hold, unhold
             , mute, unmute, keydown, keyup, consultation-start, b
             lind-transfer, consultative-transfer, transfer-abando
-            ned, or a value defined in a vCon extension"
+            ned, channel-contributors, or a value defined in a vC
+            on extension"
         },
         "time": {
           "type": "string",
           "format": "date-time",
           "description": "Time of the event in RFC3339 format"
         },
-        "session": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Index of the Session Object in which th
-            e event occurred; for transfer event types, the Sessi
-            on Object for the original call"
+        "sessions": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          ],
+          "description": "Index or indices of the Session Objects
+             in which the event occurred; the event applies only 
+            to the listed Session Objects; for transfer event typ
+            es, a single index to the Session Object for the orig
+            inal call; MUST NOT be present for channel-contributo
+            rs"
         },
         "party": {
           "type": "integer",
           "minimum": 0,
           "description": "Index of the party to which the event a
-            pplies; for transfer event types, the Transferor"
+            pplies; for transfer event types, the Transferor; MUS
+            T NOT be present for channel-contributors"
         },
         "dialog": {
           "type": "integer",
           "minimum": 0,
-          "description": "Index of the Dialog Object associated w
-            ith the event; MUST NOT be present for transfer event
-             types"
+          "description": "Index of the Dialog Object to which the
+             event relates; required for channel-contributors, wh
+            ere it references a recording Dialog Object; SHOULD N
+            OT be present for the other event types defined in RF
+            CXXXX; an event type defined in a vCon extension may 
+            allow an array of indices"
+        },
+        "channel": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index of the channel of the recording, 
+            where 0 is the first channel (channel-contributors on
+            ly)"
+        },
+        "contributors": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Index or indices of the parties contrib
+            uting to the channel starting at the time of the even
+            t; null or absent means no party contributes (channel
+            -contributors only)"
         },
         "button": {
           "type": "string",
@@ -513,6 +572,76 @@
         }
       },
       "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "join",
+                  "drop",
+                  "hold",
+                  "unhold",
+                  "mute",
+                  "unmute",
+                  "keydown",
+                  "keyup",
+                  "consultation-start",
+                  "blind-transfer",
+                  "consultative-transfer",
+                  "transfer-abandoned"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "sessions",
+              "party"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "channel"
+                  ]
+                },
+                {
+                  "required": [
+                    "contributors"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "consultation-start",
+                  "blind-transfer",
+                  "consultative-transfer",
+                  "transfer-abandoned"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sessions": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
         {
           "if": {
             "properties": {
@@ -628,11 +757,6 @@
               "anyOf": [
                 {
                   "required": [
-                    "dialog"
-                  ]
-                },
-                {
-                  "required": [
                     "button"
                   ]
                 },
@@ -664,11 +788,6 @@
             ],
             "not": {
               "anyOf": [
-                {
-                  "required": [
-                    "dialog"
-                  ]
-                },
                 {
                   "required": [
                     "button"
@@ -705,11 +824,6 @@
               "anyOf": [
                 {
                   "required": [
-                    "dialog"
-                  ]
-                },
-                {
-                  "required": [
                     "button"
                   ]
                 }
@@ -736,12 +850,64 @@
               "anyOf": [
                 {
                   "required": [
-                    "dialog"
+                    "button"
+                  ]
+                },
+                {
+                  "required": [
+                    "target_session"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "channel-contributors"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "dialog",
+              "channel"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "sessions"
+                  ]
+                },
+                {
+                  "required": [
+                    "party"
                   ]
                 },
                 {
                   "required": [
                     "button"
+                  ]
+                },
+                {
+                  "required": [
+                    "transferee"
+                  ]
+                },
+                {
+                  "required": [
+                    "transfer_target"
+                  ]
+                },
+                {
+                  "required": [
+                    "consultation"
                   ]
                 },
                 {
@@ -755,16 +921,28 @@
         }
       ],
       "$comment": "The rules for each known type follow the Event
-         Object Parameter Applicability by Type tables. An Event 
-        Object with a type which is not listed is only checked fo
-        r the parameters common to all types."
+         Object Parameter Applicability by Type tables. SHOULD NO
+        T statements, such as dialog in the event types other tha
+        n channel-contributors, are not enforced. An Event Object
+         with a type which is not listed is only checked for the 
+        parameters common to all types."
     },
     "Dialog": {
       "type": "object",
       "description": "Represents a segment of captured conversati
-        on",
-      "required": [
-        "type"
+        on; an empty Dialog Object holds a position in the dialog
+         array",
+      "anyOf": [
+        {
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "maxProperties": 0,
+          "$comment": "An empty Dialog Object has no type and no 
+            meaning"
+        }
       ],
       "properties": {
         "type": {
@@ -921,6 +1099,15 @@
           "type": "string",
           "description": "Unique message identifier from the mess
             aging system"
+        },
+        "redacted_segments": {
+          "type": "array",
+          "description": "Redacted_segments Objects for the audio
+            visual segments which were redacted; SHOULD NOT be pr
+            esent for text; MUST NOT be present for incomplete",
+          "items": {
+            "$ref": "#/definitions/RedactedSegments"
+          }
         }
       },
       "dependencies": {
@@ -979,6 +1166,11 @@
                 {
                   "required": [
                     "message_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "redacted_segments"
                   ]
                 }
               ]
@@ -1269,7 +1461,7 @@
           "description": "Index/indices of dialog objects this an
             alysis is based on (optional)"
         },
-        "session": {
+        "sessions": {
           "oneOf": [
             {
               "type": "integer",
@@ -1429,19 +1621,84 @@
           }
         }
       ],
-      "$comment": "At least one of the dialog, session, attachmen
-        t or analysis parameters SHOULD be present. An Analysis O
-        bject MUST NOT reference itself in the analysis parameter
-        ; this is not enforced by this schema."
+      "$comment": "At least one of the dialog, sessions, attachme
+        nt or analysis parameters SHOULD be present. An Analysis 
+        Object MUST NOT reference itself in the analysis paramete
+        r; this is not enforced by this schema."
+    },
+    "RedactedString": {
+      "type": "object",
+      "description": "Information about a substring of the vCon w
+        hich was replaced by __REDACTED_REF_#",
+      "required": [
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999,
+          "description": "Reference number of the redacted substr
+            ing"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of information redacted: GOVT_ID_N
+            UM, FIN_ID_NUM, MED_ID_NUM, BIOMETRIC, AUTH_DATA, CON
+            TACT_INFO, LOC_INFO, EMPL_INFO, BELIEF_INFO, UNSPECIF
+            IED or another value; absent means UNSPECIFIED"
+        },
+        "orig": {
+          "type": "string",
+          "description": "Original, unredacted value of the subst
+            ring"
+        }
+      },
+      "$comment": "That each __REDACTED_REF_# substring has a Red
+        acted_string Object with a matching ref is not enforced b
+        y this schema."
+    },
+    "RedactedSegments": {
+      "type": "object",
+      "description": "An audiovisual segment of a recording which
+         was redacted",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the redaction in RFC3339 
+            format"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time of the redaction in RFC3339 fo
+            rmat"
+        },
+        "parties": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Indices of the parties whose content wa
+            s redacted"
+        }
+      },
+      "$comment": "TODO: should use duration instead of end?"
     }
   },
   "not": {
     "required": [
-      "redacted",
-      "amended"
+      "redacted_from",
+      "amended_from"
     ],
-    "$comment": "The redacted and amended parameters are mutually
-       exclusive"
+    "$comment": "The redacted_from and amended_from parameters ar
+      e mutually exclusive"
   },
   "allOf": [
     {
