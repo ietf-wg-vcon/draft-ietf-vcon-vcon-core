@@ -13,7 +13,8 @@
 ; which defines it is used together with this CDDL.  Failing
 ; validation against this CDDL is not by itself a reason to
 ; reject a vCon.  The draft defines how parameters and values
-; which are not recognized are handled (see Extending vCon).
+; which are not recognized are handled (see Extending vCon in
+; Section 2.5).
 ;
 ; Extension points
 ; ----------------
@@ -25,7 +26,7 @@
 ; A vCon extension adds parameters to that Object only, with for
 ; example:
 ;
-;     $$party-ext //= ( ? example_parameter: tstr )
+;     $$party-ext //= ( example_parameter: tstr )
 ;
 ; The "*" before each of these sockets allows the socket to match
 ; nothing, so that this CDDL can be used with no extensions, and
@@ -42,7 +43,7 @@
 ; socket adds an encoding value along with the form of the body
 ; parameter for that encoding.  For example:
 ;
-;     $$dialog-type-ext //= example_dialog_type
+;     $$dialog-type-ext //= ( example_dialog_type )
 ;     example_dialog_type = (
 ;         type: "example",
 ;         dialog_common_type,
@@ -69,53 +70,54 @@
 ;
 ; The header objects of the signed and encrypted forms have no
 ; socket.  They are open, as any JWS or JWE header parameter MAY
-; be present in them.
+; be present in them (Sections 6.2.2, 6.3.1 and 6.3.3).
 
-; A vCon JSON object is in one of three forms: unsigned, signed
-; (JWS) or encrypted (JWE).
+; A vCon JSON object is in one of three forms (Section 3):
+; unsigned, signed (JWS) or encrypted (JWE).
 
 vcon = unsigned_vcon_type / signed_vcon_type / encrypted_vcon_type
 
-; Unsigned Form of vCon Object
-;_____________________________
+; Unsigned Form of vCon Object (Section 4)
+;_________________________________________
 
 ; Not enforced by this CDDL:
 ; - At least one Session Object MUST exist if the events array or
-;   the dialog array contain Objects.
+;   the dialog array contain Objects (Section 4.1.10).
 ; - An index MUST refer to an Object which exists in the array
 ;   that it indexes.
 unsigned_vcon_type = {
-    ; DEPRECATED
+    ; DEPRECATED (Section 4.1.1)
     ? "vcon": "0.5.0",
-    uuid: uuid_value_type,
-    ? extensions: [* tstr],
-    ? critical: [* tstr],
-    created_at: date_type,
-    ? updated_at: date_type,
-    ? subject: tstr,
+    uuid: uuid_value_type,                   ; Section 4.1.2
+    ? extensions: [* tstr],                  ; Section 4.1.3
+    ? critical: [* tstr],                    ; Section 4.1.4
+    created_at: date_type,                   ; Section 4.1.5
+    ? updated_at: date_type,                 ; Section 4.1.6
+    ? subject: tstr,                         ; Section 4.1.7
     ; redacted_from and amended_from are mutually exclusive
-    ? ( redacted_from: redacted_from_object_type //
-        amended_from: amended_from_object_type ),
+    ? ( redacted_from: redacted_from_object_type // ; Section 4.1.8
+        amended_from: amended_from_object_type ), ; Section 4.1.9
+    ; Section 4.1.16
     ? redacted_strings: [* redacted_string_object_type],
     ; at least one of parties, dialog, analysis or attachments
-    ; SHOULD be present
-    ? sessions: [* session_object_type],
-    ? parties: [* party_object_type],
-    ? events: [* event_object_type],
-    ? dialog: [* dialog_object_type],
-    ? analysis: [* analysis_object_type],
-    ? attachments: [* attachment_object_type],
+    ; SHOULD be present (Section 4)
+    ? sessions: [* session_object_type],     ; Section 4.1.10
+    ? parties: [* party_object_type],        ; Section 4.1.11
+    ? events: [* event_object_type],         ; Section 4.1.12
+    ? dialog: [* dialog_object_type],        ; Section 4.1.13
+    ? analysis: [* analysis_object_type],    ; Section 4.1.14
+    ? attachments: [* attachment_object_type], ; Section 4.1.15
     * $$vcon-ext
   }
 
 ; Object and multi-parameter types
 ;_________________________________
 
-; Redacted_from Object
+; Redacted_from Object (Section 4.1.8.1)
 ; uuid SHOULD be provided.
 ; content_hash MUST be provided if url is provided.
 ; type has the same set of values as the type parameter of the
-; Redacted_string Object.
+; Redacted_string Object (Section 4.8.2).
 redacted_from_object_type = {
     ? uuid: uuid_value_type,
     type: tstr,
@@ -124,7 +126,7 @@ redacted_from_object_type = {
     * $$redacted-from-ext
   }
 
-; Amended_from Object
+; Amended_from Object (Section 4.1.9.1)
 ; uuid is optional only if an external reference is provided.
 ; content_hash MUST be provided if url is provided.
 amended_from_object_type = {
@@ -134,57 +136,59 @@ amended_from_object_type = {
     * $$amended-from-ext
   }
 
-; Redacted_string Object
+; Redacted_string Object (Section 4.8)
 ; Not enforced by this CDDL:
 ; - Each "__REDACTED_REF_#" substring in the vCon has a
-;   Redacted_string Object with a matching ref value.
+;   Redacted_string Object with a matching ref value
+;   (Section 4.1.16).
 redacted_string_object_type = {
-    ref: 1..99999,
+    ref: 1..99999,                           ; Section 4.8.1
     ; type is an extensible string enumeration: "GOVT_ID_NUM",
     ; "FIN_ID_NUM", "MED_ID_NUM", "BIOMETRIC", "AUTH_DATA",
     ; "CONTACT_INFO", "LOC_INFO", "EMPL_INFO", "BELIEF_INFO",
     ; "UNSPECIFIED" or another value; absent is "UNSPECIFIED"
-    ? type: tstr,
-    ? orig: tstr,
+    ? type: tstr,                            ; Section 4.8.2
+    ? orig: tstr,                            ; Section 4.8.3
     * $$redacted-string-ext
   }
 
-; Session Object
+; Session Object (Section 4.2)
 ; A Session Object with no parameters is permitted.
 ; start and duration define the time period of the session,
 ; which need not include the entire time period of its Dialog
 ; and Event Objects.
 session_object_type = {
     ; start SHOULD be present
-    ? start: date_type,
-    ? duration: duration_type,
+    ? start: date_type,                      ; Section 4.2.1
+    ? duration: duration_type,               ; Section 4.2.2
     ; parties SHOULD be present; the first party is the implied
     ; originator of the session
-    ? parties: [* party_index_type],
+    ? parties: [* party_index_type],         ; Section 4.2.3
     ; only provided if the first party in parties is not the
     ; originator
-    ? originator: party_index_type,
+    ? originator: party_index_type,          ; Section 4.2.4
     ; a single SessionId Object
-    ? session_id: session_id_object_type,
-    ? sessions: [* session_reference_object_type],
-    ? dialog: [* dialog_index_type],
+    ? session_id: session_id_object_type,    ; Section 4.2.5
+    ? sessions: [* session_reference_object_type], ; Section 4.2.6
+    ? dialog: [* dialog_index_type],         ; Section 4.2.7
     * $$session-ext
   }
 
-; Session_Reference Object
+; Session_Reference Object (Section 4.2.8)
 session_reference_object_type = {
-    session: session_index_type,
-    type: session_reference_type_value_type,
-    ? description: tstr,
+    session: session_index_type,             ; Section 4.2.8.1
+    type: session_reference_type_value_type, ; Section 4.2.8.2
+    ? description: tstr,                     ; Section 4.2.8.3
     * $$session-reference-ext
   }
 
+; Session_Reference Object type values (Section 4.2.8.2)
 session_reference_type_value_type = "child" / "peer" /
     "precursor" / "breakout" / $session-reference-type-ext
 
-; Event Object
+; Event Object (Section 4.3)
 ; The type selects which parameters apply (see Event Object
-; Parameter Applicability by Type).
+; Parameter Applicability by Type in Section 4.3.1.5).
 ; A vCon extension adds an Event Object type through the
 ; event-type-ext socket and adds parameters to all Event Object
 ; types through the event-ext socket.
@@ -206,74 +210,75 @@ event_object_type = {
 
 ; Parameters common to the party and key event types
 event_common_type = (
-    "time": date_type,
-    sessions: session_index_or_list_type,
-    party: party_index_type,
+    "time": date_type,                       ; Section 4.3.2
+    sessions: session_index_or_list_type,    ; Section 4.3.3
+    party: party_index_type,                 ; Section 4.3.4
     ; dialog SHOULD NOT be present
-    ? dialog: dialog_index_type
+    ? dialog: dialog_index_type              ; Section 4.3.5
   )
 
 ; Parameters common to the transfer event types
 ; sessions is a single index which references the Session Object
 ; for the original call, and party references the Transferor.
 event_transfer_common_type = (
-    "time": date_type,
-    sessions: session_index_type,
-    party: party_index_type,
+    "time": date_type,                       ; Section 4.3.2
+    sessions: session_index_type,            ; Section 4.3.3
+    party: party_index_type,                 ; Section 4.3.4
     ; dialog SHOULD NOT be present
-    ? dialog: dialog_index_type
+    ? dialog: dialog_index_type              ; Section 4.3.5
   )
 
-; Party event types
+; Party event types (Section 4.3.1.1)
 event_party_type = (
+    ; Section 4.3.1
     type: "join" / "drop" / "hold" / "unhold" / "mute" / "unmute",
     event_common_type
   )
 
-; Key event types
+; Key event types (Section 4.3.1.2)
 event_key_type = (
-    type: "keydown" / "keyup",
+    type: "keydown" / "keyup",               ; Section 4.3.1
     event_common_type,
-    button: tstr
+    button: tstr                             ; Section 4.3.8
   )
 
-; Transfer event types
+; Transfer event types (Section 4.3.1.3)
 ; transferee and transfer_target reference Party Objects.
 ; consultation and target_session reference Session Objects.
 event_consultation_start_type = (
-    type: "consultation-start",
+    type: "consultation-start",              ; Section 4.3.1
     event_transfer_common_type,
-    transferee: party_index_type,
-    transfer_target: party_index_type,
-    consultation: session_index_type
+    transferee: party_index_type,            ; Section 4.3.9
+    transfer_target: party_index_type,       ; Section 4.3.10
+    consultation: session_index_type         ; Section 4.3.11
   )
 
 event_blind_transfer_type = (
-    type: "blind-transfer",
+    type: "blind-transfer",                  ; Section 4.3.1
     event_transfer_common_type,
-    transferee: party_index_type,
-    transfer_target: party_index_type,
-    target_session: session_index_type
+    transferee: party_index_type,            ; Section 4.3.9
+    transfer_target: party_index_type,       ; Section 4.3.10
+    target_session: session_index_type       ; Section 4.3.12
   )
 
 event_consultative_transfer_type = (
-    type: "consultative-transfer",
+    type: "consultative-transfer",           ; Section 4.3.1
     event_transfer_common_type,
-    transferee: party_index_type,
-    transfer_target: party_index_type,
-    consultation: session_index_type,
-    target_session: session_index_type
+    transferee: party_index_type,            ; Section 4.3.9
+    transfer_target: party_index_type,       ; Section 4.3.10
+    consultation: session_index_type,        ; Section 4.3.11
+    target_session: session_index_type       ; Section 4.3.12
   )
 
 event_transfer_abandoned_type = (
-    type: "transfer-abandoned",
+    type: "transfer-abandoned",              ; Section 4.3.1
     event_transfer_common_type,
-    transferee: party_index_type,
-    ? transfer_target: party_index_type,
-    ? consultation: session_index_type
+    transferee: party_index_type,            ; Section 4.3.9
+    ? transfer_target: party_index_type,     ; Section 4.3.10
+    ? consultation: session_index_type       ; Section 4.3.11
   )
 
-; Channel contributors event type
+; Channel contributors event type (Section 4.3.1.4)
 ; sessions and party MUST NOT be present.  The sessions of the
 ; event are the Session Objects which reference its Dialog
 ; Object.
@@ -282,38 +287,39 @@ event_transfer_abandoned_type = (
 ; - channel MUST be less than the number of channels in the
 ;   recording.
 event_channel_contributors_type = (
-    type: "channel-contributors",
-    "time": date_type,
-    dialog: dialog_index_type,
-    channel: uint,
+    type: "channel-contributors",            ; Section 4.3.1
+    "time": date_type,                       ; Section 4.3.2
+    dialog: dialog_index_type,               ; Section 4.3.5
+    channel: uint,                           ; Section 4.3.6
     ; absent or null: no party contributes to the channel
+    ; Section 4.3.7
     ? contributors: party_index_type / [* party_index_type] /
         null
   )
 
-; Party Object
+; Party Object (Section 4.4)
 ; A Party Object with no parameters is permitted.
 party_object_type = {
-    ? tel: tstr,
-    ? sip: tstr,
-    ? stir: tstr,
-    ? mailto: tstr,
-    ? name: tstr,
-    ? did: tstr,
-    ? validation: tstr,
-    ? gmlpos: tstr,
-    ? civicaddress: civicaddress_type,
+    ? tel: tstr,                             ; Section 4.4.1
+    ? sip: tstr,                             ; Section 4.4.2
+    ? stir: tstr,                            ; Section 4.4.3
+    ? mailto: tstr,                          ; Section 4.4.4
+    ? name: tstr,                            ; Section 4.4.5
+    ? did: tstr,                             ; Section 4.4.6
+    ? validation: tstr,                      ; Section 4.4.7
+    ? gmlpos: tstr,                          ; Section 4.4.8
+    ? civicaddress: civicaddress_type,       ; Section 4.4.9
     ; a free form unique identifier for the participant;
-    ; not constrained to UUID syntax
+    ; not constrained to UUID syntax (Section 4.4.10)
     ? uuid: tstr,
     ; type SHOULD be "person", "bot" or "organization"
-    ? type: tstr,
-    ? org: tstr,
-    ? dept: tstr,
+    ? type: tstr,                            ; Section 4.4.11
+    ? org: tstr,                             ; Section 4.4.12
+    ? dept: tstr,                            ; Section 4.4.13
     * $$party-ext
   }
 
-; Civicaddress Object
+; Civicaddress Object (Section 4.4.9)
 civicaddress_type = {
     ? country: tstr,
     ? a1: tstr,
@@ -335,9 +341,9 @@ civicaddress_type = {
     * $$civicaddress-ext
   }
 
-; Dialog Object
+; Dialog Object (Section 4.5)
 ; The type selects which parameters apply (see Dialog Object
-; Parameter Applicability by Type).
+; Parameter Applicability by Type in Section 4.5.1.4).
 ; A placeholder Dialog Object contains only the type parameter and,
 ; for the "incomplete" type, the required disposition parameter.
 ; A placeholder Dialog Object MUST be of type "recording" if the
@@ -360,20 +366,20 @@ empty_dialog_object_type = {}
 ; Parameters common to all Dialog Object types
 dialog_common_type = (
     ; start SHOULD be present; MAY be omitted if not known
-    ? start: date_type,
-    ? duration: duration_type,
-    ? session_id: session_id_parameter_type,
-    ? application: tstr
+    ? start: date_type,                      ; Section 4.5.2
+    ? duration: duration_type,               ; Section 4.5.3
+    ? session_id: session_id_parameter_type, ; Section 4.5.9
+    ? application: tstr                      ; Section 4.5.10
   )
 
 dialog_recording_type = (
-    type: "recording",
+    type: "recording",                       ; Section 4.5.1
     dialog_common_type,
     dialog_media_based_type
   )
 
 dialog_text_type = (
-    type: "text",
+    type: "text",                            ; Section 4.5.1
     dialog_common_type,
     dialog_media_based_type
   )
@@ -381,23 +387,24 @@ dialog_text_type = (
 ; Parameters of the "recording" and "text" type Dialog Objects
 dialog_media_based_type = (
     ; parties SHOULD be present
-    ? parties: dialog_parties_type,
+    ? parties: dialog_parties_type,          ; Section 4.5.4
     ; mediatype MUST be present for inline content; not required
     ; when Dialog Content is absent
-    ? mediatype: media_type_value_type,
-    ? filename: tstr,
-    ? message_id: tstr,
+    ? mediatype: media_type_value_type,      ; Section 4.5.5
+    ? filename: tstr,                        ; Section 4.5.6
+    ? message_id: tstr,                      ; Section 4.5.11
     ; disposition SHOULD NOT be present
-    ? disposition: disposition_value_type,
+    ? disposition: disposition_value_type,   ; Section 4.5.8
     ; redacted_segments SHOULD NOT be present in "text" type
     ; Dialog Objects
+    ; Section 4.5.12
     ? redacted_segments: [* redacted_segments_object_type],
-    ; Dialog Content SHOULD be present;
+    ; Dialog Content (Section 4.5.7) SHOULD be present;
     ; body or url MAY be absent if redacted
     ? file_content_type
   )
 
-; Redacted_segments Object
+; Redacted_segments Object (Section 4.5.12.1)
 ; TODO: should use duration instead of end?
 redacted_segments_object_type = {
     start: date_type,
@@ -410,33 +417,33 @@ redacted_segments_object_type = {
 ; Content MUST NOT be present in "incomplete" type Dialog
 ; Objects.
 dialog_incomplete_type = (
-    type: "incomplete",
+    type: "incomplete",                      ; Section 4.5.1
     dialog_common_type,
-    ? parties: dialog_parties_type,
+    ? parties: dialog_parties_type,          ; Section 4.5.4
     ; "failed" SHOULD be used when the reason is not known
-    disposition: disposition_value_type
+    disposition: disposition_value_type      ; Section 4.5.8
   )
 
-; Attachment Object
+; Attachment Object (Section 4.6)
 attachment_object_type = {
-    ? purpose: tstr,
-    start: date_type,
-    party: party_index_type,
+    ? purpose: tstr,                         ; Section 4.6.1
+    start: date_type,                        ; Section 4.6.2
+    party: party_index_type,                 ; Section 4.6.3
     ; at least one of dialog or session MUST be present
-    ( ( dialog: dialog_index_type,
-        ? session: session_index_or_list_type ) //
-      session: session_index_or_list_type ),
+    ( ( dialog: dialog_index_type,           ; Section 4.6.4
+        ? session: session_index_or_list_type ) // ; Section 4.6.5
+      session: session_index_or_list_type ), ; Section 4.6.5
     ; mediatype MUST be present for inline content; not required
     ; when Attachment Content is absent
-    ? mediatype: media_type_value_type,
-    ? filename: tstr,
-    ; Attachment Content SHOULD be present;
+    ? mediatype: media_type_value_type,      ; Section 4.6.6
+    ? filename: tstr,                        ; Section 4.6.7
+    ; Attachment Content (Section 4.6.8) SHOULD be present;
     ; body or url MAY be absent if redacted
     ? file_content_type,
     * $$attachment-ext
   }
 
-; Analysis Object
+; Analysis Object (Section 4.7)
 ; At least one of dialog, sessions, attachment or analysis SHOULD
 ; be present.
 ; An Analysis Object MUST NOT reference itself in the analysis
@@ -444,60 +451,67 @@ attachment_object_type = {
 analysis_object_type = {
     ; type SHOULD be one of: "report", "sentiment", "summary",
     ; "transcript", "translation", "tts"
-    type: tstr,
-    ? dialog: dialog_index_or_list_type,
-    ? sessions: session_index_or_list_type,
-    ? attachment: attachment_index_or_list_type,
-    ? analysis: analysis_index_or_list_type,
+    type: tstr,                              ; Section 4.7.1
+    ? dialog: dialog_index_or_list_type,     ; Section 4.7.2
+    ? sessions: session_index_or_list_type,  ; Section 4.7.3
+    ? attachment: attachment_index_or_list_type, ; Section 4.7.4
+    ? analysis: analysis_index_or_list_type, ; Section 4.7.5
     ; mediatype SHOULD be present for inline content; when no
     ; media type is defined for the analysis data format, the
     ; vendor, product and schema parameters SHOULD identify the
     ; format instead
-    ? mediatype: media_type_value_type,
-    ? filename: tstr,
-    vendor: tstr,
-    ? product: tstr,
-    ? schema: tstr,
-    ; Analysis Content SHOULD be present;
+    ? mediatype: media_type_value_type,      ; Section 4.7.6
+    ? filename: tstr,                        ; Section 4.7.7
+    vendor: tstr,                            ; Section 4.7.8
+    ? product: tstr,                         ; Section 4.7.9
+    ? schema: tstr,                          ; Section 4.7.10
+    ; Analysis Content (Section 4.7.11) SHOULD be present;
     ; body or url MAY be absent if redacted
     ? file_content_type,
     * $$analysis-ext
   }
 
-; Inline Files and Externally Referenced Files
-;_____________________________________________
+; Inline Files (Section 2.3) and
+; Externally Referenced Files (Section 2.4)
+;___________________________________________
 
 ; When the url of externally referenced content has been
-; redacted, the content_hash MAY remain without the url.
+; redacted, the content_hash MAY remain without the url
+; (Sections 4.5.7, 4.6.8 and 4.7.11).
 file_content_type = ( inline_content_type //
     external_content_type // redacted_content_type )
 
 ; body is any JSON value when encoding is "json";
-; otherwise body is a string.
+; otherwise body is a string (Sections 2.3.1 and 2.3.2).
+; An empty string body MAY be provided without encoding.
+; When the body has been redacted, the encoding MAY remain
+; without the body (Sections 4.5.7, 4.6.8 and 4.7.11).
 ; A vCon extension which adds an encoding value also defines the
 ; form of body for that encoding.
 inline_content_type = (
     ( encoding: "json",
-      body: any ) //
+      ? body: any ) //
     ( encoding: "none" / "base64url",
-      body: tstr ) //
+      ? body: tstr ) //
+    ( body: "" ) //
     $$encoding-ext
   )
 
 external_content_type = (
-    url: url_value_type,
-    content_hash: content_hash_type
+    url: url_value_type,                     ; Section 2.4.1
+    content_hash: content_hash_type          ; Section 2.4.2
   )
 
 redacted_content_type = (
-    content_hash: content_hash_type
+    content_hash: content_hash_type          ; Section 2.4.2
   )
 
-; SessionId Object
+; SessionId Object (Sections 2.2, 4.2.5 and 4.5.9)
 ; The empty object is the placeholder for a party with no session id.
 session_id_object_type = {
     ? "local": uuid_value_type,
-    ? "remote": uuid_value_type
+    ? "remote": uuid_value_type,
+    * $$session-id-ext
   }
 
 session_id_parameter_type =
@@ -507,7 +521,7 @@ session_id_parameter_type =
 ; Basic types and single parameter types
 ;_______________________________________
 
-; RFC3339 date string
+; RFC3339 date string (Section 2.2)
 ; The pattern is in two parts only to keep the lines short.  The
 ; first 19 characters are the date, "T" and the time.  The rest is
 ; the optional fraction of a second and the time zone offset.
@@ -518,21 +532,22 @@ date_offset_type = tstr .regexp
     ".{19}([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})"
 
 ; String token of the form: hash algorithm, "-", Base64Url encoded
-; digest, e.g. "sha512-..."
+; digest, e.g. "sha512-..." (Section 2.2)
 content_hash_value_type = tstr .regexp "[a-z0-9]+-[A-Za-z0-9_-]+"
 
 content_hash_type =
     content_hash_value_type / [* content_hash_value_type]
 
 ; Duration in seconds; MUST be non-negative
+; (Sections 4.2.2 and 4.5.3)
 duration_type = uint / float
 
-; Dialog Object disposition values
+; Dialog Object disposition values (Section 4.5.8)
 disposition_value_type = "no-answer" / "congestion" / "failed" /
     "busy" / "hung-up" / "voicemail-no-message" /
     $disposition-ext
 
-; Media type of the form: type "/" subtype
+; Media type of the form: type "/" subtype (Section 2.2)
 media_type_value_type = tstr .regexp
     "[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+(;.*)?"
 
@@ -559,7 +574,7 @@ analysis_index_or_list_type =
 
 ; Index or indices of parties; the nested array form is used for
 ; multi-channel recordings with one entry per channel; null is the
-; placeholder for an unused channel.
+; placeholder for an unused channel (Section 4.5.4).
 dialog_parties_type = party_index_type /
     [* ( party_index_type / [* party_index_type] / null )]
 
@@ -567,11 +582,11 @@ dialog_parties_type = party_index_type /
 uuid_value_type = tstr .regexp
     "[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}"
 
-; HTTPS URL
+; HTTPS URL (Section 2.4.1)
 url_value_type = tstr .regexp "https://.+"
 
-; Signed Form of vCon Object
-;___________________________
+; Signed Form of vCon Object (Section 6.2)
+;_________________________________________
 
 signed_vcon_type = {
     payload: base64url_value_type,
@@ -579,7 +594,7 @@ signed_vcon_type = {
     * $$signed-ext
   }
 
-; Signature Object
+; Signature Object (Section 6.2.1)
 signature_object_type = {
     header: signed_header_object_type,
     ; present when the JWS Protected Header is not empty
@@ -588,7 +603,7 @@ signature_object_type = {
     * $$signature-ext
   }
 
-; Header Object of the signed form
+; Header Object of the signed form (Section 6.2.2)
 ; MUST include at least one of x5c or x5u.
 ; Other JWS header parameters MAY be present.
 ; Not enforced by this CDDL, as the JWS Protected Header is an
@@ -608,8 +623,8 @@ signed_header_object_type = {
     * tstr => any
   }
 
-; Encrypted Form of vCon Object
-;______________________________
+; Encrypted Form of vCon Object (Section 6.3)
+;____________________________________________
 
 ; Not enforced by this CDDL, as the JWE Protected Header is an
 ; opaque string here:
@@ -630,7 +645,7 @@ encrypted_vcon_type = {
     * $$encrypted-ext
   }
 
-; Unprotected Object
+; Unprotected Object (Section 6.3.1)
 ; Other JWE header parameters MAY be present.
 unprotected_object_type = {
     ; cty SHOULD be "application/vcon" or "application/vcon+gzip"
@@ -642,7 +657,7 @@ unprotected_object_type = {
     * tstr => any
   }
 
-; Recipient Object
+; Recipient Object (Section 6.3.2)
 ; A Recipient Object with no parameters is permitted.
 recipient_object_type = {
     ? header: recipient_header_object_type,
@@ -651,7 +666,7 @@ recipient_object_type = {
     * $$recipient-ext
   }
 
-; Header Object of a recipient in the encrypted form
+; Header Object of a recipient in the encrypted form (Section 6.3.3)
 ; Other JWE header parameters MAY be present.
 recipient_header_object_type = {
     ? alg: tstr,                             ; SHOULD be "RSA-OAEP"
